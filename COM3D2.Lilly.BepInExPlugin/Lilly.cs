@@ -25,7 +25,7 @@ namespace COM3D2.Lilly.Plugin
             isGuiOn = !isGuiOn;
         }
 
-        public static HarmonyUtill harmonyUtill;
+        public static HarmonyUtill? harmonyUtill;
 
         public Lilly()
         {

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using wf;
 using Yotogis;
 
@@ -15,6 +16,8 @@ namespace COM3D2.Lilly.Plugin
 {
     class CheatUtill
     {
+
+
         public static void SetAllMaidStatus()
         {
             MyLog.LogDarkBlue("MaidStatusUtill.SetMaidStatusAll. start");
@@ -220,6 +223,42 @@ namespace COM3D2.Lilly.Plugin
                 MyLog.LogWarning(".SetMaidStatus.Old.Skill: " + MyUtill.GetMaidFullNale(maid));
                 MyLog.LogError(".SetMaidStatus.Old.Skill: " + MyUtill.GetMaidFullNale(maid), e.ToString());
             }
+        }
+
+        internal static void SetAllPlayerStatus()
+        {
+            PlayerStatus.Status status =GameMain.Instance.CharacterMgr.status;
+            status.casinoCoin = 999999L;
+            status.clubGauge = 100;
+            status.clubGrade = 5;
+            status.money = 9999999999L;
+
+            try
+            {
+                foreach (Trophy.Data item in Trophy.GetAllDatas(false))
+                {
+                    if (GameMain.Instance.CharacterMgr.status.IsHaveTrophy(item.id))
+                    {
+                        continue;
+                    }
+                    MyLog.LogMessage("Trophy"
+                    , item.id
+                    , item.name
+                    , item.type
+                    , item.rarity
+                    , item.maidPoint
+                    , item.infoText
+                    , item.bonusText
+                    );
+                    GameMain.Instance.CharacterMgr.status.AddHaveTrophy(item.id);
+                }
+            }
+            catch (Exception e)
+            {
+                MyLog.LogError("Trophy:" + e.ToString());
+            }
+
+
         }
 
         static bool isRunSetScenarioDataAll = false;

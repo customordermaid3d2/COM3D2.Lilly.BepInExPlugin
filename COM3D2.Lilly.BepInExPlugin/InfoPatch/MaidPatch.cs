@@ -81,6 +81,7 @@ namespace COM3D2.Lilly.Plugin
             if (maidProp==null)
             {
                 MyLog.LogMessage(s);
+                return;
             }
             if (maidProp.strFileName.Length !=0)
             {

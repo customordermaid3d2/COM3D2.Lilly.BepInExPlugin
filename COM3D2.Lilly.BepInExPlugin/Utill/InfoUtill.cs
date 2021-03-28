@@ -337,6 +337,25 @@ namespace COM3D2.Lilly.Plugin
 
             MyLog.LogInfo();
 
+            try
+            {
+                foreach (var item in Trophy.GetAllDatas(false))
+                {
+                    MyLog.LogMessage("Trophy"
+                    , item.id
+                    , item.name
+                    , item.type
+                    , item.rarity
+                    , item.maidPoint
+                    , item.infoText
+                    , item.bonusText                    
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                MyLog.LogError("Trophy:" + e.ToString());
+            }
 
             try
             {

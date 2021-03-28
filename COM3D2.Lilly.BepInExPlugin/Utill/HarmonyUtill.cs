@@ -17,7 +17,14 @@ namespace COM3D2.Lilly.Plugin
 
         public static bool isToolPatch = true;
 
-        public static HarmonyUtill harmonyUtill;
+        public static HarmonyUtill? harmonyUtill;
+
+        public static bool isGuiOn = false;
+        public static void SetGuiOnOff()
+        {
+            isGuiOn = !isGuiOn;
+        }
+
 
         public HarmonyUtill()
         {
@@ -161,6 +168,11 @@ namespace COM3D2.Lilly.Plugin
 
         public void OnGui()
         {
+            if (!isGuiOn)
+            {
+                return;
+            }
+
             if (windowStyle==null)
             {
                 windowStyle = new GUIStyle(GUI.skin.box);
@@ -176,7 +188,7 @@ namespace COM3D2.Lilly.Plugin
         {
             GUILayout.BeginVertical();
 
-            GUILayout.Label("Patch List");
+            GUILayout.Label("HarmonyUtill List");
 
             foreach (var item in toolList)
             {
