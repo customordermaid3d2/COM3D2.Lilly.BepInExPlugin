@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+        <TargetFramework>net35</TargetFramework>
+        <LangVersion>9</LangVersion>
+        <Nullable>enable</Nullable>
+        <OutputType>Library</OutputType>
+  </PropertyGroup>
+	<ItemGroup>
+	  <None Remove="comfile.bat" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="0Harmony">
+	    <HintPath>..\lib\0Harmony.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Assembly-CSharp">
+	    <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Assembly-CSharp-firstpass">
+	    <HintPath>..\lib\Assembly-CSharp-firstpass.dll</HintPath>
+	  </Reference>
+	  <Reference Include="BepInEx">
+	    <HintPath>..\lib\BepInEx.dll</HintPath>
+	  </Reference>
+	  <Reference Include="COM3D2.API">
+	    <HintPath>..\lib\COM3D2.API.dll</HintPath>
+	  </Reference>
+	  <Reference Include="System.Threading">
+	    <HintPath>..\lib\System.Threading.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine">
+	    <HintPath>..\lib\UnityEngine.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+    
+</Project>
