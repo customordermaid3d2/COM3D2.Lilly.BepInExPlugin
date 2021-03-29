@@ -11,6 +11,61 @@ namespace COM3D2.Lilly.Plugin
 {
     class InfoUtill
     {
+
+        private const int WindowId = 12481;
+        private static Rect windowRect = new Rect(20f, 20f, 260f, 265f);
+        // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
+        //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
+        private static GUIStyle? windowStyle;
+
+        public static bool isGuiOn = false;
+        public static void SetGuiOnOff()
+        {
+            isGuiOn = !isGuiOn;
+            MyLog.LogMessage("InfoUtill.SetGuiOnOff", isGuiOn);
+        }
+
+        public static void OnGui()
+        {
+            if (!isGuiOn)
+            {
+                return;
+            }
+
+            if (windowStyle == null)
+            {
+                windowStyle = new GUIStyle(GUI.skin.box);
+            }
+
+            windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + 20, Screen.width - 20);
+            windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + 20, Screen.height - 20);
+
+            windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, string.Empty, windowStyle);
+        }
+
+        private static void GuiFunc(int windowId)
+        {
+
+            GUILayout.BeginVertical();
+
+            GUILayout.Label("Utill List");
+
+            if (GUILayout.Button("정보 얻기 바디 관련")) InfoUtill.GetTbodyInfo();
+            if (GUILayout.Button("정보 얻기 메이드 스텟")) InfoUtill.GetMaidStatus();
+            if (GUILayout.Button("정보 얻기 플레이어 관련")) InfoUtill.GetPlayerInfo();
+            if (GUILayout.Button("정보 얻기 메이드 관련")) InfoUtill.GetMaidInfo();
+
+            GUILayout.FlexibleSpace();
+
+            GUILayout.EndVertical();
+
+            GUI.enabled = true;
+            GUI.DragWindow();
+        }
+
+
+
+
         public static void GetTbodyInfo()
         {
 

@@ -58,12 +58,15 @@ namespace COM3D2.Lilly.Plugin
 
         public void OnGUI()
         {
+            /*
             if (!Lilly.isGuiOn)
             {
                 return;
             }
-
-            HarmonyUtill.harmonyUtill.OnGui();
+            */
+            HarmonyUtill.OnGui();
+            InfoUtill.OnGui();
+            CheatUtill.OnGui();
         }
 
         public void OnDisable()

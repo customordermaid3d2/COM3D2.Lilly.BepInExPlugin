@@ -30,107 +30,16 @@ namespace COM3D2.Lilly.Plugin
             SystemShortcutAPI.AddButton(text, new Action(Lilly.SetLogOnOff), text, png);
 
             text = "CheatUtill GUI 온오프";
-            SystemShortcutAPI.AddButton(text, new Action(SetGuiOnOff), text, png);
+            SystemShortcutAPI.AddButton(text, new Action(CheatUtill.SetGuiOnOff), text, png);
+
+            text = "InfoUtill GUI 온오프";
+            SystemShortcutAPI.AddButton(text, new Action(InfoUtill.SetGuiOnOff), text, png);
             
             text = "HarmonyUtill GUI 온오프";
             SystemShortcutAPI.AddButton(text, new Action(HarmonyUtill.SetGuiOnOff), text, png);
 
-            text = "SetHarmonyPatchTool 온오프";
-            SystemShortcutAPI.AddButton(text, new Action(HarmonyUtill.SetHarmonyPatchTool), text, png);
-
             isButtonAdd = true;
         }
-
-        private const int WindowId = 12481;
-        private Rect windowRect = new Rect(20f, 20f, 260f, 265f);
-        // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
-        //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
-        private GUIStyle? windowStyle;
-
-        public static bool isGuiOn = false;
-        public static void SetGuiOnOff()
-        {
-            isGuiOn = !isGuiOn;
-        }
-
-        public void OnGui()
-        {
-            if (!isGuiOn)
-            {
-                return;
-            }
-
-            if (windowStyle == null)
-            {
-                windowStyle = new GUIStyle(GUI.skin.box);
-            }
-
-            windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + 20, Screen.width - 20);
-            windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + 20, Screen.height - 20);
-
-            windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, string.Empty, windowStyle);
-        }
-
-        private void GuiFunc(int windowId)
-        {
-
-            GUILayout.BeginVertical();
-
-            GUILayout.Label("Utill List");
-
-            if (GUILayout.Button("시나리오 처리 처리")) CheatUtill.SetAllScenarioData();
-            if (GUILayout.Button("프리 모드 플레그 처리")) CheatUtill.SetAllFreeModeItemEveryday();
-            if (GUILayout.Button("밤시중 플레그 처리")) CheatUtill.SetAllYotogi();
-            if (GUILayout.Button("일상 플레그 처리")) CheatUtill.SetAllWork();
-            if (GUILayout.Button("라이프 클리어 처리 ")) EmpireLifeModeManagerPatch.SetAllEmpireLifeModeData();
-            if (GUILayout.Button("플레이어 치트 처리")) CheatUtill.SetAllPlayerStatus();
-            if (GUILayout.Button("스텟, 스킬, 잡, 클래스 처리")) CheatUtill.SetAllMaidStatus();
-            if (GUILayout.Button("정보 얻기 바디 관련")) InfoUtill.GetTbodyInfo();
-            if (GUILayout.Button("정보 얻기 메이드 스텟")) InfoUtill.GetMaidStatus();
-            if (GUILayout.Button("정보 얻기 플레이어 관련")) InfoUtill.GetPlayerInfo();
-            if (GUILayout.Button("정보 얻기 메이드 관련")) InfoUtill.GetMaidInfo();
-
-            /*
-        text = "정보 얻기 메이드 관련";
-        SystemShortcutAPI.AddButton(text, new Action(InfoUtill.GetMaidInfo), text, png);
-
-        text = "정보 얻기 플레이어 관련 GetPlayerInfo";
-        SystemShortcutAPI.AddButton(text, new Action(InfoUtill.GetPlayerInfo), text, png);
-
-        text = "정보 얻기 메이드 스텟 GetMaidStatus";
-        SystemShortcutAPI.AddButton(text, new Action(InfoUtill.GetMaidStatus), text, png);
-
-        text = "정보 얻기 바디 GetTbodyInfo";
-        SystemShortcutAPI.AddButton(text, new Action(InfoUtill.GetTbodyInfo), text, png);
-
-        text = "스텟, 스킬, 잡, 클래스 처리 SetAllMaidStatus";
-        SystemShortcutAPI.AddButton(text, new Action(CheatUtill.SetAllMaidStatus), text, png);
-
-        text = "라이프 클리어 처리 SetAllEmpireLifeModeData";
-        SystemShortcutAPI.AddButton(text, new Action(EmpireLifeModeManagerPatch.SetAllEmpireLifeModeData), text, png);
-
-        text = "일상 플레그 처리 SetAllWork";
-        SystemShortcutAPI.AddButton(text, new Action(CheatUtill.SetAllWork), text, png);
-
-        text = "밤시중 플레그 처리 SetAllYotogi";
-        SystemShortcutAPI.AddButton(text, new Action(CheatUtill.SetAllYotogi), text, png);
-
-        text = "프리 모드 플레그 처리 SetAllFreeModeItemEveryday";
-        SystemShortcutAPI.AddButton(text, new Action(CheatUtill.SetAllFreeModeItemEveryday), text, png);
-
-        text = "시나리오 처리 SetAllScenarioData";
-        SystemShortcutAPI.AddButton(text, new Action(CheatUtill.SetAllScenarioData), text, png);
-*/
-
-
-            GUILayout.FlexibleSpace();
-
-            GUILayout.EndVertical();
-
-            GUI.enabled = true;
-            GUI.DragWindow();
-        }
-
 
 
     }

@@ -23,6 +23,7 @@ namespace COM3D2.Lilly.Plugin
         public static void SetGuiOnOff()
         {
             isGuiOn = !isGuiOn;
+            MyLog.LogMessage("HarmonyUtill.SetGuiOnOff", isGuiOn);
         }
 
 
@@ -155,18 +156,18 @@ namespace COM3D2.Lilly.Plugin
             }
         }
 
-        public bool GetHarmonyPatchCheck(Type item)
+        public static bool GetHarmonyPatchCheck(Type item)
         {
             return harmonys.ContainsKey(item);
         }
 
         private const int WindowId = 1248;
-        private Rect windowRect = new Rect(20f, 20f, 260f, 265f);
+        private static Rect windowRect = new Rect(20f, 20f, 260f, 265f);
         // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
         //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
-        private GUIStyle windowStyle ;
+        private static GUIStyle? windowStyle ;
 
-        public void OnGui()
+        public static void OnGui()
         {
             if (!isGuiOn)
             {
@@ -184,13 +185,18 @@ namespace COM3D2.Lilly.Plugin
             windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, string.Empty, windowStyle);
         }
 
-        private void GuiFunc(int windowId)
+        private static void GuiFunc(int windowId)
         {
             GUILayout.BeginVertical();
 
             GUILayout.Label("HarmonyUtill List");
 
-            foreach (var item in toolList)
+            if (GUILayout.Button("SetHarmonyPatchTool 온오프"))
+            {
+                HarmonyUtill.SetHarmonyPatchTool();
+            }
+
+                foreach (var item in toolList)
             {
                 bool b = GetHarmonyPatchCheck(item);
                 if (GUILayout.Button(item.Name +" , " + b)) {
