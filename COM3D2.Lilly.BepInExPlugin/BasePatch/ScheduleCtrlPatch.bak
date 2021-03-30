@@ -1,0 +1,187 @@
+﻿using HarmonyLib;
+using Schedule;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+/*
+namespace COM3D2.Lilly.Plugin
+{
+    public class ScheduleCtrlPatch
+    {
+        static Type type = typeof(ScheduleCtrl);
+
+        //public static MethodBase mDeleteMaidAndReDraw;
+        //public static MethodBase mDeleteMaidStatus;
+        public static MethodInfo hDeleteMaidAndReDraw;
+        public static MethodInfo hDeleteMaidStatus;
+        public static MethodInfo hGetMaidName;
+        
+       // public static MethodInfo hDeleteMaidAndReDraw;
+       // public static MethodInfo hDeleteMaidStatus;
+       // public static MethodInfo hGetMaidName;
+
+
+        public ScheduleCtrlPatch()
+        {
+            // 여기서 하모니 패치 안됨?
+        }
+
+
+        [HarmonyPostfix, HarmonyPatch(typeof(ScheduleCtrl), MethodType.Constructor)]
+        public static void ScheduleCtrlPatchC(
+            // MethodBase __DeleteMaidAndReDraw
+            // , MethodBase __DeleteMaidStatus
+            )
+        {
+            //mDeleteMaidAndReDraw=__DeleteMaidAndReDraw;
+            //mDeleteMaidStatus=__DeleteMaidStatus;
+            // 안되는건 마찬가지
+
+            hDeleteMaidAndReDraw = AccessTools.Method(type, "DeleteMaidAndReDraw");//이게 안됨
+            hDeleteMaidStatus = AccessTools.Method(type, "DeleteMaidStatus");
+            hGetMaidName = AccessTools.Method(type, "GetMaidName"); // 이건 잘됨
+
+            MyLog.LogDarkBlue("ScheduleCtrlPatch");
+        }
+        // public void SetMaidIdByButtonName(string buttonName)
+        [HarmonyPostfix, HarmonyPatch(typeof(ScheduleCtrl), "SetMaidIdByButtonName")]
+        //HarmonyPostfix ,HarmonyPrefix
+        public static void SetMaidIdByButtonName(string buttonName)
+        {
+            MyLog.LogMessage("SetMaidIdByButtonName"
+                , buttonName
+                );
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(ScheduleCtrl), "DeleteMaidAndReDraw")]
+        //HarmonyPostfix ,HarmonyPrefix
+        public static void DeleteMaidAndReDraw()
+        {
+            MyLog.LogMessage("DeleteMaidAndReDraw");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="__instance"></param>
+        /// <param name="scheduleApi"></param>
+        /// <param name="buttonName">slot_0_MaidStatus</param>
+        /// <param name="___m_scheduleApi"></param>
+        /// <param name="___m_deleteSlotNo"></param>
+        /// <returns></returns>
+        // GetMaidName 메소드 못가져옴. 이런 방식이 아닌듯
+        // public void DeleteMaidStatus(ScheduleScene scheduleApi, string buttonName)
+        [HarmonyPrefix, HarmonyPatch(typeof(ScheduleCtrl), "DeleteMaidStatus")]
+        //HarmonyPostfix ,HarmonyPrefix
+        public static bool DeleteMaidStatus(ScheduleCtrl __instance, ScheduleScene scheduleApi, string buttonName
+           , ScheduleScene ___m_scheduleApi
+           , string ___m_deleteSlotNo
+           // , MethodBase __GetMaidName
+           // , MethodBase __DeleteMaidAndReDraw
+           )
+        {
+            if (hGetMaidName == null || hDeleteMaidAndReDraw == null)
+            {
+                MyLog.LogWarning("DeleteMaidStatus0"
+                        , buttonName
+                        );
+                return true;
+            }
+            string maidName = string.Empty;
+            try
+            {
+                
+                ___m_scheduleApi = scheduleApi;
+                //string maidName = (string)__GetMaidName.Invoke (null, new object[] { buttonName });
+                maidName = (string)hGetMaidName.Invoke(__instance, new object[] { buttonName });
+                ___m_deleteSlotNo = ScheduleCtrl.GetSlotByButtonName(buttonName).slotNo;
+                MyLog.LogMessage("DeleteMaidStatus"
+                        , buttonName
+                        , maidName
+                        );
+            }
+            catch (Exception e)
+            {
+                MyLog.LogWarning("DeleteMaidStatus1"
+                , buttonName
+                );
+                MyLog.LogError("DeleteMaidStatus1"
+                , e.ToString()
+                );
+            }
+            //__DeleteMaidAndReDraw.Invoke(null, new object[] { });
+            /**/
+            try
+            {
+                /*
+                if (Product.supportMultiLanguage)
+                {
+                    //GameMain.Instance.SysDlg.ShowFromLanguageTerm("Dialog/スケジュールから削除して宜しいですか。", null, SystemDialog.TYPE.OK_CANCEL, new SystemDialog.OnClick(this.DeleteMaidAndReDraw), null);
+                    GameMain.Instance.SysDlg.ShowFromLanguageTerm("Dialog/スケジュールから削除して宜しいですか。", null, SystemDialog.TYPE.OK_CANCEL, null, null);
+                }
+                else
+                {
+                    //GameMain.Instance.SysDlg.Show(string.Format("名前：{0}\nスケジュールから削除して\n宜しいですか。", maidName), SystemDialog.TYPE.OK_CANCEL, new SystemDialog.OnClick(this.DeleteMaidAndReDraw), null);
+                    GameMain.Instance.SysDlg.Show(string.Format("名前：{0}\nスケジュールから削除して\n宜しいですか。", maidName), SystemDialog.TYPE.OK_CANCEL, null, null);
+                }
+                */
+                //GameMain.Instance.SysDlg.Show(string.Format("名前：{0}\nスケジュールから削除して\n宜しいですか。", maidName), SystemDialog.TYPE.OK, new SystemDialog.OnClick(), null);
+                hDeleteMaidAndReDraw.Invoke(__instance, BindingFlags.NonPublic, null,new object[] {},null);// 인자가 있는게 문제인거 같은데
+                // this.Invoke(obj, BindingFlags.Default, null, parameters, null);
+                //GameMain.Instance.SysDlg.Close();
+            }
+            catch (Exception e)
+            {
+                MyLog.LogWarning("DeleteMaidStatus2"
+                , buttonName
+                );
+                MyLog.LogError("DeleteMaidStatus2"
+                , e.ToString()
+                );
+                return true;
+            }
+            return false;
+        }
+
+        /*
+        private void DeleteMaidAndReDraw()
+        {
+            string text = null;
+            if (this.m_dicMaidStatusAndTask.ContainsKey(this.m_deleteSlotNo))
+            {
+                text = this.m_scheduleMgr.CurrentActiveButton;
+                int slotId = ScheduleCtrl.ToIntSlotNo(this.m_deleteSlotNo);
+                this.m_scheduleApi.SetSlot_Safe(slotId, null, true, true);
+                if (this.DicExclusiveViewer[ScheduleCtrl.ExclusiveViewer.MaidStatusList].activeSelf)
+                {
+                    this.m_charSelMgr.MoveGridArea(this.GetMaidBySlotNo(this.m_deleteSlotNo));
+                }
+                this.m_scheduleMgr.UpdateMaidStatus();
+            }
+            GameMain.Instance.SysDlg.Close();
+            if (!string.IsNullOrEmpty(text))
+            {
+                if (text.Contains(this.m_deleteSlotNo))
+                {
+                    this.SetViewerActive(ScheduleCtrl.ExclusiveViewer.None);
+                }
+                else
+                {
+                    this.SetSelectedRowActive(text);
+                    this.m_scheduleMgr.CurrentActiveButton = text;
+                    this.SetViewerActive(this.m_currentActiveViewer);
+                    if (this.DicExclusiveViewer[ScheduleCtrl.ExclusiveViewer.Task].activeSelf)
+                    {
+                        this.m_scheduleMgr.UpdateTask("-1");
+                    }
+                }
+            }
+            this.m_deleteSlotNo = null;
+            this.m_scheduleApi = null;
+        }
+        */
+
+    }
+}

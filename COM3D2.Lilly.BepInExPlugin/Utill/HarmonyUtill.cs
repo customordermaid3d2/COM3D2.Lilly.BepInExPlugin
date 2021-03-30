@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace COM3D2.Lilly.Plugin
 {
-    public class HarmonyUtill
+    public class HarmonyUtill : GUIVirtual
     {
         public static Dictionary<Type, Harmony> harmonys = new Dictionary<Type, Harmony>();
 
@@ -17,29 +17,21 @@ namespace COM3D2.Lilly.Plugin
 
         public static bool isToolPatch = true;
 
-        public static HarmonyUtill? harmonyUtill;
+        public static HarmonyUtill Instance;
 
-        public static bool isGuiOn = false;
-        public static void SetGuiOnOff()
+        public HarmonyUtill() : base()
         {
-            isGuiOn = !isGuiOn;
-            MyLog.LogMessage("HarmonyUtill.SetGuiOnOff", isGuiOn);
+           Instance = this;
         }
 
-
-        public HarmonyUtill()
-        {
-            harmonyUtill = this;
-        }
-
-        public void SetHarmonyListAll()
+        public static void SetHarmonyListAll()
         {
             SetHarmonyInfoList();
             SetHarmonyBaseList();
             SetHarmonyToolList();
         }
 
-        public void SetHarmonyToolList()
+        public static void SetHarmonyToolList()
         {
             toolList.Add(typeof(AbstractFreeModeItemPatch));// 프리 모드에서 모든 이벤트 열기 위한용 오버 플로우
             toolList.Add(typeof(EmpireLifeModeManagerToolPatch));// 회상모드 시나리오 처리용?
@@ -50,14 +42,15 @@ namespace COM3D2.Lilly.Plugin
             toolList.Add(typeof(ScheduleAPIPatch));// 회상모드 시나리오 처리용?
         }
 
-        private void SetHarmonyBaseList()
+        private static void SetHarmonyBaseList()
         {
             baseList.Add(typeof(EmpireLifeModeManagerPatch));// 회상모드 시나리오 처리용?
             baseList.Add(typeof(NDebugPatch));// 망할 메세지 박스
+            toolList.Add(typeof(ScheduleCtrlPatch));// 스케줄 관련
             baseList.Add(typeof(ScoutManagerPatch));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
         }
 
-        private void SetHarmonyInfoList()
+        private static void SetHarmonyInfoList()
         {
             infoList.Add(typeof(AudioSourceMgrPatch));
             infoList.Add(typeof(BgMgrPatch));
@@ -65,6 +58,7 @@ namespace COM3D2.Lilly.Plugin
             infoList.Add(typeof(CameraMainPatch));// 페이드 인 아웃 확인용
             infoList.Add(typeof(CharacterMgrPatch));// 프리셋값 출력용
             infoList.Add(typeof(MaidPatch));// 아이템 장착 확인용
+            infoList.Add(typeof(ScheduleMgrPatch));// 스케줄 관리
         }
 
         public static void SetHarmonyPatchTool()
@@ -80,14 +74,14 @@ namespace COM3D2.Lilly.Plugin
             isToolPatch = !isToolPatch;
         }
 
-        public void SetHarmonyPatchAll()
+        public static void SetHarmonyPatchAll()
         {
             SetHarmonyPatch(infoList);
             SetHarmonyPatch(baseList);
             SetHarmonyPatch(toolList);
         }
 
-        public void SetHarmonyUnPatchAll()
+        public static void SetHarmonyUnPatchAll()
         {
             SetHarmonyUnPatch(infoList);
             SetHarmonyUnPatch(baseList);
@@ -138,7 +132,7 @@ namespace COM3D2.Lilly.Plugin
             }
         }
 
-        public static  void SetHarmonyUnPatch(Type item)
+        public static void SetHarmonyUnPatch(Type item)
         {
             MyLog.LogDarkMagenta("SetHarmonyUnPatch:" + item.Name);
             try
@@ -161,45 +155,19 @@ namespace COM3D2.Lilly.Plugin
             return harmonys.ContainsKey(item);
         }
 
-        private const int WindowId = 1248;
-        private static Rect windowRect = new Rect(20f, 20f, 260f, 265f);
-        // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
-        //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
-        private static GUIStyle? windowStyle ;
 
-        public static void OnGui()
+        public override void SetButtonList()
         {
-            if (!isGuiOn)
-            {
-                return;
-            }
-
-            if (windowStyle==null)
-            {
-                windowStyle = new GUIStyle(GUI.skin.box);
-            } 
-
-            windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + 20, Screen.width - 20);
-            windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + 20, Screen.height - 20);
-
-            windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, string.Empty, windowStyle);
-        }
-
-        private static void GuiFunc(int windowId)
-        {
-            GUILayout.BeginVertical();
-
-            GUILayout.Label("HarmonyUtill List");
-
             if (GUILayout.Button("SetHarmonyPatchTool 온오프"))
             {
-                HarmonyUtill.SetHarmonyPatchTool();
+                SetHarmonyPatchTool();
             }
 
-                foreach (var item in toolList)
+            foreach (var item in toolList)
             {
                 bool b = GetHarmonyPatchCheck(item);
-                if (GUILayout.Button(item.Name +" , " + b)) {
+                if (GUILayout.Button(item.Name + " , " + b))
+                {
                     if (b)
                     {
                         SetHarmonyUnPatch(item);
@@ -207,17 +175,9 @@ namespace COM3D2.Lilly.Plugin
                     else
                     {
                         SetHarmonyPatch(item);
-                    }                
+                    }
                 }
             }
-
-            GUILayout.FlexibleSpace();
-
-            GUILayout.EndVertical();
-
-            GUI.enabled = true;
-            GUI.DragWindow();
         }
-
     }
 }

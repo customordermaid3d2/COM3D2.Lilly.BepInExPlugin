@@ -64,7 +64,8 @@ namespace COM3D2.Lilly.Plugin
                 return;
             Console.BackgroundColor = consoleColor;
             Console.WriteLine(MyUtill.Join(" , ", args));
-            Console.ResetColor();            
+            Console.BackgroundColor = ConsoleColor.Black;
+            //Console.ResetColor();            
         }
         
 

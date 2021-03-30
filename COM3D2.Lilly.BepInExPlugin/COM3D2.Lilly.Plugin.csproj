@@ -3,10 +3,12 @@
 	<PropertyGroup>
         <TargetFramework>net35</TargetFramework>
         <LangVersion>9</LangVersion>
-        <Nullable>enable</Nullable>
+       <!-- <Nullable>enable</Nullable>-->
         <OutputType>Library</OutputType>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
 	<ItemGroup>
+	  <None Remove="BasePatch\ScheduleCtrlPatch.bak" />
 	  <None Remove="comfile.bat" />
 	</ItemGroup>
 	<ItemGroup>
@@ -38,6 +40,9 @@
 	    <HintPath>..\lib\UnityEngine.dll</HintPath>
 	    <Private>false</Private>
 	  </Reference>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="TestPatch\" />
 	</ItemGroup>
     
 </Project>

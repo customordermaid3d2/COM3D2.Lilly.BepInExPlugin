@@ -14,47 +14,15 @@ using Yotogis;
 
 namespace COM3D2.Lilly.Plugin
 {
-    class CheatUtill
+    public class CheatUtill : GUIVirtual
     {
-
-        private const int WindowId = 951 ;
-        private static Rect windowRect = new Rect(20f, 20f, 260f, 265f);
-        // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
-        //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
-        private static GUIStyle? windowStyle;
-
-        public static bool isGuiOn = false;
-        public static void SetGuiOnOff()
+        public CheatUtill() : base("CheatUtill")
         {
-            isGuiOn = !isGuiOn;
-            MyLog.LogMessage("GearMenu.SetGuiOnOff", isGuiOn);
+
         }
 
-        public static void OnGui()
+        public override void SetButtonList()
         {
-            if (!isGuiOn)
-            {
-                return;
-            }
-
-            if (windowStyle == null)
-            {
-                windowStyle = new GUIStyle(GUI.skin.box);
-            }
-
-            windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + 20, Screen.width - 20);
-            windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + 20, Screen.height - 20);
-
-            windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, string.Empty, windowStyle);
-        }
-
-        private static void GuiFunc(int windowId)
-        {
-
-            GUILayout.BeginVertical();
-
-            GUILayout.Label("CheatUtill List");
-
             if (GUILayout.Button("시나리오 처리 처리")) CheatUtill.SetAllScenarioData();
             if (GUILayout.Button("프리 모드 플레그 처리")) CheatUtill.SetAllFreeModeItemEveryday();
             if (GUILayout.Button("밤시중 플레그 처리")) CheatUtill.SetAllYotogi();
@@ -62,14 +30,8 @@ namespace COM3D2.Lilly.Plugin
             if (GUILayout.Button("라이프 클리어 처리 ")) EmpireLifeModeManagerPatch.SetAllEmpireLifeModeData();
             if (GUILayout.Button("플레이어 치트 처리")) CheatUtill.SetAllPlayerStatus();
             if (GUILayout.Button("스텟, 스킬, 잡, 클래스 처리")) CheatUtill.SetAllMaidStatus();
-
-            GUILayout.FlexibleSpace();
-
-            GUILayout.EndVertical();
-
-            GUI.enabled = true;
-            GUI.DragWindow();
         }
+
 
         public static void SetAllMaidStatus()
         {
