@@ -17,6 +17,7 @@ namespace COM3D2.Lilly.Plugin
             if (GUILayout.Button("정보 얻기 메이드 스텟")) InfoUtill.GetMaidStatus();
             if (GUILayout.Button("정보 얻기 플레이어 관련")) InfoUtill.GetPlayerInfo();
             if (GUILayout.Button("정보 얻기 메이드 관련")) InfoUtill.GetMaidInfo();
+            if (GUILayout.Button("GetStrIKCtrlPairInfo")) FullBodyIKMgrPatch.GetStrIKCtrlPairInfo();
         }
 
         public static void GetTbodyInfo()

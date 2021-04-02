@@ -223,8 +223,8 @@ namespace COM3D2.Lilly.Plugin
                 foreach (Skill.Old.Data data in learnPossibleSkills)
                 {
                     //MyLog.LogMessage(".Skill2: " + MaidUtill.GetMaidFullNale(maid));
-                    MyLog.LogDebug("id: " + data.id + " , " + data.name + " , " + data.start_call_file + " , " + data.start_call_file2);
-                    MyLog.LogDebug("ban_id_array: " + MyUtill.Join(" , ", data.ban_id_array));
+                    //MyLog.LogDebug("id: " + data.id + " , " + data.name + " , " + data.start_call_file + " , " + data.start_call_file2);
+                    //MyLog.LogDebug("ban_id_array: " + MyUtill.Join(" , ", data.ban_id_array));
                     MyLog.LogDebug("skill_exp_table: " + MyUtill.Join(" , ", data.skill_exp_table));
 
                     YotogiSkillData yotogiSkillData = maid.status.yotogiSkill.Add(data);

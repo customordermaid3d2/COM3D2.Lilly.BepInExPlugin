@@ -30,16 +30,16 @@ namespace COM3D2.Lilly.Plugin
             SystemShortcutAPI.AddButton(text, new Action(Lilly.SetLogOnOff), text, png);
 
             text = "InfoUtill GUI 온오프";
-            SystemShortcutAPI.AddButton(text, new Action(Lilly.infoUtill.SetGuiOn), text, png);
+            SystemShortcutAPI.AddButton(text, new Action(Lilly.infoUtill.SetGuiOnOff), text, png);
             
             text = "HarmonyUtill GUI 온오프";
-            SystemShortcutAPI.AddButton(text, new Action(Lilly.harmonyUtill.SetGuiOn), text, png);
+            SystemShortcutAPI.AddButton(text, new Action(Lilly.harmonyUtill.SetGuiOnOff), text, png);
 
             text = "CheatUtill GUI 온오프";
-            SystemShortcutAPI.AddButton(text, new Action(Lilly.cheatUtill.SetGuiOn), text, png);
+            SystemShortcutAPI.AddButton(text, new Action(Lilly.cheatUtill.SetGuiOnOff), text, png);
                         
             text = "easyUtill GUI 온오프";
-            SystemShortcutAPI.AddButton(text, new Action(Lilly.easyUtill.SetGuiOn), text, png);
+            SystemShortcutAPI.AddButton(text, new Action(Lilly.easyUtill.SetGuiOnOff), text, png);
 
             isButtonAdd = true;
         }

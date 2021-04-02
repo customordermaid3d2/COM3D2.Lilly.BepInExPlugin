@@ -8,11 +8,11 @@ namespace COM3D2.Lilly.Plugin
 {
     public class GUIVirtual
     {
-        private int WindowId = new System.Random().Next();
-        private Rect windowRect = new Rect(20f, 20f, 260f, 265f);
+        private static int WindowId = new System.Random().Next();
+        private static Rect windowRect = new Rect(20f, 20f, 260f, 265f);
         // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
         //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
-        private GUIStyle? windowStyle;
+        private static GUIStyle? windowStyle;
 
         private bool isGuiOn = false;
 
@@ -37,6 +37,7 @@ namespace COM3D2.Lilly.Plugin
         public GUIVirtual(string name)
         {
             this.name = name;
+            isGuiOff += SetGuiOff;
         }
 
         public virtual void SetName()
@@ -55,9 +56,9 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogMessage("SetGuiOff", name, IsGuiOn);
         }
 
-        public virtual void SetGuiOn()
+        public virtual void SetGuiOnOff()
         {
-            IsGuiOn = true;
+            IsGuiOn = !IsGuiOn;
             MyLog.LogMessage("SetGuiOnOff", name, IsGuiOn);
         }
 
