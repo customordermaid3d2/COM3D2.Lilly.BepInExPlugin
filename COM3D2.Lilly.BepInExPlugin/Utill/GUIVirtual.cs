@@ -14,13 +14,24 @@ namespace COM3D2.Lilly.Plugin
         //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
         private GUIStyle? windowStyle;
 
-        public bool isGuiOn = false;
+        private bool isGuiOn = false;
 
-        public string name;
+        public static event Action isGuiOff;
+
+        public string name= "GUIVirtual";
+
+        public bool IsGuiOn { get => isGuiOn; 
+            set
+                {
+                    isGuiOff();
+                    isGuiOn = value;
+                }
+            }
 
         public GUIVirtual()
         {
             SetName();
+            isGuiOff += SetGuiOff;
         }
 
         public GUIVirtual(string name)
@@ -38,15 +49,21 @@ namespace COM3D2.Lilly.Plugin
             this.name = name;
         }
 
-        public virtual void SetGuiOnOff()
+        public virtual void SetGuiOff()
         {
-            isGuiOn = !isGuiOn;
-            MyLog.LogMessage(name,"SetGuiOnOff", isGuiOn);
+            isGuiOn = false;
+            MyLog.LogMessage("SetGuiOff", name, IsGuiOn);
+        }
+
+        public virtual void SetGuiOn()
+        {
+            IsGuiOn = true;
+            MyLog.LogMessage("SetGuiOnOff", name, IsGuiOn);
         }
 
         public virtual void OnGui()
         {
-            if (!isGuiOn)
+            if (!IsGuiOn)
             {
                 return;
             }

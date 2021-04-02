@@ -20,7 +20,7 @@ namespace COM3D2.Lilly.Plugin
         /// <param name="f_slot"></param>
         /// <param name="tbskin"></param>
         // public void InitBoneMorphEdit(Transform t, MPN f_mpn, TBody.SlotID f_slot, TBodySkin tbskin)
-        [HarmonyPatch(typeof(BoneMorph_), "InitBoneMorphEdit",typeof(Transform),typeof(MPN),typeof(TBody.SlotID),typeof(TBodySkin)), HarmonyPrefix]
+        //[HarmonyPatch(typeof(BoneMorph_), "InitBoneMorphEdit",typeof(Transform),typeof(MPN),typeof(TBody.SlotID),typeof(TBodySkin)), HarmonyPrefix]
         public static void InitBoneMorphEdit(Transform t, MPN f_mpn, TBody.SlotID f_slot, TBodySkin tbskin)
         {
             MyLog.LogMessage(

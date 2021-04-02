@@ -14,7 +14,7 @@ namespace COM3D2.Lilly.Plugin
 
         public EasyUtill()
         {
-            this.name = "EasyUtill";            
+            name = "EasyUtill";            
         }
 
         public static void SetScene()
@@ -24,7 +24,8 @@ namespace COM3D2.Lilly.Plugin
 
         public override void SetButtonList()
         {
-            if (Lilly.scene == scene)
+
+            if (Lilly.scene.name == scene.name)
             if (GUILayout.Button("DeleteMaidStatusAll")) DeleteMaidStatusAll();
         }
 

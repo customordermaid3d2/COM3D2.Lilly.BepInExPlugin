@@ -6,6 +6,9 @@ using System.Text;
 
 namespace COM3D2.Lilly.Plugin
 {
+	/// <summary>
+	/// 메인 화면의 스케줄 관련
+	/// </summary>
     class ScheduleMgrPatch
     {
         // ScheduleMgr

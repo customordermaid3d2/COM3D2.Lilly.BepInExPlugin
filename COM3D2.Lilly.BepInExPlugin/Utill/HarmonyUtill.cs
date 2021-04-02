@@ -16,10 +16,15 @@ namespace COM3D2.Lilly.Plugin
         public static List<Type> toolList = new List<Type>();
 
         public static bool isToolPatch = true;
+        public static bool isInfoPatch = true;
+        public static bool isBasePatch = true;
+
+        
+
 
         public static HarmonyUtill Instance;
 
-        public HarmonyUtill() : base()
+        public HarmonyUtill() : base("HarmonyUtill")
         {
            Instance = this;
         }
@@ -54,24 +59,25 @@ namespace COM3D2.Lilly.Plugin
         {
             infoList.Add(typeof(AudioSourceMgrPatch));
             infoList.Add(typeof(BgMgrPatch));
-            infoList.Add(typeof(BoneMorph_Patch));//157 임시조치용 메이드 보이스 피치
-            infoList.Add(typeof(CameraMainPatch));// 페이드 인 아웃 확인용
+            //infoList.Add(typeof(BoneMorph_Patch));//157 임시조치용 메이드 보이스 피치
+            //infoList.Add(typeof(CameraMainPatch));// 페이드 인 아웃 확인용
             infoList.Add(typeof(CharacterMgrPatch));// 프리셋값 출력용
             infoList.Add(typeof(MaidPatch));// 아이템 장착 확인용
             infoList.Add(typeof(ScheduleMgrPatch));// 스케줄 관리
+            //infoList.Add(typeof(FullBodyIKMgrPatch));// 뼈 관련. 안뜨는거 같음
         }
 
-        public static void SetHarmonyPatchTool()
+        public static void SetHarmonyPatch(ref bool isPatch , List<Type>  list)
         {
-            if (isToolPatch)
+            if (isPatch)
             {
-                SetHarmonyUnPatch(toolList);
+                SetHarmonyUnPatch(list);
             }
             else
             {
-                SetHarmonyPatch(toolList);
+                SetHarmonyPatch(list);
             }
-            isToolPatch = !isToolPatch;
+            isPatch = !isPatch;
         }
 
         public static void SetHarmonyPatchAll()
@@ -155,12 +161,16 @@ namespace COM3D2.Lilly.Plugin
             return harmonys.ContainsKey(item);
         }
 
+        private Vector2 scrollPos = Vector2.zero;
 
         public override void SetButtonList()
         {
-            if (GUILayout.Button("SetHarmonyPatchTool 온오프"))
+
+            scrollPos = GUILayout.BeginScrollView(scrollPos);
+
+            if (GUILayout.Button("toolList 온오프"))
             {
-                SetHarmonyPatchTool();
+                SetHarmonyPatch(ref isToolPatch, toolList);
             }
 
             foreach (var item in toolList)
@@ -178,6 +188,52 @@ namespace COM3D2.Lilly.Plugin
                     }
                 }
             }
+
+            if (GUILayout.Button("toolList 온오프"))
+            {
+                SetHarmonyPatch(ref isInfoPatch, infoList);
+            }
+
+            foreach (var item in infoList)
+            {
+                bool b = GetHarmonyPatchCheck(item);
+                if (GUILayout.Button(item.Name + " , " + b))
+                {
+                    if (b)
+                    {
+                        SetHarmonyUnPatch(item);
+                    }
+                    else
+                    {
+                        SetHarmonyPatch(item);
+                    }
+                }
+            }
+
+            if (GUILayout.Button("baseList 온오프"))
+            {
+                SetHarmonyPatch(ref isBasePatch, baseList);
+            }
+
+            foreach (var item in baseList)
+            {
+                bool b = GetHarmonyPatchCheck(item);
+                if (GUILayout.Button(item.Name + " , " + b))
+                {
+                    if (b)
+                    {
+                        SetHarmonyUnPatch(item);
+                    }
+                    else
+                    {
+                        SetHarmonyPatch(item);
+                    }
+                }
+            }
+
+            GUILayout.EndScrollView();
+
+
         }
     }
 }

@@ -7,6 +7,9 @@
         <OutputType>Library</OutputType>
     <Deterministic>false</Deterministic>
   </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="BasePatch\ScheduleCtrlPatch.bak" />
 	  <None Remove="comfile.bat" />

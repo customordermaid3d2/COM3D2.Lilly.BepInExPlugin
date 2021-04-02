@@ -6,6 +6,9 @@ using System.Text;
 
 namespace COM3D2.Lilly.Plugin
 {
+    /// <summary>
+    /// 메세지박스 제거용
+    /// </summary>
     class NDebugPatch
     {
         // NDebug

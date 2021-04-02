@@ -20,8 +20,7 @@ namespace COM3D2.Lilly.Plugin
         // public void LoadPlay(string f_strFileName, float f_fFadeTime, bool f_bStreaming, bool f_bLoop = false)
 
         // 정상
-        [HarmonyPatch(typeof(AudioSourceMgr), "LoadPlay")]
-        [HarmonyPrefix]
+       /// [HarmonyPrefix,HarmonyPatch(typeof(AudioSourceMgr), "LoadPlay")]
         public static void LoadPlayPrefix1(string f_strFileName)
         {
             //MyLog.Log("LoadPlayPrefix1:" + f_strFileName);
@@ -32,8 +31,7 @@ namespace COM3D2.Lilly.Plugin
         /// </summary>
         /// <param name="__instance"></param>
         /// <param name="f_strFileName"></param>
-        [HarmonyPatch(typeof(AudioSourceMgr), "LoadPlay")]
-        [HarmonyPostfix]
+        [HarmonyPostfix,HarmonyPatch(typeof(AudioSourceMgr), "LoadPlay")]        
         public static void LoadPlayPostfix2(AudioSourceMgr __instance, string f_strFileName)
         {
             MyLog.LogMessage("LoadPlayPostfix2:" + f_strFileName);

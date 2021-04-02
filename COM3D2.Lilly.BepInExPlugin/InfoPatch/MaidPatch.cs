@@ -91,8 +91,15 @@ namespace COM3D2.Lilly.Plugin
 
         // public void SetUpModel(string f_strPresetMenuFileName)
 
-
-
+        /*
+        public FullBodyIKMgr fullBodyIK
+        {
+            get
+            {
+                return this.body0.fullBodyIK;
+            }
+        }
+        */
 
     }
 }

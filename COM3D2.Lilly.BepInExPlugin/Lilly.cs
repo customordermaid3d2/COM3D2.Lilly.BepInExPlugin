@@ -3,6 +3,7 @@ using COM3D2API;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,10 +12,11 @@ using UnityEngine.SceneManagement;
 namespace COM3D2.Lilly.Plugin
 {
     // https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin
-    [BepInPlugin("COM3D2.Lilly.Plugin", "COM3D2.Lilly.Plugin", "21.3.28")]// 버전 규칙 잇음. 반드시 2~4개의 숫자구성으로 해야함. 미준수시 못읽어들임
+    [BepInPlugin("COM3D2.Lilly.Plugin", "COM3D2.Lilly.Plugin", "21.4.2")]// 버전 규칙 잇음. 반드시 2~4개의 숫자구성으로 해야함. 미준수시 못읽어들임
 
     public class Lilly : BaseUnityPlugin
     {
+        Stopwatch stopwatch = new Stopwatch(); //객체 선언
 
         public static bool isLogOn = true;
         public static void SetLogOnOff()
@@ -23,6 +25,7 @@ namespace COM3D2.Lilly.Plugin
         }
 
         public static bool isGuiOn = false;
+
         public static void SetGuiOnOff()
         {
             isGuiOn = !isGuiOn;
@@ -39,6 +42,9 @@ namespace COM3D2.Lilly.Plugin
             infoUtill = new InfoUtill();
             cheatUtill = new CheatUtill();
             easyUtill = new EasyUtill();
+
+            stopwatch.Start(); // 시간측정 시작
+            MyLog.LogDarkBlue("Lilly" , string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
         }
 
         /// <summary>
@@ -49,6 +55,7 @@ namespace COM3D2.Lilly.Plugin
             System.Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             MyLog.LogMessage("Awake",dateTime.ToString("u"));
+            MyLog.LogDarkBlue("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
 
             HarmonyUtill.SetHarmonyListAll();
             EasyUtill.SetScene();
@@ -79,6 +86,7 @@ namespace COM3D2.Lilly.Plugin
                 , scene.IsValid()
                 , scene.path
                 , mode
+                , string.Format("{0:0.000} ", stopwatch.Elapsed.ToString())
                 );
             GearMenu.SetButton();
         }
