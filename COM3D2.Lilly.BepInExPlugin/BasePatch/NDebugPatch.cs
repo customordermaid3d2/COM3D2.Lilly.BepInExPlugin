@@ -16,7 +16,7 @@ namespace COM3D2.Lilly.Plugin
         //public static void MessageBox(string f_strTitle, string f_strMsg)
 
         [HarmonyPatch(typeof(NDebug), "MessageBox"), HarmonyPrefix]        
-        private static bool FadeOut(string f_strTitle, string f_strMsg) // string __m_BGMName 못가져옴
+        private static bool MessageBox(string f_strTitle, string f_strMsg) // string __m_BGMName 못가져옴
         {
             MyLog.LogFatal(f_strTitle, f_strMsg);
             return false;

@@ -62,7 +62,7 @@ namespace COM3D2.Lilly.Plugin
                 MyLog.LogError("MaidStatusUtill.SetMaidStatus:null");
                 return;
             }
-            MyLog.LogMessage(".SetMaidStatus:: " + MyUtill.GetMaidFullNale(maid));
+            MyLog.LogMessage("SetMaidStatus: " + MyUtill.GetMaidFullNale(maid));
 
             maid.status.employmentDay = 1;// 고용기간
 
@@ -138,15 +138,15 @@ namespace COM3D2.Lilly.Plugin
             {
                 List<JobClass.Data> learnPossibleClassDatas = jobClassSystem.GetLearnPossibleClassDatas(true, AbstractClassData.ClassType.Share | AbstractClassData.ClassType.New);
                 //MyLog.LogMessage(".SetMaidStatus.learn: " + MyUtill.GetMaidFullNale(maid));
-                MyLog.LogMessage("JobClass.learn: " + MyUtill.GetMaidFullNale(maid), learnPossibleClassDatas.Count);
+                MyLog.LogMessage(".JobClass.learn: " + MyUtill.GetMaidFullNale(maid), learnPossibleClassDatas.Count);
                 // 클래스 추가?
                 foreach (JobClass.Data data in learnPossibleClassDatas)
                 {
                     if (jobClassSystem.Contains(data))
                         continue;
 
-                    MyLog.LogDebug("JobClass.learn:" + data.id + " , " + data.uniqueName + " , " + data.drawName + " , " + data.explanatoryText + " , " + data.termExplanatoryText);
-                    MyLog.LogDebug("JobClass.learn: " + jobClassSystem.Contains(data), MyUtill.Join(" , ", data.levelBonuss));
+                    MyLog.LogDebug(".JobClass.learn:" + data.id + " , " + data.uniqueName + " , " + data.drawName + " , " + data.explanatoryText + " , " + data.termExplanatoryText);
+                    MyLog.LogDebug(".JobClass.learn: " + jobClassSystem.Contains(data), MyUtill.Join(" , ", data.levelBonuss));
                     
                     ClassData<JobClass.Data> classData = jobClassSystem.Add(data, true, true);
 
@@ -158,13 +158,13 @@ namespace COM3D2.Lilly.Plugin
             }
             catch (Exception e)
             {
-                MyLog.LogError("JobClass.learn: " + e.ToString());
+                MyLog.LogError(".JobClass.learn: " + e.ToString());
             }
 
             try
             {
                 SortedDictionary<int, ClassData<JobClass.Data>> keyValuePairs = jobClassSystem.GetAllDatas();
-                MyLog.LogMessage("JobClass.expSystem: " + MyUtill.GetMaidFullNale(maid), keyValuePairs.Count);
+                MyLog.LogMessage(".JobClass.expSystem: " + MyUtill.GetMaidFullNale(maid), keyValuePairs.Count);
                 //MyLog.LogMessage("JobClass.expSystem: " + MaidUtill.GetMaidFullNale(maid), keyValuePairs.Count);
                 // 경험치 설정
                 foreach (var item in keyValuePairs)
@@ -176,8 +176,8 @@ namespace COM3D2.Lilly.Plugin
                     if (expSystem.GetMaxLevel() == expSystem.GetCurrentLevel())
                         continue;
 
-                    MyLog.LogDebug("JobClass.expSystem:" + data.id + " , " + data.uniqueName + " , " + data.drawName + " , " + data.explanatoryText + " , " + data.termExplanatoryText);
-                    MyLog.LogDebug("JobClass.expSystem:" + expSystem.GetType(), expSystem.GetMaxLevel(), expSystem.GetCurrentLevel());
+                    MyLog.LogDebug(".JobClass.expSystem:" + data.id + " , " + data.uniqueName + " , " + data.drawName + " , " + data.explanatoryText + " , " + data.termExplanatoryText);
+                    MyLog.LogDebug(".JobClass.expSystem:" + expSystem.GetType(), expSystem.GetMaxLevel(), expSystem.GetCurrentLevel());
 
                     expSystem.SetTotalExp(expSystem.GetMaxLevelNeedExp());
                     expSystem.SetLevel(expSystem.GetMaxLevel());
@@ -186,7 +186,7 @@ namespace COM3D2.Lilly.Plugin
             }
             catch (Exception e)
             {
-                MyLog.LogError("JobClass.expSystem: " + e.ToString());
+                MyLog.LogError(".JobClass.expSystem: " + e.ToString());
             }
 
 
@@ -198,12 +198,13 @@ namespace COM3D2.Lilly.Plugin
                 List<Skill.Data> learnPossibleSkills = Skill.GetLearnPossibleSkills(maid.status);
                 foreach (Skill.Data data in learnPossibleSkills)
                 {
-                    //MyLog.LogMessage(".Skill1: " + MaidUtill.GetMaidFullNale(maid));
                     MyLog.LogDebug("id: " + data.id + " , " + data.name + " , " + data.start_call_file + " , " + data.start_call_file2 + " , " + data.termName);
+#if DEBUG
+                    //MyLog.LogMessage(".Skill1: " + MaidUtill.GetMaidFullNale(maid));
                     MyLog.LogDebug("ban_id_array: " + MyUtill.Join<int>(" , ", data.ban_id_array));
                     MyLog.LogDebug("skill_exp_table: " + MyUtill.Join<int>(" , ", data.skill_exp_table));
                     MyLog.LogDebug("playable_stageid_list: " + MyUtill.Join<int>(" , ", data.playable_stageid_list));
-
+#endif
                     YotogiSkillData yotogiSkillData = maid.status.yotogiSkill.Add(data);
                     SimpleExperienceSystem expSystem = yotogiSkillData.expSystem;
                     expSystem.SetTotalExp(expSystem.GetMaxLevelNeedExp());
@@ -222,11 +223,12 @@ namespace COM3D2.Lilly.Plugin
                 List<Skill.Old.Data> learnPossibleSkills = Skill.Old.GetLearnPossibleSkills(maid.status);
                 foreach (Skill.Old.Data data in learnPossibleSkills)
                 {
-                    //MyLog.LogMessage(".Skill2: " + MaidUtill.GetMaidFullNale(maid));
-                    //MyLog.LogDebug("id: " + data.id + " , " + data.name + " , " + data.start_call_file + " , " + data.start_call_file2);
-                    //MyLog.LogDebug("ban_id_array: " + MyUtill.Join(" , ", data.ban_id_array));
+                    MyLog.LogDebug("id: " + data.id + " , " + data.name + " , " + data.start_call_file + " , " + data.start_call_file2);
+#if DEBUG
+                    MyLog.LogMessage(".Skill2: " + MaidUtill.GetMaidFullNale(maid));
+                    MyLog.LogDebug("ban_id_array: " + MyUtill.Join(" , ", data.ban_id_array));
                     MyLog.LogDebug("skill_exp_table: " + MyUtill.Join(" , ", data.skill_exp_table));
-
+#endif
                     YotogiSkillData yotogiSkillData = maid.status.yotogiSkill.Add(data);
                     SimpleExperienceSystem expSystem = yotogiSkillData.expSystem;
                     expSystem.SetTotalExp(expSystem.GetMaxLevelNeedExp());
@@ -258,6 +260,7 @@ namespace COM3D2.Lilly.Plugin
                     {
                         continue;
                     }
+
                     MyLog.LogMessage("Trophy"
                     , item.id
                     , item.name
@@ -508,10 +511,11 @@ namespace COM3D2.Lilly.Plugin
                     MyLog.LogMessage("ScheduleAPIPatch.SetAllWork.YotogiData:" + ScheduleCSVData.YotogiData.Values.Count);
                     foreach (Maid maid in GameMain.Instance.CharacterMgr.GetStockMaidList())
                     {
-                        MyLog.LogMessage(".SetAllWork.Yotogi:" + MyUtill.GetMaidFullNale(maid));
+                        MyLog.LogMessage(".SetAllWork.Yotogi:" + MyUtill.GetMaidFullNale(maid), ScheduleCSVData.YotogiData.Values.Count);
 
                         foreach (ScheduleCSVData.Yotogi yotogi in ScheduleCSVData.YotogiData.Values)
                         {
+#if DEBUG
                             if (Lilly.isLogOn)
                                 MyLog.LogInfo(".SetAllWork:"
                                     + yotogi.id
@@ -519,7 +523,7 @@ namespace COM3D2.Lilly.Plugin
                                     , yotogi.type
                                     , yotogi.yotogiType
                                 );
-
+#endif
                             if (DailyMgr.IsLegacy)
                             {
                                 maid.status.OldStatus.SetFlag("_PlayedNightWorkId" + yotogi.id, 1);

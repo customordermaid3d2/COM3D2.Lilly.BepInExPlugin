@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using wf;
 
 namespace COM3D2.Lilly.Plugin
@@ -13,11 +14,47 @@ namespace COM3D2.Lilly.Plugin
     {
         public override void SetButtonList()
         {
+            if (GUILayout.Button("게임 정보 얻기 관련")) InfoUtill.GetGameInfo();
+            if (GUILayout.Button("Scene 얻기 관련")) InfoUtill.GetSceneInfo();
             if (GUILayout.Button("정보 얻기 바디 관련")) InfoUtill.GetTbodyInfo();
             if (GUILayout.Button("정보 얻기 메이드 스텟")) InfoUtill.GetMaidStatus();
             if (GUILayout.Button("정보 얻기 플레이어 관련")) InfoUtill.GetPlayerInfo();
             if (GUILayout.Button("정보 얻기 메이드 관련")) InfoUtill.GetMaidInfo();
             if (GUILayout.Button("GetStrIKCtrlPairInfo")) FullBodyIKMgrPatch.GetStrIKCtrlPairInfo();
+        }
+
+        private static void GetGameInfo()
+        {
+            MyLog.LogDarkBlue("=== GetGameInfo st ===");
+
+            MyLog.LogInfo("Application.installerName : " + Application.installerName);
+            MyLog.LogInfo("Application.version : " + Application.version);
+            MyLog.LogInfo("Application.unityVersion : " + Application.unityVersion);
+            MyLog.LogInfo("Application.companyName : " + Application.companyName);
+
+            MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);
+            //MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.);
+
+            MyLog.LogInfo();
+
+            MyLog.LogDarkBlue("=== GetGameInfo ed ===");
+        }
+
+        public static void GetSceneInfo()
+        {
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+                MyLog.LogMessage("GetSceneInfo"
+                    , scene.buildIndex
+                    , scene.rootCount
+                    , scene.name
+                    , scene.isLoaded
+                    , scene.isDirty
+                    , scene.IsValid()
+                    , scene.path
+                    );
+            }
         }
 
         public static void GetTbodyInfo()
@@ -331,13 +368,6 @@ namespace COM3D2.Lilly.Plugin
         {
 
             MyLog.LogDarkBlue("=== GetGameInfo st ===");
-
-            MyLog.LogInfo("Application.installerName : " + Application.installerName);
-            MyLog.LogInfo("Application.version : " + Application.version);
-            MyLog.LogInfo("Application.unityVersion : " + Application.unityVersion);
-            MyLog.LogInfo("Application.companyName : " + Application.companyName);
-
-            MyLog.LogInfo();
 
             MyLog.LogInfo("CharacterMgr.MaidStockMax : " + CharacterMgr.MaidStockMax);
             MyLog.LogInfo("CharacterMgr.ActiveMaidSlotCount : " + CharacterMgr.ActiveMaidSlotCount);

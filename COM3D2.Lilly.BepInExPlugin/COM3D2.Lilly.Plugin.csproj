@@ -6,6 +6,7 @@
        <!-- <Nullable>enable</Nullable>-->
         <OutputType>Library</OutputType>
     <Deterministic>false</Deterministic>
+    <PackageReleaseNotes>LILLY</PackageReleaseNotes>
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

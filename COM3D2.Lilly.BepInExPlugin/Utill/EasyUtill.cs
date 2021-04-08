@@ -1,6 +1,7 @@
 ﻿using Schedule;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -37,29 +38,46 @@ namespace COM3D2.Lilly.Plugin
             }
         }
 
-        /*
-        public void ClickMaidStatus()
+        internal static void RandomPreset()
         {
-            string name = UIButton.current.name;
-            if (UICamera.currentTouchID == -1)
+            Maid m_maid = GameMain.Instance.CharacterMgr.GetStockMaid(0);
+            if (m_maid.IsBusy)
             {
-                if (this.CurrentActiveButton == name)
-                {
-                    return;
-                }
-                Debug.Log(string.Format("{0}ボタンがクリックされました。", name));
-                this.m_MaidStatusListCtrl.CreateTaskViewer(name);
-                this.CurrentActiveButton = name;
+                return;
             }
-            else if (UICamera.currentTouchID == -2)
+            // Path.Combine(GameMain.Instance.SerializeStorageManager.StoreDirectoryPath, "Preset");
+            string[] filepath = Directory.GetFiles(Path.Combine(GameMain.Instance.SerializeStorageManager.StoreDirectoryPath, "Preset"), "*.preset", SearchOption.AllDirectories);
+            if (filepath.Length == 0 || filepath is null)
             {
-                Debug.Log(string.Format("{0}ボタンが右クリックされました。", name));
-                if (this.m_Ctrl.CanDeleteData(name))
-                {
-                    this.m_Ctrl.DeleteMaidStatus(this.m_scheduleApi, name);
-                }
+                return;
             }
+            CharacterMgr.Preset preset = GameMain.Instance.CharacterMgr.PresetLoad(filepath[Lilly.rand.Next(filepath.Length)]);
+            GameMain.Instance.CharacterMgr.PresetSet(m_maid, preset, false);
         }
-        */
-    }
+
+            /*
+            public void ClickMaidStatus()
+            {
+                string name = UIButton.current.name;
+                if (UICamera.currentTouchID == -1)
+                {
+                    if (this.CurrentActiveButton == name)
+                    {
+                        return;
+                    }
+                    Debug.Log(string.Format("{0}ボタンがクリックされました。", name));
+                    this.m_MaidStatusListCtrl.CreateTaskViewer(name);
+                    this.CurrentActiveButton = name;
+                }
+                else if (UICamera.currentTouchID == -2)
+                {
+                    Debug.Log(string.Format("{0}ボタンが右クリックされました。", name));
+                    if (this.m_Ctrl.CanDeleteData(name))
+                    {
+                        this.m_Ctrl.DeleteMaidStatus(this.m_scheduleApi, name);
+                    }
+                }
+            }
+            */
+        }
 }
