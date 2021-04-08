@@ -53,6 +53,7 @@ namespace COM3D2.Lilly.Plugin
             baseList.Add(typeof(NDebugPatch));// 망할 메세지 박스
             toolList.Add(typeof(ScheduleCtrlPatch));// 스케줄 관련
             baseList.Add(typeof(ScoutManagerPatch));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
+            baseList.Add(typeof(CharacterMgrPatchBase));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
         }
 
         private static void SetHarmonyInfoList()

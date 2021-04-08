@@ -20,11 +20,11 @@
 
 ## 자동 기능
 
-- 메이드 관리 화면에서 모든 버튼 활성화(MaidManagementMainPatch)
-- 메이드 에딧 진입시 모든스텟 적용 (SetMaidStatus)
-- 프리셋 선택,삭제시 콘솔창에 파일명 출력
-- 아이템 / 프리셋 선택시 바뀌는 모드 파일명 출력
-
+- 메이드 관리 화면에서 모든 버튼 활성화 - MaidManagementMainPatch
+- 메이드 에딧 진입시 모든스텟 적용 - SetMaidStatus
+- 프리셋 선택,삭제시 콘솔창에 파일명 출력 - CharacterMgrPatch
+- 아이템 / 프리셋 선택시 바뀌는 모드 파일명 출력 - CharacterMgrPatch - PresetSetPostfix2
+- 프리셋 로딩시 인셉션 오류뜨면 로딩 안되는 현상 제거 - CharacterMgrPatchBase
 
 
 ## 기어 메뉴 기능
