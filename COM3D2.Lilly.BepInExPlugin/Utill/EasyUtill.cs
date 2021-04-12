@@ -11,7 +11,7 @@ namespace COM3D2.Lilly.Plugin
 {
     public class EasyUtill : GUIVirtual
     {
-        public static Scene scene;
+        //public static Scene scene;
 
         public EasyUtill()
         {
@@ -20,13 +20,13 @@ namespace COM3D2.Lilly.Plugin
 
         public static void SetScene()
         {
-            scene=SceneManager.GetSceneByName("SceneDaily");
+            //scene=SceneManager.GetSceneByName("SceneDaily");
         }
 
         public override void SetButtonList()
         {
 
-            if (Lilly.scene.name == scene.name)
+            if (Lilly.scene.name == "SceneDaily")
             if (GUILayout.Button("DeleteMaidStatusAll")) DeleteMaidStatusAll();
         }
 

@@ -6,10 +6,14 @@ using UnityEngine;
 
 namespace COM3D2.Lilly.Plugin
 {
+    /// <summary>
+    /// 메뉴 화면 표준화
+    /// 상속 받은후 SetButtonList 에다가 버튼 목록만 작성하고 있음
+    /// </summary>
     public class GUIVirtual
     {
         private static int WindowId = new System.Random().Next();
-        private static Rect windowRect = new Rect(20f, 20f, 260f, 265f);
+        private static Rect windowRect = new Rect(40f, 40f, 300f, 300f);
         // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
         //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
         private static GUIStyle? windowStyle;

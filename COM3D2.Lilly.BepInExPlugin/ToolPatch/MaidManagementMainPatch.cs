@@ -12,6 +12,8 @@ namespace COM3D2.Lilly.Plugin
     /// </summary>
     class MaidManagementMainPatch
     {
+
+        public static Maid ___select_maid_;
         /// <summary>
         /// 메이드 관리에서 모든 버튼 활성화
         /// </summary>
@@ -22,9 +24,10 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix]
         public static void OnSelectChara(Maid ___select_maid_, Dictionary<string, UIButton> ___button_dic_, MaidManagementMain __instance)
         {
+            // 현제 선택한 메이드 표시
             MyLog.LogMessage("MaidManagementMain.OnSelectChara:" + ___select_maid_.status.charaName.name1 + " , " + ___select_maid_.status.charaName.name2);
+            MaidManagementMainPatch.___select_maid_ = ___select_maid_;
 
-            
             // MaidStatusUtill.SetMaidStatus(___select_maid_);
             //___m_maid.status.base = 9999;
             //___m_maid.status.base = 9999;

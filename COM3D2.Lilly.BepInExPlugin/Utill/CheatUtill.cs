@@ -23,22 +23,84 @@ namespace COM3D2.Lilly.Plugin
 
         public override void SetButtonList()
         {
-            if (GUILayout.Button("시나리오 처리 처리")) CheatUtill.SetAllScenarioData();
-            if (GUILayout.Button("프리 모드 플레그 처리")) CheatUtill.SetAllFreeModeItemEveryday();
-            if (GUILayout.Button("밤시중 플레그 처리")) CheatUtill.SetAllYotogi();
-            if (GUILayout.Button("일상 플레그 처리")) CheatUtill.SetAllWork();
-            if (GUILayout.Button("라이프 클리어 처리 ")) EmpireLifeModeManagerPatch.SetAllEmpireLifeModeData();
+            if (GUILayout.Button("시나리오 처리 처리")) CheatUtill.SetScenarioDataAll();
+            if (GUILayout.Button("프리 모드 플레그 처리")) CheatUtill.SetFreeModeItemEverydayAll();
+            if (GUILayout.Button("밤시중 플레그 처리")) CheatUtill.SetYotogiAll();
+            if (GUILayout.Button("일상 플레그 처리")) CheatUtill.SetWorkAll();
+            if (GUILayout.Button("라이프 클리어 처리 ")) EmpireLifeModeManagerPatch.SetEmpireLifeModeDataAll();
             if (GUILayout.Button("플레이어 치트 처리")) CheatUtill.SetAllPlayerStatus();
-            if (GUILayout.Button("스텟, 스킬, 잡, 클래스 처리")) CheatUtill.SetAllMaidStatus();
+            if (GUILayout.Button("스텟, 스킬, 잡, 클래스 처리")) CheatUtill.SetMaidStatusAll();
+            if (GUILayout.Button("모든 메이드 메이드 플레그 제거")) CheatUtill.RemoveEventEndFlagAll();
+
+            GUILayout.Label("메이드 관리에서 사용 SceneMaidManagement");
+            GUI.enabled  = Lilly.scene.name == "SceneMaidManagement";
+            if (GUILayout.Button("선택 메이드 스텟, 스킬, 잡, 클래스 처리")) CheatUtill.SetMaidStatus();
+            if (GUILayout.Button("선택 메이드 플레그 제거")) CheatUtill.RemoveEventEndFlag();
+            GUI.enabled = true;
         }
 
+        public static CharacterMgr characterMgr = GameMain.Instance.CharacterMgr;
 
-        public static void SetAllMaidStatus()
+        public static void RemoveEventEndFlagAll()
+        {
+            Action<Maid> action = delegate (Maid maid) {
+                maid.status.RemoveEventEndFlagAll();
+            };
+            for (int j = 0; j < characterMgr.GetStockMaidCount(); j++)
+            {
+                Maid stockMaid = characterMgr.GetStockMaid(j);
+                MyLog.LogMessage(".RemoveEventEndFlagAll:" + stockMaid.status.fullNameJpStyle); ;
+                action(stockMaid);
+            }
+        }
+
+        public static void RemoveEventEndFlag()
+        {
+            /*
+            if (Lilly.scene.name != "SceneMaidManagement")
+            {
+                MyLog.LogDarkBlue("메이드 관리에서 사용하세요"); ;
+                return;
+            }
+            */
+            if (HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMainPatch)))
+                RemoveEventEndFlag(MaidManagementMainPatch.___select_maid_);
+            else
+                MyLog.LogDarkBlue("HarmonyUtill에서 MaidManagementMainPatch 를 켜주시고 메이드를 선택하세요");
+            //RemoveEventEndFlag(SceneEdit.Instance.maid);
+        }
+
+        public static void RemoveEventEndFlag(Maid maid)
+        {
+            if (maid != null)
+            {
+                MyLog.LogDarkBlue(".RemoveEventEndFlag:" + maid.status.firstName + " , " + maid.status.lastName); ;
+                maid.status.RemoveEventEndFlagAll();
+            }
+
+        }
+
+        public static void SetMaidStatus()
         {
             MyLog.LogDarkBlue("MaidStatusUtill.SetMaidStatusAll. start");
 
-            ScheduleCSVData.vipFullOpenDay = 0;
-            GameMain.Instance.CharacterMgr.status.clubGrade = 5;
+                SetMaidStatus(MaidManagementMainPatch.___select_maid_);
+            
+            /*
+            Parallel.ForEach(GameMain.Instance.CharacterMgr.GetStockMaidList(), maid =>
+            {
+                //MyLog.LogMessageS("MaidStatusUtill.ActiveManSloatCount: " + maid.status.firstName +" , "+ maid.status.lastName);
+
+                SetMaidStatus(maid);
+            });
+            */
+            MyLog.LogDarkBlue("MaidStatusUtill.SetMaidStatusAll. end");
+        }
+
+        public static void SetMaidStatusAll()
+        {
+            MyLog.LogDarkBlue("MaidStatusUtill.SetMaidStatusAll. start");
+
 
             foreach (var maid in GameMain.Instance.CharacterMgr.GetStockMaidList())
             {
@@ -252,6 +314,8 @@ namespace COM3D2.Lilly.Plugin
             status.clubGrade = 5;
             status.money = 9999999999L;
 
+            ScheduleCSVData.vipFullOpenDay = 0;
+
             try
             {
                 foreach (Trophy.Data item in Trophy.GetAllDatas(false))
@@ -284,7 +348,7 @@ namespace COM3D2.Lilly.Plugin
 
         static bool isRunSetScenarioDataAll = false;
 
-        internal static void SetAllScenarioData()
+        internal static void SetScenarioDataAll()
         {
 
             if (!isRunSetScenarioDataAll)
@@ -346,7 +410,7 @@ namespace COM3D2.Lilly.Plugin
             }
         }
 
-        internal static void SetAllFreeModeItemEveryday()
+        internal static void SetFreeModeItemEverydayAll()
         {
             MyLog.LogDarkBlue("ScenarioDataUtill.SetScenarioAll. start");
 
@@ -462,7 +526,7 @@ namespace COM3D2.Lilly.Plugin
             }
         }
 
-        internal static void SetAllYotogi()
+        internal static void SetYotogiAll()
         {
             MyLog.LogDarkBlue("SetAllYotogi START"
 );
@@ -489,7 +553,7 @@ namespace COM3D2.Lilly.Plugin
 
         static bool isSetAllWorkRun = false;
 
-        internal static void SetAllWork()
+        internal static void SetWorkAll()
         {
 
             if (!isSetAllWorkRun)

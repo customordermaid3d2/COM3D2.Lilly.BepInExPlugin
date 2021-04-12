@@ -35,7 +35,7 @@ namespace COM3D2.Lilly.Plugin
         /// <summary>
         /// 피들러 참고. 이숫자 대체 어디서 들고오는거야
         /// </summary>
-        public static void SetAllEmpireLifeModeData()
+        public static void SetEmpireLifeModeDataAll()
         {
 
             if (!isScenarioExecuteCountAllRun)
