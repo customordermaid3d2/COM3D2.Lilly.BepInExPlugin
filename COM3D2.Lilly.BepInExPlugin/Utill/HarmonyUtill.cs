@@ -1,6 +1,9 @@
-﻿using HarmonyLib;
+﻿using BepInEx;
+using BepInEx.Configuration;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -19,7 +22,7 @@ namespace COM3D2.Lilly.Plugin
         public static bool isInfoPatch = true;
         public static bool isBasePatch = true;
 
-        
+        public static ConfigFile customFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "COM3D2.Lilly.Plugin.HarmonyUtill.cfg"), true);
 
 
         public static HarmonyUtill Instance;
@@ -108,7 +111,17 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogLine();
             foreach (Type item in list) // 인셉션 나면 중단되는 현상 제거
             {
-                SetHarmonyPatch(item);
+                ConfigEntry<bool> t = customFile.Bind("HarmonyUtill",
+                    item.Name,
+                    true);
+                MyLog.LogDarkBlue("SetHarmonyPatch"
+                    , item.Name
+                    , t.Value
+                    );
+                if (t.Value)
+                {
+                    SetHarmonyPatch(item);
+                }
             }
             MyLog.LogLine();
 
@@ -116,6 +129,14 @@ namespace COM3D2.Lilly.Plugin
         
         public static void SetHarmonyPatch(Type item)
         {
+            ConfigEntry<bool> t = customFile.Bind("HarmonyUtill",
+            item.Name,
+            true);
+            t.Value = true;
+            MyLog.LogDarkBlue("GetHarmonyPatchCheck"
+                , item.Name
+                , t.Value
+                );
             try
             {
                 MyLog.LogDarkMagenta("SetHarmonyPatch:" + item.Name);
@@ -145,6 +166,14 @@ namespace COM3D2.Lilly.Plugin
 
         public static void SetHarmonyUnPatch(Type item)
         {
+            ConfigEntry<bool> t = customFile.Bind("HarmonyUtill",
+                item.Name,
+                false);
+            t.Value = false;
+            MyLog.LogDarkBlue("GetHarmonyPatchCheck"
+                , item.Name
+                , t.Value
+                );
             MyLog.LogDarkMagenta("SetHarmonyUnPatch:" + item.Name);
             try
             {
@@ -173,72 +202,37 @@ namespace COM3D2.Lilly.Plugin
 
             scrollPos = GUILayout.BeginScrollView(scrollPos);
 
-            if (GUILayout.Button("toolList 온오프"))
-            {
-                SetHarmonyPatch(ref isToolPatch, toolList);
-            }
-
-            foreach (var item in toolList)
-            {
-                bool b = GetHarmonyPatchCheck(item);
-                if (GUILayout.Button(item.Name + " , " + b))
-                {
-                    if (b)
-                    {
-                        SetHarmonyUnPatch(item);
-                    }
-                    else
-                    {
-                        SetHarmonyPatch(item);
-                    }
-                }
-            }
-
-            if (GUILayout.Button("toolList 온오프"))
-            {
-                SetHarmonyPatch(ref isInfoPatch, infoList);
-            }
-
-            foreach (var item in infoList)
-            {
-                bool b = GetHarmonyPatchCheck(item);
-                if (GUILayout.Button(item.Name + " , " + b))
-                {
-                    if (b)
-                    {
-                        SetHarmonyUnPatch(item);
-                    }
-                    else
-                    {
-                        SetHarmonyPatch(item);
-                    }
-                }
-            }
-
-            if (GUILayout.Button("baseList 온오프"))
-            {
-                SetHarmonyPatch(ref isBasePatch, baseList);
-            }
-
-            foreach (var item in baseList)
-            {
-                bool b = GetHarmonyPatchCheck(item);
-                if (GUILayout.Button(item.Name + " , " + b))
-                {
-                    if (b)
-                    {
-                        SetHarmonyUnPatch(item);
-                    }
-                    else
-                    {
-                        SetHarmonyPatch(item);
-                    }
-                }
-            }
+            SetButtonList1("toolList 온오프",ref isToolPatch, toolList);
+            SetButtonList1("infoList 온오프", ref isInfoPatch, infoList);
+            SetButtonList1("baseList 온오프", ref isBasePatch, baseList);
 
             GUILayout.EndScrollView();
 
 
+        }
+
+        private static void SetButtonList1(string text, ref bool isPatch, List<Type> list)
+        {
+            if (GUILayout.Button(text))
+            {
+                SetHarmonyPatch(ref isPatch, list);
+            }
+
+            foreach (var item in list)
+            {
+                bool b = GetHarmonyPatchCheck(item);
+                if (GUILayout.Button(item.Name + " , " + b))
+                {
+                    if (b)
+                    {
+                        SetHarmonyUnPatch(item);
+                    }
+                    else
+                    {
+                        SetHarmonyPatch(item);
+                    }
+                }
+            }
         }
     }
 }
