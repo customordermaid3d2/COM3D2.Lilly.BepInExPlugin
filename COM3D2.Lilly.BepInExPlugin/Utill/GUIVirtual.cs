@@ -44,6 +44,11 @@ namespace COM3D2.Lilly.Plugin
             isGuiOff += SetGuiOff;
         }
 
+        public static void SetGuiOffAll()
+        {
+            isGuiOff();
+        }
+
         public virtual void SetName()
         {            
             this.name = this.GetType().Name;
@@ -53,6 +58,8 @@ namespace COM3D2.Lilly.Plugin
         {
             this.name = name;
         }
+
+
 
         public virtual void SetGuiOff()
         {
@@ -105,5 +112,6 @@ namespace COM3D2.Lilly.Plugin
         {
             MyLog.LogWarning("SetButtonList",name);
         }
+
     }
 }

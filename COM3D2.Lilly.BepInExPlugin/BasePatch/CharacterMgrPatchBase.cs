@@ -7,6 +7,7 @@ using System.Text;
 
 namespace COM3D2.Lilly.Plugin
 {
+    //[MyHarmony(MyHarmonyType.Base)]
     class CharacterMgrPatchBase
     {
 

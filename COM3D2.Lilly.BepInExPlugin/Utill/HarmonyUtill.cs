@@ -31,6 +31,7 @@ namespace COM3D2.Lilly.Plugin
 
         public static void SetHarmonyListAll()
         {
+
             SetHarmonyInfoList();
             SetHarmonyBaseList();
             SetHarmonyToolList();
@@ -38,6 +39,7 @@ namespace COM3D2.Lilly.Plugin
 
         public static void SetHarmonyToolList()
         {
+
             toolList.Add(typeof(AbstractFreeModeItemPatch));// 프리 모드에서 모든 이벤트 열기 위한용 오버 플로우
             toolList.Add(typeof(EmpireLifeModeManagerToolPatch));// 회상모드 시나리오 처리용?
             toolList.Add(typeof(MaidManagementMainPatch));//메이드 관리에서 모든 버튼 활성화
@@ -49,11 +51,12 @@ namespace COM3D2.Lilly.Plugin
 
         private static void SetHarmonyBaseList()
         {
-            baseList.Add(typeof(EmpireLifeModeManagerPatch));// 회상모드 시나리오 처리용?
-            baseList.Add(typeof(NDebugPatch));// 망할 메세지 박스
-            toolList.Add(typeof(ScheduleCtrlPatch));// 스케줄 관련
-            baseList.Add(typeof(ScoutManagerPatch));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
             baseList.Add(typeof(CharacterMgrPatchBase));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
+            baseList.Add(typeof(EmpireLifeModeManagerPatch));// 회상모드 시나리오 처리용?
+            //baseList.Add(typeof(GameUtyPatch));// mod reflash. 필요 없음
+            baseList.Add(typeof(NDebugPatch));// 망할 메세지 박스
+            baseList.Add(typeof(ScheduleCtrlPatch));// 스케줄 관련
+            baseList.Add(typeof(ScoutManagerPatch));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
         }
 
         private static void SetHarmonyInfoList()

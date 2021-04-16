@@ -9,6 +9,7 @@ using wf;
 
 namespace COM3D2.Lilly.Plugin
 {
+    //[MyHarmony(MyHarmonyType.Base)]
     /// <summary>
     /// 회상 모드에서 라이프 관련
     /// </summary>

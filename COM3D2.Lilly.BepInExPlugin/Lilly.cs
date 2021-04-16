@@ -92,14 +92,14 @@ namespace COM3D2.Lilly.Plugin
             GearMenu.SetButton();
         }
 
-        public static event Action actions ;
+        public static event Action actionsOnGui;
 
         public void SetOnGUIlist()
         {
-            actions+= harmonyUtill.OnGui;
-            actions+= infoUtill.OnGui;
-            actions+= cheatUtill.OnGui;
-            actions+= easyUtill.OnGui;
+            actionsOnGui+= harmonyUtill.OnGui;
+            actionsOnGui+= infoUtill.OnGui;
+            actionsOnGui+= cheatUtill.OnGui;
+            actionsOnGui+= easyUtill.OnGui;
         }
 
         public void OnGUI()
@@ -110,12 +110,14 @@ namespace COM3D2.Lilly.Plugin
                 return;
             }
             */
-            actions();
+            actionsOnGui();
         }
 
         public void OnDisable()
         {
             MyLog.LogMessage("OnDisable");
+
+            GUIVirtual.SetGuiOffAll();
 
             SceneManager.sceneLoaded -= this.OnSceneLoaded;
 
