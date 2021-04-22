@@ -17,17 +17,65 @@
 
 # 구현해본것
 
-
-## 자동 기능
-
-- 메이드 관리 화면에서 모든 버튼 활성화 - MaidManagementMainPatch
-- 메이드 에딧 진입시 모든스텟 적용 - SetMaidStatus
-- 프리셋 선택,삭제시 콘솔창에 파일명 출력 - CharacterMgrPatch
-- 아이템 / 프리셋 선택시 바뀌는 모드 파일명 출력 - CharacterMgrPatch - PresetSetPostfix2
-- 프리셋 로딩시 인셉션 오류뜨면 로딩 안되는 현상 제거 - CharacterMgrPatchBase
-
-
 ## 기어 메뉴 기능
+
+## easyUtill
+
+작성중  
+
+## CheatUtill
+
+작성중  
+
+## HarmonyUtill
+
+특정 장면이나 기능 사용시 자동으로 적용  
+설정파일로도 저장됨 : COM3D2\BepInEx\config\COM3D2.Lilly.Plugin.HarmonyUtill.cfg  
+
+
+### BasePatch
+
+자동 적용할거 모음  
+
+- CharacterMgrPatchBase : 프리셋 로딩시 인셉션 오류뜨면 로딩 안되는 현상 제거  
+- EmpireLifeModeManagerPatch : 뭐였지  
+- GameUtyPatch : 뭐였지 현제 미적용  
+- NDebugPatch : 망할 메세지 박스 안뜨게 해줌  
+- ScheduleCtrlPatch : 뭔가 하려다 만듯?  
+- ScoutManagerPatch : 스카웃 모드 바로 사용 가능. 원래 다른 플러그인거 그대로 가져온거  
+
+
+### InfoPatch
+
+정보성 출력 모음  
+
+- AudioSourceMgrPatch : 재생한 소리파일 출력  
+- BgMgrPatch : 배경 출력?  
+- BoneMorph_Patch : 본 테이터 분셕용인데 미사용  
+- CameraMainPatch : 페이드 여부 출력  
+- CharacterMgrPatch : 아이템 / 프리셋 선택시 바뀌는 프리셋 및 모드 파일명 출력  
+- FullBodyIKMgrPatch : 미사용?  
+- MaidPatch : 메이드 파츠 정보 관련?  
+- ScheduleMgrPatch : 스케줄 관리 관련?  
+- TBodyPatch : 작동 안하는듯?  
+
+
+### ToolPatch
+
+치트 관련 모음  
+
+- EmpireLifeModeManagerToolPatch : 회상 모드에서 라이프 선택 가능. 메이드 피들러에서 가져옴  
+- MaidManagementMainPatch : 메이드 관리 화면에서 모든 버튼 활성화  
+- ScenarioDataPatch : 회상모드 에서 회상 가능?  메이드 피들러에서 가져옴  
+- SceneEditPatch : 메이드 에딧 진입시 모든 스텟 적용 (SetMaidStatus)  
+- SceneFreeModeSelectManagerPatch : 회상모드에서 H이벤트 활성?  
+- ScheduleAPIPatch : 스케줄 관리에서 모든 스케줄 사용 가능? 비추천?  
+
+## InfoUtill
+
+작성중  
+
+## 미정리
 
 - 현제 보이는 메인 메이드 정보값 출력 (현재는 일반 플레그만)
 - 게임 정보 얻기(쓸데가 있나? 분석용) 
@@ -42,34 +90,8 @@
 - 로그 기록 온오프
 
 
-# 컴파일 방법
+# 컴파일 방법 (직접 수정해보고 싶을경우)
 
 https://cafe.naver.com/kisscm/book5100636/92271
-
-
-# 구성 
-
-## BasePatch
-
-기본적으로 자동 적용  
-망할 메세지박스 안뜨고 로그로 기록  
-스카웃모드 버튼 뜸  
-
-
-## InfoPatch
-
-개발자용 정보성 로그 출력용  
-볼려면 콘솔창 필요  
-
-
-## ToolPatch
-
-치트 관련
-내가 만들어놓고 정확한 효과는 나도 모름  
-gui버튼 누르면 나오는 버튼에 대충 설명  
-
-
-## Utill
-
 
 

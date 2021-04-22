@@ -75,7 +75,76 @@ namespace COM3D2.Lilly.Plugin
             //infoList.Add(typeof(FullBodyIKMgrPatch));// 뼈 관련. 안뜨는거 같음
         }
 
-        public static void SetHarmonyPatch(ref bool isPatch , List<Type>  list)
+
+        public static void SetHarmonyPatchAll()
+        {
+            SetHarmonyPatchAll(infoList);
+            SetHarmonyPatchAll(baseList);
+            SetHarmonyPatchAll(toolList);
+        }
+
+        public static void SetHarmonyUnPatchAll()
+        {
+            SetHarmonyUnPatchAll(infoList);
+            SetHarmonyUnPatchAll(baseList);
+            SetHarmonyUnPatchAll(toolList);
+        }
+
+        public static void SetHarmonyPatchAll(List<Type> list)
+        {
+            // https://github.com/BepInEx/HarmonyX/wiki/Patching-with-Harmony
+            // 이거로 원본 메소드에 연결시켜줌. 이게 일종의 해킹
+
+            // Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(),null);// 이건 사용법 모르겠음
+            MyLog.LogLine();
+            foreach (Type item in list) // 인셉션 나면 중단되는 현상 제거
+            {
+                ConfigEntry<bool> t = customFile.Bind("HarmonyUtill",
+                    item.Name,
+                    true);                
+                MyLog.LogDarkMagenta("SetHarmonyPatch"
+                    , item.Name
+                    , t.Value
+                    );
+                if (t.Value)
+                {
+                    SetHarmonyPatch(item);
+                }
+            }
+            MyLog.LogLine();
+        }
+
+        public static void SetHarmonyUnPatchAll(List<Type> list)
+        {
+            // https://github.com/BepInEx/HarmonyX/wiki/Patching-with-Harmony
+            // 이거로 원본 메소드에 연결시켜줌. 이게 일종의 해킹
+
+            // Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(),null);// 이건 사용법 모르겠음
+
+            foreach (Type item in list) // 인셉션 나면 중단되는 현상 제거
+            {
+                SetHarmonyUnPatchAll(item);
+            }
+        }
+
+        public static void SetHarmonyUnPatchAll(Type item)
+        {
+            try
+            {
+                Harmony harmony;
+                if (harmonys.TryGetValue(item, out harmony))
+                {
+                    harmonys.Remove(item);
+                    harmony.UnpatchSelf();
+                }
+            }
+            catch (Exception e)
+            {
+                MyLog.LogError("SetHarmonyUnPatch:" + e.ToString());
+            }
+        }
+
+        public static void SetHarmonyPatch(ref bool isPatch, List<Type> list)
         {
             if (isPatch)
             {
@@ -88,20 +157,6 @@ namespace COM3D2.Lilly.Plugin
             isPatch = !isPatch;
         }
 
-        public static void SetHarmonyPatchAll()
-        {
-            SetHarmonyPatch(infoList);
-            SetHarmonyPatch(baseList);
-            SetHarmonyPatch(toolList);
-        }
-
-        public static void SetHarmonyUnPatchAll()
-        {
-            SetHarmonyUnPatch(infoList);
-            SetHarmonyUnPatch(baseList);
-            SetHarmonyUnPatch(toolList);
-        }
-
         public static void SetHarmonyPatch(List<Type> list)
         {
             // https://github.com/BepInEx/HarmonyX/wiki/Patching-with-Harmony
@@ -111,20 +166,9 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogLine();
             foreach (Type item in list) // 인셉션 나면 중단되는 현상 제거
             {
-                ConfigEntry<bool> t = customFile.Bind("HarmonyUtill",
-                    item.Name,
-                    true);
-                MyLog.LogDarkBlue("SetHarmonyPatch"
-                    , item.Name
-                    , t.Value
-                    );
-                if (t.Value)
-                {
-                    SetHarmonyPatch(item);
-                }
+                SetHarmonyPatch(item);
             }
             MyLog.LogLine();
-
         }
         
         public static void SetHarmonyPatch(Type item)
@@ -133,13 +177,12 @@ namespace COM3D2.Lilly.Plugin
             item.Name,
             true);
             t.Value = true;
-            MyLog.LogDarkBlue("GetHarmonyPatchCheck"
+            MyLog.LogDarkMagenta("SetHarmonyPatch"
                 , item.Name
                 , t.Value
                 );
             try
             {
-                MyLog.LogDarkMagenta("SetHarmonyPatch:" + item.Name);
                 if (!harmonys.ContainsKey(item))
                 {
                     harmonys.Add(item, Harmony.CreateAndPatchAll(item, null));
@@ -169,12 +212,11 @@ namespace COM3D2.Lilly.Plugin
             ConfigEntry<bool> t = customFile.Bind("HarmonyUtill",
                 item.Name,
                 false);
-            t.Value = false;
-            MyLog.LogDarkBlue("GetHarmonyPatchCheck"
+                t.Value = false;
+            MyLog.LogDarkMagenta("SetHarmonyUnPatch"
                 , item.Name
                 , t.Value
                 );
-            MyLog.LogDarkMagenta("SetHarmonyUnPatch:" + item.Name);
             try
             {
                 Harmony harmony;
