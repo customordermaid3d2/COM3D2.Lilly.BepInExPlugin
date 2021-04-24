@@ -63,7 +63,7 @@ namespace COM3D2.Lilly.Plugin
 
                                 MyLog.LogMessage("SetScenarioExecuteCountAll:" 
                                     + cnt
-                                    + MyUtill.GetMaidFullNale(maid)
+                                    + MyUtill.GetMaidFullName(maid)
                                     , data.ID
                                     , data.strUniqueName
                                     , data.dataScenarioFileName

@@ -124,7 +124,7 @@ namespace COM3D2.Lilly.Plugin
                 MyLog.LogError("MaidStatusUtill.SetMaidStatus:null");
                 return;
             }
-            MyLog.LogMessage("SetMaidStatus: " + MyUtill.GetMaidFullNale(maid));
+            MyLog.LogMessage("SetMaidStatus: " + MyUtill.GetMaidFullName(maid));
 
             maid.status.employmentDay = 1;// 고용기간
 
@@ -153,7 +153,7 @@ namespace COM3D2.Lilly.Plugin
             maid.status.relation = Relation.Lover;// 호감도
             maid.status.seikeiken = Seikeiken.Yes_Yes;// 
 
-            MyLog.LogMessage(".SetMaidStatus.AddFeature: " + MyUtill.GetMaidFullNale(maid));
+            MyLog.LogMessage(".SetMaidStatus.AddFeature: " + MyUtill.GetMaidFullName(maid));
             try
             {
 
@@ -167,7 +167,7 @@ namespace COM3D2.Lilly.Plugin
                 MyLog.LogError("SetMaidStatus: " + e.ToString());
             }
 
-            MyLog.LogMessage(".SetMaidStatus.AddPropensity: " + MyUtill.GetMaidFullNale(maid));
+            MyLog.LogMessage(".SetMaidStatus.AddPropensity: " + MyUtill.GetMaidFullName(maid));
             try
             {
                 // 특성
@@ -181,7 +181,7 @@ namespace COM3D2.Lilly.Plugin
                 MyLog.LogError("SetMaidStatus: " + e.ToString());
             }
 
-            MyLog.LogMessage(".SetMaidStatus.YotogiClass: " + MyUtill.GetMaidFullNale(maid));
+            MyLog.LogMessage(".SetMaidStatus.YotogiClass: " + MyUtill.GetMaidFullName(maid));
             // 피드러 참고
             foreach (YotogiClass.Data data in YotogiClass.GetAllDatas(true))
             {
@@ -200,7 +200,7 @@ namespace COM3D2.Lilly.Plugin
             {
                 List<JobClass.Data> learnPossibleClassDatas = jobClassSystem.GetLearnPossibleClassDatas(true, AbstractClassData.ClassType.Share | AbstractClassData.ClassType.New);
                 //MyLog.LogMessage(".SetMaidStatus.learn: " + MyUtill.GetMaidFullNale(maid));
-                MyLog.LogMessage(".JobClass.learn: " + MyUtill.GetMaidFullNale(maid), learnPossibleClassDatas.Count);
+                MyLog.LogMessage(".JobClass.learn: " + MyUtill.GetMaidFullName(maid), learnPossibleClassDatas.Count);
                 // 클래스 추가?
                 foreach (JobClass.Data data in learnPossibleClassDatas)
                 {
@@ -226,7 +226,7 @@ namespace COM3D2.Lilly.Plugin
             try
             {
                 SortedDictionary<int, ClassData<JobClass.Data>> keyValuePairs = jobClassSystem.GetAllDatas();
-                MyLog.LogMessage(".JobClass.expSystem: " + MyUtill.GetMaidFullNale(maid), keyValuePairs.Count);
+                MyLog.LogMessage(".JobClass.expSystem: " + MyUtill.GetMaidFullName(maid), keyValuePairs.Count);
                 //MyLog.LogMessage("JobClass.expSystem: " + MaidUtill.GetMaidFullNale(maid), keyValuePairs.Count);
                 // 경험치 설정
                 foreach (var item in keyValuePairs)
@@ -254,7 +254,7 @@ namespace COM3D2.Lilly.Plugin
 
             // 스킬 추가
             //___select_maid_.status.yotogiSkill.Add(skillId);
-            MyLog.LogMessage(".SetMaidStatus.Skill1: " + MyUtill.GetMaidFullNale(maid));
+            MyLog.LogMessage(".SetMaidStatus.Skill1: " + MyUtill.GetMaidFullName(maid));
             try
             {
                 List<Skill.Data> learnPossibleSkills = Skill.GetLearnPossibleSkills(maid.status);
@@ -275,11 +275,11 @@ namespace COM3D2.Lilly.Plugin
             }
             catch (Exception e)
             {
-                MyLog.LogWarning(".SetMaidStatus.Skill1: " + MyUtill.GetMaidFullNale(maid));
+                MyLog.LogWarning(".SetMaidStatus.Skill1: " + MyUtill.GetMaidFullName(maid));
                 MyLog.LogError(".SetMaidStatus.Skill1: " + e.ToString());
             }
 
-            MyLog.LogMessage(".SetMaidStatus.Old.Skill: " + MyUtill.GetMaidFullNale(maid));
+            MyLog.LogMessage(".SetMaidStatus.Old.Skill: " + MyUtill.GetMaidFullName(maid));
             try
             {
                 List<Skill.Old.Data> learnPossibleSkills = Skill.Old.GetLearnPossibleSkills(maid.status);
@@ -299,8 +299,8 @@ namespace COM3D2.Lilly.Plugin
             }
             catch (Exception e)
             {
-                MyLog.LogWarning(".SetMaidStatus.Old.Skill: " + MyUtill.GetMaidFullNale(maid));
-                MyLog.LogError(".SetMaidStatus.Old.Skill: " + MyUtill.GetMaidFullNale(maid), e.ToString());
+                MyLog.LogWarning(".SetMaidStatus.Old.Skill: " + MyUtill.GetMaidFullName(maid));
+                MyLog.LogError(".SetMaidStatus.Old.Skill: " + MyUtill.GetMaidFullName(maid), e.ToString());
             }
         }
 
@@ -575,7 +575,7 @@ namespace COM3D2.Lilly.Plugin
                     MyLog.LogMessage("ScheduleAPIPatch.SetAllWork.YotogiData:" + ScheduleCSVData.YotogiData.Values.Count);
                     foreach (Maid maid in GameMain.Instance.CharacterMgr.GetStockMaidList())
                     {
-                        MyLog.LogMessage(".SetAllWork.Yotogi:" + MyUtill.GetMaidFullNale(maid), ScheduleCSVData.YotogiData.Values.Count);
+                        MyLog.LogMessage(".SetAllWork.Yotogi:" + MyUtill.GetMaidFullName(maid), ScheduleCSVData.YotogiData.Values.Count);
 
                         foreach (ScheduleCSVData.Yotogi yotogi in ScheduleCSVData.YotogiData.Values)
                         {

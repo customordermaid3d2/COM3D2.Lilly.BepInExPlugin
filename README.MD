@@ -21,7 +21,12 @@
 
 ## easyUtill
 
-작성중  
+- 모드 파일 다시 읽기
+- 메이드 추가(프리셋 폴더안의 프리셋 자동 적용, 수치값 최대)
+#### 메이드 에딧 진입시 자동 적용  
+- GP01FBFaceEyeRandomOnOff : GP-01FB 사용시 눈 랜덤 지정 가능  
+- SetMaidStatus : GP-01FB 사용시 눈 랜덤 지정 가능  
+
 
 ## CheatUtill
 

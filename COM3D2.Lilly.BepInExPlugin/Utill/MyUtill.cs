@@ -62,7 +62,7 @@ namespace COM3D2.Lilly.Plugin
 			return result;
 		}
 
-        internal static string GetMaidFullNale(Maid maid)
+        internal static string GetMaidFullName(Maid maid)
         {
 			StringBuilder s = new StringBuilder();
 			if (maid.status != null)

@@ -20,8 +20,7 @@ namespace COM3D2.Lilly.Plugin
         /// <param name="___select_maid_"></param>
         /// <param name="___button_dic_"></param>
         /// <param name="__instance"></param>
-        [HarmonyPatch(typeof(MaidManagementMain), "OnSelectChara")]
-        [HarmonyPostfix]
+        [HarmonyPostfix, HarmonyPatch(typeof(MaidManagementMain), "OnSelectChara")]
         public static void OnSelectChara(Maid ___select_maid_, Dictionary<string, UIButton> ___button_dic_, MaidManagementMain __instance)
         {
             // 현제 선택한 메이드 표시
@@ -38,5 +37,45 @@ namespace COM3D2.Lilly.Plugin
             }
         }
 
+        /// <summary>
+        /// 고용 버튼 클릭시
+        /// </summary>
+        /// <param name="___select_maid_"></param>
+        /// <param name="___button_dic_"></param>
+        /// <param name="__instance"></param>
+        [HarmonyPostfix, HarmonyPatch(typeof(MaidManagementMain), "OnClickEmploymentButton")]
+        public static void OnClickEmploymentButton()
+        {
+            MyLog.LogMessage("MaidManagementMain.OnClickEmploymentButton:");
+        }
+
+        
+        /// <summary>
+        /// 고용 ok 누를시
+        /// </summary>
+        [HarmonyPostfix, HarmonyPatch(typeof(MaidManagementMain), "Employment")]
+        public static void Employment()
+        {
+            MyLog.LogMessage("MaidManagementMain.Employment:");
+
+            // GameMain.Instance.SysDlg.Close();
+            // int num = this.employmentPrice;
+            // GameMain.Instance.CharacterMgr.status.money += (long)(num * -1);
+            // Maid maid = this.chara_mgr_.AddStockMaid();
+            // MaidManagementMain.BackUpSelectMaidGUID = maid.status.guid;
+            // MaidManagementMain.BackUpBarValue = 1f;
+            // MaidManagementMain.BackUpRightPanelVisible = this.chara_select_mgr_.IsRightVisible();
+            // this.chara_mgr_.SetActiveMaid(maid, 0);
+            // this.maid_management_.move_screen.SetNextLabel(this.new_edit_label_);
+            // this.Finish();
+
+            if (EasyUtill._GP01FBFaceEyeRandomOnOff.Value)
+                EasyUtill.GP01FBFaceEyeRandom(1);
+            
+            Maid m_maid = GameMain.Instance.CharacterMgr.GetMaid(0);
+
+            if (EasyUtill._SetMaidStatusOnOff.Value)
+                CheatUtill.SetMaidStatus(m_maid);
+        }
     }
 }

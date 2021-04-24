@@ -63,7 +63,7 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix]
         public static void PresetSave(Maid f_maid, CharacterMgr.PresetType f_type, CharacterMgr.Preset __result)
         {
-            MyLog.LogMessage("CharacterMgr.PresetSavePost0: " + MyUtill.GetMaidFullNale(f_maid) + " , " + __result.strFileName + " , " + __result.ePreType);
+            MyLog.LogMessage("CharacterMgr.PresetSavePost0: " + MyUtill.GetMaidFullName(f_maid) + " , " + __result.strFileName + " , " + __result.ePreType);
         }
 
         // public void PresetSet(Maid f_maid, CharacterMgr.Preset f_prest, bool forceBody = false) // 157

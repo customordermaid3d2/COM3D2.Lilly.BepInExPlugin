@@ -11,8 +11,13 @@ namespace COM3D2.Lilly.Plugin
     /// </summary>
     class SceneEditPatch
     {
+        // SceneEdit
+
         /// <summary>
         /// 오류나서 제거
+        /// 다음 두개 이후에 작동
+        /// TBody.BoneMorph_FromProcItem
+        /// ExternalSaveData
         /// </summary>
         /// <param name="___m_maid"></param>
         /// <param name="__instance"></param>
@@ -29,7 +34,7 @@ namespace COM3D2.Lilly.Plugin
                 return;
             }
             MyLog.LogMessage("SceneEdit.Start:" + ___m_maid.status.charaName.name1 + " , " + ___m_maid.status.charaName.name2);
-            CheatUtill.SetMaidStatus(___m_maid);
+            
         }
 
         //[HarmonyPatch(typeof(SceneEdit.MenuItemSet), "Start")]
@@ -45,5 +50,26 @@ namespace COM3D2.Lilly.Plugin
         //    MyLog.LogMessageS("SceneEdit.Start:" + ___m_maid.status.charaName.name1 + " , " + ___m_maid.status.charaName.name2);
         //    MaidStatusUtill.SetMaidStatus(___m_maid);
         //}
+
+        // public void OnCharaLoadCompleted()
+        [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), "OnCharaLoadCompleted")]
+        public static void OnCharaLoadCompleted()
+        {
+            MyLog.LogMessage("SceneEdit.OnCharaLoadCompleted");
+        }
+
+        // private void OnCompleteFadeIn()
+        [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), "OnCompleteFadeIn")]
+        public static void OnCompleteFadeIn()
+        {
+            MyLog.LogMessage("SceneEdit.OnCompleteFadeIn");
+        }
+
+        // private void OnEndScene()
+        [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), "OnEndScene")]
+        public static void OnEndScene()
+        {
+            MyLog.LogMessage("SceneEdit.OnEndScene");
+        }
     }
 }

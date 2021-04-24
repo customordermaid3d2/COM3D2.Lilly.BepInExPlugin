@@ -247,7 +247,7 @@ namespace COM3D2.Lilly.Plugin
 
             Maid maid_ = GameMain.Instance.CharacterMgr.GetStockMaid(0);
 
-            MyLog.LogMessage("Maid: " + MyUtill.GetMaidFullNale(maid_));
+            MyLog.LogMessage("Maid: " + MyUtill.GetMaidFullName(maid_));
 
             ReadOnlyDictionary<int, bool> eventEndFlags = maid_.status.eventEndFlags;
             foreach (var item in eventEndFlags)
@@ -292,7 +292,7 @@ namespace COM3D2.Lilly.Plugin
 
             try
             {
-                foreach (var item in Personal.GetAllDatas(false))
+                foreach (var item in PersonalUtill.GetPersonalData(false))
                 {
                     MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.drawName, item.termName);//
                 }

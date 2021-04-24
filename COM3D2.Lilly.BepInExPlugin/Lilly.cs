@@ -51,6 +51,7 @@ namespace COM3D2.Lilly.Plugin
         /// <summary>
         /// 한번만 실행됨
         /// </summary>
+
         public void Awake()
         {
             System.Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
@@ -59,9 +60,16 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogDarkBlue("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
 
             HarmonyUtill.SetHarmonyListAll();
-            EasyUtill.SetScene();
+            easyUtill.SetScene();
+            easyUtill.Awake();            
             SetOnGUIlist();
         }
+
+        public void Start()
+        {
+            easyUtill.Start();
+        }
+
 
         public void OnEnable()
         {

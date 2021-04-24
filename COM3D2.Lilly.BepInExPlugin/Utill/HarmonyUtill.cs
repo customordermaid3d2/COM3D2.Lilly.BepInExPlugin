@@ -12,6 +12,7 @@ namespace COM3D2.Lilly.Plugin
 {
     public class HarmonyUtill : GUIVirtual
     {
+        // 하모니 적용되면 여기에 추가할것
         public static Dictionary<Type, Harmony> harmonys = new Dictionary<Type, Harmony>();
 
         public static List<Type> infoList = new List<Type>();
@@ -58,6 +59,7 @@ namespace COM3D2.Lilly.Plugin
             baseList.Add(typeof(EmpireLifeModeManagerPatch));// 회상모드 시나리오 처리용?
             //baseList.Add(typeof(GameUtyPatch));// mod reflash. 필요 없음
             baseList.Add(typeof(NDebugPatch));// 망할 메세지 박스
+            baseList.Add(typeof(ProfileCtrlPatch));// 스케줄 관련
             baseList.Add(typeof(ScheduleCtrlPatch));// 스케줄 관련
             baseList.Add(typeof(ScoutManagerPatch));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
         }
@@ -173,9 +175,11 @@ namespace COM3D2.Lilly.Plugin
         
         public static void SetHarmonyPatch(Type item)
         {
-            ConfigEntry<bool> t = customFile.Bind("HarmonyUtill",
-            item.Name,
-            true);
+            ConfigEntry<bool> t = customFile.Bind(
+                "HarmonyUtill",
+                item.Name,
+                true
+                );
             t.Value = true;
             MyLog.LogDarkMagenta("SetHarmonyPatch"
                 , item.Name
@@ -244,9 +248,9 @@ namespace COM3D2.Lilly.Plugin
 
             scrollPos = GUILayout.BeginScrollView(scrollPos);
 
-            SetButtonList1("toolList 온오프",ref isToolPatch, toolList);
-            SetButtonList1("infoList 온오프", ref isInfoPatch, infoList);
-            SetButtonList1("baseList 온오프", ref isBasePatch, baseList);
+            SetButtonList1("toolList 온오프 ",ref isToolPatch, toolList);
+            SetButtonList1("infoList 온오프 ", ref isInfoPatch, infoList);
+            SetButtonList1("baseList 온오프 ", ref isBasePatch, baseList);
 
             GUILayout.EndScrollView();
 
@@ -255,7 +259,7 @@ namespace COM3D2.Lilly.Plugin
 
         private static void SetButtonList1(string text, ref bool isPatch, List<Type> list)
         {
-            if (GUILayout.Button(text))
+            if (GUILayout.Button(text+ isPatch))
             {
                 SetHarmonyPatch(ref isPatch, list);
             }
