@@ -11,6 +11,9 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <DefineConstants>TRACE;COM3D2_155</DefineConstants>
+	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="Utill\MyHarmonyAttribute.cs" />
 	</ItemGroup>

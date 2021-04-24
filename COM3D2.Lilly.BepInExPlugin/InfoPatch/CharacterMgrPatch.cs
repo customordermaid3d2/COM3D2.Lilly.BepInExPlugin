@@ -46,7 +46,7 @@ namespace COM3D2.Lilly.Plugin
         /// <param name="f_prest"></param>
         //[HarmonyPatch(typeof(CharacterMgr), "PresetSet")]
         //[HarmonyPrefix]
-        public static void PresetSetPretfix1(CharacterMgr __instance, Maid f_maid, CharacterMgr.Preset f_prest)
+        public static void PresetSet(CharacterMgr __instance, Maid f_maid, CharacterMgr.Preset f_prest)
         {
             MyLog.LogMessage("PresetSetPretfix1.f_prest.strFileName:" 
                 + f_prest.strFileName                
@@ -61,7 +61,7 @@ namespace COM3D2.Lilly.Plugin
         // public CharacterMgr.Preset PresetSave(Maid f_maid, CharacterMgr.PresetType f_type)
         [HarmonyPatch(typeof(CharacterMgr), "PresetSave")]
         [HarmonyPostfix]
-        public static void PresetSavePost0(Maid f_maid, CharacterMgr.PresetType f_type, CharacterMgr.Preset __result)
+        public static void PresetSave(Maid f_maid, CharacterMgr.PresetType f_type, CharacterMgr.Preset __result)
         {
             MyLog.LogMessage("CharacterMgr.PresetSavePost0: " + MyUtill.GetMaidFullNale(f_maid) + " , " + __result.strFileName + " , " + __result.ePreType);
         }
@@ -69,16 +69,16 @@ namespace COM3D2.Lilly.Plugin
         // public void PresetSet(Maid f_maid, CharacterMgr.Preset f_prest, bool forceBody = false) // 157
         // public void PresetSet(Maid f_maid, CharacterMgr.Preset f_prest) // 155
         // 테스팅 완료
-        [HarmonyPatch(typeof(CharacterMgr), "PresetSet", new Type[]{typeof(Maid) ,typeof(CharacterMgr.Preset),typeof(bool) })]
+        [HarmonyPatch(typeof(CharacterMgr), "PresetSet", new Type[]{typeof(Maid) ,typeof(CharacterMgr.Preset) })]
         [HarmonyPostfix]
-        public static void PresetSetPostfix2(Maid f_maid, CharacterMgr.Preset f_prest)
+        public static void PresetSet(Maid f_maid, CharacterMgr.Preset f_prest)
         {
             if (!Lilly.isLogOn)
             {
                 return;
             }
 
-            MyLog.LogMessage("PresetSetPostfix2.f_prest.strFileName:" + f_prest.strFileName +" , "+ f_prest.ePreType);
+            MyLog.LogMessage("CharacterMgr.PresetSet.f_prest.strFileName:" + f_prest.strFileName +" , "+ f_prest.ePreType);
             MaidProp[] array= MyUtill.getMaidProp(f_prest);
             foreach (MaidProp maidProp in array)
             {

@@ -20,7 +20,9 @@ namespace COM3D2.Lilly.Plugin
             if (GUILayout.Button("정보 얻기 메이드 스텟")) InfoUtill.GetMaidStatus();
             if (GUILayout.Button("정보 얻기 플레이어 관련")) InfoUtill.GetPlayerInfo();
             if (GUILayout.Button("정보 얻기 메이드 관련")) InfoUtill.GetMaidInfo();
+            #if COM3D2_157
             if (GUILayout.Button("GetStrIKCtrlPairInfo")) FullBodyIKMgrPatch.GetStrIKCtrlPairInfo();
+            #endif
         }
 
         private static void GetGameInfo()
@@ -68,12 +70,16 @@ namespace COM3D2.Lilly.Plugin
                 return;
             }
 
+#if COM3D2_157
+
             foreach (string item in TBody.m_strDefSlotNameCRC)
             {
                 MyLog.LogInfo("m_strDefSlotNameCRC"
                 , item
                 );
             }
+
+#endif
 
             foreach (string item in TBody.m_strDefSlotName)
             {
@@ -120,6 +126,8 @@ namespace COM3D2.Lilly.Plugin
                     );
             }
 
+#if COM3D2_157
+
             try
             {
                 Dictionary<string, Transform> m_dicBonesMR = body.m_dicBonesMR;
@@ -137,6 +145,8 @@ namespace COM3D2.Lilly.Plugin
                     + e.ToString()
                     );
             }
+
+#endif
 
             try
             {
@@ -156,6 +166,8 @@ namespace COM3D2.Lilly.Plugin
                     );
             }
 
+#if COM3D2_157
+
             try
             {
                 Dictionary<string, Transform> m_dicBones = body.m_dicBones;
@@ -174,8 +186,11 @@ namespace COM3D2.Lilly.Plugin
                     );
             }
 
+#endif
+
             try
             {
+#if COM3D2_157
                 TBody.Slot goSlot = body.goSlot;
 
                 for (int i = 0; i < goSlot.Count; i++)
@@ -198,6 +213,23 @@ namespace COM3D2.Lilly.Plugin
                         );
                     }
                 }
+#elif COM3D2_155
+                List<TBodySkin> goSlot = body.goSlot;
+
+                for (int i = 0; i < goSlot.Count; i++)
+                {
+                    {
+                        TBodySkin bodySkin = goSlot[i];
+                        MyLog.LogInfo("TBody.Slot"
+                        , bodySkin.Category
+                        , bodySkin.SlotId
+                        //, bodySkin.m_subNo
+                        , bodySkin.AttachName
+                        , bodySkin.AttachSlotIdx
+                        );
+                    }
+                }
+#endif
             }
             catch (Exception e)
             {
@@ -387,7 +419,7 @@ namespace COM3D2.Lilly.Plugin
                     , item.rarity
                     , item.maidPoint
                     , item.infoText
-                    , item.bonusText                    
+                    , item.bonusText
                     );
                 }
             }

@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿#if COM3D2_157
+
+using HarmonyLib;
 using kt.ik;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ namespace COM3D2.Lilly.Plugin
     /// </summary>
     class FullBodyIKMgrPatch
     {
+
         // FullBodyIKMgr
         public static Dictionary<string, AIKCtrl> StrIKCtrlPair;// = new Dictionary<string, AIKCtrl>();
 
@@ -72,3 +75,5 @@ namespace COM3D2.Lilly.Plugin
 
     }
 }
+
+#endif

@@ -26,7 +26,8 @@ namespace COM3D2.Lilly.Plugin
                 ,f
                 );
         }
-        
+
+#if COM3D2_157
         [HarmonyPostfix,HarmonyPatch(typeof(TBody), "UpdateMyBoneMorph")]        
         public static void UpdateMyBoneMorph(string name, float val)
         {
@@ -35,7 +36,7 @@ namespace COM3D2.Lilly.Plugin
                 , val
                 );
         }
-
+#endif
 
     }
 }
