@@ -20,10 +20,16 @@ namespace COM3D2.Lilly.Plugin
     {
         //public static Scene scene;
 
+
+        public static ConfigFile customFile;//= new ConfigFile(Path.Combine(Paths.ConfigPath, "COM3D2.Lilly.Plugin.EasyUtill.cfg"), true);
+
+        public static ConfigEntry<bool> _GP01FBFaceEyeRandomOnOff;
+        public static ConfigEntry<bool> _SetMaidStatusOnOff;
+
         public EasyUtill()
         {
             name = "EasyUtill";
-           
+            customFile = Lilly.customFile;
         }
 
 
@@ -51,17 +57,7 @@ namespace COM3D2.Lilly.Plugin
 
         }
 
-        public static ConfigFile customFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "COM3D2.Lilly.Plugin.EasyUtill.cfg"), true);
 
-        public static ConfigEntry<bool> _GP01FBFaceEyeRandomOnOff;
-        public static ConfigEntry<bool> _SetMaidStatusOnOff;
-
-        public static System.Random rand = new System.Random();
-
-        public static List<string> listWear = new List<string>();
-        public static List<string> listBody = new List<string>();
-        public static List<string> listAll = new List<string>();
-        public static List<string> lists = new List<string>();
 
 
         public override void SetButtonList()
@@ -69,17 +65,9 @@ namespace COM3D2.Lilly.Plugin
             if (GUILayout.Button("mod reflash2")) modreflash2();
             if (GUILayout.Button("Maid add")) AddStockMaid();
 
-            GUILayout.Label("Random Preset");
-            if (GUILayout.Button("Random Preset Wear " + listWear.Count)) { RandPreset(listWear); }
-            if (GUILayout.Button("Random Preset Body " + listBody.Count)) { RandPreset(listBody); }
-            if (GUILayout.Button("Random Preset Wear/Body " + listAll.Count)) { RandPreset(listAll); }
-            if (GUILayout.Button("Random Preset All " + lists.Count)) { RandPreset(lists); }
-            if (GUILayout.Button("Random Preset All. set Wear " + lists.Count)) { RandPreset(lists, 1); }
-            if (GUILayout.Button("Random Preset All. set Body " + lists.Count)) { RandPreset(lists, 2); }
-            if (GUILayout.Button("Random Preset All. set All " + lists.Count)) { RandPreset(lists, 3); }
-            if (GUILayout.Button("Random list load")) { LoadList(); }
+            PresetUtill.SetButtonList();
 
-            GUILayout.Label("MaidManagementMain Harmony 필요 : "+ HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMain)));
+            GUILayout.Label("MaidManagementMain Harmony 필요 : "+ HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMainPatch)));
             GUILayout.Label("메이드 에딧 진입시 자동 적용  ");
             //GUI.enabled = HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMain));
             if (GUILayout.Button("GP01FBFaceEyeRandomOnOff " + _GP01FBFaceEyeRandomOnOff.Value)) _GP01FBFaceEyeRandomOnOff.Value = !_GP01FBFaceEyeRandomOnOff.Value;
@@ -103,116 +91,6 @@ namespace COM3D2.Lilly.Plugin
         }
 
 
-        internal static void RandPreset(List<string> list, int t = 0, Maid m_maid = null)
-        {
-            UnityEngine.Debug.Log("RandPreset");
-            if (m_maid==null)
-            {
-                m_maid = GameMain.Instance.CharacterMgr.GetMaid(0);
-            }
-            MyLog.LogMessage("RandPreset", MyUtill.GetMaidFullName(m_maid));
-            if (m_maid.IsBusy)
-            {
-                UnityEngine.Debug.Log("RandPreset Maid Is Busy");
-                return;
-            }
-            UnityEngine.Debug.Log("RandomPreset maid: " + m_maid.status.fullNameJpStyle);
-            if (list.Count == 0)
-            {
-                LoadList();
-                if (list.Count == 0)
-                {
-                    UnityEngine.Debug.Log("RandPreset No list");
-                    return;
-                }
-            }
-            string file = list[rand.Next(list.Count)];
-            UnityEngine.Debug.Log("RandPreset select :" + file);
-            CharacterMgr.Preset preset = GameMain.Instance.CharacterMgr.PresetLoad(file);
-            switch (t)
-            {
-                case 1:
-                    preset.ePreType = CharacterMgr.PresetType.Wear;
-                    break;
-                case 2:
-                    preset.ePreType = CharacterMgr.PresetType.Body;
-                    break;
-                case 3:
-                    preset.ePreType = CharacterMgr.PresetType.All;
-                    break;
-                default:
-                    break;
-            }
-            //Main.CustomPresetDirectory = Path.GetDirectoryName(file);
-            //UnityEngine.Debug.Log("RandPreset preset path "+ GameMain.Instance.CharacterMgr.PresetDirectory);
-            //preset.strFileName = file;
-            if (preset == null)
-            {
-                UnityEngine.Debug.Log("RandPreset preset null ");
-                return;
-            }
-            GameMain.Instance.CharacterMgr.PresetSet(m_maid, preset);
-            if (Product.isPublic)
-                SceneEdit.AllProcPropSeqStart(m_maid);
-        }
-
-        /// <summary>
-        /// 정상 처리된듯?
-        /// </summary>
-        internal static void LoadList()
-        {
-            MyLog.LogMessage("LoadList Preset");
-
-            listWear.Clear();
-            listBody.Clear();
-            listAll.Clear();
-            lists.Clear();
-
-            // 하위경로포함
-            foreach (string f_strFileName in Directory.GetFiles(Path.Combine(GameMain.Instance.SerializeStorageManager.StoreDirectoryPath, "Preset"), "*.preset", SearchOption.AllDirectories))
-            {
-                //jUnityEngine.Debug.Log("RandPreset load : " + f_strFileName);
-
-                FileStream fileStream = new FileStream(f_strFileName, FileMode.Open);
-                if (fileStream == null)
-                {
-                    continue;
-                }
-                byte[] buffer = new byte[fileStream.Length];
-                fileStream.Read(buffer, 0, (int)fileStream.Length);
-                fileStream.Close();
-                fileStream.Dispose();
-                BinaryReader binaryReader = new BinaryReader(new MemoryStream(buffer));
-
-                string a = binaryReader.ReadString();
-                if (a != "CM3D2_PRESET")
-                {
-                    binaryReader.Close();
-                    continue;
-                }
-                binaryReader.ReadInt32();
-                switch ((CharacterMgr.PresetType)binaryReader.ReadInt32())
-                {
-                    case CharacterMgr.PresetType.Wear:
-                        listWear.Add(f_strFileName);
-                        break;
-                    case CharacterMgr.PresetType.Body:
-                        listBody.Add(f_strFileName);
-                        break;
-                    case CharacterMgr.PresetType.All:
-                        listAll.Add(f_strFileName);
-                        break;
-                    default:
-                        break;
-                }
-                binaryReader.Close();
-            }
-
-            lists.AddRange(listWear);
-            lists.AddRange(listBody);
-            lists.AddRange(listAll);
-        }
-
 
         private void AddStockMaid()
         {
@@ -220,13 +98,13 @@ namespace COM3D2.Lilly.Plugin
 
             Maid maid = GameMain.Instance.CharacterMgr.AddStockMaid();
 
-            maid.status.SetPersonal(PersonalUtill.GetPersonalData(true)[UnityEngine.Random.Range(0, PersonalUtill.GetPersonalData(true).Count)]);
+            PersonalUtill.SetPersonalRandom(maid);
 
             if (EasyUtill._SetMaidStatusOnOff.Value)
                 CheatUtill.SetMaidStatus(maid);
 
             //GP01FBFaceEyeRandom(1, maid);
-            RandPreset(lists, 3, maid);
+            PresetUtill.RandPreset(PresetUtill.ListType.All, PresetUtill.PresetType.All, maid);
 
             MyLog.LogMessage("EasyUtill.AddStockMaid",MyUtill.GetMaidFullName(maid));
             //private void OnEndDlgOk()
@@ -255,6 +133,7 @@ namespace COM3D2.Lilly.Plugin
             {
                 m_maid = GameMain.Instance.CharacterMgr.GetMaid(0);
             }
+            MyLog.LogMessage("GP01FBFaceEyeRandom", MyUtill.GetMaidFullName(m_maid));
             if (v == 1 || v == 2)
                 GP01FBFaceEyeRandomUp(m_maid);
             if (v == 1 || v == 3)
@@ -371,22 +250,6 @@ namespace COM3D2.Lilly.Plugin
             }
         }
 
-        internal static void RandomPreset()
-        {
-            Maid m_maid = GameMain.Instance.CharacterMgr.GetStockMaid(0);
-            if (m_maid.IsBusy)
-            {
-                return;
-            }
-            // Path.Combine(GameMain.Instance.SerializeStorageManager.StoreDirectoryPath, "Preset");
-            string[] filepath = Directory.GetFiles(Path.Combine(GameMain.Instance.SerializeStorageManager.StoreDirectoryPath, "Preset"), "*.preset", SearchOption.AllDirectories);
-            if (filepath.Length == 0 || filepath is null)
-            {
-                return;
-            }
-            CharacterMgr.Preset preset = GameMain.Instance.CharacterMgr.PresetLoad(filepath[Lilly.rand.Next(filepath.Length)]);
-            GameMain.Instance.CharacterMgr.PresetSet(m_maid, preset, false);
-        }
 
         /*
         public void ClickMaidStatus()

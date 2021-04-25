@@ -287,7 +287,7 @@ namespace COM3D2.Lilly.Plugin
                 {
                     MyLog.LogDebug("id: " + data.id + " , " + data.name + " , " + data.start_call_file + " , " + data.start_call_file2);
 #if DEBUG
-                    MyLog.LogMessage(".Skill2: " + MyUtill.GetMaidFullNale(maid));
+                    MyLog.LogMessage(".Skill2: " + MyUtill.GetMaidFullName(maid));
                     MyLog.LogDebug("ban_id_array: " + MyUtill.Join(" , ", data.ban_id_array));
                     MyLog.LogDebug("skill_exp_table: " + MyUtill.Join(" , ", data.skill_exp_table));
 #endif

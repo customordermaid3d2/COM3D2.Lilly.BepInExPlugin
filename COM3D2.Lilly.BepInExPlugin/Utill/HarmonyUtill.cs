@@ -23,7 +23,7 @@ namespace COM3D2.Lilly.Plugin
         public static bool isInfoPatch = true;
         public static bool isBasePatch = true;
 
-        public static ConfigFile customFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "COM3D2.Lilly.Plugin.HarmonyUtill.cfg"), true);
+        public static ConfigFile customFile;// = new ConfigFile(Path.Combine(Paths.ConfigPath, "COM3D2.Lilly.Plugin.HarmonyUtill.cfg"), true);
 
 
         public static HarmonyUtill Instance;
@@ -31,6 +31,7 @@ namespace COM3D2.Lilly.Plugin
         public HarmonyUtill() : base("HarmonyUtill")
         {
            Instance = this;
+           customFile = Lilly.customFile;
         }
 
         public static void SetHarmonyListAll()

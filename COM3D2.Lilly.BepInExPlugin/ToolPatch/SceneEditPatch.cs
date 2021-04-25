@@ -13,6 +13,8 @@ namespace COM3D2.Lilly.Plugin
     {
         // SceneEdit
 
+        //private List<SceneEdit.SliderItemSet> m_listSliderItem;
+
         /// <summary>
         /// 오류나서 제거
         /// 다음 두개 이후에 작동
@@ -26,7 +28,7 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPatch(typeof(SceneEdit), "Start")]
         [HarmonyPostfix]
         public static void Start() // Maid ___m_maid,SceneEdit __instance
-        {            
+        {
             Maid ___m_maid = SceneEdit.Instance.maid;
             if (___m_maid == null)
             {
@@ -34,7 +36,7 @@ namespace COM3D2.Lilly.Plugin
                 return;
             }
             MyLog.LogMessage("SceneEdit.Start:" + ___m_maid.status.charaName.name1 + " , " + ___m_maid.status.charaName.name2);
-            
+
         }
 
         //[HarmonyPatch(typeof(SceneEdit.MenuItemSet), "Start")]
@@ -55,7 +57,21 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), "OnCharaLoadCompleted")]
         public static void OnCharaLoadCompleted()
         {
-            MyLog.LogMessage("SceneEdit.OnCharaLoadCompleted");
+            MyLog.LogMessage("SceneEdit.OnCharaLoadCompleted"
+                , EasyUtill._GP01FBFaceEyeRandomOnOff.Value
+                , EasyUtill._SetMaidStatusOnOff.Value
+                );
+
+            Maid maid = GameMain.Instance.CharacterMgr.GetMaid(0);
+
+            if (EasyUtill._GP01FBFaceEyeRandomOnOff.Value)
+                EasyUtill.GP01FBFaceEyeRandom(1, maid);
+
+            if (EasyUtill._SetMaidStatusOnOff.Value)
+                CheatUtill.SetMaidStatus(maid);
+
+            PersonalUtill.SetPersonalRandom(maid);
+            PresetUtill.RandPreset(PresetUtill.ListType.All, PresetUtill.PresetType.All, maid);
         }
 
         // private void OnCompleteFadeIn()

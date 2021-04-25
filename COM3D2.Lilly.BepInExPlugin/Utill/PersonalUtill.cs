@@ -24,5 +24,15 @@ namespace COM3D2.Lilly.Plugin
             }
                 return personalDataAll;
         }
+
+        public static void SetPersonalRandom(Maid maid)
+        {
+            MyLog.LogMessage(
+                "MaidManagementMain.Employment"
+                ,MyUtill.GetMaidFullName(maid)
+            );
+            maid.status.SetPersonal(GetPersonalData(true)[UnityEngine.Random.Range(0, GetPersonalData(true).Count)]);
+        }
+
     }
 }

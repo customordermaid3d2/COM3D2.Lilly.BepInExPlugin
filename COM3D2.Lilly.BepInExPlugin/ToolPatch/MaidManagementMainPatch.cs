@@ -56,7 +56,10 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix, HarmonyPatch(typeof(MaidManagementMain), "Employment")]
         public static void Employment()
         {
-            MyLog.LogMessage("MaidManagementMain.Employment:");
+            MyLog.LogMessage("MaidManagementMain.Employment"
+                //, EasyUtill._GP01FBFaceEyeRandomOnOff.Value
+                //, EasyUtill._SetMaidStatusOnOff.Value
+                );
 
             // GameMain.Instance.SysDlg.Close();
             // int num = this.employmentPrice;
@@ -68,14 +71,17 @@ namespace COM3D2.Lilly.Plugin
             // this.chara_mgr_.SetActiveMaid(maid, 0);
             // this.maid_management_.move_screen.SetNextLabel(this.new_edit_label_);
             // this.Finish();
+            /*
+            Maid maid = GameMain.Instance.CharacterMgr.GetMaid(0);            
 
             if (EasyUtill._GP01FBFaceEyeRandomOnOff.Value)
-                EasyUtill.GP01FBFaceEyeRandom(1);
-            
-            Maid m_maid = GameMain.Instance.CharacterMgr.GetMaid(0);
+                EasyUtill.GP01FBFaceEyeRandom(1, maid);            
 
             if (EasyUtill._SetMaidStatusOnOff.Value)
-                CheatUtill.SetMaidStatus(m_maid);
+                CheatUtill.SetMaidStatus(maid);
+
+            PersonalUtill.SetPersonalRandom(maid);
+            */
         }
     }
 }

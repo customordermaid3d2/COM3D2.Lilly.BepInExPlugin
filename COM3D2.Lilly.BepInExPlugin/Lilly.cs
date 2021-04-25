@@ -1,9 +1,11 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using COM3D2API;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -16,10 +18,14 @@ namespace COM3D2.Lilly.Plugin
     [BepInProcess("COM3D2x64.exe")]
     public class Lilly : BaseUnityPlugin
     {
+        public static ConfigFile customFile;// = new ConfigFile(Path.Combine(Paths.ConfigPath, "COM3D2.Lilly.Plugin.cfg"), true);
+
         Stopwatch stopwatch = new Stopwatch(); //객체 선언
+        
         public static System.Random rand = new System.Random();
 
         public static bool isLogOn = true;
+
         public static void SetLogOnOff()
         {
             isLogOn = !isLogOn;
@@ -43,6 +49,7 @@ namespace COM3D2.Lilly.Plugin
             infoUtill = new InfoUtill();
             cheatUtill = new CheatUtill();
             easyUtill = new EasyUtill();
+            customFile = Config;
 
             stopwatch.Start(); // 시간측정 시작
             MyLog.LogDarkBlue("Lilly" , string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
