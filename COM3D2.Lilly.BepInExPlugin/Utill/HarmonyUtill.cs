@@ -34,6 +34,12 @@ namespace COM3D2.Lilly.Plugin
            customFile = Lilly.customFile;
         }
 
+        internal void Awake()
+        {
+            customFile = Lilly.customFile;
+            SetHarmonyListAll();
+        }
+
         public static void SetHarmonyListAll()
         {
 

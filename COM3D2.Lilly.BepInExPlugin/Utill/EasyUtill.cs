@@ -29,12 +29,14 @@ namespace COM3D2.Lilly.Plugin
         public EasyUtill()
         {
             name = "EasyUtill";
-            customFile = Lilly.customFile;
+            
         }
 
 
         internal void Awake()
         {
+            customFile = Lilly.customFile;
+
             _GP01FBFaceEyeRandomOnOff = customFile.Bind(
               "EasyUtill",
               "_GP01FBFaceEyeRandomOnOff",

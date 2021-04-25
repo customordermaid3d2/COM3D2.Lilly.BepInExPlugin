@@ -49,7 +49,7 @@ namespace COM3D2.Lilly.Plugin
             infoUtill = new InfoUtill();
             cheatUtill = new CheatUtill();
             easyUtill = new EasyUtill();
-            customFile = Config;
+            
 
             stopwatch.Start(); // 시간측정 시작
             MyLog.LogDarkBlue("Lilly" , string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
@@ -61,14 +61,17 @@ namespace COM3D2.Lilly.Plugin
 
         public void Awake()
         {
+            customFile = Config;
+
             System.Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             MyLog.LogMessage("Awake",dateTime.ToString("u"));
             MyLog.LogDarkBlue("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
+                     
 
-            HarmonyUtill.SetHarmonyListAll();
-            easyUtill.SetScene();
-            easyUtill.Awake();            
+            easyUtill.Awake();
+            harmonyUtill.Awake();            
+
             SetOnGUIlist();
         }
 

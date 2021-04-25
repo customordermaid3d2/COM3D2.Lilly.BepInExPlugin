@@ -53,32 +53,30 @@ namespace COM3D2.Lilly.Plugin
         //    MaidStatusUtill.SetMaidStatus(___m_maid);
         //}
 
+        /// <summary>
+        /// 여기다 프리셋 로드 사용시 무한 루프 걸려버림
+        /// </summary>
         // public void OnCharaLoadCompleted()
         [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), "OnCharaLoadCompleted")]
         public static void OnCharaLoadCompleted()
         {
             MyLog.LogMessage("SceneEdit.OnCharaLoadCompleted"
-                , EasyUtill._GP01FBFaceEyeRandomOnOff.Value
-                , EasyUtill._SetMaidStatusOnOff.Value
+               //, EasyUtill._GP01FBFaceEyeRandomOnOff.Value
+               //, EasyUtill._SetMaidStatusOnOff.Value
                 );
 
-            Maid maid = GameMain.Instance.CharacterMgr.GetMaid(0);
-
-            if (EasyUtill._GP01FBFaceEyeRandomOnOff.Value)
-                EasyUtill.GP01FBFaceEyeRandom(1, maid);
-
-            if (EasyUtill._SetMaidStatusOnOff.Value)
-                CheatUtill.SetMaidStatus(maid);
-
-            PersonalUtill.SetPersonalRandom(maid);
-            PresetUtill.RandPreset(PresetUtill.ListType.All, PresetUtill.PresetType.All, maid);
         }
 
         // private void OnCompleteFadeIn()
         [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), "OnCompleteFadeIn")]
         public static void OnCompleteFadeIn()
         {
-            MyLog.LogMessage("SceneEdit.OnCompleteFadeIn");
+            MyLog.LogMessage("SceneEdit.OnCompleteFadeIn"
+                , EasyUtill._GP01FBFaceEyeRandomOnOff.Value
+                , EasyUtill._SetMaidStatusOnOff.Value
+                );
+
+            MaidManagementMainPatch.newMaidSetting();
         }
 
         // private void OnEndScene()

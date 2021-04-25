@@ -17,6 +17,10 @@
 
 # 구현해본것
 
+## 자동 적용
+
+- 메이드 고용시 프리셋 자동 적용 
+
 ## 기어 메뉴 기능
 
 ## easyUtill
@@ -24,9 +28,10 @@
 - 모드 파일 다시 읽기
 - 메이드 추가(성격 랜덤, 프리셋 폴더안의 프리셋 자동 적용, 수치값 최대)
 #### 프리셋 적용
-#### 메이드 고용 진입시 자동 적용  
+#### 메이드 고용 진입시 자동 적용 
+MaidManagementMainPatch.newMaidSetting SceneEditPatch.OnCompleteFadeIn 필요
 - GP01FBFaceEyeRandomOnOff : GP-01FB 사용시 눈 랜덤 지정 가능  
-- SetMaidStatus : GP-01FB 사용시 눈 랜덤 지정 가능  
+- SetMaidStatus : 스텟 최대치
 
 
 ## CheatUtill
@@ -36,7 +41,7 @@
 ## HarmonyUtill
 
 특정 장면이나 기능 사용시 자동으로 적용  
-설정파일로도 저장됨 : COM3D2\BepInEx\config\COM3D2.Lilly.Plugin.HarmonyUtill.cfg  
+설정파일로도 저장됨 : COM3D2\BepInEx\config\COM3D2.Lilly.Plugin.cfg  
 
 
 ### BasePatch
