@@ -64,9 +64,16 @@ namespace COM3D2.Lilly.Plugin
 
         public override void SetButtonList()
         {
+            GUILayout.Label("now scene.name : " + Lilly.scene.name);
             if (GUILayout.Button("mod reflash2")) modreflash2();
             if (GUILayout.Button("Maid add")) AddStockMaid();
 
+            /*
+            GUILayout.Label("ScheduleTaskCtrlPatch");
+            GUI.enabled = ScheduleTaskCtrlPatch.instance != null;
+            if (GUILayout.Button("스케줄 자동 채우기")) ScheduleTaskCtrlPatch.SetScheduleSlot();
+            GUI.enabled = true;
+            */
             PresetUtill.SetButtonList();
 
             GUILayout.Label("MaidManagementMain Harmony 필요 : "+ HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMainPatch)));
@@ -75,7 +82,6 @@ namespace COM3D2.Lilly.Plugin
             if (GUILayout.Button("GP01FBFaceEyeRandomOnOff " + _GP01FBFaceEyeRandomOnOff.Value)) _GP01FBFaceEyeRandomOnOff.Value = !_GP01FBFaceEyeRandomOnOff.Value;
             if (GUILayout.Button("SetMaidStatus " + _SetMaidStatusOnOff.Value)) _SetMaidStatusOnOff.Value = !_SetMaidStatusOnOff.Value;
 
-            GUILayout.Label("now scene.name : " + Lilly.scene.name);
             
             GUILayout.Label("SceneDaily");
             GUI.enabled = Lilly.scene.name == "SceneDaily";
@@ -92,8 +98,6 @@ namespace COM3D2.Lilly.Plugin
             //if (GUILayout.Button("mod reflash")) modreflash();
         }
 
-
-
         private void AddStockMaid()
         {
             MyLog.LogMessage("EasyUtill.AddStockMaid");
@@ -103,7 +107,7 @@ namespace COM3D2.Lilly.Plugin
             PersonalUtill.SetPersonalRandom(maid);
 
             if (EasyUtill._SetMaidStatusOnOff.Value)
-                CheatUtill.SetMaidStatus(maid);
+                CheatGUI.SetMaidStatus(maid);
 
             //GP01FBFaceEyeRandom(1, maid);
             PresetUtill.RandPreset(PresetUtill.ListType.All, PresetUtill.PresetType.All, maid);

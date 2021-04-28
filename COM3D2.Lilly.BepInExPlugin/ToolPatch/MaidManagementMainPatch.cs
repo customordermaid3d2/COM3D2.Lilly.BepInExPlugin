@@ -90,7 +90,7 @@ namespace COM3D2.Lilly.Plugin
                 EasyUtill.GP01FBFaceEyeRandom(1, maid);
 
             if (EasyUtill._SetMaidStatusOnOff.Value)
-                CheatUtill.SetMaidStatus(maid);
+                CheatGUI.SetMaidStatus(maid);
 
             PersonalUtill.SetPersonalRandom(maid);
             PresetUtill.RandPreset(PresetUtill.ListType.All, PresetUtill.PresetType.All, maid);

@@ -27,11 +27,13 @@ namespace COM3D2.Lilly.Plugin
 
         public static void SetPersonalRandom(Maid maid)
         {
+            Personal.Data data=GetPersonalData(true)[UnityEngine.Random.Range(0, GetPersonalData(true).Count)];
+            maid.status.SetPersonal(data);
+            maid.status.firstName = data.uniqueName;
             MyLog.LogMessage(
                 "MaidManagementMain.Employment"
                 ,MyUtill.GetMaidFullName(maid)
             );
-            maid.status.SetPersonal(GetPersonalData(true)[UnityEngine.Random.Range(0, GetPersonalData(true).Count)]);
         }
 
     }

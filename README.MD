@@ -75,6 +75,8 @@ MaidManagementMainPatch.newMaidSetting SceneEditPatch.OnCompleteFadeIn 필요
 
 치트 관련 모음  
 
+- ClassDataPatch : 클래스 정보 불러올때마다 밤시중과 업무 클래스 레벨 최대치 처리.  
+  이거 쓰는것보단 easyUtill 에 있는걸  쓰는게 성능에 좋음  
 - EmpireLifeModeManagerToolPatch : 회상 모드에서 라이프 선택 가능. 메이드 피들러에서 가져옴  
 - MaidManagementMainPatch : 메이드 관리 화면에서 모든 버튼 활성화  
 - ScenarioDataPatch : 회상모드 에서 회상 가능?  메이드 피들러에서 가져옴  

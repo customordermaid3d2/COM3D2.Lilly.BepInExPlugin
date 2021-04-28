@@ -64,19 +64,21 @@ namespace COM3D2.Lilly.Plugin
 
         internal static string GetMaidFullName(Maid maid)
         {
-			StringBuilder s = new StringBuilder();
+            return maid.status.fullNameEnStyle;
+
+            StringBuilder s = new StringBuilder();
 			if (maid.status != null)
 			{
-				s.Append(maid.status.firstName);
-				s.Append(" , " + maid.status.lastName);
-				if (maid.status.personal != null)
-				{
-					s.Append(" , " + maid.status.personal.id);
-					s.Append(" , " + maid.status.personal.replaceText);
-					s.Append(" , " + maid.status.personal.uniqueName);
-					s.Append(" , " + maid.status.personal.drawName);
-				}
-
+				s.Append(maid.status.fullNameEnStyle);
+				//s.Append(maid.status.firstName);
+				//s.Append(" , " + maid.status.lastName);
+				//if (maid.status.personal != null)
+				//{
+				//	s.Append(" , " + maid.status.personal.id);
+				//	s.Append(" , " + maid.status.personal.replaceText);
+				//	s.Append(" , " + maid.status.personal.uniqueName);
+				//	s.Append(" , " + maid.status.personal.drawName);
+				//}
 			}
 			return s.ToString();
 		}

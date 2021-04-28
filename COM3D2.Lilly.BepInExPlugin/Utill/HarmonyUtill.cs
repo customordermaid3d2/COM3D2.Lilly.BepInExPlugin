@@ -58,6 +58,8 @@ namespace COM3D2.Lilly.Plugin
             toolList.Add(typeof(ScenarioDataPatch));// 회상모드 시나리오 처리용?
             toolList.Add(typeof(SceneFreeModeSelectManagerPatch));// 회상 모드에서 버튼 활성화용
             toolList.Add(typeof(ScheduleAPIPatch));// 회상모드 시나리오 처리용?
+            //toolList.Add(typeof(ScheduleMaxPatch));// 슬롯 최대 늘리기 실패
+            //toolList.Add(typeof(ClassDataPatch));// 실시간 클래스 경험치 최대값 설정. 성능 나쁨
         }
 
         private static void SetHarmonyBaseList()
@@ -69,6 +71,7 @@ namespace COM3D2.Lilly.Plugin
             baseList.Add(typeof(ProfileCtrlPatch));// 스케줄 관련
             baseList.Add(typeof(ScheduleCtrlPatch));// 스케줄 관련
             baseList.Add(typeof(ScoutManagerPatch));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
+            //baseList.Add(typeof(ScheduleTaskCtrlPatch));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
         }
 
         private static void SetHarmonyInfoList()

@@ -40,14 +40,14 @@ namespace COM3D2.Lilly.Plugin
 
         public static HarmonyUtill? harmonyUtill;
         public static InfoUtill? infoUtill;
-        public static CheatUtill? cheatUtill;
+        public static CheatGUI? cheatUtill;
         public static EasyUtill? easyUtill;
 
         public Lilly()
         {
             harmonyUtill=new HarmonyUtill();
             infoUtill = new InfoUtill();
-            cheatUtill = new CheatUtill();
+            cheatUtill = new CheatGUI();
             easyUtill = new EasyUtill();
             
 
@@ -95,6 +95,7 @@ namespace COM3D2.Lilly.Plugin
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            // SceneManager.GetActiveScene().name 
             Lilly.scene = scene;
             MyLog.LogMessage("OnSceneLoaded"
                 , scene.buildIndex

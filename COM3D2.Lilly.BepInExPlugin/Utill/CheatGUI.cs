@@ -14,28 +14,28 @@ using Yotogis;
 
 namespace COM3D2.Lilly.Plugin
 {
-    public class CheatUtill : GUIVirtual
+    public class CheatGUI : GUIVirtual
     {
-        public CheatUtill() : base("CheatUtill")
+        public CheatGUI() : base("CheatUtill")
         {
 
         }
 
         public override void SetButtonList()
         {
-            if (GUILayout.Button("시나리오 처리 처리")) CheatUtill.SetScenarioDataAll();
-            if (GUILayout.Button("프리 모드 플레그 처리")) CheatUtill.SetFreeModeItemEverydayAll();
-            if (GUILayout.Button("밤시중 플레그 처리")) CheatUtill.SetYotogiAll();
-            if (GUILayout.Button("일상 플레그 처리")) CheatUtill.SetWorkAll();
+            if (GUILayout.Button("시나리오 처리 처리")) CheatGUI.SetScenarioDataAll();
+            if (GUILayout.Button("프리 모드 플레그 처리")) CheatGUI.SetFreeModeItemEverydayAll();
+            if (GUILayout.Button("밤시중 플레그 처리")) CheatGUI.SetYotogiAll();
+            if (GUILayout.Button("일상 플레그 처리")) CheatGUI.SetWorkAll();
             if (GUILayout.Button("라이프 클리어 처리 ")) EmpireLifeModeManagerPatch.SetEmpireLifeModeDataAll();
-            if (GUILayout.Button("플레이어 치트 처리")) CheatUtill.SetAllPlayerStatus();
-            if (GUILayout.Button("스텟, 스킬, 잡, 클래스 처리")) CheatUtill.SetMaidStatusAll();
-            if (GUILayout.Button("모든 메이드 메이드 플레그 제거")) CheatUtill.RemoveEventEndFlagAll();
+            if (GUILayout.Button("플레이어 치트 처리")) CheatGUI.SetAllPlayerStatus();
+            if (GUILayout.Button("스텟, 스킬, 잡, 클래스 처리")) CheatGUI.SetMaidStatusAll();
+            if (GUILayout.Button("모든 메이드 메이드 플레그 제거")) CheatGUI.RemoveEventEndFlagAll();
 
             GUILayout.Label("메이드 관리에서 사용 SceneMaidManagement");
             GUI.enabled  = Lilly.scene.name == "SceneMaidManagement";
-            if (GUILayout.Button("선택 메이드 스텟, 스킬, 잡, 클래스 처리")) CheatUtill.SetMaidStatus();
-            if (GUILayout.Button("선택 메이드 플레그 제거")) CheatUtill.RemoveEventEndFlag();
+            if (GUILayout.Button("선택 메이드 스텟, 스킬, 잡, 클래스 처리")) CheatGUI.SetMaidStatus();
+            if (GUILayout.Button("선택 메이드 플레그 제거")) CheatGUI.RemoveEventEndFlag();
             GUI.enabled = true;
         }
 
@@ -121,10 +121,10 @@ namespace COM3D2.Lilly.Plugin
         {
             if (maid == null)
             {
-                MyLog.LogError("MaidStatusUtill.SetMaidStatus:null");
+                MyLog.LogFatal("MaidStatusUtill.SetMaidStatus:null");
                 return;
             }
-            MyLog.LogMessage("SetMaidStatus: " + MyUtill.GetMaidFullName(maid));
+            MyLog.LogMessage("SetMaidStatus : " + MyUtill.GetMaidFullName(maid));
 
             maid.status.employmentDay = 1;// 고용기간
 
@@ -153,155 +153,93 @@ namespace COM3D2.Lilly.Plugin
             maid.status.relation = Relation.Lover;// 호감도
             maid.status.seikeiken = Seikeiken.Yes_Yes;// 
 
-            MyLog.LogMessage(".SetMaidStatus.AddFeature: " + MyUtill.GetMaidFullName(maid));
-            try
-            {
 
-                foreach (Feature.Data data in Feature.GetAllDatas(true))
-                {
-                    maid.status.AddFeature(data);
-                }
-            }
-            catch (Exception e)
-            {
-                MyLog.LogError("SetMaidStatus: " + e.ToString());
-            }
+            // 특징
+            MyLog.LogMessage("SetMaidStatus.AddFeature: " + MyUtill.GetMaidFullName(maid));
+            foreach (Feature.Data data in Feature.GetAllDatas(true))            
+                maid.status.AddFeature(data);
+            
 
-            MyLog.LogMessage(".SetMaidStatus.AddPropensity: " + MyUtill.GetMaidFullName(maid));
-            try
-            {
-                // 특성
-                foreach (Propensity.Data data in Propensity.GetAllDatas(true))
-                {
-                    maid.status.AddPropensity(data);
-                }
-            }
-            catch (Exception e)
-            {
-                MyLog.LogError("SetMaidStatus: " + e.ToString());
-            }
+            // 성벽
+            MyLog.LogMessage("SetMaidStatus.AddPropensity: " + MyUtill.GetMaidFullName(maid));
+            foreach (Propensity.Data data in Propensity.GetAllDatas(true))            
+                maid.status.AddPropensity(data);
 
-            MyLog.LogMessage(".SetMaidStatus.YotogiClass: " + MyUtill.GetMaidFullName(maid));
-            // 피드러 참고
-            foreach (YotogiClass.Data data in YotogiClass.GetAllDatas(true))
-            {
-                ClassData<YotogiClass.Data> classData = maid.status.yotogiClass.Get(data.id) ?? maid.status.yotogiClass.Add(data, true, true);
-                if (classData != null)
-                {
-                    classData.expSystem.SetLevel(classData.expSystem.GetMaxLevel());
-                }
-            }
+            IEnumerable<SimpleExperienceSystem> expSystems;
 
+            #region YotogiClass
 
+            YotogiClassSystem yotogiClassSystem = maid.status.yotogiClass;
+            List<YotogiClass.Data> learnPossibleYotogiClassDatas = yotogiClassSystem.GetLearnPossibleClassDatas(true, AbstractClassData.ClassType.Share | AbstractClassData.ClassType.New | AbstractClassData.ClassType.Old);
+
+            MyLog.LogMessage("SetMaidStatus.YotogiClass learn", MyUtill.GetMaidFullName(maid), learnPossibleYotogiClassDatas.Count);
+            foreach (YotogiClass.Data data in learnPossibleYotogiClassDatas)
+                maid.status.yotogiClass.Add(data, true, true);            
+
+            var yotogiClassSystems = yotogiClassSystem.GetAllDatas().Values;
+            MyLog.LogMessage("SetMaidStatus.YotogiClass expSystem", MyUtill.GetMaidFullName(maid), yotogiClassSystems.Count);
+            SetExpMax(yotogiClassSystems.Select(x => x.expSystem));
+
+            #endregion
+
+            #region JobClass
 
             JobClassSystem jobClassSystem = maid.status.jobClass;
-            // 실패한듯
-            try
+            List<JobClass.Data> learnPossibleClassDatas = jobClassSystem.GetLearnPossibleClassDatas(true, AbstractClassData.ClassType.Share | AbstractClassData.ClassType.New | AbstractClassData.ClassType.Old);
+
+            MyLog.LogMessage("SetMaidStatus.JobClass.learn: " + MyUtill.GetMaidFullName(maid), learnPossibleClassDatas.Count);
+            foreach (JobClass.Data data in learnPossibleClassDatas)
+                jobClassSystem.Add(data, true, true);
+
+            var jobClassSystems = jobClassSystem.GetAllDatas().Values;// old 데이터 포함
+            MyLog.LogMessage("SetMaidStatus.JobClass.expSystem: " + MyUtill.GetMaidFullName(maid), jobClassSystems.Count);
+            SetExpMax(jobClassSystems.Select(x => x.expSystem));
+
+            #endregion
+
+
+
+            #region 스킬 영역
+
+            List<Skill.Data> learnPossibleSkills = Skill.GetLearnPossibleSkills(maid.status);
+            MyLog.LogMessage(".SetMaidStatus.Skill learn : " + MyUtill.GetMaidFullName(maid), learnPossibleSkills.Count);
+            foreach (Skill.Data data in learnPossibleSkills)
+                maid.status.yotogiSkill.Add(data);            
+
+            MyLog.LogMessage(".SetMaidStatus.Skill expSystem : " + MyUtill.GetMaidFullName(maid), maid.status.yotogiSkill.datas.Count);
+            SetExpMax(maid.status.yotogiSkill.datas.GetValueArray().Select(x => x.expSystem));
+
+
+            List<Skill.Old.Data> learnPossibleOldSkills = Skill.Old.GetLearnPossibleSkills(maid.status);
+            MyLog.LogMessage(".SetMaidStatus.Old.Skill learn : " + MyUtill.GetMaidFullName(maid), learnPossibleOldSkills.Count);
+            foreach (Skill.Old.Data data in learnPossibleOldSkills)
+                maid.status.yotogiSkill.Add(data);            
+
+            MyLog.LogMessage(".SetMaidStatus.Old.Skill expSystem : " + MyUtill.GetMaidFullName(maid), maid.status.yotogiSkill.oldDatas.Count);
+            SetExpMax(maid.status.yotogiSkill.oldDatas.GetValueArray().Select(x => x.expSystem));
+
+            #endregion
+
+
+            MyLog.LogMessage(".SetMaidStatus.WorkData max : " + MyUtill.GetMaidFullName(maid), maid.status.workDatas.Count);
+            foreach (WorkData workData in maid.status.workDatas.GetValueArray())
             {
-                List<JobClass.Data> learnPossibleClassDatas = jobClassSystem.GetLearnPossibleClassDatas(true, AbstractClassData.ClassType.Share | AbstractClassData.ClassType.New);
-                //MyLog.LogMessage(".SetMaidStatus.learn: " + MyUtill.GetMaidFullNale(maid));
-                MyLog.LogMessage(".JobClass.learn: " + MyUtill.GetMaidFullName(maid), learnPossibleClassDatas.Count);
-                // 클래스 추가?
-                foreach (JobClass.Data data in learnPossibleClassDatas)
-                {
-                    if (jobClassSystem.Contains(data))
-                        continue;
-
-                    MyLog.LogDebug(".JobClass.learn:" + data.id + " , " + data.uniqueName + " , " + data.drawName + " , " + data.explanatoryText + " , " + data.termExplanatoryText);
-                    MyLog.LogDebug(".JobClass.learn: " + jobClassSystem.Contains(data), MyUtill.Join(" , ", data.levelBonuss));
-                    
-                    ClassData<JobClass.Data> classData = jobClassSystem.Add(data, true, true);
-
-                    //ClassData<JobClass.Data> classData=jobClassSystem.Get(data);
-                    //SimpleExperienceSystem expSystem = classData.expSystem;
-                    //expSystem.SetTotalExp(expSystem.GetMaxLevelNeedExp());
-                    //expSystem.SetLevel(expSystem.GetMaxLevel());
-                }
-            }
-            catch (Exception e)
-            {
-                MyLog.LogError(".JobClass.learn: " + e.ToString());
-            }
-
-            try
-            {
-                SortedDictionary<int, ClassData<JobClass.Data>> keyValuePairs = jobClassSystem.GetAllDatas();
-                MyLog.LogMessage(".JobClass.expSystem: " + MyUtill.GetMaidFullName(maid), keyValuePairs.Count);
-                //MyLog.LogMessage("JobClass.expSystem: " + MaidUtill.GetMaidFullNale(maid), keyValuePairs.Count);
-                // 경험치 설정
-                foreach (var item in keyValuePairs)
-                {
-                    ClassData<JobClass.Data> classData = item.Value;
-                    JobClass.Data data = classData.data;
-                    SimpleExperienceSystem expSystem = classData.expSystem;
-
-                    if (expSystem.GetMaxLevel() == expSystem.GetCurrentLevel())
-                        continue;
-
-                    MyLog.LogDebug(".JobClass.expSystem:" + data.id + " , " + data.uniqueName + " , " + data.drawName + " , " + data.explanatoryText + " , " + data.termExplanatoryText);
-                    MyLog.LogDebug(".JobClass.expSystem:" + expSystem.GetType(), expSystem.GetMaxLevel(), expSystem.GetCurrentLevel());
-
-                    expSystem.SetTotalExp(expSystem.GetMaxLevelNeedExp());
-                    expSystem.SetLevel(expSystem.GetMaxLevel());
-                }
-                //maid.status.UpdateClassBonusStatus();
-            }
-            catch (Exception e)
-            {
-                MyLog.LogError(".JobClass.expSystem: " + e.ToString());
+                workData.level = 10;
+                workData.playCount = 9999U;
             }
 
 
-            // 스킬 추가
-            //___select_maid_.status.yotogiSkill.Add(skillId);
-            MyLog.LogMessage(".SetMaidStatus.Skill1: " + MyUtill.GetMaidFullName(maid));
-            try
-            {
-                List<Skill.Data> learnPossibleSkills = Skill.GetLearnPossibleSkills(maid.status);
-                foreach (Skill.Data data in learnPossibleSkills)
-                {
-                    MyLog.LogDebug("id: " + data.id + " , " + data.name + " , " + data.start_call_file + " , " + data.start_call_file2 + " , " + data.termName);
-#if DEBUG
-                    //MyLog.LogMessage(".Skill1: " + MaidUtill.GetMaidFullNale(maid));
-                    MyLog.LogDebug("ban_id_array: " + MyUtill.Join<int>(" , ", data.ban_id_array));
-                    MyLog.LogDebug("skill_exp_table: " + MyUtill.Join<int>(" , ", data.skill_exp_table));
-                    MyLog.LogDebug("playable_stageid_list: " + MyUtill.Join<int>(" , ", data.playable_stageid_list));
-#endif
-                    YotogiSkillData yotogiSkillData = maid.status.yotogiSkill.Add(data);
-                    SimpleExperienceSystem expSystem = yotogiSkillData.expSystem;
-                    expSystem.SetTotalExp(expSystem.GetMaxLevelNeedExp());
-                    expSystem.SetLevel(expSystem.GetMaxLevel());
-                }
-            }
-            catch (Exception e)
-            {
-                MyLog.LogWarning(".SetMaidStatus.Skill1: " + MyUtill.GetMaidFullName(maid));
-                MyLog.LogError(".SetMaidStatus.Skill1: " + e.ToString());
-            }
+        }
 
-            MyLog.LogMessage(".SetMaidStatus.Old.Skill: " + MyUtill.GetMaidFullName(maid));
-            try
+        private static void SetExpMax(IEnumerable<SimpleExperienceSystem> expSystems)
+        {
+            //int c = 0;
+            foreach (var expSystem in expSystems)
             {
-                List<Skill.Old.Data> learnPossibleSkills = Skill.Old.GetLearnPossibleSkills(maid.status);
-                foreach (Skill.Old.Data data in learnPossibleSkills)
-                {
-                    MyLog.LogDebug("id: " + data.id + " , " + data.name + " , " + data.start_call_file + " , " + data.start_call_file2);
-#if DEBUG
-                    MyLog.LogMessage(".Skill2: " + MyUtill.GetMaidFullName(maid));
-                    MyLog.LogDebug("ban_id_array: " + MyUtill.Join(" , ", data.ban_id_array));
-                    MyLog.LogDebug("skill_exp_table: " + MyUtill.Join(" , ", data.skill_exp_table));
-#endif
-                    YotogiSkillData yotogiSkillData = maid.status.yotogiSkill.Add(data);
-                    SimpleExperienceSystem expSystem = yotogiSkillData.expSystem;
-                    expSystem.SetTotalExp(expSystem.GetMaxLevelNeedExp());
-                    expSystem.SetLevel(expSystem.GetMaxLevel());
-                }
+                expSystem.SetLevel(expSystem.GetMaxLevel());
+             //   c++;
             }
-            catch (Exception e)
-            {
-                MyLog.LogWarning(".SetMaidStatus.Old.Skill: " + MyUtill.GetMaidFullName(maid));
-                MyLog.LogError(".SetMaidStatus.Old.Skill: " + MyUtill.GetMaidFullName(maid), e.ToString());
-            }
+            //MyLog.LogMessage("SetExpMax : " + c);
         }
 
         internal static void SetAllPlayerStatus()
