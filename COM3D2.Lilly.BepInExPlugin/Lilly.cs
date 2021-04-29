@@ -57,8 +57,8 @@ namespace COM3D2.Lilly.Plugin
             cheatUtill = new CheatGUI();
             easyUtill = new EasyUtill();
             maidEditGui = new MaidEditGui();
-            
 
+            GearMenu.SetButton();
         }
 
         /// <summary>
@@ -67,24 +67,16 @@ namespace COM3D2.Lilly.Plugin
 
         public void Awake()
         {
-
-
             System.Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             MyLog.LogMessage("Awake",dateTime.ToString("u"));
             MyLog.LogDarkBlue("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
 
             SceneEditPatch.Awake();
-            easyUtill.Awake();
             harmonyUtill.Awake();
 
+            
         }
-
-        public void Start()
-        {
-            //easyUtill.Start();
-        }
-
 
         public void OnEnable()
         {
@@ -94,6 +86,11 @@ namespace COM3D2.Lilly.Plugin
 
             HarmonyUtill.SetHarmonyPatchAll();
             
+        }
+
+        public void Start()
+        {
+            MyLog.LogMessage("Start");
         }
 
         public static Scene scene;
@@ -113,7 +110,7 @@ namespace COM3D2.Lilly.Plugin
                 , mode
                 , string.Format("{0:0.000} ", stopwatch.Elapsed.ToString())
                 );
-            GearMenu.SetButton();
+            
         }
 
         public void OnGUI()

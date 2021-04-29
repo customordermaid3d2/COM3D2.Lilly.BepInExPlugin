@@ -10,22 +10,32 @@ namespace COM3D2.Lilly.Plugin
     public class MaidEditGui : GUIVirtual
     {
         public static ConfigEntry<bool> _GP01FBFaceEyeRandomOnOff;
+        public static ConfigEntry<bool> newMaid;
+        public static ConfigEntry<bool> movMaid;
 
         public MaidEditGui()
         {
             name = "MaidEditGui";
+
             _GP01FBFaceEyeRandomOnOff = customFile.Bind(
-              "EasyUtill",
+              name,
               "_GP01FBFaceEyeRandomOnOff",
+              true
+              );
+
+            newMaid = customFile.Bind(
+              name,
+              "newMaid",
+              true
+              );
+
+            newMaid = customFile.Bind(
+              name,
+              "newMaid",
               true
               );
         }
 
-        internal void Awake()
-        {
-
-
-        }
         public override void SetButtonList()
         {
             GUILayout.Label("now scene.name : " + Lilly.scene.name);
@@ -41,11 +51,22 @@ namespace COM3D2.Lilly.Plugin
             if (GUILayout.Button("GP-01FB Face Eye Random UP")) GP01FBFaceEyeRandom(2);
             if (GUILayout.Button("GP-01FB Face Eye Random DOWN")) GP01FBFaceEyeRandom(3);
 
-            if (GUILayout.Button("New Maid")) SceneEditPatch.OnOffNewMaid();
-            GUI.enabled = !SceneEditPatch.newMaid;
-            if (GUILayout.Button("Mov Maid")) SceneEditPatch.OnOffMovMaid();
+            GUI.enabled = true;
+            if (GUILayout.Button("New Maid "+ newMaid.Value)) OnOffNewMaid();
+            GUI.enabled = !newMaid.Value;
+            if (GUILayout.Button("Mov Maid "+ movMaid.Value)) OnOffMovMaid();
             
             GUI.enabled = true;
+        }
+
+        public static void OnOffNewMaid()
+        {
+            newMaid.Value = !newMaid.Value;
+        }
+
+        public static void OnOffMovMaid()
+        {
+            movMaid.Value = !movMaid.Value;
         }
 
         private void AddStockMaid()

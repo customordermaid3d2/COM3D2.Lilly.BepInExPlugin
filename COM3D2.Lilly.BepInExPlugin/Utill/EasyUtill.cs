@@ -31,15 +31,6 @@ namespace COM3D2.Lilly.Plugin
             );
         }
 
-        internal void Awake()
-        {          
-
-        }
-        /*
-        public void Start()
-        {               
-        }
-        */
         public void SetScene()
         {
             //scene=SceneManager.GetSceneByName("SceneDaily");

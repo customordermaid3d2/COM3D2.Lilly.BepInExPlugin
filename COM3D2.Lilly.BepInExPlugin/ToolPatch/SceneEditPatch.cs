@@ -92,9 +92,6 @@ namespace COM3D2.Lilly.Plugin
 
         }
 
-        public static bool newMaid;
-        public static bool movMaid;
-
         // private string m_strScriptArg;
         [HarmonyPrefix, HarmonyPatch(typeof(SceneEdit), "OnEndScene")]
         public static void OnEndScene(string ___m_strScriptArg, Maid ___m_maid)
@@ -104,25 +101,17 @@ namespace COM3D2.Lilly.Plugin
             );
             //___m_strScriptArg = "";
             //___m_maid.
-            if (newMaid)
+            if (MaidEditGui.newMaid.Value)
             {
                 GameMain.Instance.CMSystem.SetTmpGenericFlag("新規雇用メイド", 1);
             }
-            else if (movMaid)
+            else if (MaidEditGui.movMaid.Value)
             {
                 GameMain.Instance.CMSystem.SetTmpGenericFlag("移籍メイド", 1);
             }
         }
 
-        public static void OnOffNewMaid()
-        {
-            newMaid =!newMaid;
-        }
-        
-        public static void OnOffMovMaid()
-        {
-            movMaid = !movMaid;
-        }
+
 
 
         // private void OnEndScene()

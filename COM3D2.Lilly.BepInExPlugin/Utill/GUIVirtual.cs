@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using BepInEx.Configuration;
+using COM3D2API;
 
 namespace COM3D2.Lilly.Plugin
 {
@@ -41,17 +42,22 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogDebug("GUIVirtual()");
 
             SetName();
-            isGuiOff += SetGuiOff;
-            actionsOnGui += OnGui;
+            NewMethod();
 
         }
 
         public GUIVirtual(string name)
         {
-            MyLog.LogDebug("GUIVirtual()",name);
+            MyLog.LogDebug("GUIVirtual()", name);
             this.name = name;
+            NewMethod();
+        }
+
+        private void NewMethod()
+        {
             isGuiOff += SetGuiOff;
             actionsOnGui += OnGui;
+            SystemShortcutAPI.AddButton(name, new Action(SetGuiOnOff), name, GearMenu.png);
         }
 
         public static void SetGuiOffAll()

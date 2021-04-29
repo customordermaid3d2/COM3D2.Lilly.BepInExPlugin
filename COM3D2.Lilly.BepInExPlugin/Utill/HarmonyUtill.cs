@@ -36,7 +36,6 @@ namespace COM3D2.Lilly.Plugin
 
         internal void Awake()
         {
-            customFile = Lilly.customFile;
             SetHarmonyListAll();
         }
 
@@ -188,7 +187,7 @@ namespace COM3D2.Lilly.Plugin
         public static void SetHarmonyPatch(Type item)
         {
             ConfigEntry<bool> t = customFile.Bind(
-                "HarmonyUtill",
+                Instance.name,
                 item.Name,
                 true
                 );
@@ -225,7 +224,8 @@ namespace COM3D2.Lilly.Plugin
 
         public static void SetHarmonyUnPatch(Type item)
         {
-            ConfigEntry<bool> t = customFile.Bind("HarmonyUtill",
+            ConfigEntry<bool> t = customFile.Bind(
+                Instance.name,
                 item.Name,
                 false);
                 t.Value = false;
