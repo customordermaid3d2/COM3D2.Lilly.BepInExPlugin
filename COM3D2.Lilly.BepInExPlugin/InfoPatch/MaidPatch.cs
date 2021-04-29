@@ -85,7 +85,7 @@ namespace COM3D2.Lilly.Plugin
             }
             if (maidProp.strFileName.Length !=0)
             {
-                MyLog.LogMessage(s+ ": " + maidProp.idx.ToString().PadLeft(3) , maidProp.strFileName);
+                MyLog.LogMessage(s+ ": " + (MPN)maidProp.idx , maidProp.strFileName);
             }
         }
 

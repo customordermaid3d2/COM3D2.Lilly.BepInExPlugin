@@ -81,8 +81,10 @@ namespace COM3D2.Lilly.Plugin
             //infoList.Add(typeof(BoneMorph_Patch));//157 임시조치용 메이드 보이스 피치
             //infoList.Add(typeof(CameraMainPatch));// 페이드 인 아웃 확인용
             infoList.Add(typeof(CharacterMgrPatch));// 프리셋값 출력용
+            infoList.Add(typeof(GameObjectPatch));// 
             infoList.Add(typeof(MaidPatch));// 아이템 장착 확인용
             infoList.Add(typeof(ScheduleMgrPatch));// 스케줄 관리
+            infoList.Add(typeof(StatusPatch));// 스케줄 관리
             infoList.Add(typeof(TBodyPatch));// 스케줄 관리
             //infoList.Add(typeof(FullBodyIKMgrPatch));// 뼈 관련. 안뜨는거 같음
         }
@@ -238,6 +240,7 @@ namespace COM3D2.Lilly.Plugin
                 {
                     harmonys.Remove(item);
                     harmony.UnpatchSelf();
+                    
                 }
             }
             catch (Exception e)

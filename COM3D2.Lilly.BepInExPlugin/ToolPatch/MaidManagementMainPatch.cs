@@ -56,13 +56,14 @@ namespace COM3D2.Lilly.Plugin
         /// 고용 ok 누를시
         /// </summary>
         [HarmonyPostfix, HarmonyPatch(typeof(MaidManagementMain), "Employment")]
-        public static void Employment()
+        public static void Employment(string ___new_edit_label_)
         {
             newMaid = true;
             MyLog.LogMessage("MaidManagementMain.Employment"
                 //, EasyUtill._GP01FBFaceEyeRandomOnOff.Value
                 //, EasyUtill._SetMaidStatusOnOff.Value
                 , newMaid
+                , ___new_edit_label_
                 );
 
             // GameMain.Instance.SysDlg.Close();
@@ -86,15 +87,29 @@ namespace COM3D2.Lilly.Plugin
             }
             Maid maid = GameMain.Instance.CharacterMgr.GetMaid(0);
 
-            if (EasyUtill._GP01FBFaceEyeRandomOnOff.Value)
-                EasyUtill.GP01FBFaceEyeRandom(1, maid);
+            PersonalUtill.SetPersonalRandom(maid);
 
             if (EasyUtill._SetMaidStatusOnOff.Value)
                 CheatGUI.SetMaidStatus(maid);
 
-            PersonalUtill.SetPersonalRandom(maid);
             PresetUtill.RandPreset(PresetUtill.ListType.All, PresetUtill.PresetType.All, maid);
 
+            if (MaidEditGui._GP01FBFaceEyeRandomOnOff.Value)
+            {
+                try
+                {
+                    maid.SetProp(MPN.head, "face001_fb_i_.menu", "face001_fb_i_.menu".GetHashCode(), false, false);
+                    MaidEditGui.GP01FBFaceEyeRandom(1, maid);
+                }
+                catch (Exception e)
+                {
+                    MyLog.LogMessage(
+                        "newMaidSetting"
+                        ,e.ToString()
+                    );
+                }
+
+            }
             newMaid = false;
         }
     }

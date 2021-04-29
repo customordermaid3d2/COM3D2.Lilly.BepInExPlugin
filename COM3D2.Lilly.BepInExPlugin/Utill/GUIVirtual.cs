@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using BepInEx.Configuration;
 
 namespace COM3D2.Lilly.Plugin
 {
@@ -12,6 +13,8 @@ namespace COM3D2.Lilly.Plugin
     /// </summary>
     public class GUIVirtual
     {
+        public static ConfigFile customFile;
+
         private static int WindowId = new System.Random().Next();
         private static Rect windowRect = new Rect(40f, 40f, 300f, 300f);
         // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
@@ -21,6 +24,7 @@ namespace COM3D2.Lilly.Plugin
         private bool isGuiOn = false;
 
         public static event Action isGuiOff;
+        public static event Action actionsOnGui;
 
         public string name= "GUIVirtual";
 
@@ -34,19 +38,30 @@ namespace COM3D2.Lilly.Plugin
 
         public GUIVirtual()
         {
+            MyLog.LogDebug("GUIVirtual()");
+
             SetName();
             isGuiOff += SetGuiOff;
+            actionsOnGui += OnGui;
+
         }
 
         public GUIVirtual(string name)
         {
+            MyLog.LogDebug("GUIVirtual()",name);
             this.name = name;
             isGuiOff += SetGuiOff;
+            actionsOnGui += OnGui;
         }
 
         public static void SetGuiOffAll()
         {
             isGuiOff();
+        }
+
+        public static void ActionsOnGui()
+        {
+            actionsOnGui();
         }
 
         public virtual void SetName()
@@ -58,8 +73,6 @@ namespace COM3D2.Lilly.Plugin
         {
             this.name = name;
         }
-
-
 
         public virtual void SetGuiOff()
         {

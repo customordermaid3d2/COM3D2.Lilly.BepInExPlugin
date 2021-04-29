@@ -42,17 +42,23 @@ namespace COM3D2.Lilly.Plugin
         public static InfoUtill? infoUtill;
         public static CheatGUI? cheatUtill;
         public static EasyUtill? easyUtill;
+        public static MaidEditGui? maidEditGui;
 
         public Lilly()
         {
-            harmonyUtill=new HarmonyUtill();
+            stopwatch.Start(); // 시간측정 시작
+            MyLog.LogDarkBlue("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
+
+            customFile = Config;
+            GUIVirtual.customFile = Lilly.customFile;
+
+            harmonyUtill =new HarmonyUtill();
             infoUtill = new InfoUtill();
             cheatUtill = new CheatGUI();
             easyUtill = new EasyUtill();
+            maidEditGui = new MaidEditGui();
             
 
-            stopwatch.Start(); // 시간측정 시작
-            MyLog.LogDarkBlue("Lilly" , string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
         }
 
         /// <summary>
@@ -61,23 +67,22 @@ namespace COM3D2.Lilly.Plugin
 
         public void Awake()
         {
-            customFile = Config;
+
 
             System.Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             MyLog.LogMessage("Awake",dateTime.ToString("u"));
             MyLog.LogDarkBlue("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
-                     
 
+            SceneEditPatch.Awake();
             easyUtill.Awake();
-            harmonyUtill.Awake();            
+            harmonyUtill.Awake();
 
-            SetOnGUIlist();
         }
 
         public void Start()
         {
-            easyUtill.Start();
+            //easyUtill.Start();
         }
 
 
@@ -111,16 +116,6 @@ namespace COM3D2.Lilly.Plugin
             GearMenu.SetButton();
         }
 
-        public static event Action actionsOnGui;
-
-        public void SetOnGUIlist()
-        {
-            actionsOnGui+= harmonyUtill.OnGui;
-            actionsOnGui+= infoUtill.OnGui;
-            actionsOnGui+= cheatUtill.OnGui;
-            actionsOnGui+= easyUtill.OnGui;
-        }
-
         public void OnGUI()
         {
             /*
@@ -129,7 +124,7 @@ namespace COM3D2.Lilly.Plugin
                 return;
             }
             */
-            actionsOnGui();
+            GUIVirtual.ActionsOnGui();
         }
 
         public void OnDisable()

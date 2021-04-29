@@ -11,9 +11,34 @@ namespace COM3D2.Lilly.Plugin
     /// </summary>
     class SceneEditPatch
     {
-        // SceneEdit
+        // SceneEdit        
 
-        //private List<SceneEdit.SliderItemSet> m_listSliderItem;
+        //public static List<SceneEdit.SliderItemSet> m_listSliderItem;
+        //public static Type sliderItemSet;
+        //public static SceneEdit Instance;
+
+        public static void Awake()
+        {
+            /*
+            try
+            {
+                sliderItemSet = AccessTools.TypeByName("SliderItemSet");
+                sliderItemSet.GetProperty("m_listSliderItem");
+            }
+            catch (Exception e)
+            {
+                MyLog.LogError("SceneEdit.Awake", e.ToString());
+            }
+            */
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), MethodType.Constructor)]
+        public static void SceneEditCtor()//SceneEdit __Instance  // Constructor에서는 안먹힘 생성도 안됐기때문?
+        {
+            MyLog.LogMessage("SceneEdit.Constructor");
+            //Instance = __Instance;
+            //Instance = SceneEdit.Instance;
+        }
 
         /// <summary>
         /// 오류나서 제거
@@ -67,23 +92,40 @@ namespace COM3D2.Lilly.Plugin
 
         }
 
-        // private void OnCompleteFadeIn()
-        [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), "OnCompleteFadeIn")]
-        public static void OnCompleteFadeIn()
-        {
-            MyLog.LogMessage("SceneEdit.OnCompleteFadeIn"
-                , EasyUtill._GP01FBFaceEyeRandomOnOff.Value
-                , EasyUtill._SetMaidStatusOnOff.Value
-                );
+        public static bool newMaid;
+        public static bool movMaid;
 
-            MaidManagementMainPatch.newMaidSetting();
+        // private string m_strScriptArg;
+        [HarmonyPrefix, HarmonyPatch(typeof(SceneEdit), "OnEndScene")]
+        public static void OnEndScene(string ___m_strScriptArg, Maid ___m_maid)
+        {
+            MyLog.LogMessage("SceneEdit.OnEndScene"
+               , ___m_strScriptArg
+            );
+            //___m_strScriptArg = "";
+            //___m_maid.
+            if (newMaid)
+            {
+                GameMain.Instance.CMSystem.SetTmpGenericFlag("新規雇用メイド", 1);
+            }
+            else if (movMaid)
+            {
+                GameMain.Instance.CMSystem.SetTmpGenericFlag("移籍メイド", 1);
+            }
         }
+
+        public static void OnOffNewMaid()
+        {
+            newMaid =!newMaid;
+        }
+        
+        public static void OnOffMovMaid()
+        {
+            movMaid = !movMaid;
+        }
+
 
         // private void OnEndScene()
-        [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), "OnEndScene")]
-        public static void OnEndScene()
-        {
-            MyLog.LogMessage("SceneEdit.OnEndScene");
-        }
+
     }
 }

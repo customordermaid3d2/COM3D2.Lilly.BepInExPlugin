@@ -20,8 +20,8 @@ namespace COM3D2.Lilly.Plugin
             if (GUILayout.Button("게임 정보 얻기 관련")) InfoUtill.GetGameInfo();
             if (GUILayout.Button("Scene 얻기 관련")) InfoUtill.GetSceneInfo();
             if (GUILayout.Button("정보 얻기 바디 관련")) InfoUtill.GetTbodyInfo();
-            if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) InfoUtill.GetMaidFlag();
             if (GUILayout.Button("정보 얻기 플레이어 관련")) InfoUtill.GetPlayerInfo();
+            if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) InfoUtill.GetMaidFlag();
             if (GUILayout.Button("정보 얻기 메이드 관련")) InfoUtill.GetMaidInfo();
             #if COM3D2_157
             if (GUILayout.Button("GetStrIKCtrlPairInfo")) FullBodyIKMgrPatch.GetStrIKCtrlPairInfo();
@@ -268,6 +268,12 @@ namespace COM3D2.Lilly.Plugin
             foreach (var item in flags)
             {
                 MyLog.LogMessage("flags: " + item.Key, item.Value);
+            }
+
+            flags = maid_.status.OldStatus.flags;
+            foreach (var item in flags)
+            {
+                MyLog.LogMessage("old.flags: " + item.Key, item.Value);
             }
 
             ReadOnlyDictionary<int, WorkData> workDatas = maid_.status.workDatas;
