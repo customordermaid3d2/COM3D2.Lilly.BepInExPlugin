@@ -10,8 +10,8 @@ namespace COM3D2.Lilly.Plugin
     public class MaidEditGui : GUIVirtual
     {
         public static ConfigEntry<bool> _GP01FBFaceEyeRandomOnOff;
-        public static ConfigEntry<bool> newMaid;
-        public static ConfigEntry<bool> movMaid;
+        public static ConfigEntry<bool>? newMaid;
+        public static ConfigEntry<bool>? movMaid;
 
         public MaidEditGui()
         {
@@ -29,9 +29,9 @@ namespace COM3D2.Lilly.Plugin
               true
               );
 
-            newMaid = customFile.Bind(
+            movMaid = customFile.Bind(
               name,
-              "newMaid",
+              "movMaid",
               true
               );
         }
@@ -121,26 +121,26 @@ namespace COM3D2.Lilly.Plugin
 
         public static void GP01FBFaceEyeRandomDown(Maid m_maid)
         {
-            SetMaidPropRandom(m_maid, "mabutalowin");
-            SetMaidPropRandom(m_maid, "mabutalowupmiddle");
-            SetMaidPropRandom(m_maid, "mabutalowupout");
-        }
-        public static void GP01FBFaceEyeRandomUp(Maid m_maid)
-        {
-            SetMaidPropRandom(m_maid, "mabutaupin");
-            SetMaidPropRandom(m_maid, "mabutaupin2");
-            SetMaidPropRandom(m_maid, "mabutaupmiddle");
-            SetMaidPropRandom(m_maid, "mabutaupout");
-            SetMaidPropRandom(m_maid, "mabutaupout2");
+            SetMaidPropRandom(m_maid, MPN.MabutaLowIn);
+            SetMaidPropRandom(m_maid, MPN.MabutaLowUpMiddle);
+            SetMaidPropRandom(m_maid, MPN.MabutaLowUpOut);
         }
 
-        private static void SetMaidPropRandom(Maid m_maid, string Tag)
+        public static void GP01FBFaceEyeRandomUp(Maid m_maid)
+        {
+            SetMaidPropRandom(m_maid, MPN.MabutaUpIn);
+            SetMaidPropRandom(m_maid, MPN.MabutaUpIn2);
+            SetMaidPropRandom(m_maid, MPN.MabutaUpMiddle);
+            SetMaidPropRandom(m_maid, MPN.MabutaUpOut);
+            SetMaidPropRandom(m_maid, MPN.MabutaUpOut2);
+        }
+
+        private static void SetMaidPropRandom(Maid m_maid, MPN tag)
         {
             try
             {
-                MaidProp maidProp = m_maid.GetProp(Tag);
-                //maidProp.value = UnityEngine.Random.Range(maidProp.min, maidProp.max);
-                m_maid.SetProp(Tag,UnityEngine.Random.Range(maidProp.min, maidProp.max));
+                MaidProp maidProp = m_maid.GetProp(tag);
+                m_maid.SetProp(tag, UnityEngine.Random.Range(maidProp.min, maidProp.max));
             }
             catch (Exception e)
             {

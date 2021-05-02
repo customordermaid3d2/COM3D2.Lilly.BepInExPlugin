@@ -116,9 +116,14 @@ namespace COM3D2.Lilly.Plugin
             GUILayout.BeginVertical();
 
             GUILayout.Label(name+" List");
-
-            SetButtonList();
-
+            //try
+            //{
+                SetButtonList();
+            //}
+            //catch (Exception e)
+            //{
+            //    MyLog.LogFatal("SetButtonList", e.ToString());
+            //}
             GUILayout.FlexibleSpace();
 
             GUILayout.EndVertical();

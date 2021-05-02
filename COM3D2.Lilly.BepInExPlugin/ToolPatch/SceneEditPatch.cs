@@ -99,8 +99,6 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogMessage("SceneEdit.OnEndScene"
                , ___m_strScriptArg
             );
-            //___m_strScriptArg = "";
-            //___m_maid.
             if (MaidEditGui.newMaid.Value)
             {
                 GameMain.Instance.CMSystem.SetTmpGenericFlag("新規雇用メイド", 1);
