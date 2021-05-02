@@ -26,6 +26,8 @@ namespace COM3D2.Lilly.Plugin
 
         public static event Action isGuiOff;
         public static event Action actionsOnGui;
+        public static event Action actionsAwake;
+        public static event Action actionsStart;
 
         public string name= "GUIVirtual";
 
@@ -57,6 +59,8 @@ namespace COM3D2.Lilly.Plugin
         {
             isGuiOff += SetGuiOff;
             actionsOnGui += OnGui;
+            actionsAwake += Awake;
+            actionsStart += Start;
             SystemShortcutAPI.AddButton(name, new Action(SetGuiOnOff), name, GearMenu.png);
         }
 
@@ -68,6 +72,16 @@ namespace COM3D2.Lilly.Plugin
         public static void ActionsOnGui()
         {
             actionsOnGui();
+        }
+
+        public static void ActionsAwake()
+        {
+            actionsAwake();
+        }
+
+        public static void ActionsStart()
+        {
+            actionsStart();
         }
 
         public virtual void SetName()
@@ -83,13 +97,23 @@ namespace COM3D2.Lilly.Plugin
         public virtual void SetGuiOff()
         {
             isGuiOn = false;
-            MyLog.LogMessage("SetGuiOff", name, IsGuiOn);
+            MyLog.LogDebug("SetGuiOff", name, IsGuiOn);
         }
 
         public virtual void SetGuiOnOff()
         {
             IsGuiOn = !IsGuiOn;
-            MyLog.LogMessage("SetGuiOnOff", name, IsGuiOn);
+            MyLog.LogDebug("SetGuiOnOff", name, IsGuiOn);
+        }
+
+        public virtual void Awake()
+        {
+            MyLog.LogDebug("Awake", name);
+        }
+
+        public virtual void Start()
+        {
+            MyLog.LogDebug("Start", name);
         }
 
         public virtual void OnGui()

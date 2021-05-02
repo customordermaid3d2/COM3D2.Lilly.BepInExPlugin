@@ -46,6 +46,7 @@ namespace COM3D2.Lilly.Plugin
 
         public Lilly()
         {
+            MyLog.LogDebug("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
             stopwatch.Start(); // 시간측정 시작
             MyLog.LogDarkBlue("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 
@@ -70,12 +71,9 @@ namespace COM3D2.Lilly.Plugin
             System.Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             MyLog.LogMessage("Awake",dateTime.ToString("u"));
-            MyLog.LogDarkBlue("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
 
             SceneEditPatch.Awake();
-            harmonyUtill.Awake();
-
-            
+            GUIVirtual.ActionsAwake();
         }
 
         public void OnEnable()
@@ -91,6 +89,7 @@ namespace COM3D2.Lilly.Plugin
         public void Start()
         {
             MyLog.LogMessage("Start");
+            GUIVirtual.ActionsStart();
         }
 
         public static Scene scene;
@@ -121,6 +120,7 @@ namespace COM3D2.Lilly.Plugin
                 return;
             }
             */
+            
             GUIVirtual.ActionsOnGui();
         }
 

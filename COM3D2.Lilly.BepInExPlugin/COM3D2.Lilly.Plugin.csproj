@@ -64,8 +64,7 @@
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\MonoMod.Utils.dll</HintPath>
 	  </Reference>
 	  <Reference Include="System.Threading">
-	    <HintPath>..\lib\System.Threading.dll</HintPath>
-	    <Private>false</Private>
+	    <HintPath>..\..\_lib\System.Threading.dll</HintPath>
 	  </Reference>
 	  <Reference Include="UnityEngine">
 	    <HintPath>..\lib\UnityEngine.dll</HintPath>

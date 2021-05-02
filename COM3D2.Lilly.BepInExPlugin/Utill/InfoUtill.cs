@@ -3426,4 +3426,92 @@ namespace COM3D2.Lilly.Plugin
 [Message:     Lilly] havePartsItems , 390 , 390
 [Message:     Lilly] havePartsItems , 999 , 999
 [Message:     Lilly] havePartsItems , 1000 , 1000
+
+
+
+
+
+namespace MaidStatus
+{
+	public enum AdditionalRelation
+	{
+		Null,
+		Vigilance,
+		LoverPlus,
+		Slave
+	}
+}
+
+namespace MaidStatus
+{
+	public enum HeroineType
+	{
+		Original,
+		Sub,
+		Transfer
+	}
+}
+
+namespace MaidStatus
+{
+	public enum Seikeiken
+	{
+		No_No,
+		Yes_No,
+		No_Yes,
+		Yes_Yes
+	}
+}
+
+namespace MaidStatus
+{
+	public enum Relation
+	{
+		Contact,
+		Trust,
+		Lover
+	}
+}
+
+namespace MaidStatus
+{
+	public enum SpecialRelation
+	{
+		Null,
+		Married
+	}
+}
+
+namespace MaidStatus
+{
+	public enum Feeling
+	{
+		Bad,
+		Normal = 10,
+		Goood = 20
+	}
+}
+
+namespace MaidStatus
+{
+	public enum VoiceGroup
+	{
+		Heroine,
+		Sub,
+		Extra,
+		Mob
+	}
+}
+
+namespace MaidStatus
+{
+	public enum Contract
+	{
+		Trainee,
+		Free,
+		Exclusive
+	}
+}
+
+
     */
