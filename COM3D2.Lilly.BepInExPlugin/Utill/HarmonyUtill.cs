@@ -1,5 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using COM3D2.Lilly.Plugin.InfoPatch;
+using COM3D2.Lilly.Plugin.ToolPatch;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -52,6 +54,7 @@ namespace COM3D2.Lilly.Plugin
 
             toolList.Add(typeof(AbstractFreeModeItemPatch));// 프리 모드에서 모든 이벤트 열기 위한용 오버 플로우
             toolList.Add(typeof(EmpireLifeModeManagerToolPatch));// 회상모드 시나리오 처리용?
+            toolList.Add(typeof(GameMainPatch));// 회상모드 시나리오 처리용?
             toolList.Add(typeof(MaidManagementMainPatch));//메이드 관리에서 모든 버튼 활성화
             toolList.Add(typeof(SceneEditPatch)); //메이드 에딧 진입시 모든 스텟 적용
             toolList.Add(typeof(ScenarioDataPatch));// 회상모드 시나리오 처리용?
@@ -81,6 +84,7 @@ namespace COM3D2.Lilly.Plugin
             //infoList.Add(typeof(CameraMainPatch));// 페이드 인 아웃 확인용
             infoList.Add(typeof(CharacterMgrPatch));// 프리셋값 출력용
             infoList.Add(typeof(GameObjectPatch));// 
+            infoList.Add(typeof(KagScriptPatch));// 
             infoList.Add(typeof(MaidPatch));// 아이템 장착 확인용
             infoList.Add(typeof(ScheduleMgrPatch));// 스케줄 관리
             infoList.Add(typeof(StatusPatch));// 스케줄 관리
