@@ -11,8 +11,8 @@ namespace COM3D2.Lilly.Plugin
     public class MaidEditGui : GUIVirtual
     {
         public static ConfigEntry<bool> _GP01FBFaceEyeRandomOnOff;
-        public static ConfigEntry<bool>? newMaid;
-        public static ConfigEntry<bool>? movMaid;
+        public static ConfigEntry<bool> newMaid;
+        public static ConfigEntry<bool> movMaid;
 
         public MaidEditGui()
         {

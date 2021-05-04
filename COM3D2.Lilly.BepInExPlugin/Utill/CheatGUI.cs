@@ -165,7 +165,7 @@ namespace COM3D2.Lilly.Plugin
             foreach (Propensity.Data data in Propensity.GetAllDatas(true))            
                 maid.status.AddPropensity(data);
 
-            IEnumerable<SimpleExperienceSystem> expSystems;
+            //IEnumerable<SimpleExperienceSystem> expSystems;
 
             #region YotogiClass
 

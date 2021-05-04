@@ -17,8 +17,8 @@ namespace COM3D2.Lilly.Plugin
     {
         // EmpireLifeModeManager
 
-        public static Dictionary<string, DataArray<int, byte>>? m_SaveDataMaidScenarioExecuteCountArray;//= new Dictionary<string, DataArray<int, byte>>();
-        public static DataArray<int, byte>? m_SaveDataScenarioExecuteCountArray;// = new DataArray<int, byte>();
+        public static Dictionary<string, DataArray<int, byte>> m_SaveDataMaidScenarioExecuteCountArray;//= new Dictionary<string, DataArray<int, byte>>();
+        public static DataArray<int, byte> m_SaveDataScenarioExecuteCountArray;// = new DataArray<int, byte>();
 
         [HarmonyPatch(typeof(EmpireLifeModeManager), MethodType.Constructor)]
         [HarmonyPostfix]//HarmonyPostfix ,HarmonyPrefix

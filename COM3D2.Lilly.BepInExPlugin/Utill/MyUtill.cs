@@ -66,6 +66,7 @@ namespace COM3D2.Lilly.Plugin
         {
             return maid.status.fullNameEnStyle;
 
+            /*
             StringBuilder s = new StringBuilder();
 			if (maid.status != null)
 			{
@@ -81,6 +82,7 @@ namespace COM3D2.Lilly.Plugin
 				//}
 			}
 			return s.ToString();
+            */
 		}
 
         /// <summary>

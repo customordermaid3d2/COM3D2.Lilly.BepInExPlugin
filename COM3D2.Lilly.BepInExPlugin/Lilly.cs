@@ -38,11 +38,11 @@ namespace COM3D2.Lilly.Plugin
             isGuiOn = !isGuiOn;
         }
 
-        public static HarmonyUtill? harmonyUtill;
-        public static InfoUtill? infoUtill;
-        public static CheatGUI? cheatUtill;
-        public static EasyUtill? easyUtill;
-        public static MaidEditGui? maidEditGui;
+        public static HarmonyUtill harmonyUtill;
+        public static InfoUtill infoUtill;
+        public static CheatGUI cheatUtill;
+        public static EasyUtill easyUtill;
+        public static MaidEditGui maidEditGui;
 
         public Lilly()
         {
