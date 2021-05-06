@@ -1,4 +1,5 @@
 ﻿using BepInEx.Configuration;
+using COM3D2.Lilly.Plugin.ToolPatch;
 using MaidStatus;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,7 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
         {
             GUILayout.Label("now scene.name : " + Lilly.scene.name);
             //GUILayout.Label("------------");
+            if (GUILayout.Button("SetRandomCommu")) { ScheduleAPIPatch.SetRandomCommu(true); ScheduleAPIPatch.SetRandomCommu(false); };
             if (GUILayout.Button("Maid add")) AddStockMaid();
             if (GUILayout.Button("Personal Rand " + rnd + " " + PersonalNames[selGridInt])) rnd=!rnd;
             if (!rnd)

@@ -13,13 +13,21 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
     {
         //GameMain
 
+        // public void LoadScene(string f_strSceneName)
+        [HarmonyPatch(typeof(GameMain), "LoadScene")]
+        [HarmonyPostfix]
+        public static void LoadScene(string f_strSceneName)
+        {
+            MyLog.LogMessage("GameMain.LoadScene", f_strSceneName);
+        }
+
         // public bool Deserialize(int f_nSaveNo, bool scriptExec = true)
 
         [HarmonyPatch(typeof(GameMain), "Deserialize",new Type[] { typeof(int) , typeof(bool) })]
         [HarmonyPostfix]
         public static void Deserialize(ref bool __result)
         {
-            MyLog.LogMessage("Deserialize.", __result);
+            MyLog.LogMessage("Deserialize", __result);
             if (!__result)
             {
                 //UICamera.InputEnable = true;
@@ -37,7 +45,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyFinalizer]
         public static void DeserializeFinalizer(ref Exception __exception)
         {
-            MyLog.LogMessage("DeserializeFinalizer.");
+            MyLog.LogMessage("DeserializeFinalizer");
         }
     }
 }

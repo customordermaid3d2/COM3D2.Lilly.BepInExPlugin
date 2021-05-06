@@ -48,9 +48,6 @@
 	  <Reference Include="COM3D2.ExternalSaveData.Managed">
 	    <HintPath>F:\COM3D2_155\Sybaris\COM3D2.ExternalSaveData.Managed.dll</HintPath>
 	  </Reference>
-	  <Reference Include="COM3D2.NPRShader.Plugin">
-	    <HintPath>F:\COM3D2_155\Sybaris\UnityInjector\COM3D2.NPRShader.Plugin.dll</HintPath>
-	  </Reference>
 	  <Reference Include="Mono.Cecil">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\Mono.Cecil.dll</HintPath>
 	  </Reference>

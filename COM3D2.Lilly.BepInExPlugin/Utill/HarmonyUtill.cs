@@ -85,6 +85,7 @@ namespace COM3D2.Lilly.Plugin
             infoList.Add(typeof(KagScriptPatch));// 
             infoList.Add(typeof(MaidPatch));// 아이템 장착 확인용
             infoList.Add(typeof(ScheduleMgrPatch));// 스케줄 관리
+            infoList.Add(typeof(SceneMgrPatch));
             infoList.Add(typeof(StatusPatch));// 스케줄 관리
             infoList.Add(typeof(TBodyPatch));// 스케줄 관리
             //infoList.Add(typeof(FullBodyIKMgrPatch));// 뼈 관련. 안뜨는거 같음

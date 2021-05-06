@@ -89,6 +89,7 @@ MaidManagementMainPatch.newMaidSetting SceneEditPatch.OnCompleteFadeIn 필요
 - SceneEditPatch : 메이드 에딧 진입시 모든 스텟 적용 (SetMaidStatus)  
 - SceneFreeModeSelectManagerPatch : 회상모드에서 H이벤트 활성?  
 - ScheduleAPIPatch : 스케줄 관리에서 모든 스케줄 사용 가능? 비추천?  
+- SceneMgrPatch : 커뮤니티할 메이드 랜덤 선택
 
 
 ## InfoUtill
