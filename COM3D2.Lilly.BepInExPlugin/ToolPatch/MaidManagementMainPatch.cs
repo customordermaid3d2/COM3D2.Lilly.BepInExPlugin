@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace COM3D2.Lilly.Plugin
+namespace COM3D2.Lilly.Plugin.ToolPatch
 {
     /// <summary>
     /// 메이드 관리 화면
@@ -15,7 +15,7 @@ namespace COM3D2.Lilly.Plugin
     {
 
 
-        public static bool newMaid=false;
+        public static bool newMaid = false;
         public static Maid ___select_maid_;
         /// <summary>
         /// 메이드 관리에서 모든 버튼 활성화
@@ -28,7 +28,7 @@ namespace COM3D2.Lilly.Plugin
         {
             // 현제 선택한 메이드 표시
             MyLog.LogMessage(
-                "MaidManagementMain.OnSelectChara:" 
+                "MaidManagementMain.OnSelectChara:"
                 , MyUtill.GetMaidFullName(___select_maid_));
             MaidManagementMainPatch.___select_maid_ = ___select_maid_;
 
@@ -54,7 +54,7 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogMessage("MaidManagementMain.OnClickEmploymentButton:");
         }
 
-        
+
         /// <summary>
         /// 고용 ok 누를시
         /// </summary>
@@ -110,7 +110,7 @@ namespace COM3D2.Lilly.Plugin
                 {
                     MyLog.LogMessage(
                         "newMaidSetting"
-                        ,e.ToString()
+                        , e.ToString()
                     );
                 }
 

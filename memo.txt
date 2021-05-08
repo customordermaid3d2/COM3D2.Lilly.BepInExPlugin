@@ -1,4 +1,5 @@
 GameMain.Instance.CharacterMgr.status.GetScheduleSlot(i);
+GameMain.Instance.FacilityMgr.FacilityCountMax
 
 Maid maid = array[UnityEngine.Random.Range(0, array.Length)];
 

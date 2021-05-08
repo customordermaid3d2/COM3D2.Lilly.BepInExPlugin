@@ -1,4 +1,5 @@
-﻿using Kasizuki;
+﻿using COM3D2.Lilly.Plugin.ToolPatch;
+using Kasizuki;
 using MaidStatus;
 using PlayerStatus;
 using System;
@@ -17,8 +18,9 @@ namespace COM3D2.Lilly.Plugin
     {
         public override void SetButtonList()
         {
-            if (GUILayout.Button("게임 정보 얻기 관련")) InfoUtill.GetGameInfo();
-            if (GUILayout.Button("Scene 얻기 관련")) InfoUtill.GetSceneInfo();
+            if (GUILayout.Button("게임 정보 얻기 ")) InfoUtill.GetGameInfo();
+            if (GUILayout.Button("Facility 정보 얻기 ")) FacilityManagerToolPatch.GetGameInfo();
+            if (GUILayout.Button("Scene 정보 얻기 ")) InfoUtill.GetSceneInfo();
             if (GUILayout.Button("정보 얻기 바디 관련")) InfoUtill.GetTbodyInfo();
             if (GUILayout.Button("정보 얻기 플레이어 관련")) InfoUtill.GetPlayerInfo();
             if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) InfoUtill.GetMaidFlag();

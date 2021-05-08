@@ -1,4 +1,5 @@
 ﻿using COM3D2.Lilly.Plugin.BasePatch;
+using COM3D2.Lilly.Plugin.ToolPatch;
 using COM3D2.Lilly.Plugin.Utill;
 using FacilityFlag;
 using MaidStatus;
@@ -26,6 +27,7 @@ namespace COM3D2.Lilly.Plugin
         public override void SetButtonList()
         {
             if (GUILayout.Button("일상 플레그 처리")) CheatGUI.SetWorkAll();
+            if (GUILayout.Button("Facility 처리")) FacilityManagerToolPatch.SetFacilityAll();
             
             GUILayout.Label("모든 메이드 대상");
             if (GUILayout.Button("시나리오 처리 처리")) ScenarioDataUtill.SetScenarioDataAll();

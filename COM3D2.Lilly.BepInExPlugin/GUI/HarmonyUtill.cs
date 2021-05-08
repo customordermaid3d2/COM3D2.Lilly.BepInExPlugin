@@ -51,6 +51,7 @@ namespace COM3D2.Lilly.Plugin
 
             toolList.Add(typeof(AbstractFreeModeItemPatch));// 프리 모드에서 모든 이벤트 열기 위한용 오버 플로우
             toolList.Add(typeof(EmpireLifeModeManagerToolPatch));// 회상모드 시나리오 처리용?
+            toolList.Add(typeof(FacilityManagerToolPatch));// 회상 모드에서 버튼 활성화용
             toolList.Add(typeof(GameMainPatch));// 회상모드 시나리오 처리용?
             toolList.Add(typeof(MaidManagementMainPatch));//메이드 관리에서 모든 버튼 활성화
             toolList.Add(typeof(SceneEditPatch)); //메이드 에딧 진입시 모든 스텟 적용
