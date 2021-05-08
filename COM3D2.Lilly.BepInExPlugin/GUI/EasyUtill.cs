@@ -19,16 +19,12 @@ namespace COM3D2.Lilly.Plugin
     public class EasyUtill : GUIVirtual
     {
         //public static Scene scene;       
-        public static ConfigEntry<bool> _SetMaidStatusOnOff;
+        
 
         public EasyUtill()
         {
+
             name = "EasyUtill";
-            _SetMaidStatusOnOff = customFile.Bind(
-            "EasyUtill",
-            "_SetMaidStatusOnOff",
-            true
-            );
         }
 
         public void SetScene()
@@ -53,10 +49,6 @@ namespace COM3D2.Lilly.Plugin
             GUI.enabled = true;
             */
             PresetUtill.SetButtonList();
-
-            GUILayout.Label("MaidManagementMain Harmony 필요 : "+ HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMainPatch)));
-            GUILayout.Label("메이드 에딧 진입시 자동 적용  ");
-            if (GUILayout.Button("SetMaidStatus " + _SetMaidStatusOnOff.Value)) _SetMaidStatusOnOff.Value = !_SetMaidStatusOnOff.Value;
 
             
             GUILayout.Label("SceneDaily");

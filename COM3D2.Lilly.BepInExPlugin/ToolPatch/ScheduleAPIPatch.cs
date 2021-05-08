@@ -166,6 +166,8 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             //return false; // SceneFreeModeSelectManager.IsFreeMode;
         }
 
+//#if DEBUG
+
         /// <summary>
         /// 분석용
         /// </summary>
@@ -283,7 +285,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             return true;
         }
 
-
+//#endif
 
     }
 }

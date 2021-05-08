@@ -1,3 +1,6 @@
 GameMain.Instance.CharacterMgr.status.GetScheduleSlot(i);
 
 Maid maid = array[UnityEngine.Random.Range(0, array.Length)];
+
+
+UnityEngine.Random.Range(maidProp.min, maidProp.max)

@@ -63,6 +63,14 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogMessage("SceneEdit.Start:" + ___m_maid.status.charaName.name1 + " , " + ___m_maid.status.charaName.name2);
 
         }
+        
+        [HarmonyPatch(typeof(SceneEdit), "OnCompleteFadeIn")]
+        [HarmonyPostfix]
+        public static void OnCompleteFadeIn() // Maid ___m_maid,SceneEdit __instance
+        {
+            MyLog.LogMessage("SceneEdit.OnCompleteFadeIn");
+            MaidManagementMainPatch.newMaidSetting();
+        }
 
         //[HarmonyPatch(typeof(SceneEdit.MenuItemSet), "Start")]
         //[HarmonyPostfix]

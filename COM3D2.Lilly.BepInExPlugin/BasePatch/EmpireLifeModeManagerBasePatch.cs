@@ -1,5 +1,6 @@
 ﻿using FacilityFlag;
 using HarmonyLib;
+using MaidStatus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using wf;
 
-namespace COM3D2.Lilly.Plugin
+namespace COM3D2.Lilly.Plugin.BasePatch
 {
     //[MyHarmony(MyHarmonyType.Base)]
     /// <summary>
     /// 회상 모드에서 라이프 관련
     /// </summary>
-    class EmpireLifeModeManagerPatch 
+    class EmpireLifeModeManagerBasePatch
     {
         // EmpireLifeModeManager
 
@@ -31,7 +32,7 @@ namespace COM3D2.Lilly.Plugin
             m_SaveDataMaidScenarioExecuteCountArray = ___m_SaveDataMaidScenarioExecuteCountArray;
         }
 
-        static bool isScenarioExecuteCountAllRun=false;
+        static bool isScenarioExecuteCountAllRun = false;
 
         /// <summary>
         /// 피들러 참고. 이숫자 대체 어디서 들고오는거야
@@ -45,23 +46,23 @@ namespace COM3D2.Lilly.Plugin
                 {
                     MyLog.LogDarkBlue("SetScenarioExecuteCountAll. start");
                     isScenarioExecuteCountAllRun = true;
-                
+
                     foreach (Maid maid in GameMain.Instance.CharacterMgr.GetStockMaidList())
                     {
+                        if (maid.status.heroineType == HeroineType.Sub)
+                            continue;
+
                         foreach (var data in EmpireLifeModeData.GetAllDatas(true))
                         {
                             try
                             {
                                 int cnt = GameMain.Instance.LifeModeMgr.GetScenarioExecuteCount(data.ID);
-                                if (cnt<255)
+                                if (cnt < 255)
                                 {
                                     IncrementMaidScenarioExecuteCount(data.ID, maid);
                                 }
 
-                                if (Lilly.isLogOn)
-                                    continue;
-
-                                MyLog.LogMessage("SetScenarioExecuteCountAll:" 
+                                MyLog.LogMessage("SetScenarioExecuteCountAll:"
                                     + cnt
                                     + MyUtill.GetMaidFullName(maid)
                                     , data.ID
@@ -69,7 +70,7 @@ namespace COM3D2.Lilly.Plugin
                                     , data.dataScenarioFileName
                                     , data.dataScenarioFileLabel
                                 );
-                                if(data.dataFlagMaid!=null)
+                                if (data.dataFlagMaid != null)
                                     MyLog.LogMessage("SetScenarioExecuteCountAll.Maid:"
                                         + MyUtill.Join(" | ", data.dataFlagMaid.Keys.ToArray())
                                     );
@@ -171,7 +172,7 @@ namespace COM3D2.Lilly.Plugin
         */
         public static void IncrementMaidScenarioExecuteCount(int eventID, Maid maid)
         {
-            if (maid ==null)
+            if (maid == null)
             {
                 return;
             }

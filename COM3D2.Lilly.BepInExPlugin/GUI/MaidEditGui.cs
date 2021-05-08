@@ -1,5 +1,6 @@
 ﻿using BepInEx.Configuration;
 using COM3D2.Lilly.Plugin.ToolPatch;
+using COM3D2.Lilly.Plugin.Utill;
 using MaidStatus;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace COM3D2.Lilly.Plugin
         public static ConfigEntry<bool> _GP01FBFaceEyeRandomOnOff;
         public static ConfigEntry<bool> newMaid;
         public static ConfigEntry<bool> movMaid;
+        public static ConfigEntry<bool> _SetMaidStatusOnOff;
 
         public MaidEditGui()
         {
@@ -36,6 +38,12 @@ namespace COM3D2.Lilly.Plugin
               "movMaid",
               true
               );
+
+            _SetMaidStatusOnOff = customFile.Bind(
+            "EasyUtill",
+            "_SetMaidStatusOnOff",
+            true
+            );
         }
 
         /*
@@ -87,6 +95,15 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
 
             GUILayout.Label("메이드 에딧 진입시 자동 적용  ");
             //GUI.enabled = HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMain));
+            // GUILayout.Label("MaidManagementMain Harmony 필요 : "+ HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMainPatch)));
+            if (GUILayout.Button("SetMaidStatus " + _SetMaidStatusOnOff.Value)) _SetMaidStatusOnOff.Value = !_SetMaidStatusOnOff.Value;
+
+            GUI.enabled = true;
+            if (GUILayout.Button("New Maid " + newMaid.Value)) OnOffNewMaid();
+            GUI.enabled = !newMaid.Value;
+            if (GUILayout.Button("Mov Maid " + movMaid.Value)) OnOffMovMaid();
+
+            GUI.enabled = true;
             if (GUILayout.Button("GP01FBFaceEyeRandomOnOff " + _GP01FBFaceEyeRandomOnOff.Value)) _GP01FBFaceEyeRandomOnOff.Value = !_GP01FBFaceEyeRandomOnOff.Value;
 
             GUILayout.Label("SceneEdit");
@@ -95,10 +112,6 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
             if (GUILayout.Button("GP-01FB Face Eye Random UP")) GP01FBFaceEyeRandom(2);
             if (GUILayout.Button("GP-01FB Face Eye Random DOWN")) GP01FBFaceEyeRandom(3);
 
-            GUI.enabled = true;
-            if (GUILayout.Button("New Maid "+ newMaid.Value)) OnOffNewMaid();
-            GUI.enabled = !newMaid.Value;
-            if (GUILayout.Button("Mov Maid "+ movMaid.Value)) OnOffMovMaid();
             
             GUI.enabled = true;
         }
@@ -128,8 +141,12 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
                 PersonalUtill.SetPersonal(maid, selGridInt);
             }
 
-            if (EasyUtill._SetMaidStatusOnOff.Value)
-                CheatGUI.SetMaidStatus(maid);
+            maid.status.contract = MyUtill.RandomEnum(Contract.Trainee);
+            maid.status.heroineType = MyUtill.RandomEnum(HeroineType.Sub);
+
+            if (_SetMaidStatusOnOff.Value)
+                CheatUtill.SetMaidAll(maid);
+
 
             PresetUtill.RandPreset(PresetUtill.ListType.All, PresetUtill.PresetType.All, maid);
 

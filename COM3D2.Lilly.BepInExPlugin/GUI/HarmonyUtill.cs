@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using COM3D2.Lilly.Plugin.BasePatch;
 using COM3D2.Lilly.Plugin.InfoPatch;
 using COM3D2.Lilly.Plugin.ToolPatch;
 using HarmonyLib;
@@ -65,7 +66,7 @@ namespace COM3D2.Lilly.Plugin
         private static void SetHarmonyBaseList()
         {
             baseList.Add(typeof(CharacterMgrPatchBase));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
-            baseList.Add(typeof(EmpireLifeModeManagerPatch));// 회상모드 시나리오 처리용?
+            baseList.Add(typeof(EmpireLifeModeManagerBasePatch));// 회상모드 시나리오 처리용?
             //baseList.Add(typeof(GameUtyPatch));// mod reflash. 필요 없음
             baseList.Add(typeof(NDebugPatch));// 망할 메세지 박스
             baseList.Add(typeof(ProfileCtrlPatch));// 스케줄 관련

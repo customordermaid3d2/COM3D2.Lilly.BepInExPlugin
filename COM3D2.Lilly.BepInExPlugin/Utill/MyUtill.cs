@@ -64,7 +64,7 @@ namespace COM3D2.Lilly.Plugin
 
         internal static string GetMaidFullName(Maid maid)
         {
-            return maid.status.fullNameEnStyle;
+            return maid.status.fullNameEnStyle+" , "+maid.status.heroineType;
 
             /*
             StringBuilder s = new StringBuilder();
@@ -83,7 +83,7 @@ namespace COM3D2.Lilly.Plugin
 			}
 			return s.ToString();
             */
-		}
+        }
 
         /// <summary>
         /// 
@@ -126,6 +126,38 @@ namespace COM3D2.Lilly.Plugin
 
 			return array;
 		}
+
+        /// <summary>
+        /// 출처: https://cacodemon.tistory.com/entry/랜덤-열거형값-얻기-Random-Enum [카코데몬의 잡동사니]
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T RandomEnum<T>()
+        {
+            Array values = Enum.GetValues(typeof(T));
+            return (T)values.GetValue(UnityEngine.Random.Range(0, values.Length));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="args">제외할 목록</param>
+        /// <returns></returns>
+        public static T RandomEnum<T>(params T[] args)
+        {
+            //Array values = Enum.GetValues(typeof(T));
+            List<T> lst = ((T[])Enum.GetValues(typeof(T))).ToList();
+            for (int i = 0; i < args.Length; i++)
+            {
+                lst.Remove(args[i]);
+            }            
+            return lst[UnityEngine.Random.Range(0, lst.Count)];
+            //return lst[new Random().Next(0, lst.Count)];
+            //return (T)values.GetValue(new Random().Next(0, values.Length));
+        }
+
+
 
 	}
 }
