@@ -13,13 +13,28 @@ namespace COM3D2.Lilly.Plugin
     {
         // ScheduleMgr
 
-        [HarmonyPrefix,HarmonyPatch(typeof(ScheduleMgr), "ClickMaidStatus")]
-        private static void ClickMaidStatus(ScheduleMgr __instance) // string __m_BGMName 못가져옴
+        [HarmonyPostfix, HarmonyPatch(typeof(ScheduleMgr), "ClickMaidStatus")]
+        private static void ClickMaidStatus(
+            ScheduleMgr __instance
+            , ScheduleCtrl m_Ctrl
+            ) // string __m_BGMName 못가져옴
         {
-            MyLog.LogMessage("ClickMaidStatus" 
-				, __instance.CurrentActiveButton
-				);
+            MyLog.LogMessage("ClickMaidStatus"
+                , UIButton.current.name
+                , MyUtill.GetMaidFullName(m_Ctrl.SelectedMaid)
+                );
+        }
 
+        [HarmonyPostfix,HarmonyPatch(typeof(ScheduleMgr), "ClickTask")]
+        private static void ClickTask(
+            ScheduleMgr __instance
+            , ScheduleCtrl m_Ctrl
+            ) // string __m_BGMName 못가져옴
+        {
+            MyLog.LogMessage("ClickTask"
+                , UIButton.current.name
+                , MyUtill.GetMaidFullName(m_Ctrl.SelectedMaid)
+                );
         }
 		/*
 		public void ClickMaidStatus()

@@ -53,7 +53,7 @@ namespace COM3D2.Lilly.Plugin
             return a;
         }
         
-        public static void SetPersonal(Maid maid,int index)
+        public static Personal.Data SetPersonal(Maid maid,int index)
         {            
             Personal.Data data=GetPersonalData(index);
             maid.status.SetPersonal(data);
@@ -61,7 +61,8 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogMessage(
                 "MaidManagementMain.Employment"
                 ,MyUtill.GetMaidFullName(maid)
-            );         
+            );
+            return data;
         }
 
     }

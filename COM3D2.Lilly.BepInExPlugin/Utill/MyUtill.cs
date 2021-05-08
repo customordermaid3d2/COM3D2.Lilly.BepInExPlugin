@@ -14,6 +14,12 @@ namespace COM3D2.Lilly.Plugin
 		/// <param name="separator"></param>
 		/// <param name="values"></param>
 		/// <returns></returns>
+		//public static string Join(string separator, params object[] values)
+        //{
+        //    return Join<object>(separator, values);
+        //}
+       
+
 		public static string Join<T>(string separator, IEnumerable<T> values)
 		{
 			if (values == null)
@@ -64,7 +70,14 @@ namespace COM3D2.Lilly.Plugin
 
         internal static string GetMaidFullName(Maid maid)
         {
-            return maid.status.fullNameEnStyle+" , "+maid.status.heroineType;
+            //return maid.status.fullNameEnStyle+" , "+maid.status.heroineType;
+            return Join(" , " 
+                , new object[] {
+                      maid.status.fullNameEnStyle
+                    , maid.status.heroineType
+                    , maid.status.contract
+                }
+            );
 
             /*
             StringBuilder s = new StringBuilder();

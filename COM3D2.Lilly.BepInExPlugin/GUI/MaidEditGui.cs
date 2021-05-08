@@ -70,14 +70,30 @@ namespace COM3D2.Lilly.Plugin
 MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.drawName, item.termName);//
          */
 
-        public bool rnd = true;
-        public int selGridInt = 0;
+        public bool rndPersonal = true;
+        public bool rndContract = true;
+        public int selGridPersonal = 0;
+        public int selGridContract = 0;
+
         public string[] PersonalNames;//= new string[] { "radio1", "radio2", "radio3" };
+        public string[] ContractNames;//= new string[] { "radio1", "radio2", "radio3" };
+
+        public bool rndHeroine = true;
+        public int selGridHeroine = 0;
+        public string[] HeroineNames;//= new string[] { "radio1", "radio2", "radio3" };
 
         public override void Start()
         {
             base.Start();
-            PersonalNames = PersonalUtill.GetPersonalData().Select((x) => x.uniqueName).ToArray();            
+            PersonalNames = PersonalUtill.GetPersonalData().Select((x) => x.uniqueName).ToArray();
+            ContractNames = new string[] { "Random","Exclusive", "Free" };
+            HeroineNames = new string[] { "Random", "Original", "Transfer" };
+            // Contract.Exclusive., Contract.Trainee 
+            
+            // Original = 0,
+            // Sub = 1,
+            // Transfer = 2
+
         }
 
         public override void SetButtonList()
@@ -86,17 +102,30 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
             //GUILayout.Label("------------");
             if (GUILayout.Button("SetRandomCommu")) { ScheduleAPIPatch.SetRandomCommu(true); ScheduleAPIPatch.SetRandomCommu(false); };
             if (GUILayout.Button("Maid add")) AddStockMaid();
-            if (GUILayout.Button("Personal Rand " + rnd + " " + PersonalNames[selGridInt])) rnd=!rnd;
-            if (!rnd)
+            
+            if (GUILayout.Button("Personal Rand " + rndPersonal + " " + PersonalNames[selGridPersonal])) rndPersonal=!rndPersonal;
+            if (!rndPersonal)
             {
-                selGridInt = GUILayout.SelectionGrid(selGridInt, PersonalNames, 1);
+                selGridPersonal = GUILayout.SelectionGrid(selGridPersonal, PersonalNames, 1);
+            }
+            GUILayout.Label("Contract");
+            //if (GUILayout.Button("Contract Rand " + rndContract + " " + ContractNames[selGridContract])) rndContract = !rndContract;
+            //if (!rndContract)
+            {
+                selGridContract = GUILayout.SelectionGrid(selGridContract, ContractNames, 1);
+            }
+            GUILayout.Label("Heroine");
+            //if (GUILayout.Button("rndHeroine Rand " + rndHeroine + " " + HeroineNames[selGridHeroine])) rndHeroine = !rndHeroine;
+            //if (!rndHeroine)
+            {
+                selGridHeroine = GUILayout.SelectionGrid(selGridHeroine, HeroineNames, 1);
             }
             //GUILayout.Label("------------");
 
             GUILayout.Label("메이드 에딧 진입시 자동 적용  ");
             //GUI.enabled = HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMain));
             // GUILayout.Label("MaidManagementMain Harmony 필요 : "+ HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMainPatch)));
-            if (GUILayout.Button("SetMaidStatus " + _SetMaidStatusOnOff.Value)) _SetMaidStatusOnOff.Value = !_SetMaidStatusOnOff.Value;
+            if (GUILayout.Button("Maid cheat" + _SetMaidStatusOnOff.Value)) _SetMaidStatusOnOff.Value = !_SetMaidStatusOnOff.Value;
 
             GUI.enabled = true;
             if (GUILayout.Button("New Maid " + newMaid.Value)) OnOffNewMaid();
@@ -132,17 +161,40 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
 
             Maid maid = GameMain.Instance.CharacterMgr.AddStockMaid();
 
-            if (rnd)
+            if (rndPersonal)
             {
-                selGridInt=PersonalUtill.SetPersonalRandom(maid);
+                selGridPersonal=PersonalUtill.SetPersonalRandom(maid);
             }
             else
             {
-                PersonalUtill.SetPersonal(maid, selGridInt);
+                PersonalUtill.SetPersonal(maid, selGridPersonal);
             }
 
-            maid.status.contract = MyUtill.RandomEnum(Contract.Trainee);
-            maid.status.heroineType = MyUtill.RandomEnum(HeroineType.Sub);
+            switch (selGridContract)
+            {
+                case 1:
+                    maid.status.contract = Contract.Exclusive;
+                    break;
+                case 2:
+                    maid.status.contract = Contract.Free;
+                    break;
+                default:
+                    maid.status.contract = MyUtill.RandomEnum(Contract.Trainee);
+                    break;
+            }
+            
+            switch (selGridHeroine)
+            {
+                case 1:
+                    maid.status.heroineType = HeroineType.Original;
+                    break;
+                case 2:
+                    maid.status.heroineType = HeroineType.Transfer;
+                    break;
+                default:
+                    maid.status.heroineType = MyUtill.RandomEnum(HeroineType.Sub);
+                    break;
+            }
 
             if (_SetMaidStatusOnOff.Value)
                 CheatUtill.SetMaidAll(maid);

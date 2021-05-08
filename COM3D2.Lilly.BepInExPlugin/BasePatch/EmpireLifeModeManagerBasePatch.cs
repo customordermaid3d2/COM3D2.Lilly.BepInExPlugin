@@ -54,36 +54,38 @@ namespace COM3D2.Lilly.Plugin.BasePatch
 
                         foreach (var data in EmpireLifeModeData.GetAllDatas(true))
                         {
-                            try
-                            {
-                                int cnt = GameMain.Instance.LifeModeMgr.GetScenarioExecuteCount(data.ID);
-                                if (cnt < 255)
-                                {
-                                    IncrementMaidScenarioExecuteCount(data.ID, maid);
-                                }
+                            //try
+                            //{
+                            int cnt = GameMain.Instance.LifeModeMgr.GetScenarioExecuteCount(data.ID);
+                            if (cnt >= 255)
+                                continue;
 
-                                MyLog.LogMessage("SetScenarioExecuteCountAll:"
-                                    + cnt
-                                    + MyUtill.GetMaidFullName(maid)
-                                    , data.ID
-                                    , data.strUniqueName
-                                    , data.dataScenarioFileName
-                                    , data.dataScenarioFileLabel
+                            IncrementMaidScenarioExecuteCount(data.ID, maid);
+                            MyLog.LogMessage("SetScenarioExecuteCountAll:"
+                                + cnt
+                                + MyUtill.GetMaidFullName(maid)
+                                , data.ID
+                                , data.strUniqueName
+                                , data.dataScenarioFileName
+                                , data.dataScenarioFileLabel
+                            );
+                            if (data.dataFlagMaid != null)
+                                MyLog.LogMessage("SetScenarioExecuteCountAll.Maid:"
+                                    + MyUtill.Join(" | ", data.dataFlagMaid.Keys.ToArray())
                                 );
-                                if (data.dataFlagMaid != null)
-                                    MyLog.LogMessage("SetScenarioExecuteCountAll.Maid:"
-                                        + MyUtill.Join(" | ", data.dataFlagMaid.Keys.ToArray())
-                                    );
-                                if (data.dataFlagPlayer != null)
-                                    MyLog.LogMessage("SetScenarioExecuteCountAll.Player:"
-                                    + MyUtill.Join(" | ", data.dataFlagPlayer.Keys.ToArray())
-                                );
-                                //m_SaveDataScenarioExecuteCountArray.Add(key, 255, true);
-                            }
-                            catch (Exception e)
-                            {
-                                MyLog.LogMessage("SetScenarioExecuteCountAll:" + e.ToString());
-                            }
+                            if (data.dataFlagPlayer != null)
+                                MyLog.LogMessage("SetScenarioExecuteCountAll.Player:"
+                                + MyUtill.Join(" | ", data.dataFlagPlayer.Keys.ToArray())
+                            );
+
+
+
+                            //m_SaveDataScenarioExecuteCountArray.Add(key, 255, true);
+                            //}
+                            //catch (Exception e)
+                            //{
+                            //    MyLog.LogMessage("SetScenarioExecuteCountAll:" + e.ToString());
+                            //}
 
                         }
                     }

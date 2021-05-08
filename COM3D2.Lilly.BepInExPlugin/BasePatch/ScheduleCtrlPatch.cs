@@ -24,10 +24,12 @@ namespace COM3D2.Lilly.Plugin
         public static CharacterSelectManager m_charSelMgr;
         public static ScheduleCtrl.ExclusiveViewer m_currentActiveViewer;
 
+
+
         [HarmonyPostfix, HarmonyPatch(typeof(ScheduleCtrl), MethodType.Constructor)]
         public static void ScheduleCtrlPatchC(
             ScheduleCtrl __instance
-            , ref Dictionary<string, ScheduleCtrl.MaidStatusAndTaskUnit>  ___m_dicMaidStatusAndTask
+            , ref Dictionary<string, ScheduleCtrl.MaidStatusAndTaskUnit> ___m_dicMaidStatusAndTask
             , ref string ___m_deleteSlotNo
             , ref ScheduleMgr ___m_scheduleMgr
             , ref ScheduleScene ___m_scheduleApi
@@ -44,15 +46,15 @@ namespace COM3D2.Lilly.Plugin
             //hGetMaidBySlotNo = AccessTools.Method(typeof(ScheduleCtrl), "GetMaidBySlotNo"); // 이건 잘됨
             //hSetViewerActive = AccessTools.Method(typeof(ScheduleCtrl), "SetViewerActive"); // 이건 잘됨
             //hSetSelectedRowActive = AccessTools.Method(typeof(ScheduleCtrl), "SetSelectedRowActive"); // 이건 잘됨
-            m_dicMaidStatusAndTask= ___m_dicMaidStatusAndTask;
+            m_dicMaidStatusAndTask = ___m_dicMaidStatusAndTask;
             m_deleteSlotNo = ___m_deleteSlotNo;
             m_scheduleMgr = ___m_scheduleMgr;
             m_scheduleApi = ___m_scheduleApi;
             m_charSelMgr = ___m_charSelMgr;
             m_currentActiveViewer = ___m_currentActiveViewer;
+        }
 
 
-    }
 
         /// <summary>
         /// 

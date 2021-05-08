@@ -17,7 +17,7 @@ namespace COM3D2.Lilly.Plugin
         public static ConfigFile customFile;
 
         private static int WindowId = new System.Random().Next();
-        private static Rect windowRect = new Rect(40f, 40f, 300f, 300f);
+        private static Rect windowRect = new Rect(40f, 40f, 300f, 600f);
         // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
         //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
         private static GUIStyle windowStyle;
@@ -134,12 +134,16 @@ namespace COM3D2.Lilly.Plugin
             windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, string.Empty, windowStyle);
         }
 
+        protected Vector2 scrollPosition;
+
         public virtual void GuiFunc(int windowId)
         {
 
             GUILayout.BeginVertical();
 
             GUILayout.Label(name+" List");
+
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition);
             //try
             //{
                 SetButtonList();
@@ -148,6 +152,9 @@ namespace COM3D2.Lilly.Plugin
             //{
             //    MyLog.LogFatal("SetButtonList", e.ToString());
             //}
+
+            GUILayout.EndScrollView();
+
             GUILayout.FlexibleSpace();
 
             GUILayout.EndVertical();
