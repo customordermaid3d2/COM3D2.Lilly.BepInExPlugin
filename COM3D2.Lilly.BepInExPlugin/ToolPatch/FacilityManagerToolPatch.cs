@@ -11,33 +11,33 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
     {
         // FacilityManager
 
-        private static FacilityManager facilityManager;
+        //private static FacilityManager facilityManager;// 사용 못함
         public static Dictionary<int, Facility> m_NextDayFacilityArray;
         public static Facility[] m_FacilityArray;// 현재
 
         public static Dictionary<int, FacilityDataTable.FacilityDefaultData> m_FacilityDefaultDataArray;
 
-        public static FacilityManager FacilityManager { 
-            get {
-                if (facilityManager==null)
-                {
-                    facilityManager = GameMain.Instance.FacilityMgr;
-                }
-                return facilityManager; 
-            }
-            set => facilityManager = value; 
-        }
+        //public static FacilityManager FacilityManager { 
+        //    get {
+        //        if (facilityManager==null)
+        //        {
+        //            facilityManager = GameMain.Instance.FacilityMgr;
+        //        }
+        //        return facilityManager; 
+        //    }
+        //    set => facilityManager = value; 
+        //}
 
         // 작동 안함
-        [HarmonyPostfix, HarmonyPatch(typeof(GameMain), "OnInitialize")]
-        public static void OnInitialize()
-        {
-            MyLog.LogMessage(
-                "FacilityManagerToolPatch.OnInitialize"
-                ,  FacilityManager.FacilityCountMax
-            );
-            FacilityManager = GameMain.Instance.FacilityMgr;
-        }
+        //[HarmonyPostfix, HarmonyPatch(typeof(GameMain), "OnInitialize")]
+        //public static void OnInitialize()
+        //{
+        //    MyLog.LogMessage(
+        //        "FacilityManagerToolPatch.OnInitialize"
+        //        ,  FacilityManager.FacilityCountMax
+        //    );
+        //    FacilityManager = GameMain.Instance.FacilityMgr;
+        //}
         
         [HarmonyPostfix, HarmonyPatch(typeof(FacilityDataTable), "ReadCSVFacilityDefaultData")]
         public static void ReadCSVFacilityDefaultData(Dictionary<int, FacilityDataTable.FacilityDefaultData> ___m_FacilityDefaultDataArray)
@@ -48,8 +48,6 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             );
             m_FacilityDefaultDataArray = ___m_FacilityDefaultDataArray;
         }
-
-
 
         [HarmonyPostfix, HarmonyPatch(typeof(FacilityManager), "ResetData")]
         public static void ResetData()
@@ -134,6 +132,10 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             }
 
         }
+
+        /// <summary>
+        /// 시설 자동 배치
+        /// </summary>
         public static void SetFacilityAll()
         {
             MyLog.LogMessage(

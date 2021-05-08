@@ -6,7 +6,7 @@
 
 # 필요한거
 
-- COM3D2.API.dll  https://github.com/DeathWeasel1337/COM3D2_Plugins
+- COM3D2.API.dll  https://github.com/DeathWeasel1337/COM3D2_Plugins/releases/download/v3/COM3D2.API.v1.0.zip
 - System.Threading.dll  어지간하면 탐색기에서 발견 가능. https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin/releases/download/210409/System.Threading.dll
 
 
@@ -26,11 +26,6 @@
 ## MaidEditGui
 
 - 기존 메이드를 에딧 진입후 완료시키면, 신규 고용 이벤이나 이적 이벤트 뜸. SceneEditPatch 필요   
-
-
-## easyUtill
-
-- 모드 파일 다시 읽기
 - 메이드 추가(성격 랜덤, 프리셋 폴더안의 프리셋 자동 적용, 수치값 최대)
 #### 프리셋 적용
 #### 메이드 고용 진입시 자동 적용 
@@ -39,9 +34,20 @@ MaidManagementMainPatch.newMaidSetting SceneEditPatch.OnCompleteFadeIn 필요
 - SetMaidStatus : 스텟 최대치
 
 
+## easyUtill
+
+- 모드 파일 다시 읽기
+- 프리셋 랜덤 적용
+
+
 ## CheatUtill
 
-작성중  
+- 일상 관련 플레그 모두 획득(스토리 꼬일수 있음)
+- 시설 자동 배치
+
+- 시나리오 획득
+- 라이프 클리어 처리
+
 
 ## HarmonyUtill
 
