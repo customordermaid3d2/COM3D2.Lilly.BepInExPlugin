@@ -85,7 +85,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                 maid.status.AddPropensity(data);
 
 
-            MyLog.LogMessage(".SetMaidStatus.WorkData max : " + MyUtill.GetMaidFullName(maid), maid.status.workDatas.Count);
+            MyLog.LogMessage("SetMaidStatus.WorkData max : " + MyUtill.GetMaidFullName(maid), maid.status.workDatas.Count);
             foreach (WorkData workData in maid.status.workDatas.GetValueArray())
             {
                 workData.level = 10;

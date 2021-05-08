@@ -91,20 +91,20 @@ namespace COM3D2.Lilly.Plugin.Utill
             #region 스킬 영역
 
             List<Skill.Data> learnPossibleSkills = Skill.GetLearnPossibleSkills(maid.status);
-            MyLog.LogMessage(".SetMaidStatus.Skill learn : " + MyUtill.GetMaidFullName(maid), learnPossibleSkills.Count);
+            MyLog.LogMessage("SetMaidStatus.Skill learn : " + MyUtill.GetMaidFullName(maid), learnPossibleSkills.Count);
             foreach (Skill.Data data in learnPossibleSkills)
                 maid.status.yotogiSkill.Add(data);
 
-            MyLog.LogMessage(".SetMaidStatus.Skill expSystem : " + MyUtill.GetMaidFullName(maid), maid.status.yotogiSkill.datas.Count);
+            MyLog.LogMessage("SetMaidStatus.Skill expSystem : " + MyUtill.GetMaidFullName(maid), maid.status.yotogiSkill.datas.Count);
             SetExpMax(maid.status.yotogiSkill.datas.GetValueArray().Select(x => x.expSystem));
 
 
             List<Skill.Old.Data> learnPossibleOldSkills = Skill.Old.GetLearnPossibleSkills(maid.status);
-            MyLog.LogMessage(".SetMaidStatus.Old.Skill learn : " + MyUtill.GetMaidFullName(maid), learnPossibleOldSkills.Count);
+            MyLog.LogMessage("SetMaidStatus.Old.Skill learn : " + MyUtill.GetMaidFullName(maid), learnPossibleOldSkills.Count);
             foreach (Skill.Old.Data data in learnPossibleOldSkills)
                 maid.status.yotogiSkill.Add(data);
 
-            MyLog.LogMessage(".SetMaidStatus.Old.Skill expSystem : " + MyUtill.GetMaidFullName(maid), maid.status.yotogiSkill.oldDatas.Count);
+            MyLog.LogMessage("SetMaidStatus.Old.Skill expSystem : " + MyUtill.GetMaidFullName(maid), maid.status.yotogiSkill.oldDatas.Count);
             SetExpMax(maid.status.yotogiSkill.oldDatas.GetValueArray().Select(x => x.expSystem));
 
             #endregion

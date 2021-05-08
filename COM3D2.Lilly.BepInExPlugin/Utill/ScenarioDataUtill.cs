@@ -33,7 +33,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                             if (scenarioData.IsPlayable)
                             {
                                 //MyLog.LogMessageS(".m_EventMaid");
-                                MyLog.LogMessage("SetScenarioDataAll"
+                                MyLog.LogMessage("SetScenarioDataAll1"
                             , scenarioData.ID
                             , scenarioData.Title
                             , scenarioData.ScenarioScript
@@ -43,7 +43,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                                 {
                                     if (maid.status.heroineType == HeroineType.Sub)
                                     {
-                                        MyLog.LogMessage("SetScenarioDataAll"
+                                        MyLog.LogMessage("SetScenarioDataAll2"
                                         , MyUtill.GetMaidFullName(maid)
                                         , maid.status.heroineType
                                         );
@@ -55,7 +55,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                                     bool b = maid.status.GetEventEndFlag(scenarioData.ID);
                                     if (!b)
                                     {
-                                        MyLog.LogMessage("SetScenarioDataAll"
+                                        MyLog.LogMessage("SetScenarioDataAll3"
                                             , MyUtill.GetMaidFullName(maid)
                                             , b
                                             );
