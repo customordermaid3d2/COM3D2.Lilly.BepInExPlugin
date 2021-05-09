@@ -125,7 +125,7 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
             GUILayout.Label("메이드 에딧 진입시 자동 적용  ");
             //GUI.enabled = HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMain));
             // GUILayout.Label("MaidManagementMain Harmony 필요 : "+ HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMainPatch)));
-            if (GUILayout.Button("Maid cheat" + _SetMaidStatusOnOff.Value)) _SetMaidStatusOnOff.Value = !_SetMaidStatusOnOff.Value;
+            if (GUILayout.Button("Maid cheat " + _SetMaidStatusOnOff.Value)) _SetMaidStatusOnOff.Value = !_SetMaidStatusOnOff.Value;
 
             GUI.enabled = true;
             if (GUILayout.Button("New Maid " + newMaid.Value)) OnOffNewMaid();

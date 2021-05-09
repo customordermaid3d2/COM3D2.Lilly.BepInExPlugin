@@ -1,7 +1,70 @@
-GameMain.Instance.CharacterMgr.status.GetScheduleSlot(i);
+﻿GameMain.Instance.CharacterMgr.status.GetScheduleSlot(i);
 GameMain.Instance.FacilityMgr.FacilityCountMax
 
 Maid maid = array[UnityEngine.Random.Range(0, array.Length)];
 
 
 UnityEngine.Random.Range(maidProp.min, maidProp.max)
+
+[HarmonyPatch(typeof(ScenarioSelectMgr),MethodType.Constructor)]
+
+[Error  : Unity Log] [eTJSError]シナリオファイル N1_TRA_0021.ks が見つかりません
+ファイル : TRA_main_0001.ks   行 : 161
+[Error  : Unity Log] シナリオが読み込まれていないため、指定ラベル[*top]への移動に失敗しました
+
+
+script\general\■main\tra_main_0001.ks
+;=============
+*グラビア撮影
+;=============
+
+;//■トレーニング＿グラビア撮影
+
+@call file="function" label="*性格別ＢＧＭコール"
+@eval exp="CallTitleBar('トレーニングコミュ・グラビア撮影')"
+
+;// キャラクターパックEXメイドの場合は処理を変更する
+@if exp= "GetMaidFlag(0,'キャラクターパックEXメイド') == 1"
+	@call file="?_TRA_kani_0001" label="*簡易トレ＿グラビア撮影"
+@else
+	@if exp= "tf['お仕事Level'] == 1"
+		@if exp= "GetMaidFlag(0,'グラビア撮影LV1初回') == 0"
+			@eval exp="SetMaidFlag(0,'グラビア撮影LV1初回',1)"
+			@call file="?_TRA_0021" label="*top"
+		@else
+			@call file="?_TRA_0022" label="*top"
+		@endif
+		
+	@elsif exp= "tf['お仕事Level'] == 2"
+		@if exp= "GetMaidFlag(0,'グラビア撮影LV2初回') == 0"
+			@eval exp="SetMaidFlag(0,'グラビア撮影LV2初回',1)"
+			@call file="?_TRA_0023" label="*top"
+		@else
+			@call file="?_TRA_0024" label="*top"
+		@endif
+		
+	@elsif exp= "tf['お仕事Level'] == 3"
+		@call file="?_TRA_0025" label="*top"
+	@endif
+@endif
+
+@return
+
+
+script\general\■main\personal_main\n1_men_main_0001.ks
+
+
+*top
+
+;=====================
+; ■腹黒性格＿面接
+;=====================
+
+;// 腹黒タイプを最初に雇った時のみ、メインキャラ未確定フラグを立てる
+@if exp= "GetManFlag('腹黒＿初回雇用') == 0"
+	@eval exp="SetManFlag('腹黒＿初回雇用',1)"
+	@eval exp="SetManFlag('腹黒未確定',1)"
+@endif
+
+;// キャラクターパックEXからの追加性格であるフラグを立てておく
+@eval exp="SetMaidFlag(0,'キャラクターパックEXメイド',1)"

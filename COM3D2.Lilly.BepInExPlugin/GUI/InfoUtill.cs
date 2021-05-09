@@ -1,4 +1,5 @@
-﻿using COM3D2.Lilly.Plugin.ToolPatch;
+﻿using COM3D2.Lilly.Plugin.InfoPatch;
+using COM3D2.Lilly.Plugin.ToolPatch;
 using Kasizuki;
 using MaidStatus;
 using PlayerStatus;
@@ -23,11 +24,17 @@ namespace COM3D2.Lilly.Plugin
             if (GUILayout.Button("Scene 정보 얻기 ")) InfoUtill.GetSceneInfo();
             if (GUILayout.Button("정보 얻기 바디 관련")) InfoUtill.GetTbodyInfo();
             if (GUILayout.Button("정보 얻기 플레이어 관련")) InfoUtill.GetPlayerInfo();
-            if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) InfoUtill.GetMaidFlag();
             if (GUILayout.Button("정보 얻기 메이드 관련")) InfoUtill.GetMaidInfo();
-            #if COM3D2_157
+
+            if (GUILayout.Button("ScenarioSelectMgrPatch 관련")) ScenarioSelectMgrPatch.print();
+
+            GUILayout.Label("메이드 관리에서 사용 SceneMaidManagement");
+            GUI.enabled = Lilly.scene.name == "SceneMaidManagement";
+            if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) InfoUtill.GetMaidFlag(MaidManagementMainPatch.___select_maid_);
+
+#if COM3D2_157
             if (GUILayout.Button("GetStrIKCtrlPairInfo")) FullBodyIKMgrPatch.GetStrIKCtrlPairInfo();
-            #endif
+#endif
         }
 
         private static void GetGameInfo()
@@ -251,14 +258,20 @@ namespace COM3D2.Lilly.Plugin
 
         }
 
-        internal static void GetMaidFlag()
+        internal static void GetMaidFlag(Maid maid_)
         {
 
-            MyLog.LogDarkBlue("ScenarioDataUtill.GetMaidStatus. start");
+            MyLog.LogDarkBlue("GetMaidFlag. start");
 
-            Maid maid_ = GameMain.Instance.CharacterMgr.GetStockMaid(0);
+            //Maid maid_ = GameMain.Instance.CharacterMgr.GetStockMaid(0);
 
             MyLog.LogMessage("Maid: " + MyUtill.GetMaidFullName(maid_));
+
+            ReadOnlyDictionary<int, WorkData> workDatas = maid_.status.workDatas;
+            foreach (var item in workDatas)
+            {
+                MyLog.LogMessage("workDatas: " + item.Key, item.Value.id, item.Value.level);
+            }
 
             ReadOnlyDictionary<int, bool> eventEndFlags = maid_.status.eventEndFlags;
             foreach (var item in eventEndFlags)
@@ -272,19 +285,16 @@ namespace COM3D2.Lilly.Plugin
                 MyLog.LogMessage("flags: " + item.Key, item.Value);
             }
 
-            flags = maid_.status.OldStatus.flags;
-            foreach (var item in flags)
+            if (maid_.status.OldStatus != null)
             {
-                MyLog.LogMessage("old.flags: " + item.Key, item.Value);
+                flags = maid_.status.OldStatus.flags;
+                foreach (var item in flags)
+                {
+                    MyLog.LogMessage("old.flags: " + item.Key, item.Value);
+                }
             }
 
-            ReadOnlyDictionary<int, WorkData> workDatas = maid_.status.workDatas;
-            foreach (var item in workDatas)
-            {
-                MyLog.LogMessage("workDatas: " + item.Key, item.Value.id, item.Value.level);
-            }
-
-            MyLog.LogDarkBlue("ScenarioDataUtill.GetMaidStatus. end");
+            MyLog.LogDarkBlue("GetMaidFlag. end");
         }
 
         public static List<AbstractFreeModeItem> scnearioFree = new List<AbstractFreeModeItem>();

@@ -36,6 +36,8 @@ namespace COM3D2.Lilly.Plugin
             if (GUILayout.Button("YotogiClass 처리")) SkillClassUtill.SetMaidYotogiClassAll();
             if (GUILayout.Button("Skill 처리")) SkillClassUtill.SetMaidSkillAll();
             if (GUILayout.Button("스텟,성텩,특성,업무 처리")) StatusUtill.SetMaidStatusAll();
+            if (GUILayout.Button("모든 메이드 에러 플레그 제거")) FlagUtill.RemoveErrFlagAll();
+            if (GUILayout.Button("모든 메이드 일반 플레그 제거")) FlagUtill.RemoveFlagAll();
             if (GUILayout.Button("모든 메이드 이벤트 플레그 제거")) FlagUtill.RemoveEventEndFlagAll();
             
             GUILayout.Label("플레이어 대상");
@@ -47,6 +49,8 @@ namespace COM3D2.Lilly.Plugin
             GUI.enabled = Lilly.scene.name == "SceneMaidManagement";
             if (GUILayout.Button("선택 메이드 스텟, 스킬, 잡, 클래스 처리")) CheatUtill.SetMaidAll(MaidManagementMainPatch.___select_maid_);
             if (GUILayout.Button("선택 메이드 플레그 제거")) FlagUtill.RemoveEventEndFlag(true);
+            if (GUILayout.Button("HeroineType.Original")) CheatUtill.SetHeroineType(HeroineType.Original);
+            if (GUILayout.Button("HeroineType.Transfer")) CheatUtill.SetHeroineType(HeroineType.Transfer);
             GUI.enabled = true;
         }
 

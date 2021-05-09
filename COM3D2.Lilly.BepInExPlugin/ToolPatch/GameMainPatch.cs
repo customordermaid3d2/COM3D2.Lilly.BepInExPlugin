@@ -7,7 +7,7 @@ using System.Text;
 namespace COM3D2.Lilly.Plugin.ToolPatch
 {
     /// <summary>
-    /// 아직 미구현
+    /// 세이브 파일 로딩시 버전 차이 등으로 로딩 못하고 멈출경우 자동으로 타이틀로 돌아감
     /// </summary>
     class GameMainPatch
     {

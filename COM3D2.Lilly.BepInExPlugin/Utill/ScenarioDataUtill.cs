@@ -22,66 +22,68 @@ namespace COM3D2.Lilly.Plugin.Utill
             {
                 isRunSetScenarioDataAll = true;
                 MyLog.LogDarkBlue("SetScenarioDataAll. start");
-                try
-                {
-                    // 병렬 처리
-                    foreach (var scenarioData in GameMain.Instance.ScenarioSelectMgr.GetAllScenarioData())
-                    {
-                        try
-                        {
-                            // MyLog.LogMessageS(".SetScenarioDataAll:" + scenarioData.ID + " , " + scenarioData.ScenarioScript + " , " + scenarioData.IsPlayable + " , " + scenarioData.Title); ;
-                            if (scenarioData.IsPlayable)
-                            {
-                                //MyLog.LogMessageS(".m_EventMaid");
-                                MyLog.LogMessage("SetScenarioDataAll1"
-                            , scenarioData.ID
-                            , scenarioData.Title
-                            , scenarioData.ScenarioScript
-                            , scenarioData.ScenarioScript.Contains("_Marriage")
-                            );
-                                foreach (var maid in scenarioData.GetEventMaidList())
-                                {
-                                    if (maid.status.heroineType == HeroineType.Sub)
-                                    {
-                                        MyLog.LogMessage("SetScenarioDataAll2"
-                                        , MyUtill.GetMaidFullName(maid)
-                                        , maid.status.heroineType
-                                        );
-                                        continue;
-                                    }
 
-                                    //    try
-                                    //{
-                                    bool b = maid.status.GetEventEndFlag(scenarioData.ID);
-                                    if (!b)
-                                    {
-                                        MyLog.LogMessage("SetScenarioDataAll3"
-                                            , MyUtill.GetMaidFullName(maid)
-                                            , b
-                                            );
-                                        maid.status.SetEventEndFlag(scenarioData.ID, true);
-                                        if (scenarioData.ScenarioScript.Contains("_Marriage"))
-                                        {
-                                            maid.status.specialRelation = SpecialRelation.Married;
-                                            maid.status.relation = Relation.Lover;
-                                            maid.status.OldStatus.isMarriage = true;
-                                            maid.status.OldStatus.isNewWife = true;
-                                            //SetMaidCondition(0, '嫁');
-                                        }
-                                    }
-                                    //}
-                                    //catch (Exception e)
-                                    //{
-                                    //    MyLog.LogError("ScenarioDataUtill.SetScenarioDataAll3 : " + e.ToString());
-                                    //}
+                // 병렬 처리
+                foreach (var scenarioData in GameMain.Instance.ScenarioSelectMgr.GetAllScenarioData())
+                {
+
+                    // MyLog.LogMessageS(".SetScenarioDataAll:" + scenarioData.ID + " , " + scenarioData.ScenarioScript + " , " + scenarioData.IsPlayable + " , " + scenarioData.Title); ;
+                    if (scenarioData.IsPlayable)
+                    {
+                        //MyLog.LogMessageS(".m_EventMaid");
+                        MyLog.LogMessage("SetScenarioDataAll1"
+                        , scenarioData.ID
+                        , scenarioData.Title
+                        , scenarioData.ScenarioScript
+                        , scenarioData.ScenarioScript.Contains("_Marriage")
+                        );
+                        foreach (var maid in scenarioData.GetEventMaidList())
+                        {
+                            if (maid.status.heroineType == HeroineType.Sub)
+                            {
+                                MyLog.LogMessage("SetScenarioDataAll2"
+                                , MyUtill.GetMaidFullName(maid)
+                                , maid.status.heroineType
+                                );
+                                continue;
+                            }
+
+                            //    try
+                            //{
+                            bool b = maid.status.GetEventEndFlag(scenarioData.ID);
+                            if (!b)
+                            {
+                                MyLog.LogMessage("SetScenarioDataAll3"
+                                    , MyUtill.GetMaidFullName(maid)
+                                    , b
+                                    );
+                                maid.status.SetEventEndFlag(scenarioData.ID, true);
+                                if (scenarioData.ScenarioScript.Contains("_Marriage"))
+                                {
+                                    maid.status.specialRelation = SpecialRelation.Married;
+                                    maid.status.relation = Relation.Lover;
+                                    maid.status.OldStatus.isMarriage = true;
+                                    maid.status.OldStatus.isNewWife = true;
+                                    //SetMaidCondition(0, '嫁');
                                 }
                             }
-                        }
-                        catch (Exception e)
-                        {
-                            MyLog.LogError("ScenarioDataUtill.SetScenarioDataAll2 : " + e.ToString());
+                            //}
+                            //catch (Exception e)
+                            //{
+                            //    MyLog.LogError("ScenarioDataUtill.SetScenarioDataAll3 : " + e.ToString());
+                            //}
                         }
                     }
+                    try
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        MyLog.LogError("ScenarioDataUtill.SetScenarioDataAll2 : " + e.ToString());
+                    }
+                }
+                try
+                {
                 }
                 catch (Exception e)
                 {
@@ -89,6 +91,9 @@ namespace COM3D2.Lilly.Plugin.Utill
                 }
                 MyLog.LogDarkBlue("SetScenarioDataAll. end");
                 isRunSetScenarioDataAll = false;
+
+                //FlagUtill.RemoveErrFlagAll();
+
             });
         }
 

@@ -52,6 +52,7 @@ namespace COM3D2.Lilly.Plugin
 
             customFile = Config;
             GUIVirtual.customFile = Lilly.customFile;
+            MyLog.LogMessage("ConfigFilePath", customFile.ConfigFilePath);
 
             harmonyUtill =new HarmonyUtill();
             infoUtill = new InfoUtill();

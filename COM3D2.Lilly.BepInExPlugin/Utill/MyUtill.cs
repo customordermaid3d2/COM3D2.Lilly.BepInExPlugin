@@ -73,7 +73,8 @@ namespace COM3D2.Lilly.Plugin
             //return maid.status.fullNameEnStyle+" , "+maid.status.heroineType;
             return Join(" , " 
                 , new object[] {
-                      maid.status.fullNameEnStyle
+                      maid.status.personal.replaceText
+                    , maid.status.fullNameEnStyle
                     , maid.status.heroineType
                     , maid.status.contract
                 }

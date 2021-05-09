@@ -52,7 +52,7 @@ namespace COM3D2.Lilly.Plugin
             toolList.Add(typeof(AbstractFreeModeItemPatch));// 프리 모드에서 모든 이벤트 열기 위한용 오버 플로우
             toolList.Add(typeof(EmpireLifeModeManagerToolPatch));// 회상모드 시나리오 처리용?
             toolList.Add(typeof(FacilityManagerToolPatch));// 회상 모드에서 버튼 활성화용
-            toolList.Add(typeof(GameMainPatch));// 회상모드 시나리오 처리용?
+            toolList.Add(typeof(GameMainPatch));// 세이브 파일 로딩시 버전 차이 등으로 로딩 못하고 멈출경우 자동으로 타이틀로 돌아감
             toolList.Add(typeof(MaidManagementMainPatch));//메이드 관리에서 모든 버튼 활성화
             toolList.Add(typeof(SceneEditPatch)); //메이드 에딧 진입시 모든 스텟 적용
             toolList.Add(typeof(ScenarioDataPatch));// 회상모드 시나리오 처리용?
@@ -88,6 +88,7 @@ namespace COM3D2.Lilly.Plugin
             infoList.Add(typeof(MaidPatch));// 아이템 장착 확인용
             infoList.Add(typeof(ScheduleMgrPatch));// 스케줄 관리
             infoList.Add(typeof(SceneMgrPatch));
+            infoList.Add(typeof(ScenarioSelectMgrPatch));
             infoList.Add(typeof(StatusPatch));// 스케줄 관리
             infoList.Add(typeof(TBodyPatch));// 스케줄 관리
             //infoList.Add(typeof(FullBodyIKMgrPatch));// 뼈 관련. 안뜨는거 같음

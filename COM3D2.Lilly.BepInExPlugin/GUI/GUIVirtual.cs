@@ -97,13 +97,13 @@ namespace COM3D2.Lilly.Plugin
         public virtual void SetGuiOff()
         {
             isGuiOn = false;
-            MyLog.LogDebug("SetGuiOff", name, IsGuiOn);
+            //MyLog.LogDebug("SetGuiOff", name, IsGuiOn);
         }
 
         public virtual void SetGuiOnOff()
         {
             IsGuiOn = !IsGuiOn;
-            MyLog.LogDebug("SetGuiOnOff", name, IsGuiOn);
+            //MyLog.LogDebug("SetGuiOnOff", name, IsGuiOn);
         }
 
         public virtual void Awake()
