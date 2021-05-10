@@ -1,4 +1,5 @@
 ﻿using COM3D2.Lilly.Plugin.BasePatch;
+using COM3D2.Lilly.Plugin.MyGUI;
 using COM3D2.Lilly.Plugin.ToolPatch;
 using COM3D2.Lilly.Plugin.Utill;
 using FacilityFlag;
@@ -15,7 +16,7 @@ using UnityEngine;
 using wf;
 using Yotogis;
 
-namespace COM3D2.Lilly.Plugin
+namespace COM3D2.Lilly.Plugin.MyGUI
 {
     public class CheatGUI : GUIVirtual
     {

@@ -5,8 +5,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace COM3D2.Lilly.Plugin
+namespace COM3D2.Lilly.Plugin.InfoPatch
 {
+    /// <summary>
+    /// 모든 오브젝트가 다 나오니 그냥 끌것
+    /// </summary>
     class GameObjectPatch
     {
         // GameObject
@@ -16,7 +19,7 @@ namespace COM3D2.Lilly.Plugin
         {
             if ("New Game Object" == __instance.name || "Explanation" == __instance.name)
                 return;
-            if (value )
+            if (value)
             {
                 MyLog.LogMessage("GameObject.SetActive"
                 , __instance.name
@@ -25,7 +28,7 @@ namespace COM3D2.Lilly.Plugin
                 , value
                 );
             }
-            
+
         }
     }
 }

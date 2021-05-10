@@ -77,6 +77,7 @@ MaidManagementMainPatch.newMaidSetting SceneEditPatch.OnCompleteFadeIn 필요
 - CameraMainPatch : 페이드 여부 출력  
 - CharacterMgrPatch : 아이템 / 프리셋 선택시 바뀌는 프리셋 및 모드 파일명 출력  
 - FullBodyIKMgrPatch : 미사용?  
+- GameObjectPatch : 모든 오브젝트가 다 나오니 그냥 끌것
 - MaidPatch : 메이드 파츠 정보 관련?  
 - ScheduleMgrPatch : 스케줄 관리 관련?  
 - TBodyPatch : 작동 안하는듯?  
@@ -89,12 +90,13 @@ MaidManagementMainPatch.newMaidSetting SceneEditPatch.OnCompleteFadeIn 필요
 - ClassDataPatch : 클래스 정보 불러올때마다 밤시중과 업무 클래스 레벨 최대치 처리.  
   이거 쓰는것보단 easyUtill 에 있는걸  쓰는게 성능에 좋음  
 - EmpireLifeModeManagerToolPatch : 회상 모드에서 라이프 선택 가능. 메이드 피들러에서 가져옴  
-- GameMainPatch : 오류있는 세이브 파일 로딩시 겜이 멈추면 자동으로 타이틀로 이동
+- GameMainPatch : 오류있는 세이브 파일 로딩시 겜이 멈추면 자동으로 타이틀로 이동  
 - MaidManagementMainPatch : 메이드 관리 화면에서 모든 버튼 활성화  
 - ScenarioDataPatch : 회상모드 에서 회상 가능?  메이드 피들러에서 가져옴  
 - SceneEditPatch : 메이드 에딧 진입시 모든 스텟 적용 (SetMaidStatus)  
 - SceneFreeModeSelectManagerPatch : 회상모드에서 H이벤트 활성?  
-- ScheduleAPIPatch : 스케줄 관리에서 모든 스케줄 사용 가능? 비추천?  
+- ScheduleAPIPatch : 스케줄 관리에서 모든 스케줄 사용 가능.  
+  사용 못하는것도 선택 가능해지니 사용하지 말것  
 - SceneMgrPatch : 커뮤니티할 메이드 랜덤 선택
 
 

@@ -1,4 +1,5 @@
 ﻿using BepInEx.Configuration;
+using COM3D2.Lilly.Plugin.MyGUI;
 using COM3D2.Lilly.Plugin.ToolPatch;
 using COM3D2.Lilly.Plugin.Utill;
 using MaidStatus;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace COM3D2.Lilly.Plugin
+namespace COM3D2.Lilly.Plugin.MyGUI
 {
     public class MaidEditGui : GUIVirtual
     {

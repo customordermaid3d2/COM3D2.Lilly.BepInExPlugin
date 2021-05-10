@@ -1,4 +1,5 @@
-﻿using COM3D2.Lilly.Plugin.Utill;
+﻿using COM3D2.Lilly.Plugin.MyGUI;
+using COM3D2.Lilly.Plugin.Utill;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;

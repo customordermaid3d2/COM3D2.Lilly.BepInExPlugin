@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6D55F31F-5C95-432F-B297-F9419C12EBC8}"
 	ProjectSection(SolutionItems) = preProject
 		memo.txt = memo.txt
+		PlayerStatusSetFlag.csv = PlayerStatusSetFlag.csv
 		README.MD = README.MD
 	EndProjectSection
 EndProject

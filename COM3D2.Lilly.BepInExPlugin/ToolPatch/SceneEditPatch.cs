@@ -1,4 +1,6 @@
-﻿using COM3D2.Lilly.Plugin.ToolPatch;
+﻿using COM3D2.Lilly.Plugin.MyGUI;
+using COM3D2.Lilly.Plugin.ToolPatch;
+using COM3D2.Lilly.Plugin.Utill;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -10,7 +12,7 @@ namespace COM3D2.Lilly.Plugin
     /// <summary>
     /// 메이드 에딧 모드로 들어갈시
     /// </summary>
-    class SceneEditPatch
+    class SceneEditPatch//: AwakeUtill
     {
         // SceneEdit        
 
@@ -18,7 +20,11 @@ namespace COM3D2.Lilly.Plugin
         //public static Type sliderItemSet;
         //public static SceneEdit Instance;
 
-        public static void Awake()
+        public SceneEditPatch(){
+            //Lilly.actionsAwake += Awake;
+            }
+
+        public  void Awake()
         {
             /*
             try

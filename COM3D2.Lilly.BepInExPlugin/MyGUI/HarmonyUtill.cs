@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using COM3D2.Lilly.Plugin.BasePatch;
 using COM3D2.Lilly.Plugin.InfoPatch;
+using COM3D2.Lilly.Plugin.MyGUI;
 using COM3D2.Lilly.Plugin.ToolPatch;
 using HarmonyLib;
 using System;
@@ -11,7 +12,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace COM3D2.Lilly.Plugin
+namespace COM3D2.Lilly.Plugin.MyGUI
 {
     public class HarmonyUtill : GUIVirtual
     {
@@ -30,14 +31,19 @@ namespace COM3D2.Lilly.Plugin
 
         public HarmonyUtill() : base("HarmonyUtill")
         {
-           Instance = this;
-        }
-
-        public override void Awake()
-        {
+            Instance = this;            
             SetHarmonyListAll();
         }
+        /*
+        public  void init()
+        {
+            MyLog.LogDebug("HarmonyUtill.init");
+        }
 
+        public  void Awake()
+        {
+        }
+        */
         public static void SetHarmonyListAll()
         {
 
@@ -115,7 +121,7 @@ namespace COM3D2.Lilly.Plugin
             // 이거로 원본 메소드에 연결시켜줌. 이게 일종의 해킹
 
             // Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(),null);// 이건 사용법 모르겠음
-            MyLog.LogLine();
+            MyLog.LogDarkYellow();
             foreach (Type item in list) // 인셉션 나면 중단되는 현상 제거
             {
                 ConfigEntry<bool> t = customFile.Bind("HarmonyUtill",
@@ -130,7 +136,7 @@ namespace COM3D2.Lilly.Plugin
                     SetHarmonyPatch(item);
                 }
             }
-            MyLog.LogLine();
+            MyLog.LogDarkYellow();
         }
 
         public static void SetHarmonyUnPatchAll(List<Type> list)
@@ -267,8 +273,13 @@ namespace COM3D2.Lilly.Plugin
 
             scrollPos = GUILayout.BeginScrollView(scrollPos);
 
+            GUILayout.Label("toolList 대상");
             SetButtonList1("toolList 온오프 ",ref isToolPatch, toolList);
+
+            GUILayout.Label("infoList 대상");
             SetButtonList1("infoList 온오프 ", ref isInfoPatch, infoList);
+
+            GUILayout.Label("baseList 대상");
             SetButtonList1("baseList 온오프 ", ref isBasePatch, baseList);
 
             GUILayout.EndScrollView();

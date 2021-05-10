@@ -98,6 +98,10 @@ namespace COM3D2.Lilly.Plugin
         internal static void LogDarkMagenta(params object[] args)
         {
             ConsoleOut(args, ConsoleColor.DarkMagenta);
+        }        
+        internal static void LogDarkYellow(params object[] args)
+        {
+            ConsoleOut(args, ConsoleColor.DarkYellow);
         }
                 
         internal static void LogBlue(params object[] args)

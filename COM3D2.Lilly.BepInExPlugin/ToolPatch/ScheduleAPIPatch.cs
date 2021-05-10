@@ -11,6 +11,10 @@ using wf;
 
 namespace COM3D2.Lilly.Plugin.ToolPatch
 {
+    /// <summary>
+    /// 모든 스케줄 버튼 클릭 가능
+    /// 버그 발생 높으니 사용하지 말것
+    /// </summary>
     class ScheduleAPIPatch
     {
         // ScheduleAPI

@@ -13,8 +13,9 @@ using BepInEx.Configuration;
 using BepInEx;
 using MaidStatus;
 using System.Reflection;
+using COM3D2.Lilly.Plugin.MyGUI;
 
-namespace COM3D2.Lilly.Plugin
+namespace COM3D2.Lilly.Plugin.MyGUI
 {
     public class EasyUtill : GUIVirtual
     {

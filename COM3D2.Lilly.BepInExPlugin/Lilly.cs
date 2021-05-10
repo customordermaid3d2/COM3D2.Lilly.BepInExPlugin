@@ -1,5 +1,8 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using COM3D2.Lilly.Plugin.InfoPatch;
+using COM3D2.Lilly.Plugin.MyGUI;
+using COM3D2.Lilly.Plugin.Utill;
 using COM3D2API;
 using HarmonyLib;
 using System;
@@ -16,7 +19,7 @@ namespace COM3D2.Lilly.Plugin
     // https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin
     [BepInPlugin("COM3D2.Lilly.Plugin", "COM3D2.Lilly.Plugin", "21.4.2")]// 버전 규칙 잇음. 반드시 2~4개의 숫자구성으로 해야함. 미준수시 못읽어들임
     [BepInProcess("COM3D2x64.exe")]
-    public class Lilly : BaseUnityPlugin
+    public class Lilly : BaseUnityPlugin 
     {
         public static ConfigFile customFile;// = new ConfigFile(Path.Combine(Paths.ConfigPath, "COM3D2.Lilly.Plugin.cfg"), true);
 
@@ -25,6 +28,11 @@ namespace COM3D2.Lilly.Plugin
         public static System.Random rand = new System.Random();
 
         public static bool isLogOn = true;
+
+        public static ConfigEntryUtill configEntryUtill;
+
+        public static event Action actionsAwake;
+        public static event Action actionsInit;
 
         public static void SetLogOnOff()
         {
@@ -43,6 +51,7 @@ namespace COM3D2.Lilly.Plugin
         public static CheatGUI cheatUtill;
         public static EasyUtill easyUtill;
         public static MaidEditGui maidEditGui;
+        public static OnOffGUI OnOffGUI;
 
         public Lilly()
         {
@@ -51,20 +60,40 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogDarkBlue("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 
             customFile = Config;
+            //AwakeUtill.customFile = Lilly.customFile;
             GUIVirtual.customFile = Lilly.customFile;
+            ConfigEntryUtill.customFile = Lilly.customFile;
+            configEntryUtill = new ConfigEntryUtill(
+            "Lilly"
+            , "OnSceneLoaded"
+            );
+
             MyLog.LogMessage("ConfigFilePath", customFile.ConfigFilePath);
 
-            harmonyUtill =new HarmonyUtill();
+            harmonyUtill = new HarmonyUtill();
             infoUtill = new InfoUtill();
             cheatUtill = new CheatGUI();
             easyUtill = new EasyUtill();
             maidEditGui = new MaidEditGui();
+            OnOffGUI = new OnOffGUI();
 
             GearMenu.SetButton();
+
+            // 성능이 너무 나쁨. 하모니가 괜히 클래스 지정한게 아닌듯
+            //InvokeInit.Invoke();
+            //InvokeAwake.Invoke();
+
+
+            if (actionsInit.GetLength()>0)
+            actionsInit();
         }
+
+
 
         /// <summary>
         /// 한번만 실행됨
+        /// 단순 참조는 위에서 처리하고
+        /// 초기화 같은건 이걸 이용하자
         /// </summary>
 
         public void Awake()
@@ -73,8 +102,8 @@ namespace COM3D2.Lilly.Plugin
             DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             MyLog.LogMessage("Awake",dateTime.ToString("u"));
 
-            SceneEditPatch.Awake();
-            GUIVirtual.ActionsAwake();
+            if (actionsAwake.GetLength() > 0)
+                actionsAwake();
         }
 
         public void OnEnable()
@@ -83,8 +112,7 @@ namespace COM3D2.Lilly.Plugin
 
             SceneManager.sceneLoaded += this.OnSceneLoaded;
 
-            HarmonyUtill.SetHarmonyPatchAll();
-            
+            HarmonyUtill.SetHarmonyPatchAll();            
         }
 
         public void Start()
@@ -95,11 +123,13 @@ namespace COM3D2.Lilly.Plugin
 
         public static Scene scene;
 
+
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // SceneManager.GetActiveScene().name 
             Lilly.scene = scene;
-            MyLog.LogMessage("OnSceneLoaded"
+            if (configEntryUtill["OnSceneLoaded"])
+                MyLog.LogMessage("OnSceneLoaded"
                 , scene.buildIndex
                 , scene.rootCount
                 , scene.name
@@ -114,14 +144,7 @@ namespace COM3D2.Lilly.Plugin
         }
 
         public void OnGUI()
-        {
-            /*
-            if (!Lilly.isGuiOn)
-            {
-                return;
-            }
-            */
-            
+        {            
             GUIVirtual.ActionsOnGui();
         }
 

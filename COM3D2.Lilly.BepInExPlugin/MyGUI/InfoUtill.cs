@@ -1,4 +1,5 @@
 ﻿using COM3D2.Lilly.Plugin.InfoPatch;
+using COM3D2.Lilly.Plugin.MyGUI;
 using COM3D2.Lilly.Plugin.ToolPatch;
 using Kasizuki;
 using MaidStatus;
@@ -13,7 +14,7 @@ using wf;
 using Yotogis;
 
 
-namespace COM3D2.Lilly.Plugin
+namespace COM3D2.Lilly.Plugin.MyGUI
 {
     public class InfoUtill : GUIVirtual
     {

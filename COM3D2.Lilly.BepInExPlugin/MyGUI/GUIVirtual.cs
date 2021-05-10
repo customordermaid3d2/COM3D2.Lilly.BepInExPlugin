@@ -5,17 +5,16 @@ using System.Text;
 using UnityEngine;
 using BepInEx.Configuration;
 using COM3D2API;
+using COM3D2.Lilly.Plugin.Utill;
 
-namespace COM3D2.Lilly.Plugin
+namespace COM3D2.Lilly.Plugin.MyGUI
 {
     /// <summary>
     /// 메뉴 화면 표준화
     /// 상속 받은후 SetButtonList 에다가 버튼 목록만 작성하고 있음
     /// </summary>
-    public class GUIVirtual
+    public class GUIVirtual// : AwakeUtill
     {
-        public static ConfigFile customFile;
-
         private static int WindowId = new System.Random().Next();
         private static Rect windowRect = new Rect(40f, 40f, 300f, 600f);
         // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
@@ -23,23 +22,24 @@ namespace COM3D2.Lilly.Plugin
         private static GUIStyle windowStyle;
 
         private bool isGuiOn = false;
+        internal static ConfigFile customFile;
 
         public static event Action isGuiOff;
         public static event Action actionsOnGui;
-        public static event Action actionsAwake;
         public static event Action actionsStart;
 
-        public string name= "GUIVirtual";
+        public string name = "GUIVirtual";
 
-        public bool IsGuiOn { get => isGuiOn; 
+        public bool IsGuiOn {
+            get => isGuiOn;
             set
-                {
-                    isGuiOff();
-                    isGuiOn = value;
-                }
+            {
+                isGuiOff();
+                isGuiOn = value;
             }
+        }
 
-        public GUIVirtual()
+        public GUIVirtual() : base()
         {
             MyLog.LogDebug("GUIVirtual()");
 
@@ -48,7 +48,7 @@ namespace COM3D2.Lilly.Plugin
 
         }
 
-        public GUIVirtual(string name)
+        public GUIVirtual(string name) : base()
         {
             MyLog.LogDebug("GUIVirtual()", name);
             this.name = name;
@@ -56,10 +56,9 @@ namespace COM3D2.Lilly.Plugin
         }
 
         private void NewMethod()
-        {
+        {            
             isGuiOff += SetGuiOff;
             actionsOnGui += OnGui;
-            actionsAwake += Awake;
             actionsStart += Start;
             SystemShortcutAPI.AddButton(name, new Action(SetGuiOnOff), name, GearMenu.png);
         }
@@ -74,19 +73,18 @@ namespace COM3D2.Lilly.Plugin
             actionsOnGui();
         }
 
-        public static void ActionsAwake()
-        {
-            actionsAwake();
-        }
+
+        
 
         public static void ActionsStart()
         {
+
             actionsStart();
         }
 
         public virtual void SetName()
-        {            
-            this.name = this.GetType().Name;
+        {
+            name = GetType().Name;
         }
 
         public virtual void SetName(string name)
@@ -106,9 +104,18 @@ namespace COM3D2.Lilly.Plugin
             //MyLog.LogDebug("SetGuiOnOff", name, IsGuiOn);
         }
 
-        public virtual void Awake()
+        public  void init()
         {
-            MyLog.LogDebug("Awake", name);
+            MyLog.LogDebug("GUIVirtual.init", name);
+            //configEntryUtill = new ConfigEntryUtill(
+            //"GUIVirtual_" + name
+            //, "OnSceneLoaded"
+            //);
+        }
+        public  void Awake()
+        {
+            MyLog.LogDebug("GUIVirtual.Awake", name);
+
         }
 
         public virtual void Start()
@@ -141,12 +148,12 @@ namespace COM3D2.Lilly.Plugin
 
             GUILayout.BeginVertical();
 
-            GUILayout.Label(name+" List");
+            GUILayout.Label(name + " List");
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition);
             //try
             //{
-                SetButtonList();
+            SetButtonList();
             //}
             //catch (Exception e)
             //{
@@ -165,7 +172,7 @@ namespace COM3D2.Lilly.Plugin
 
         public virtual void SetButtonList()
         {
-            MyLog.LogWarning("SetButtonList",name);
+            MyLog.LogWarning("SetButtonList", name);
         }
 
     }
