@@ -6,7 +6,7 @@ using System.Text;
 
 namespace COM3D2.Lilly.Plugin.Utill
 {
-    /*
+    
     public class AwakeUtill 
     {        
         public static ConfigFile customFile;
@@ -14,21 +14,19 @@ namespace COM3D2.Lilly.Plugin.Utill
         public AwakeUtill()
         {            
             MyLog.LogDebug("AwakeUtill", "ctor", GetType().Name);
-            //Lilly.actionsAwake += Awake;
-            //Lilly.actionsInit += init;
+            Lilly.actionsAwake += Awake;
+            Lilly.actionsInit += init;
         }
 
-        [InvokeInit]
         public virtual void init()
         {
             MyLog.LogDebug("AwakeUtill", "init", GetType().Name);
         }
 
-        [InvokeAwake]
         public virtual void Awake()
         {
             MyLog.LogDebug("AwakeUtill", "Awake", GetType().Name);
         }
     }
-    */
+    
 }

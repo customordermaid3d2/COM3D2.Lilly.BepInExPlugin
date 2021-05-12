@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using COM3D2.Lilly.Plugin.Utill;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,21 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
     {
         // KagScript
 
-        public static void run(string scenario_str)
+        public static ConfigEntryUtill configEntryUtill = new ConfigEntryUtill(
+        "KagScriptPatch"
+        , "LoadScenarioString"
+        , "GoToLabel"
+        , "LoadScenario"
+        );
+
+        public static void run(string scenario_str, string label_name)
         {
+            /*
+            GameMain.Instance.ScriptMgr.LoadAdvScenarioScript(scenario_str, label_name);        
+            GameMain.Instance.ScriptMgr.adv_kag.Exec();
+            */
             GameMain.Instance.ScriptMgr.adv_kag.kag.LoadScenarioString(scenario_str);
+            GameMain.Instance.ScriptMgr.adv_kag.kag.GoToLabel(label_name);
             GameMain.Instance.ScriptMgr.adv_kag.kag.Exec();
         }
 
@@ -27,7 +40,8 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
         [HarmonyPostfix]
         public static void LoadScenarioString(string scenario_str)
         {
-            MyLog.LogMessage("LoadScenarioString.", scenario_str);
+            if (configEntryUtill["LoadScenarioString"])
+                MyLog.LogMessage("LoadScenarioString.", scenario_str);
         }
 
         // public void GoToLabel(string label_name)
@@ -35,14 +49,16 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
         [HarmonyPostfix]
         public static void GoToLabel(string label_name)
         {
-            MyLog.LogMessage("GoToLabel.", label_name);
+            if (configEntryUtill["GoToLabel"])
+                MyLog.LogMessage("GoToLabel.", label_name);
         }
 
         [HarmonyPatch(typeof(KagScript), "LoadScenario")]
         [HarmonyPostfix]
         public static void LoadScenario(string file_name)
         {
-            MyLog.LogMessage("LoadScenario.", file_name);
+            if (configEntryUtill["LoadScenario"])
+                MyLog.LogMessage("LoadScenario.", file_name);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using COM3D2.Lilly.Plugin.Utill;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,12 @@ namespace COM3D2.Lilly.Plugin
         // 모든 매개 변수를 전달할 필요는 없습니다.
 
         // public static MaidProp[] m_aryMaidProp;
+
+        public static ConfigEntryUtill configEntryUtill = new ConfigEntryUtill(
+        "MaidPatch"
+        , "SetProp"
+        , "DelProp"
+        );
 
         /// <summary>
         /// 메이드 만들어질때
@@ -49,6 +56,7 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix]
         public static void SetProp(Maid __instance, MPN idx, int val, bool f_bTemp, MaidProp[] ___m_aryMaidProp)
         {
+            if(configEntryUtill["SetProp"])
             if (__instance.Visible)
                 print("SetProp2",___m_aryMaidProp[(int)idx]);
         }
@@ -60,7 +68,8 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix]
         public static void SetProp(Maid __instance, MaidProp mp, string filename, int f_nFileNameRID, bool f_bTemp, bool f_bNoScale )
         {
-            if (__instance.Visible)
+            if (configEntryUtill["SetProp"])
+                if (__instance.Visible)
             {
                 print("SetProp3",mp);
             }
@@ -72,7 +81,8 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPrefix]
         public static void DelProp(Maid __instance, MPN idx, bool f_bTemp, MaidProp[] ___m_aryMaidProp)
         {
-            if (__instance.Visible)
+            if (configEntryUtill["DelProp"])
+                if (__instance.Visible)
                 print("DelProp",___m_aryMaidProp[(int)idx]);
         }
 

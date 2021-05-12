@@ -27,8 +27,12 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         public static event Action isGuiOff;
         public static event Action actionsOnGui;
         public static event Action actionsStart;
+        public static event Action actionsSetButtonList;
 
         public string name = "GUIVirtual";
+
+        public static int pageMax = 0;
+        public int pageNum = 0;
 
         public bool IsGuiOn {
             get => isGuiOn;
@@ -44,7 +48,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             MyLog.LogDebug("GUIVirtual()");
 
             SetName();
-            NewMethod();
+            Seting();
 
         }
 
@@ -52,14 +56,16 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         {
             MyLog.LogDebug("GUIVirtual()", name);
             this.name = name;
-            NewMethod();
+            Seting();
         }
 
-        private void NewMethod()
-        {            
+        private void Seting()
+        {
+            pageNum = pageMax++;
             isGuiOff += SetGuiOff;
             actionsOnGui += OnGui;
             actionsStart += Start;
+            actionsSetButtonList += SetButtonList;
             SystemShortcutAPI.AddButton(name, new Action(SetGuiOnOff), name, GearMenu.png);
         }
 

@@ -201,7 +201,7 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
                 CheatUtill.SetMaidAll(maid);
 
 
-            PresetUtill.RandPreset(PresetUtill.ListType.All, PresetUtill.PresetType.All, maid);
+            PresetUtill.RandPreset(maid);
 
             MyLog.LogMessage("EasyUtill.AddStockMaid", MyUtill.GetMaidFullName(maid));
         }

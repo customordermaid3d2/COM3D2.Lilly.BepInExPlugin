@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using COM3D2.Lilly.Plugin.Utill;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +14,13 @@ namespace COM3D2.Lilly.Plugin
     /// </summary>
     public static class CharacterMgrPatch // 이름은 마음대로 지어도 되긴 한데 나같은 경우 정리를 위해서 해킹 대상 클래스 이름에다가 접미사를 붇임
     {
-       
+        public static ConfigEntryUtill configEntryUtill = new ConfigEntryUtill(
+            "CharacterMgrPatch"
+            , "SetActive"
+            , "Deactivate"
+            , "PresetSave"
+            , "PresetSet"
+            );
 
         // https://github.com/BepInEx/HarmonyX/wiki/Prefix-changes
         // https://github.com/BepInEx/HarmonyX/wiki/Patch-parameters
@@ -38,6 +45,17 @@ namespace COM3D2.Lilly.Plugin
 
         // ------------------------------------
 
+        public static Maid[] m_gcActiveMaid;
+        public static string[] namesMaid=new string[18];
+
+        [HarmonyPatch(typeof(CharacterMgr), MethodType.Constructor)]
+        [HarmonyPostfix]
+        public static void CharacterMgrConstructor(Maid[] ___m_gcActiveMaid)
+        {
+            m_gcActiveMaid = ___m_gcActiveMaid;
+            MyLog.LogMessage("CharacterMgr.Constructor ");
+        }
+
         /// <summary>
         /// 프리셋 선택해서 메이드에게 입힐때 작동
         /// </summary>
@@ -58,12 +76,36 @@ namespace COM3D2.Lilly.Plugin
             //}
         }
 
+        // private void SetActive(Maid f_maid, int f_nActiveSlotNo, bool f_bMan)
+        [HarmonyPatch(typeof(CharacterMgr), "SetActive")]
+        [HarmonyPostfix]
+        public static void SetActive(Maid f_maid, int f_nActiveSlotNo, bool f_bMan)
+        {
+            if (configEntryUtill["SetActive"])
+                MyLog.LogMessage("CharacterMgr.SetActive" , f_nActiveSlotNo, MyUtill.GetMaidFullName(f_maid) );
+            if (!f_bMan)
+                namesMaid[f_nActiveSlotNo] = MyUtill.GetMaidFullName(f_maid);
+        }
+        
+        // private void SetActive(Maid f_maid, int f_nActiveSlotNo, bool f_bMan)
+        [HarmonyPatch(typeof(CharacterMgr), "Deactivate")]
+        [HarmonyPrefix]
+        public static void Deactivate(int f_nActiveSlotNo, bool f_bMan)
+        {
+            if (configEntryUtill["Deactivate"])
+                MyLog.LogMessage("CharacterMgr.Deactivate", f_nActiveSlotNo );// HarmonyPrefix로 했는데도 m_gcActiveMaid 에선 제거되있네
+            if (!f_bMan)            
+                namesMaid[f_nActiveSlotNo] = string.Empty;
+            
+        }
+        
         // public CharacterMgr.Preset PresetSave(Maid f_maid, CharacterMgr.PresetType f_type)
         [HarmonyPatch(typeof(CharacterMgr), "PresetSave")]
         [HarmonyPostfix]
         public static void PresetSave(Maid f_maid, CharacterMgr.PresetType f_type, CharacterMgr.Preset __result)
         {
-            MyLog.LogMessage("CharacterMgr.PresetSavePost0: " + MyUtill.GetMaidFullName(f_maid) + " , " + __result.strFileName + " , " + __result.ePreType);
+            if (configEntryUtill["PresetSave"])
+                MyLog.LogMessage("CharacterMgr.PresetSavePost0: " + MyUtill.GetMaidFullName(f_maid) + " , " + __result.strFileName + " , " + __result.ePreType);
         }
 
         // public void PresetSet(Maid f_maid, CharacterMgr.Preset f_prest, bool forceBody = false) // 157
@@ -73,7 +115,7 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix]
         public static void PresetSet(Maid f_maid, CharacterMgr.Preset f_prest)
         {
-            if (!Lilly.isLogOn)
+            if (configEntryUtill["PresetSet"])
             {
                 return;
             }

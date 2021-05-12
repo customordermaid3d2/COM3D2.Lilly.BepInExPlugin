@@ -98,7 +98,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             if (MaidEditGui._SetMaidStatusOnOff.Value)
                 CheatUtill.SetMaidAll(maid);
 
-            PresetUtill.RandPreset(PresetUtill.ListType.All, PresetUtill.PresetType.All, maid);
+            PresetUtill.RandPreset( maid);
 
             if (MaidEditGui._GP01FBFaceEyeRandomOnOff.Value)
             {

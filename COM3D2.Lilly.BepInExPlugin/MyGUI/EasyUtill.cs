@@ -42,16 +42,13 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             GUILayout.Label("now scene.name : " + Lilly.scene.name);
             if (GUILayout.Button("mod reflash2")) modreflash2();
             
-
             /*
             GUILayout.Label("ScheduleTaskCtrlPatch");
             GUI.enabled = ScheduleTaskCtrlPatch.instance != null;
             if (GUILayout.Button("스케줄 자동 채우기")) ScheduleTaskCtrlPatch.SetScheduleSlot();
             GUI.enabled = true;
             */
-            PresetUtill.SetButtonList();
-
-            
+                        
             GUILayout.Label("SceneDaily");
             GUI.enabled = Lilly.scene.name == "SceneDaily";
             if (GUILayout.Button("DeleteMaidStatusAll")) DeleteMaidStatusAll();

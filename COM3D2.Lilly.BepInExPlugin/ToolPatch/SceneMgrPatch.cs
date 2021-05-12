@@ -14,6 +14,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
     {
         // SceneMgr
 
+
         //private string m_sceneName;
 
         // private void DispatcherSceneDaily(string openType)

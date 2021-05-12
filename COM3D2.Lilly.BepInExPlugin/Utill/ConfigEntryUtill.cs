@@ -111,10 +111,14 @@ namespace COM3D2.Lilly.Plugin.Utill
             }
         }
 
-        public KeyValuePair<string, ConfigEntry<bool>> this[int key] {
+        public bool this[int key] {
             get
             {
-                return list.ElementAt(key);
+                return list.ElementAt(key).Value.Value;
+            }
+            set
+            {
+                list.ElementAt(key).Value.Value = value;
             }
         }
 
@@ -155,42 +159,140 @@ namespace COM3D2.Lilly.Plugin.Utill
         object IEnumerator.Current =>   list.ElementAt(position);
     }
 
-    /*
-    class ConfigEntryUtill<T> : AwakeUtill
-    {
-        public static Dictionary<string, Dictionary<string, ConfigEntry<T>>> listAll = new Dictionary<string, Dictionary<string, ConfigEntry<T>>>();
-        public Dictionary<string, ConfigEntry<T>> list = new Dictionary<string, ConfigEntry<T>>();
-        string section;
 
-        public ConfigEntryUtill(string section)
+
+    public class ConfigEntryUtill<T> : IEnumerator, IEnumerable
+    {
+        public static ConfigFile customFile;
+        public static Dictionary<string, ConfigEntryUtill<T>> listAll = new Dictionary<string, ConfigEntryUtill<T>>();
+        public Dictionary<string, ConfigEntry<T>> list = new Dictionary<string, ConfigEntry<T>>();
+        public string section;
+        public T defult;
+
+        public List<string> kyes = new List<string>();
+
+
+        public ConfigEntryUtill(string section, T defult) : base()
         {
+            MyLog.LogDebug("ConfigEntryUtill.ctor", section);
+
             this.section = section;
-            listAll.Add(section, list);
+            this.defult = defult;
+
+            listAll.Add(section, this);
+        }
+
+        public ConfigEntryUtill(string section, T defult,params string[] keys) : base()
+        {
+            MyLog.LogDebug("ConfigEntryUtill.ctor", section, keys.Length);
+
+            this.section = section;
+            this.defult = defult;
+
+            listAll.Add(section, this);
+            //foreach (var key in keys)
+            //{
+            //    Add(key, true);
+            //}
+            kyes.AddRange(keys);//나중에 처리하자            
+            //Lilly.actionsAwake += Awake;
+            Awake();
+        }
+
+        public static ConfigEntryUtill<T> Create(string section, T defult, params string[] keys)
+        {
+            MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
+            return new ConfigEntryUtill<T>(section,defult, keys);
+        }
+        /*
+        public static T Get(string section, string key)
+        {
+            if (!listAll.ContainsKey(section))
+            {
+                listAll.Add(section, new ConfigEntryUtill<T>(section, null));
+            }
+            return listAll[section][key];
+        }
+        */
+
+        public void Awake()
+        {
+            MyLog.LogMessage("ConfigEntryUtill.Awake", section, kyes.Count);
+            foreach (var item in kyes)
+            {
+                MyLog.LogDebug("ConfigEntryUtill.Awake", section, item);
+                if (!list.ContainsKey(item))
+                {
+                    Add(item, defult);
+                }
+            }
+            MyLog.LogMessage("ConfigEntryUtill.Awake", section, list.Count);
         }
 
         public T this[string key] {
             get
             {
+                if (!list.ContainsKey(key))
+                {
+                    Add(key, defult);
+                }
                 return list[key].Value;
             }
             set
             {
+                if (!list.ContainsKey(key))
+                {
+                    Add(key, defult);
+                }
                 list[key].Value = value;
             }
-        }        
+        }
 
-        public void Add(string key, T defaultValue, string description=null)
+        public T this[int key] {
+            get
+            {
+                return list.ElementAt(key).Value.Value;
+            }
+            set
+            {
+                list.ElementAt(key).Value.Value = value;
+            }
+        }
+
+        public void Add(string key, T defaultValue, string description = null)
         {
             list.Add(
                 key,
                 customFile.Bind(
                     section,
                     key,
-                    defaultValue             
+                    defaultValue
                 )
             );
         }
 
+        int position = -1;
+
+        //IEnumerator and IEnumerable require these methods.
+        public IEnumerator GetEnumerator()
+        {
+            return (IEnumerator)this;
+        }
+
+        //IEnumerator
+        public bool MoveNext()
+        {
+            position++;
+            return (position < list.Count);
+        }
+
+        //IEnumerable
+        public void Reset()
+        {
+            position = 0;
+        }
+
+        //IEnumerable
+        object IEnumerator.Current => list.ElementAt(position);
     }
-    */
 }

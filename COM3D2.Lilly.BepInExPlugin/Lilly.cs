@@ -52,6 +52,7 @@ namespace COM3D2.Lilly.Plugin
         public static EasyUtill easyUtill;
         public static MaidEditGui maidEditGui;
         public static OnOffGUI OnOffGUI;
+        public static PresetGUI presetGUI;
 
         public Lilly()
         {
@@ -60,7 +61,7 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogDarkBlue("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 
             customFile = Config;
-            //AwakeUtill.customFile = Lilly.customFile;
+            AwakeUtill.customFile = Lilly.customFile;
             GUIVirtual.customFile = Lilly.customFile;
             ConfigEntryUtill.customFile = Lilly.customFile;
             configEntryUtill = new ConfigEntryUtill(
@@ -76,8 +77,10 @@ namespace COM3D2.Lilly.Plugin
             easyUtill = new EasyUtill();
             maidEditGui = new MaidEditGui();
             OnOffGUI = new OnOffGUI();
+            presetGUI = new PresetGUI();
 
             GearMenu.SetButton();
+            PresetUtill.init();
 
             // 성능이 너무 나쁨. 하모니가 괜히 클래스 지정한게 아닌듯
             //InvokeInit.Invoke();
