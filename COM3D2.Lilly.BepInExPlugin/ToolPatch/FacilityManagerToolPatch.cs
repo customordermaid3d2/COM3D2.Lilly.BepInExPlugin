@@ -49,21 +49,33 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             m_FacilityDefaultDataArray = ___m_FacilityDefaultDataArray;
         }
 
+        /// <summary>
+        /// 겜 실행시 한번만 실행됨
+        /// </summary>
         [HarmonyPostfix, HarmonyPatch(typeof(FacilityManager), "ResetData")]
         public static void ResetData()
         {
-            // 작동 불가. facilityManager가 아직 할당 안되어서
-            m_NextDayFacilityArray = GameMain.Instance.FacilityMgr.GetNextDayFacilityArray();
-            m_FacilityArray = GameMain.Instance.FacilityMgr.GetFacilityArray();
+            SetData();
+
             MyLog.LogMessage(
-                "FacilityManagerToolPatch.ResetData"                
+                "FacilityManagerToolPatch.ResetData"
                 , m_NextDayFacilityArray.Count
                 , m_FacilityArray.Length
             );
         }
 
+        private static void SetData()
+        {
+            if (m_NextDayFacilityArray == null)
+                m_NextDayFacilityArray = GameMain.Instance.FacilityMgr.GetNextDayFacilityArray();
+            if (m_FacilityArray == null)
+                m_FacilityArray = GameMain.Instance.FacilityMgr.GetFacilityArray();
+        }
+
         public static void GetGameInfo()
         {
+            SetData();
+
             Facility facility;
 
             foreach (var item in m_FacilityArray)
@@ -105,6 +117,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                     , facility.enabled
                 );
             }
+            if (m_FacilityDefaultDataArray!=null)
             foreach (var item in m_FacilityDefaultDataArray)
             {
                 MyLog.LogMessage(
@@ -138,6 +151,8 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         /// </summary>
         public static void SetFacilityAll()
         {
+            SetData();
+
             MyLog.LogMessage(
                 "FacilityManagerToolPatch.SetFacilityAll1"
                 , GameMain.Instance.FacilityMgr.FacilityCountMax

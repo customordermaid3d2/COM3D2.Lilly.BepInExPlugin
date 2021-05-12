@@ -10,6 +10,7 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
     /// GameMain.Instance.ScriptMgr.adv_kag.kag.LoadScenarioString(sceneMenuLoadScript);
     /// GameMain.Instance.ScriptMgr.adv_kag.kag.Exec();    /// 
     /// GameMain.Instance.LoadScene("SceneToTitle");
+    /// 스크립트 읽고 어느 명령어 부분으로 이동했는지 정보 출력용  
     /// </summary>
     class KagScriptPatch
     {

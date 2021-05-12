@@ -19,7 +19,7 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix]
         private static void ChangeBgPost(string f_strPrefubName)
         {
-            MyLog.LogMessage("BgMgr.ChangeBgPost:" + f_strPrefubName);
+            MyLog.LogMessage("BgMgr.ChangeBgPost : " + f_strPrefubName);
         }
 
 

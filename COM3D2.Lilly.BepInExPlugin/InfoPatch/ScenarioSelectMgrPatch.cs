@@ -70,6 +70,7 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
 
         internal static void print()
         {
+            //AccessTools.Field
             MyLog.LogDarkBlue("m_AllScenarioData. start");
             foreach (var item in m_AllScenarioData)
             {
