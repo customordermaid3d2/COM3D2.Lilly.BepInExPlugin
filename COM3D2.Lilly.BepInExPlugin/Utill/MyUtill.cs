@@ -70,6 +70,10 @@ namespace COM3D2.Lilly.Plugin
 
         internal static string GetMaidFullName(Maid maid)
         {
+            if (maid==null)
+            {
+                return "null";
+            }
             //return maid.status.fullNameEnStyle+" , "+maid.status.heroineType;
             return Join(" , " 
                 , new object[] {

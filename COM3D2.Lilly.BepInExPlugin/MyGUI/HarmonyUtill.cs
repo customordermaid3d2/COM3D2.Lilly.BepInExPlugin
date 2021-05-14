@@ -97,6 +97,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             baseList.Add(typeof(NDebugPatch));// 망할 메세지 박스
             baseList.Add(typeof(ProfileCtrlPatch));// 스케줄 관련
             baseList.Add(typeof(ScheduleCtrlPatch));// 스케줄 관련
+            baseList.Add(typeof(ScheduleScenePatch));// 스케줄 관련
             baseList.Add(typeof(ScoutManagerPatch));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
             //baseList.Add(typeof(ScheduleTaskCtrlPatch));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
         }

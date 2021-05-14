@@ -24,7 +24,18 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
         , "LoadScenario"
         );
 
-        public static void run(string scenario_str, string label_name)
+        public static void run1(string scenario_str, string label_name)
+        {
+            GameMain.Instance.ScriptMgr.LoadAdvScenarioScript(scenario_str, label_name);        
+            GameMain.Instance.ScriptMgr.adv_kag.Exec();
+            /*
+            GameMain.Instance.ScriptMgr.adv_kag.kag.LoadScenarioString(scenario_str);
+            GameMain.Instance.ScriptMgr.adv_kag.kag.GoToLabel(label_name);
+            GameMain.Instance.ScriptMgr.adv_kag.kag.Exec();
+            */
+        }
+
+        public static void run2(string scenario_str, string label_name)
         {
             /*
             GameMain.Instance.ScriptMgr.LoadAdvScenarioScript(scenario_str, label_name);        

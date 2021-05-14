@@ -1,5 +1,6 @@
 ﻿using FacilityFlag;
 using HarmonyLib;
+using Schedule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -175,6 +176,91 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 }
             }
         }
+        
+        /// <summary>
+        /// 시설 자동 배치
+        /// </summary>
+
+        public static void SetFacilityAll2()
+        {
+            SetData();
+
+            MyLog.LogMessage(
+                "FacilityManagerToolPatch.SetFacilityAll1"
+                , GameMain.Instance.FacilityMgr.FacilityCountMax
+                , m_NextDayFacilityArray.Count
+                , m_FacilityArray.Length
+            );
+
+            List<Facility.FacilityStatus> listBak = FacilityDataTable.GetFacilityStatusArray(true).ToList();
+            List<Facility.FacilityStatus> list=new List<Facility.FacilityStatus>();
+            for (int i = 2; i < GameMain.Instance.FacilityMgr.FacilityCountMax; i++)
+            {
+                if (list.Count == 0)
+                {
+                    list.AddRange(listBak);                    
+                }
+                var item = list[0];
+                Facility facility = GameMain.Instance.FacilityMgr.CreateNewFacility(item.typeID);
+
+                GameMain.Instance.FacilityMgr.SetFacility(i, facility);
+
+                list.Remove(item);
+
+            }
+        }
+
+        public static void SetFacilityAllMaid(ScheduleMgr.ScheduleTime scheduleTime )
+        {
+            List<Facility> facilitys = GameMain.Instance.FacilityMgr.GetFacilityArray().ToList();
+            List<Maid> maids = ScheduleMgrPatch.m_scheduleApi.slot.Select(x => x.maid).ToList();
+            if (maids.Count==0)
+            {
+                return;
+            }
+            while (2< facilitys.Count)
+            {
+                int n = UnityEngine.Random.Range(2, facilitys.Count);
+                var facility = facilitys[n];
+                if (facility != null)
+                {
+                    if(facility.minMaidCount<= maids.Count)
+                    {
+                        for (int i = 0; i < facility.minMaidCount; i++)
+                        {
+                            Maid maid= maids[UnityEngine.Random.Range(0, maids.Count)];
+                            if (ScheduleAPI.FacilitySlotActive(maid.status.guid, facility, scheduleTime))
+                            {
+                                MyLog.LogWarning("SetFacilityAllMaid"
+                                    , n
+                                    , facility.defaultName
+                                    , MyUtill.GetMaidFullName(maid)
+                                );
+                            }
+                            maids.Remove(maid);                        
+                        }
+                    }
+                }
+                facilitys.Remove(facility);
+            }
+            while (maids.Count>0)
+            {
+                Maid maid = maids[UnityEngine.Random.Range(0, maids.Count)];
+                if (ScheduleAPI.FacilitySlotActive(maid.status.guid, facilitys[1], scheduleTime))
+                {
+                    MyLog.LogWarning("SetFacilityAllMaid"
+                        , 1
+                        , facilitys[1].defaultName
+                        , MyUtill.GetMaidFullName(maid)
+                    );
+                }
+                maids.Remove(maid);
+            }
+
+            // 설정후 업뎃
+            GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
+        }
+
 
         /*
          

@@ -3,8 +3,15 @@ GameMain.Instance.FacilityMgr.FacilityCountMax
 
 Maid maid = array[UnityEngine.Random.Range(0, array.Length)];
 
+__result
+__instance
 
 UnityEngine.Random.Range(maidProp.min, maidProp.max)
+
+List<Maid> maids=GameMain.Instance.CharacterMgr.GetStockMaidList();
+Maid maid = maids[UnityEngine.Random.Range(0, maids.Count)];
+
+Facility[] facilities=GameMain.Instance.FacilityMgr.GetFacilityArray();
 
 [HarmonyPatch(typeof(ScenarioSelectMgr),MethodType.Constructor)]
 

@@ -14,13 +14,15 @@ using BepInEx;
 using MaidStatus;
 using System.Reflection;
 using COM3D2.Lilly.Plugin.MyGUI;
+using COM3D2.Lilly.Plugin.InfoPatch;
+using COM3D2.Lilly.Plugin.ToolPatch;
 
 namespace COM3D2.Lilly.Plugin.MyGUI
 {
     public class EasyUtill : GUIVirtual
     {
         //public static Scene scene;       
-        
+
 
         public EasyUtill()
         {
@@ -35,25 +37,45 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         }
 
 
-
+        public static string scenario_str = string.Empty;
+        public static string label_name = string.Empty;
 
         public override void SetButtonList()
         {
             GUILayout.Label("now scene.name : " + Lilly.scene.name);
             if (GUILayout.Button("mod reflash2")) modreflash2();
-            
+
+            GUILayout.Label("Schedule");
+            GUI.enabled = Lilly.scene.name == "SceneDaily";
+            if (GUILayout.Button("슬롯에 메이드 자동 배치")) ScheduleMgrPatch.SetSlotAllMaid();
+            if (GUILayout.Button("슬롯의 메이드들 제거")) ScheduleMgrPatch.SetSlotAllDel();
+            if (GUILayout.Button("시설에 메이드 자동 배치 - 주간")) FacilityManagerToolPatch.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
+            if (GUILayout.Button("시설에 메이드 자동 배치 - 야간")) FacilityManagerToolPatch.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
+            GUI.enabled = true;
+
+
+
+            GUILayout.Label("scenario_str ");
+            scenario_str = GUILayout.TextField(scenario_str);
+            GUILayout.Label("label_name ");
+            label_name = GUILayout.TextField(label_name);
+            if (GUILayout.Button("Exec run1"))
+            {
+                if (scenario_str != "" && label_name != "")
+                    KagScriptPatch.run1(scenario_str, label_name);
+            }
+            if (GUILayout.Button("Exec run2"))
+            {
+                if (scenario_str != "" && label_name != "")
+                    KagScriptPatch.run2(scenario_str, label_name);
+            }
+
             /*
             GUILayout.Label("ScheduleTaskCtrlPatch");
             GUI.enabled = ScheduleTaskCtrlPatch.instance != null;
             if (GUILayout.Button("스케줄 자동 채우기")) ScheduleTaskCtrlPatch.SetScheduleSlot();
             GUI.enabled = true;
             */
-                        
-            GUILayout.Label("SceneDaily");
-            GUI.enabled = Lilly.scene.name == "SceneDaily";
-            if (GUILayout.Button("DeleteMaidStatusAll")) DeleteMaidStatusAll();
-            
-
 
             GUI.enabled = true;
             //if (GUILayout.Button("mod reflash")) modreflash();
@@ -146,13 +168,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             );
         }   /*
         */
-        private void DeleteMaidStatusAll()
-        {
-            for (int i = 0; i < 40; i++)//SetDataForViewer 에서 하드 코딩됨
-            {
-                ScheduleCtrlPatch.DeleteMaidAndReDraw("slot_" + i + "_MaidStatus");
-            }
-        }
+
 
 
         /*

@@ -15,8 +15,6 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
     class MaidManagementMainPatch
     {
 
-
-        public static bool newMaid = false;
         public static Maid ___select_maid_;
         /// <summary>
         /// 메이드 관리에서 모든 버튼 활성화
@@ -62,11 +60,11 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPostfix, HarmonyPatch(typeof(MaidManagementMain), "Employment")]
         public static void Employment(string ___new_edit_label_)
         {
-            newMaid = true;
+            SceneEditPatch.newMaid = true;
             MyLog.LogMessage("MaidManagementMain.Employment"
                 //, EasyUtill._GP01FBFaceEyeRandomOnOff.Value
                 //, EasyUtill._SetMaidStatusOnOff.Value
-                , newMaid
+                , SceneEditPatch.newMaid
                 , ___new_edit_label_
                 );
 
@@ -84,39 +82,5 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         }
 
 
-        // [HarmonyPatch(typeof(SceneEdit), "OnCompleteFadeIn")] 에서 사용
-        public static void newMaidSetting()
-        {
-            if (!newMaid)
-            {
-                return;
-            }
-            Maid maid = GameMain.Instance.CharacterMgr.GetMaid(0);
-
-            PersonalUtill.SetPersonalRandom(maid);
-
-            if (MaidEditGui._SetMaidStatusOnOff.Value)
-                CheatUtill.SetMaidAll(maid);
-
-            PresetUtill.RandPreset( maid);
-
-            if (MaidEditGui._GP01FBFaceEyeRandomOnOff.Value)
-            {
-                try
-                {
-                    maid.SetProp(MPN.head, "face001_fb_i_.menu", "face001_fb_i_.menu".GetHashCode(), false, false);
-                    MaidEditGui.GP01FBFaceEyeRandom(1, maid);
-                }
-                catch (Exception e)
-                {
-                    MyLog.LogMessage(
-                        "newMaidSetting"
-                        , e.ToString()
-                    );
-                }
-
-            }
-            newMaid = false;
-        }
     }
 }

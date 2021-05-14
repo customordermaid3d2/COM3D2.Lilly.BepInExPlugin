@@ -56,59 +56,5 @@ namespace COM3D2.Lilly.Plugin
 
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m_deleteSlotNo">slot_0_MaidStatus</param>
-        public static void DeleteMaidAndReDraw(string m_deleteSlotNo)
-        {
-            string text = null;
-            if (m_dicMaidStatusAndTask.ContainsKey(m_deleteSlotNo))
-            {
-                text = m_scheduleMgr.CurrentActiveButton;
-                int slotId = ScheduleCtrl.ToIntSlotNo(m_deleteSlotNo);
-                m_scheduleApi.SetSlot_Safe(slotId, null, true, true);
-                if (instance.DicExclusiveViewer[ScheduleCtrl.ExclusiveViewer.MaidStatusList].activeSelf)
-                {
-                    //m_charSelMgr.MoveGridArea((Maid)hGetMaidBySlotNo.Invoke(instance, new object[] { m_deleteSlotNo }));
-                    m_charSelMgr.MoveGridArea(instance.GetMaidBySlotNo( m_deleteSlotNo ));
-                }
-                m_scheduleMgr.UpdateMaidStatus();
-                MyLog.LogMessage(
-                "DeleteMaidAndReDraw1"
-                , m_deleteSlotNo
-                , slotId
-                , text
-                );
-            }
-            //GameMain.Instance.SysDlg.Close();
-            if (!string.IsNullOrEmpty(text))
-            {
-                if (text.Contains(m_deleteSlotNo))
-                {
-                    //hSetViewerActive.Invoke(instance, new object[] { ScheduleCtrl.ExclusiveViewer.None });
-                    instance.SetViewerActive(ScheduleCtrl.ExclusiveViewer.None );
-                }
-                else
-                {
-                    instance.SetSelectedRowActive( text );
-                    m_scheduleMgr.CurrentActiveButton = text;
-                    //hSetViewerActive.Invoke(instance, new object[] { m_currentActiveViewer });
-                    instance.SetViewerActive( m_currentActiveViewer );
-                    if (instance.DicExclusiveViewer[ScheduleCtrl.ExclusiveViewer.Task].activeSelf)
-                    {
-                        m_scheduleMgr.UpdateTask("-1");
-                    }
-                }
-                MyLog.LogMessage(
-                "DeleteMaidAndReDraw2"
-                , m_deleteSlotNo
-                , text
-                );
-            }
-            //m_deleteSlotNo = null;
-            m_scheduleApi = null;
-        }
-
     }
 }

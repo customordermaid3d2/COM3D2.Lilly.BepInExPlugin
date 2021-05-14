@@ -75,8 +75,8 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix]
         public static void OnCompleteFadeIn() // Maid ___m_maid,SceneEdit __instance
         {
-            MyLog.LogMessage("SceneEdit.OnCompleteFadeIn");
-            MaidManagementMainPatch.newMaidSetting();
+            MyLog.LogMessage("SceneEdit.OnCompleteFadeIn", newMaid);
+            newMaidSetting();
         }
 
         //[HarmonyPatch(typeof(SceneEdit.MenuItemSet), "Start")]
@@ -124,8 +124,41 @@ namespace COM3D2.Lilly.Plugin
             }
         }
 
+        public static bool newMaid = false;
 
+        public static void newMaidSetting()
+        {
+            if (!newMaid)
+            {
+                return;
+            }
+            Maid maid = GameMain.Instance.CharacterMgr.GetMaid(0);
 
+            PersonalUtill.SetPersonalRandom(maid);
+
+            if (MaidEditGui._SetMaidStatusOnOff.Value)
+                CheatUtill.SetMaidAll(maid);
+
+            PresetUtill.RandPreset(maid);
+
+            if (MaidEditGui._GP01FBFaceEyeRandomOnOff.Value)
+            {
+                try
+                {
+                    maid.SetProp(MPN.head, "face001_fb_i_.menu", "face001_fb_i_.menu".GetHashCode(), false, false);
+                    MaidEditGui.GP01FBFaceEyeRandom(1, maid);
+                }
+                catch (Exception e)
+                {
+                    MyLog.LogMessage(
+                        "newMaidSetting"
+                        , e.ToString()
+                    );
+                }
+
+            }
+            newMaid = false;
+        }
 
         // private void OnEndScene()
 
