@@ -212,8 +212,15 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
 
         public static void SetFacilityAllMaid(ScheduleMgr.ScheduleTime scheduleTime )
         {
-            List<Facility> facilitys = GameMain.Instance.FacilityMgr.GetFacilityArray().ToList();
-            List<Maid> maids = ScheduleMgrPatch.m_scheduleApi.slot.Select(x => x.maid).ToList();
+            List<Facility> facilitys = GameMain.Instance.FacilityMgr.GetFacilityArray().Where(x=> x !=null).ToList();
+            List<string> maids = GameMain.Instance.CharacterMgr.status.scheduleSlot.Where(x=>x.maid_guid != string.Empty).Select(x=>x.maid_guid).ToList();
+            //List<Maid> maids = ScheduleMgrPatch.m_scheduleApi.slot.Select(x => x.maid).ToList();
+            MyLog.LogMessage("SetFacilityAllMaid1"
+                , facilitys.Count
+                , maids.Count
+                , scheduleTime
+            );
+
             if (maids.Count==0)
             {
                 return;
@@ -222,36 +229,57 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             {
                 int n = UnityEngine.Random.Range(2, facilitys.Count);
                 var facility = facilitys[n];
-                if (facility != null)
+                MyLog.LogDebug("SetFacilityAllMaid2"
+                    , n
+                    , facility.defaultName
+                    , facility.facilityName
+                    , facility.name
+                    , facility.guid
+                    , facility.tag
+                    , facility.enabled
+                    , facility.isActiveAndEnabled
+                    , facility.minMaidCount
+                    , facility.maxMaidCount
+                    , maids.Count
+                    , facility.hideFlags                    
+                );
+                if(facility.minMaidCount<= maids.Count)
                 {
-                    if(facility.minMaidCount<= maids.Count)
+                    for (int i = 0; i < facility.minMaidCount; i++)
                     {
-                        for (int i = 0; i < facility.minMaidCount; i++)
-                        {
-                            Maid maid= maids[UnityEngine.Random.Range(0, maids.Count)];
-                            if (ScheduleAPI.FacilitySlotActive(maid.status.guid, facility, scheduleTime))
-                            {
-                                MyLog.LogWarning("SetFacilityAllMaid"
-                                    , n
-                                    , facility.defaultName
-                                    , MyUtill.GetMaidFullName(maid)
-                                );
-                            }
-                            maids.Remove(maid);                        
-                        }
+                        //Maid maid= maids[UnityEngine.Random.Range(0, maids.Count)];
+                        string maid = maids[UnityEngine.Random.Range(0, maids.Count)];
+                        bool b = ScheduleAPI.FacilitySlotActive(maid, facility, scheduleTime);
+                        MyLog.LogDebug("SetFacilityAllMaid3"
+                            , maid
+                            , b
+                        );
+                        maids.Remove(maid);                        
                     }
-                }
+                }           
                 facilitys.Remove(facility);
             }
             while (maids.Count>0)
             {
-                Maid maid = maids[UnityEngine.Random.Range(0, maids.Count)];
-                if (ScheduleAPI.FacilitySlotActive(maid.status.guid, facilitys[1], scheduleTime))
+                var facility = facilitys[1];
+                MyLog.LogDebug("SetFacilityAllMaid4"
+                    , 1
+                    , facility.defaultName
+                    , facility.facilityName
+                    , facility.name
+                    , facility.guid
+                    , facility.tag
+                    , facility.enabled
+                    , facility.isActiveAndEnabled
+                    , facility.minMaidCount
+                    , facility.maxMaidCount
+                    , facility.hideFlags
+                );
+                string maid = maids[UnityEngine.Random.Range(0, maids.Count)];
+                if (ScheduleAPI.FacilitySlotActive(maid, facility, scheduleTime))
                 {
-                    MyLog.LogWarning("SetFacilityAllMaid"
-                        , 1
-                        , facilitys[1].defaultName
-                        , MyUtill.GetMaidFullName(maid)
+                    MyLog.LogDebug("SetFacilityAllMaid5"
+                        , maid
                     );
                 }
                 maids.Remove(maid);

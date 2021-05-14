@@ -45,8 +45,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             GUILayout.Label("now scene.name : " + Lilly.scene.name);
             if (GUILayout.Button("mod reflash2")) modreflash2();
 
-            GUILayout.Label("Schedule");
-            GUI.enabled = Lilly.scene.name == "SceneDaily";
+            GUILayout.Label("Schedule 진입 필요");
+            GUI.enabled = ScheduleMgrPatch.m_scheduleApi != null;
             if (GUILayout.Button("슬롯에 메이드 자동 배치")) ScheduleMgrPatch.SetSlotAllMaid();
             if (GUILayout.Button("슬롯의 메이드들 제거")) ScheduleMgrPatch.SetSlotAllDel();
             if (GUILayout.Button("시설에 메이드 자동 배치 - 주간")) FacilityManagerToolPatch.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);

@@ -3,6 +3,8 @@ GameMain.Instance.FacilityMgr.FacilityCountMax
 
 Maid maid = array[UnityEngine.Random.Range(0, array.Length)];
 
+GameMain.Instance.CharacterMgr.status;
+
 __result
 __instance
 
