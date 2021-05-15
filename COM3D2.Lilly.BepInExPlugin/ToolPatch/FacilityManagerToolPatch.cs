@@ -159,13 +159,18 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         public static List<Facility.FacilityStatus> listbak;
         public static List<Facility.FacilityStatus> list;
 
-        private static void SetFacilityList()
+        private static void SetFacilityListInit()
         {
             if (listbak == null)
             {
                 listbak = FacilityDataTable.GetFacilityStatusArray(true).ToList();
                 foreach (var item in listbak)
                 {
+                    MyLog.LogMessage(
+                        "FacilityManagerToolPatch.print4"
+                        , item.typeID
+                        , item.name
+                    );
                     //if (!FacilityDataTable.GetFacilityCanBeDestroy(item.typeID, true))// 이게 제대로 안됨. 특히" 150 , 극장"이 제거 안됨
                     if (item.typeID==100 || item.typeID ==150)
                     {
@@ -192,7 +197,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 , GameMain.Instance.FacilityMgr.FacilityCountMax
             );
 
-            SetFacilityList();
+            SetFacilityListInit();
 
             //List<Facility.FacilityStatus> list = new();
 
@@ -237,8 +242,12 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                         , facility.defaultData.businessType
                         , facility.defaultData.businessTypeID
                         , facility.defaultData.businessTypeName
+                        , facility.defaultData.isRemoval
+                        , facility.defaultData.isEnableData
                         , facility.defaultData.isEnableNTR
                         , facility.defaultData.isOnlyNTR
+                        , facility.defaultData.isBusiness
+                        , facility.defaultData.isDefaultPlace
                         , facility.defaultData.minMaidCount
                         , facility.defaultData.maxMaidCount
                         , facility.defaultData.rank
@@ -273,9 +282,17 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             }
         }
 
-
+        /*
         public static void SetFacilityAllMaid(ScheduleMgr.ScheduleTime scheduleTime)
         {
+            //if (ScheduleMgrPatch.m_scheduleApi == null)
+            //{
+            //    MyLog.LogMessage("SetSlotAllDel"
+            //    , "스케줄 관리 접속 한번 필요"
+            //    );
+            //    return;
+            //}
+
             if (configEntryUtill["SetFacilityAllMaid"])
                 MyLog.LogMessage(
                 "SetFacilityAllMaid1"
@@ -347,7 +364,8 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
 
                                     );
 
-                                ScheduleMgrPatch.m_scheduleApi.SetNoonWorkSlot_Safe(scheduleTime, slots[n1], workData.id);
+                                if (ScheduleMgrPatch.m_scheduleApi == null)
+                                    ScheduleMgrPatch.m_scheduleApi.SetNoonWorkSlot_Safe(scheduleTime, slots[n1], workData.id);
 
                                 facility.AllocationMaid(maid, scheduleTime);
                             }
@@ -384,18 +402,9 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 int n1 = 0;
                 maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[n1]);
 
-                ScheduleMgrPatch.m_scheduleApi.SetNoonWorkSlot_Safe(scheduleTime, slots[n1], workData.id);
-                /*
-                if (scheduleTime == ScheduleMgr.ScheduleTime.DayTime)
-                {
-                    maid.status.noonWorkId = workData.id;
-                }
-                else if (scheduleTime == ScheduleMgr.ScheduleTime.Night)
-                {
-                    maid.status.nightWorkId = workData.id;
-                }
-                */
-                //ScheduleAPI.AddTrainingFacility(maid, kp.Value.Key, scheduleTime);
+                if (ScheduleMgrPatch.m_scheduleApi == null)
+                    ScheduleMgrPatch.m_scheduleApi.SetNoonWorkSlot_Safe(scheduleTime, slots[n1], workData.id);
+
                 facility.AllocationMaid(maid, scheduleTime);
 
                 slots.RemoveAt(n1);
@@ -417,7 +426,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
 
         }
 
-
+        */
     }
 }
 /*

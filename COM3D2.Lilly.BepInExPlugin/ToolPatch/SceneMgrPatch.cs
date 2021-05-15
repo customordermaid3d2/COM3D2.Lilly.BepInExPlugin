@@ -51,8 +51,8 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
 
                 if (configEntryUtill["시설에_메이드_자동_배치"])
                 {
-                    FacilityManagerToolPatch.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
-                    FacilityManagerToolPatch.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
+                    CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
+                    CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
                 }
 
                 if (configEntryUtill["커뮤니티_자동_적용"])

@@ -64,6 +64,14 @@ namespace COM3D2.Lilly.Plugin
 
         public static void SetSlotAllMaid()
         {
+            if (m_scheduleApi==null)
+            {
+                MyLog.LogMessage("SetSlotAllMaid"
+                , "스케줄 관리 접속 한번 필요"
+                );
+                return;
+            }
+
             List<Maid> maids = new List<Maid>();
             maids.AddRange(GameMain.Instance.CharacterMgr.GetStockMaidList());
             MyLog.LogMessage("SetSlotAllMaid"
@@ -85,6 +93,14 @@ namespace COM3D2.Lilly.Plugin
         
         public static void SetSlotAllDel()
         {
+            if (m_scheduleApi == null)
+            {
+                MyLog.LogMessage("SetSlotAllDel"
+                , "스케줄 관리 접속 한번 필요"
+                );
+                return;
+            }
+
             for (int i = 0; i < m_scheduleApi.slot.Length; i++)
             {
                 m_scheduleApi.SetSlot_Safe(i, null, true, false);

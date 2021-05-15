@@ -16,6 +16,7 @@ using System.Reflection;
 using COM3D2.Lilly.Plugin.MyGUI;
 using COM3D2.Lilly.Plugin.InfoPatch;
 using COM3D2.Lilly.Plugin.ToolPatch;
+using COM3D2.Lilly.Plugin.Utill;
 
 namespace COM3D2.Lilly.Plugin.MyGUI
 {
@@ -47,13 +48,13 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
             if (GUILayout.Button("SetRandomCommu")) { ScheduleAPIPatch.SetRandomCommu(true); ScheduleAPIPatch.SetRandomCommu(false); };
 
-            GUILayout.Label("Schedule 진입 필요. 세이브 불가?");
+            GUILayout.Label("Schedule 진입 필요.");
             GUI.enabled = ScheduleMgrPatch.m_scheduleApi != null;
             if (GUILayout.Button("슬롯에 메이드 자동 배치")) ScheduleMgrPatch.SetSlotAllMaid();
             if (GUILayout.Button("슬롯의 메이드들 제거")) ScheduleMgrPatch.SetSlotAllDel();
             GUI.enabled = true;
-            if (GUILayout.Button("시설에 메이드 자동 배치 - 주간")) FacilityManagerToolPatch.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
-            if (GUILayout.Button("시설에 메이드 자동 배치 - 야간")) FacilityManagerToolPatch.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
+            if (GUILayout.Button("시설에 메이드 자동 배치 - 주간")) CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
+            if (GUILayout.Button("시설에 메이드 자동 배치 - 야간")) CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
 
 
 

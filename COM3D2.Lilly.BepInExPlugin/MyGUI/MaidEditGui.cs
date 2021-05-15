@@ -115,12 +115,16 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
             {
                 selGridContract = GUILayout.SelectionGrid(selGridContract, ContractNames, 1);
             }
-            GUILayout.Label("Heroine");
+
+            GUI.enabled = !string.IsNullOrEmpty(GameMain.Instance.CMSystem.CM3D2Path);
+            GUILayout.Label("Heroine " + ( GUI.enabled ? "" : "호환모드 아님"));
             //if (GUILayout.Button("rndHeroine Rand " + rndHeroine + " " + HeroineNames[selGridHeroine])) rndHeroine = !rndHeroine;
             //if (!rndHeroine)
             {
                 selGridHeroine = GUILayout.SelectionGrid(selGridHeroine, HeroineNames, 1);
             }
+            GUI.enabled = true;
+
             //GUILayout.Label("------------");
 
             GUILayout.Label("메이드 에딧 진입시 자동 적용  ");
@@ -183,7 +187,13 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
                     maid.status.contract = MyUtill.RandomEnum(Contract.Trainee);
                     break;
             }
-            
+
+            if (string.IsNullOrEmpty(GameMain.Instance.CMSystem.CM3D2Path))
+            {
+                maid.status.heroineType = HeroineType.Original;
+            }
+            else
+            {
             switch (selGridHeroine)
             {
                 case 1:
@@ -195,6 +205,7 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
                 default:
                     maid.status.heroineType = MyUtill.RandomEnum(HeroineType.Sub);
                     break;
+            }
             }
 
             if (_SetMaidStatusOnOff.Value)

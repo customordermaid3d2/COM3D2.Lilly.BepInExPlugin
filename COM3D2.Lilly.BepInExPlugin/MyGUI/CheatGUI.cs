@@ -27,7 +27,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         public override void SetButtonList()
         {
-            if (GUILayout.Button("일상 플레그 처리")) CheatGUI.SetWorkAll();
+            if (GUILayout.Button("일상 플레그 처리")) CheatUtill.SetWorkAll();
+            if (GUILayout.Button("workSuccessLvMax")) ScheduleAPIPatch.SetworkSuccessLvMax();
             if (GUILayout.Button("시설 자동 생성 - 랜덤")) FacilityManagerToolPatch.SetFacilityAll(true);
             if (GUILayout.Button("시설 자동 생성 - 순차")) FacilityManagerToolPatch.SetFacilityAll(false);
 
@@ -58,85 +59,6 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
 
 
-        static bool isSetAllWorkRun = false;
-
-        internal static void SetWorkAll()
-        {
-
-            if (isSetAllWorkRun)
-                return;
-
-            Task.Factory.StartNew(() =>
-            {
-                isSetAllWorkRun = true;
-                MyLog.LogDarkBlue("ScheduleAPIPatch.SetAllWork. start");
-
-                ReadOnlyDictionary<int, NightWorkState> night_works_state_dic = GameMain.Instance.CharacterMgr.status.night_works_state_dic;
-                MyLog.LogMessage("ScheduleAPIPatch.SetAllWork.night_works_state_dic:" + night_works_state_dic.Count);
-
-                foreach (var item in night_works_state_dic)
-                {
-                    NightWorkState nightWorkState = item.Value;
-                    nightWorkState.finish = true;
-                }
-
-                MyLog.LogMessage("ScheduleAPIPatch.SetAllWork.YotogiData:" + ScheduleCSVData.YotogiData.Values.Count);
-                foreach (Maid maid in GameMain.Instance.CharacterMgr.GetStockMaidList())
-                {
-                    MyLog.LogMessage(".SetAllWork.Yotogi:" + MyUtill.GetMaidFullName(maid), ScheduleCSVData.YotogiData.Values.Count);
-                    if (maid.status.heroineType == HeroineType.Sub)
-                        continue;
-
-
-                    foreach (ScheduleCSVData.Yotogi yotogi in ScheduleCSVData.YotogiData.Values)
-                    {
-#if DEBUG
-                            if (Lilly.isLogOn)
-                                MyLog.LogInfo(".SetAllWork:"
-                                    + yotogi.id
-                                    , yotogi.name
-                                    , yotogi.type
-                                    , yotogi.yotogiType
-                                );
-#endif
-                            if (DailyMgr.IsLegacy)
-                        {
-                            maid.status.OldStatus.SetFlag("_PlayedNightWorkId" + yotogi.id, 1);
-                        }
-                        else
-                        {
-                            maid.status.SetFlag("_PlayedNightWorkId" + yotogi.id, 1);
-                        }
-                        if (yotogi.condFlag1.Count > 0)
-                        {
-                            for (int n = 0; n < yotogi.condFlag1.Count; n++)
-                            {
-                                maid.status.SetFlag(yotogi.condFlag1[n], 1);
-                            }
-                        }
-                        if (yotogi.condFlag0.Count > 0)
-                        {
-                            for (int num = 0; num < yotogi.condFlag0.Count; num++)
-                            {
-                                maid.status.SetFlag(yotogi.condFlag0[num], 0);
-                            }
-                        }
-                    }
-                    if (DailyMgr.IsLegacy)
-                    {
-                        maid.status.OldStatus.SetFlag("_PlayedNightWorkVip", 1);
-                    }
-                    else
-                    {
-                        maid.status.SetFlag("_PlayedNightWorkVip", 1);
-                    }
-                }
-
-                MyLog.LogDarkBlue("ScheduleAPIPatch.SetAllWork. end");
-                isSetAllWorkRun = false;
-            });
-
-        }
 
     }
 }

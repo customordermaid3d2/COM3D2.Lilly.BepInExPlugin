@@ -75,6 +75,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
                 MyLog.LogMessage(
                     item.defaultData.workData.id
                     ,item.defaultData.ID
+                    ,item.defaultData.isRemoval
                     ,item.defaultName
                     ,item.facilityName
                     ,item.param.typeID
@@ -255,6 +256,25 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             MyLog.LogInfo("Application.version : " + Application.version);
             MyLog.LogInfo("Application.unityVersion : " + Application.unityVersion);
             MyLog.LogInfo("Application.companyName : " + Application.companyName);
+
+            MyLog.LogInfo("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
+
+            MyLog.LogInfo("Product.windowTitel : " + Product.windowTitel);
+
+            MyLog.LogInfo("Product.enabeldAdditionalRelation : " + Product.enabeldAdditionalRelation);
+            MyLog.LogInfo("Product.enabledSpecialRelation : " + Product.enabledSpecialRelation);
+            
+            MyLog.LogInfo("Product.isEnglish : " + Product.isEnglish);
+            MyLog.LogInfo("Product.isJapan : " + Product.isJapan);
+            MyLog.LogInfo("Product.isPublic : " + Product.isPublic);
+
+            MyLog.LogInfo("Product.lockDLCSiteLink : " + Product.lockDLCSiteLink);
+
+            MyLog.LogInfo("Product.defaultLanguage : " + Product.defaultLanguage);
+            MyLog.LogInfo("Product.supportMultiLanguage : " + Product.supportMultiLanguage);
+            MyLog.LogInfo("Product.systemLanguage : " + Product.systemLanguage);
+
+            MyLog.LogInfo("Product.type : " + Product.type);
 
             Type type = typeof(Misc);
             foreach (var item in type.GetFields())

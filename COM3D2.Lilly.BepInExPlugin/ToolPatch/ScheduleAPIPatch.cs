@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using COM3D2.Lilly.Plugin.Utill;
+using HarmonyLib;
 using MaidStatus;
 using PlayerStatus;
 using Schedule;
@@ -18,6 +19,20 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
     class ScheduleAPIPatch
     {
         // ScheduleAPI
+
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+            "ScheduleAPIPatch"
+            , "DecideSuccess"
+            , "DecideSuccess_Perfect"
+            , "EnableNightWork"
+        );
+        
+        public static void SetworkSuccessLvMax()
+        {
+            ScheduleCSVData.workSuccessLvMissIncidence = 0;
+            ScheduleCSVData.workSuccessLvPerfectIncidence = 100;
+        }
+
 
         /// <summary>
         /// 랜덤으로 커뮤니케이션 설정
@@ -54,17 +69,51 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
 
         /// <summary>
         /// 랜덤 커뮤니케이션 설정
+        /// public static Maid GetCommunicationMaid(bool isDaytime)
         /// </summary>
-        /// <param name="isDaytime"></param>
-        // public static Maid GetCommunicationMaid(bool isDaytime)
+        /// <param name="isDaytime"></param>        
         [HarmonyPatch(typeof(ScheduleAPI), "GetCommunicationMaid")]        
         [HarmonyPrefix]
         public static void GetCommunicationMaid(bool isDaytime)//Maid __result,
         {
-            MyLog.LogMessage("ScheduleAPI.GetCommunicationMaid"
+            if (!configEntryUtill["GetCommunicationMaid_log"])
+                MyLog.LogMessage("ScheduleAPI.GetCommunicationMaid"
                 , isDaytime
             );
             //SetRandomCommu(isDaytime);
+        }
+
+        /// <summary>
+        /// public static void DecideSuccess(WorkResultSceneMode sceneMode, int index, bool commu)
+        /// </summary>
+        /// <param name="isDaytime"></param>
+        [HarmonyPatch(typeof(ScheduleAPI), "DecideSuccess")]
+        [HarmonyPrefix]
+        public static void DecideSuccess(WorkResultSceneMode sceneMode, int index, bool commu)
+        {
+            if (!configEntryUtill["DecideSuccess_log"])
+                MyLog.LogMessage("ScheduleAPI.DecideSuccess"
+                , sceneMode
+                , index
+                , commu
+            );
+
+            if (!configEntryUtill["DecideSuccess_Perfect"])
+            {
+                return;
+            }
+            
+            ScheduleData scheduleData = GameMain.Instance.CharacterMgr.status.scheduleSlot[index];
+            if (sceneMode == WorkResultSceneMode.Noon)
+            {
+                if(scheduleData.noon_success_level !=ScheduleData.WorkSuccessLv.Unexecuted)
+                scheduleData.noon_success_level = ScheduleData.WorkSuccessLv.Perfect;
+            }
+            else if (sceneMode == WorkResultSceneMode.Night)
+            {
+                if (scheduleData.night_success_level != ScheduleData.WorkSuccessLv.Unexecuted)
+                    scheduleData.night_success_level = ScheduleData.WorkSuccessLv.Perfect;
+            }
         }
 
         // private static bool CheckCommu(Maid m, bool isDaytime, bool checkCommuState)
@@ -72,7 +121,8 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         //[HarmonyPostfix]
         public static void CheckCommu(bool __result, Maid m, bool isDaytime, bool checkCommuState)
         {
-            MyLog.LogMessage("ScheduleAPI.CheckCommu"
+            if (!configEntryUtill["CheckCommu_log"])
+                MyLog.LogMessage("ScheduleAPI.CheckCommu"
                 , MyUtill.GetMaidFullName(m)
                 , isDaytime
                 , checkCommuState
@@ -97,20 +147,18 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPatch(typeof(ScheduleAPI), "VisibleNightWork")]
         //[HarmonyPrefix]//HarmonyPostfix ,HarmonyPrefix
         [HarmonyPostfix]//HarmonyPostfix ,HarmonyPrefix
-        public static void VisibleNightWork(out bool __result, int workId, Maid maid)
+        public static void VisibleNightWork(ref bool __result, int workId, Maid maid)
         {
-            //if (SceneFreeModeSelectManager.IsFreeMode)
+            if (!configEntryUtill["VisibleNightWork"])
             {
+                MyLog.LogMessage("ScheduleAPI.VisibleNightWork"
+                    , __result
+                    , workId
+                    , MyUtill.GetMaidFullName(maid)
+                    , SceneFreeModeSelectManager.IsFreeMode
+                );
                 __result = true;
-                /*
-				MyLog.LogMessage("VisibleNightWork:" + SceneFreeModeSelectManager.IsFreeMode
-				, workId
-				, ScheduleCSVData.AllData[workId].name
-				, maid != null ? MaidUtill.GetMaidFullNale(maid) : "");
-				//return false;
-				*/
             }
-            //return true; // SceneFreeModeSelectManager.IsFreeMode;
         }
 
         /// <summary>
@@ -123,43 +171,36 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPatch(typeof(ScheduleAPI), "EnableNightWork")]
         //[HarmonyPrefix]//HarmonyPostfix ,HarmonyPrefix
         [HarmonyPostfix]//HarmonyPostfix ,HarmonyPrefix
-        public static void EnableNightWork(out bool __result, int workId, Maid maid)
+        public static void EnableNightWork(ref bool __result, int workId, Maid maid)
         {
-            //if (SceneFreeModeSelectManager.IsFreeMode)
+            if (!configEntryUtill["EnableNightWork"])
             {
-                __result = true;
-                /*
-				if (Lilly.isLogOnOffAll)
-					MyLog.LogMessage("EnableNightWork:" + SceneFreeModeSelectManager.IsFreeMode
-				, workId
-				, ScheduleCSVData.AllData[workId].name
-				, maid != null ? MaidUtill.GetMaidFullNale(maid) : "");
-				//return false;
-				*/
+                MyLog.LogMessage("ScheduleAPI.EnableNightWork"
+                    , __result
+                    , workId
+                    , MyUtill.GetMaidFullName(maid)
+                    , SceneFreeModeSelectManager.IsFreeMode
+                );
+                if (SceneFreeModeSelectManager.IsFreeMode)
+                    __result = true;
             }
-            //return true;
-            /*
-			ScheduleCSVData.Yotogi yotogi = ScheduleCSVData.YotogiData[workId];
-			foreach (KeyValuePair<int, int> keyValuePair in yotogi.condSkill)
-			{
-				if (!maid.status.yotogiSkill.Contains(keyValuePair.Key))
-				{
-					__result= false;
-					//return false;
-					//break;
-				}
-			}
-
-			*/
-
-            //return false; // SceneFreeModeSelectManager.IsFreeMode;
         }
 
-        //[HarmonyPatch(typeof(ScheduleAPI), "EnableNoonWork")]
-        //[HarmonyPrefix]//HarmonyPostfix ,HarmonyPrefix
-        public static void EnableNoonWork(out bool __result, int workId, Maid maid)
+        [HarmonyPatch(typeof(ScheduleAPI), "EnableNoonWork")]
+        [HarmonyPrefix]//HarmonyPostfix ,HarmonyPrefix
+        public static void EnableNoonWork(ref bool __result, int workId, Maid maid)
         {
-            __result = true;
+            if (!configEntryUtill["EnableNoonWork"])
+            {
+                MyLog.LogMessage("ScheduleAPI.EnableNoonWork"
+                    , __result
+                    , workId
+                    , MyUtill.GetMaidFullName(maid)
+                    , SceneFreeModeSelectManager.IsFreeMode
+                );
+                if (SceneFreeModeSelectManager.IsFreeMode)
+                    __result = true;
+            }
             /*
 			if (Lilly.isLogOnOffAll)
 				MyLog.LogMessage("EnableNoonWork:" + SceneFreeModeSelectManager.IsFreeMode
