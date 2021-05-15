@@ -59,7 +59,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             //infoList.Add(typeof(BoneMorph_Patch));//157 임시조치용 메이드 보이스 피치
             infoList.Add(typeof(CameraMainPatch));// 페이드 인 아웃 확인용
             infoList.Add(typeof(CharacterMgrPatch));// 프리셋값 출력용
-            infoList.Add(typeof(FacilityManagerToolPatch));// 회상 모드에서 버튼 활성화용
+            infoList.Add(typeof(FacilityManagerPatch));// 회상 모드에서 버튼 활성화용            
             infoList.Add(typeof(GameObjectPatch));// 
             infoList.Add(typeof(KagScriptPatch));// 
             infoList.Add(typeof(MaidPatch));// 아이템 장착 확인용

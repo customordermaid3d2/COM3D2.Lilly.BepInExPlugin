@@ -1,4 +1,5 @@
-﻿using COM3D2.Lilly.Plugin.Utill;
+﻿using COM3D2.Lilly.Plugin.InfoPatch;
+using COM3D2.Lilly.Plugin.Utill;
 using FacilityFlag;
 using HarmonyLib;
 using PlayerStatus;
@@ -9,34 +10,17 @@ using System.Linq;
 using System.Text;
 using wf;
 
-namespace COM3D2.Lilly.Plugin.ToolPatch
+namespace COM3D2.Lilly.Plugin.Utill
 {
-    class FacilityManagerToolPatch
+    class FacilityUtill
     {
         // FacilityManager      
 
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
-        "FacilityManagerToolPatch"
+        "FacilityUtill"
         , "SetFacilityAllMaid"
         , "SetFacilityAll"
         );
-
-        //private static FacilityManager facilityManager;// 사용 못함
-        public static Dictionary<int, Facility> m_NextDayFacilityArray;
-        public static Facility[] m_FacilityArray;// 현재
-
-        public static Dictionary<int, FacilityDataTable.FacilityDefaultData> m_FacilityDefaultDataArray;
-
-        //public static FacilityManager FacilityManager { 
-        //    get {
-        //        if (facilityManager==null)
-        //        {
-        //            facilityManager = GameMain.Instance.FacilityMgr;
-        //        }
-        //        return facilityManager; 
-        //    }
-        //    set => facilityManager = value; 
-        //}
 
         // 작동 안함
         //[HarmonyPostfix, HarmonyPatch(typeof(GameMain), "OnInitialize")]
@@ -49,115 +33,43 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         //    FacilityManager = GameMain.Instance.FacilityMgr;
         //}
 
-        [HarmonyPostfix, HarmonyPatch(typeof(FacilityDataTable), "ReadCSVFacilityDefaultData")]
-        public static void ReadCSVFacilityDefaultData(Dictionary<int, FacilityDataTable.FacilityDefaultData> ___m_FacilityDefaultDataArray)
-        {
-            MyLog.LogMessage(
-                "FacilityManagerToolPatch.ReadCSVFacilityDefaultData"
-
-            );
-            m_FacilityDefaultDataArray = ___m_FacilityDefaultDataArray;
-        }
-
-        /// <summary>
-        /// 겜 실행시 한번만 실행됨
-        /// </summary>
-        [HarmonyPostfix, HarmonyPatch(typeof(FacilityManager), "ResetData")]
-        public static void ResetData()
-        {
-            SetData();
-
-            MyLog.LogMessage(
-                "FacilityManagerToolPatch.ResetData"
-                , m_NextDayFacilityArray.Count
-                , m_FacilityArray.Length
-            );
-        }
-
-        private static void SetData()
-        {
-            if (m_NextDayFacilityArray == null)
-                m_NextDayFacilityArray = GameMain.Instance.FacilityMgr.GetNextDayFacilityArray();
-            if (m_FacilityArray == null)
-                m_FacilityArray = GameMain.Instance.FacilityMgr.GetFacilityArray();
-        }
-
-        public static void GetGameInfo()
-        {
-            SetData();
-
-            Facility facility;
-
-            foreach (var item in m_FacilityArray)
-            {
-                facility = item;
-                MyLog.LogMessage(
-                    "FacilityManagerToolPatch.print1"
-                    , facility.defaultName
-                    , facility.facilityName
-                    , facility.name
-                    , facility.minMaidCount
-                    , facility.maxMaidCount
-                    , facility.nowDayTimeMaidCount
-                    , facility.staffRankDayTime
-                    , facility.staffRankNight
-                    , facility.tag
-                    , facility.typeCostume
-                    , facility.hideFlags
-                    , facility.enabled
-                );
-            }
-            foreach (var item in m_NextDayFacilityArray)
-            {
-                facility = item.Value;
-                MyLog.LogMessage(
-                    "FacilityManagerToolPatch.print2"
-                    , item.Key
-                    , facility.defaultName
-                    , facility.facilityName
-                    , facility.name
-                    , facility.minMaidCount
-                    , facility.maxMaidCount
-                    , facility.nowDayTimeMaidCount
-                    , facility.staffRankDayTime
-                    , facility.staffRankNight
-                    , facility.tag
-                    , facility.typeCostume
-                    , facility.hideFlags
-                    , facility.enabled
-                );
-            }
-            if (m_FacilityDefaultDataArray != null)
-                foreach (var item in m_FacilityDefaultDataArray)
-                {
-                    MyLog.LogMessage(
-                        "FacilityManagerToolPatch.print3"
-                        , item.Key
-                        , item.Value.fileName
-                        , item.Value.fileNameNight
-                        , item.Value.ID
-                        , item.Value.name
-                        , item.Value.minMaidCount
-                        , item.Value.maxMaidCount
-                        , item.Value.rank
-                        , item.Value.businessType
-                        , item.Value.businessTypeID
-                        , item.Value.businessTypeName
-                    );
-                }
-            foreach (var item in FacilityDataTable.GetFacilityStatusArray(true))
-            {
-                MyLog.LogMessage(
-                    "FacilityManagerToolPatch.print4"
-                    , item.name
-                    , item.typeID
-                );
-            }
-
-        }
-
         public static List<Facility.FacilityStatus> listbak;
         public static List<Facility.FacilityStatus> list;
+
+        public static void GetAchievement()
+        {
+            //m_FacilityAchievementList
+        }
+
+        public static void SetMaxExp()
+        {
+            if (FacilityManagerPatch.FacilityExpArray == null)
+            {               
+                //FacilityManagerPatch.m_FacilityExpArray= AccessTools.Field(typeof(FacilityManager), "m_FacilityAchievementList");
+                MyLog.LogWarning(
+                    "FacilityManagerPatch.m_FacilityExpArray null"
+                    , "게임 실행전 FacilityManagerPatch가 이미 켜져 있어야함"
+                );
+                return;
+            }
+            foreach (KeyValuePair<int, SimpleExperienceSystem> item in FacilityManagerPatch.FacilityExpArray.Copy())
+            {
+                SimpleExperienceSystem experienceSystem =item.Value;
+                MyLog.LogMessage(
+                    "SetMaxExp"
+                    , item.Key                    
+                    , experienceSystem.GetCurrentExp()
+                    , experienceSystem.GetCurrentLevel()
+                    , experienceSystem.GetTotalExp()                    
+                    , experienceSystem.GetMaxLevel()                    
+                    , experienceSystem.GetMaxLevelNeedExp()                    
+                    , experienceSystem.GetNextLevelExp(experienceSystem.GetMaxLevel())                    
+                    , experienceSystem.GetNextLevelRestExp()                    
+                );
+                experienceSystem.AddExp(experienceSystem.GetMaxLevelNeedExp());
+            }
+
+        }
 
         private static void SetFacilityListInit()
         {
@@ -188,6 +100,14 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             list.Clear();
         }
 
+        private static void GetFacilityMgr()
+        {
+            FacilityManager facilityManager = GameMain.Instance.FacilityMgr;
+            //facilityManager.
+
+        }
+
+
         /// <summary>
         /// 시설 자동 배치
         /// </summary>
@@ -213,7 +133,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
 
                 Facility.FacilityStatus item;
                 if (random)
-                    item = list[UnityEngine.Random.Range(0, FacilityManagerToolPatch.list.Count)];                
+                    item = list[UnityEngine.Random.Range(0, FacilityUtill.list.Count)];                
                 else
                     item = list[0];
 
@@ -283,7 +203,121 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 list.Remove(item);
 
             }
+
+            FacilityUtill.SetMaxExp();
         }
+
+
+        public static void GetFacilityStatus()
+        {
+            List<Facility.FacilityStatus> list = FacilityDataTable.GetFacilityStatusArray(true).ToList();
+            MyLog.LogMessage(
+                "GetFacilityStatus"
+                , list.Count
+            );
+
+            foreach (var item in list)
+            {
+                MyLog.LogMessage(
+                    item.name
+                    , item.typeID
+                );
+            }
+        }
+
+        public static void GetFacilityArray()
+        {
+            Facility[] v = GameMain.Instance.FacilityMgr.GetFacilityArray();
+            MyLog.LogMessage(
+                "GetFacilityArray"
+                , v.Length
+            );
+            foreach (var item in v)
+            {
+                if (item == null)
+                {
+                    continue;
+                }
+                MyLog.LogMessage(
+                    item.defaultData.workData.id
+                    , item.defaultData.ID
+                    , item.defaultData.isRemoval
+                    , item.defaultName
+                    , item.facilityName
+                    , item.param.typeID
+                    , item.param.name
+
+
+                    //,item.GetInstanceID()
+
+                    );
+            }
+        }
+
+        /*
+[Message:     Lilly] 3001 , 100 , トレーニングルーム , 트레이닝 룸 , -16922
+[Message:     Lilly] 3004 , 150 , 劇場 , 극장 , -16928
+[Message:     Lilly] 3001 , 100 , トレーニングルーム , 트레이닝 룸 , -59518
+[Message:     Lilly] 3002 , 120 , オープンカフェ , 오픈 카페 , -59524
+[Message:     Lilly] 3003 , 130 , レストラン , 레스토랑 , -59530
+[Message:     Lilly] 3004 , 150 , 劇場 , 극장 , -59536
+[Message:     Lilly] 3005 , 160 , バーラウンジ , 바라운지 , -59542
+[Message:     Lilly] 3006 , 170 , カジノ , 카지노 , -59548
+[Message:     Lilly] 3007 , 300 , ソープ , 소프 , -59554
+[Message:     Lilly] 3008 , 310 , SMクラブ , SM클럽 , -59560
+[Message:     Lilly] 3009 , 320 , ホテル , 호텔 , -59566
+[Message:     Lilly] 3010 , 330 , リフレ , 리프레 , -59572
+[Message:     Lilly] 3011 , 1010 , 高級オープンカフェ , 고급 오픈 카페 , -59578
+[Message:     Lilly] 3012 , 1020 , 高級レストラン , 고급 레스토랑 , -59584
+[Message:     Lilly] 3013 , 1040 , 高級劇場 , 고급 극장 , -59590
+[Message:     Lilly] 3014 , 1050 , 高級バーラウンジ , 고급 바라운지 , -59596
+[Message:     Lilly] 3015 , 1300 , 高級ソープ , 고급 소프 , -59602
+[Message:     Lilly] 3016 , 1310 , 高級SMクラブ , 고급 SM클럽 , -59608
+[Message:     Lilly] 3017 , 1320 , 高級ホテル , 고급 호텔 , -59614
+[Message:     Lilly] 3018 , 1330 , 高級リフレ , 고급 리프레 , -59620
+[Message:     Lilly] 3019 , 1340 , 高級カジノ , 고급 카지노 , -59626
+[Message:     Lilly] 0 , 2000 , ご主人様専用ソープランド , 주인님 전용 소프랜드 , -59632
+[Message:     Lilly] 0 , 2010 , ご主人様専用SMクラブ , 주인님 전용 SM클럽 , -59638
+[Message:     Lilly] 3200 , 3000 , ランス10-決戦-コラボカフェ , 란스10 -결전- 콜라보 카페 , -59644
+[Message:     Lilly] 3100 , 3010 , シーカフェ , 해변 카페 , -59650
+[Message:     Lilly] 3210 , 3020 , RIDDLE JOKERコラボカフェ , RIDDLE JOKER 콜라보 카페 , -59656
+[Message:     Lilly] 3110 , 3030 , プール , 수영장 , -59662
+[Message:     Lilly] 3220 , 3040 , わんこの嫁入りコラボカフェ , 강아지의 시집가기 콜라보 카페 , -59668
+[Message:     Lilly] 3120 , 3050 , 神社 , 신사 , -59674
+[Message:     Lilly] 3230 , 3060 , ラズベリーキューブコラボカフェ , 라즈베리 큐브 콜라보 카페 , -59680
+[Message:     Lilly] 3240 , 3070 , みにくいモジカの子コラボカフェ , 추한 모지카의 아이 콜라보 카페 , -59686
+[Message:     Lilly] 4000 , 4000 , ポールダンスステージ , 폴댄스 스테이지 , -59692
+[Message:     Lilly] 3250 , 3080 , 未来ラジオと人工鳩コラボカフェ , 미래 라디오와 인공 비둘기 콜라보 카페 , -59698
+[Message:     Lilly] 3260 , 3090 , ゲレンデ , 슬로프 , -59704
+[Message:     Lilly] 3270 , 3100 , 冒険者の酒場 , 모험가의 주점 , -59710
+[Message:     Lilly] 3280 , 3110 , 金色ラブリッチェGTコラボカフェ , 금색 러브리체 GT 콜라보 카페 , -59716
+[Message:     Lilly] 3290 , 3120 , 絆きらめく恋いろはコラボカフェ , 인연이 반짝이는 사랑의 첫걸음 콜라보 카페 , -59722
+[Message:     Lilly] 3300 , 3130 , 春の庭園 , 봄의 공원 , -59728
+[Message:     Lilly] 3310 , 3140 , イブニクル２コラボカフェ , 이브니클2 콜라보 카페 , -59734
+[Message:     Lilly] 3320 , 3150 , コロラム！コラボカフェ , 코로람! 콜라보 카페 , -59740
+[Message:     Lilly] 3330 , 3160 , コロラム！コラボカフェ2 , 코로람! 콜라보 카페 2 , -59746
+[Message:     Lilly] 3340 , 3170 , わんこの嫁入りコラボカフェ2 , 강아지의 시집가기 콜라보 카페 2 , -59752
+[Message:     Lilly] 3350 , 3180 , あいミス！コラボカフェ , 아이마스! 콜라보 카페 , -59758
+[Message:     Lilly] 3360 , 3190 , ネコぱらコラボカフェ , 네코파라 콜라보 카페 , -59764
+[Message:     Lilly] 3370 , 3200 , アイキスコラボカフェ , 아이키스 콜라보 카페 , -59770
+[Message:     Lilly] 3001 , 100 , トレーニングルーム , 트레이닝 룸 , -59776
+[Message:     Lilly] 3002 , 120 , オープンカフェ , 오픈 카페 , -59782
+[Message:     Lilly] 3003 , 130 , レストラン , 레스토랑 , -59788
+[Message:     Lilly] 3004 , 150 , 劇場 , 극장 , -59794
+[Message:     Lilly] 3005 , 160 , バーラウンジ , 바라운지 , -59800
+[Message:     Lilly] 3006 , 170 , カジノ , 카지노 , -59806
+[Message:     Lilly] 3007 , 300 , ソープ , 소프 , -59812
+[Message:     Lilly] 3008 , 310 , SMクラブ , SM클럽 , -59818
+[Message:     Lilly] 3009 , 320 , ホテル , 호텔 , -59824
+[Message:     Lilly] 3010 , 330 , リフレ , 리프레 , -59830
+[Message:     Lilly] 3011 , 1010 , 高級オープンカフェ , 고급 오픈 카페 , -59836
+[Message:     Lilly] 3012 , 1020 , 高級レストラン , 고급 레스토랑 , -59842
+[Message:     Lilly] 3013 , 1040 , 高級劇場 , 고급 극장 , -59848
+[Message:     Lilly] 3014 , 1050 , 高級バーラウンジ , 고급 바라운지 , -59854
+[Message:     Lilly] 3015 , 1300 , 高級ソープ , 고급 소프 , -59860
+
+         */
+
 
         /*
         public static void SetFacilityAllMaid(ScheduleMgr.ScheduleTime scheduleTime)

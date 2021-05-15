@@ -31,8 +31,9 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             if (GUILayout.Button("workSuccessLvMax")) ScheduleAPIPatch.SetworkSuccessLvMax();
 
             GUILayout.Label("시설 관리 관련");
-            if (GUILayout.Button("시설 자동 생성 - 랜덤")) FacilityManagerToolPatch.SetFacilityAll(true);
-            if (GUILayout.Button("시설 자동 생성 - 순차")) FacilityManagerToolPatch.SetFacilityAll(false);
+            if (GUILayout.Button("시설 자동 생성 - 랜덤")) FacilityUtill.SetFacilityAll(true);
+            if (GUILayout.Button("시설 자동 생성 - 순차")) FacilityUtill.SetFacilityAll(false);
+            if (GUILayout.Button("시설 경험치 최대")) FacilityUtill.SetMaxExp();
 
             GUILayout.Label("모든 메이드 대상");
             if (GUILayout.Button("시나리오 처리 처리")) ScenarioDataUtill.SetScenarioDataAll();
