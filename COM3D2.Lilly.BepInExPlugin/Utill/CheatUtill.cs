@@ -40,15 +40,15 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         public static void SetFacilityAllMaid(ScheduleMgr.ScheduleTime scheduleTime)
         {
-            //if (ScheduleMgrPatch.m_scheduleApi == null)
-            //{
-            //    MyLog.LogMessage("SetSlotAllDel"
-            //    , "스케줄 관리 접속 한번 필요"
-            //    );
-            //    return;
-            //}
+            if (ScheduleMgrPatch.m_scheduleApi == null)
+            {
+                MyLog.LogMessage("SetSlotAllDel"
+                , "스케줄 관리 접속 한번 필요"
+                );
+                return;
+            }
 
-            if (configEntryUtill["SetFacilityAllMaid"])
+            if (configEntryUtill["SetFacilityAllMaid",false])
                 MyLog.LogMessage(
                 "SetFacilityAllMaid1"
                 );
@@ -119,7 +119,7 @@ namespace COM3D2.Lilly.Plugin.Utill
 
                                     );
 
-                                if (ScheduleMgrPatch.m_scheduleApi != null)
+                                //if (ScheduleMgrPatch.m_scheduleApi != null)
                                     ScheduleMgrPatch.m_scheduleApi.SetNoonWorkSlot_Safe(scheduleTime, slots[n1], workData.id);
 
                                 facility.AllocationMaid(maid, scheduleTime);
@@ -157,7 +157,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                 int n1 = 0;
                 maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[n1]);
 
-                if (ScheduleMgrPatch.m_scheduleApi != null)
+                //if (ScheduleMgrPatch.m_scheduleApi != null)
                     ScheduleMgrPatch.m_scheduleApi.SetNoonWorkSlot_Safe(scheduleTime, slots[n1], workData.id);
 
                 facility.AllocationMaid(maid, scheduleTime);

@@ -164,17 +164,20 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             if (listbak == null)
             {
                 listbak = FacilityDataTable.GetFacilityStatusArray(true).ToList();
-                foreach (var item in listbak)
+                List<Facility.FacilityStatus> listbak2 = new(listbak);
+                //listbak2.AddRange(listbak);
+                foreach (var item in listbak2)
                 {
                     MyLog.LogMessage(
                         "FacilityManagerToolPatch.print4"
                         , item.typeID
                         , item.name
                     );
-                    //if (!FacilityDataTable.GetFacilityCanBeDestroy(item.typeID, true))// 이게 제대로 안됨. 특히" 150 , 극장"이 제거 안됨
-                    if (item.typeID==100 || item.typeID ==150)
+                    if (!FacilityDataTable.GetFacilityCanBeDestroy(item.typeID, true))
+                    //if (item.typeID==100 || item.typeID ==150)
                     {
-                        listbak.Remove(item);
+                        // InvalidOperationException: Collection was modified; enumeration operation may not execute
+                        listbak.Remove(item);// foreach 에서 Remove 실행시 배열이 바뀜. 즉 Remove 실행하기 위한 다른 조치 방안 필요
                     }
                 }
             }

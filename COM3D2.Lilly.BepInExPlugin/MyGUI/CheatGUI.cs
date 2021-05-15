@@ -29,6 +29,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         {
             if (GUILayout.Button("일상 플레그 처리")) CheatUtill.SetWorkAll();
             if (GUILayout.Button("workSuccessLvMax")) ScheduleAPIPatch.SetworkSuccessLvMax();
+
+            GUILayout.Label("시설 관리 관련");
             if (GUILayout.Button("시설 자동 생성 - 랜덤")) FacilityManagerToolPatch.SetFacilityAll(true);
             if (GUILayout.Button("시설 자동 생성 - 순차")) FacilityManagerToolPatch.SetFacilityAll(false);
 

@@ -52,9 +52,9 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             GUI.enabled = ScheduleMgrPatch.m_scheduleApi != null;
             if (GUILayout.Button("슬롯에 메이드 자동 배치")) ScheduleMgrPatch.SetSlotAllMaid();
             if (GUILayout.Button("슬롯의 메이드들 제거")) ScheduleMgrPatch.SetSlotAllDel();
-            GUI.enabled = true;
             if (GUILayout.Button("시설에 메이드 자동 배치 - 주간")) CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
             if (GUILayout.Button("시설에 메이드 자동 배치 - 야간")) CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
+            GUI.enabled = true;
 
 
 
