@@ -29,6 +29,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         
         public static void SetworkSuccessLvMax()
         {
+            // 효과 없음
             ScheduleCSVData.workSuccessLvMissIncidence = 0;
             ScheduleCSVData.workSuccessLvPerfectIncidence = 100;
         }
@@ -89,10 +90,10 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         /// <param name="isDaytime"></param>
         [HarmonyPatch(typeof(ScheduleAPI), "DecideSuccess")]
         [HarmonyPrefix]
-        public static void DecideSuccess(WorkResultSceneMode sceneMode, int index, bool commu)
+        public static void DecideSuccessHarmonyPrefix(WorkResultSceneMode sceneMode, int index, bool commu)
         {
             if (!configEntryUtill["DecideSuccess_log"])
-                MyLog.LogMessage("ScheduleAPI.DecideSuccess"
+                MyLog.LogMessage("ScheduleAPI.DecideSuccess.HarmonyPrefix"
                 , sceneMode
                 , index
                 , commu
@@ -102,12 +103,31 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             {
                 return;
             }
-            
+
+            SetworkSuccessLvMax();
+        }
+
+        [HarmonyPatch(typeof(ScheduleAPI), "DecideSuccess")]
+        [HarmonyPostfix]
+        public static void DecideSuccessHarmonyPostfix(WorkResultSceneMode sceneMode, int index, bool commu)
+        {
+            if (!configEntryUtill["DecideSuccess_log"])
+                MyLog.LogMessage("ScheduleAPI.DecideSuccess.HarmonyPostfix"
+                , sceneMode
+                , index
+                , commu
+            );
+
+            if (!configEntryUtill["DecideSuccess_Perfect"])
+            {
+                return;
+            }
+
             ScheduleData scheduleData = GameMain.Instance.CharacterMgr.status.scheduleSlot[index];
             if (sceneMode == WorkResultSceneMode.Noon)
             {
-                if(scheduleData.noon_success_level !=ScheduleData.WorkSuccessLv.Unexecuted)
-                scheduleData.noon_success_level = ScheduleData.WorkSuccessLv.Perfect;
+                if (scheduleData.noon_success_level != ScheduleData.WorkSuccessLv.Unexecuted)
+                    scheduleData.noon_success_level = ScheduleData.WorkSuccessLv.Perfect;
             }
             else if (sceneMode == WorkResultSceneMode.Night)
             {
@@ -115,7 +135,6 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                     scheduleData.night_success_level = ScheduleData.WorkSuccessLv.Perfect;
             }
         }
-
         // private static bool CheckCommu(Maid m, bool isDaytime, bool checkCommuState)
         //[HarmonyPatch(typeof(ScheduleAPI), "CheckCommu")]        
         //[HarmonyPostfix]
