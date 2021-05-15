@@ -17,7 +17,7 @@ using UnityEngine.SceneManagement;
 namespace COM3D2.Lilly.Plugin
 {
     // https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin
-    [BepInPlugin("COM3D2.Lilly.Plugin", "COM3D2.Lilly.Plugin", "21.4.2")]// 버전 규칙 잇음. 반드시 2~4개의 숫자구성으로 해야함. 미준수시 못읽어들임
+    [BepInPlugin("COM3D2.Lilly.Plugin", "COM3D2.Lilly.Plugin", "21.5.16")]// 버전 규칙 잇음. 반드시 2~4개의 숫자구성으로 해야함. 미준수시 못읽어들임
     [BepInProcess("COM3D2x64.exe")]
     public class Lilly : BaseUnityPlugin 
     {

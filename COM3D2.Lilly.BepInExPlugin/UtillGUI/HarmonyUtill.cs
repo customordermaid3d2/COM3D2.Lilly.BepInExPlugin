@@ -82,11 +82,13 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             toolList.Add(typeof(SceneEditPatch)); //메이드 에딧 진입시 모든 스텟 적용
             toolList.Add(typeof(ScenarioDataPatch));// 회상모드 시나리오 처리용?
             toolList.Add(typeof(SceneFreeModeSelectManagerPatch));// 회상 모드에서 버튼 활성화용
+            toolList.Add(typeof(ScheduleCalcAPIPatch));// 커뮤니티 자동적용 포함되있음
             toolList.Add(typeof(ScheduleAPIPatch));// 회상모드 시나리오 처리용?
             toolList.Add(typeof(SceneMgrPatch));// 커뮤니티 자동적용 포함되있음
                                                 //toolList.Add(typeof(NPRShaderPatch));// 회상모드 시나리오 처리용?
                                                 //toolList.Add(typeof(UnityInjectorLoaderPatch));// 회상모드 시나리오 처리용?
                                                 //toolList.Add(typeof(ScheduleMaxPatch));// 슬롯 최대 늘리기 실패
+            toolList.Add(typeof(WorkResultScenePatch));// 커뮤니티 자동적용 포함되있음
         }
 
         private static void SetHarmonyBaseList()
