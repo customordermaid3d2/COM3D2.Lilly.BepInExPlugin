@@ -85,6 +85,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         }
 
         /// <summary>
+        /// 호출을 안함. 
         /// public static void DecideSuccess(WorkResultSceneMode sceneMode, int index, bool commu)
         /// </summary>
         /// <param name="isDaytime"></param>
@@ -99,7 +100,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 , commu
             );
 
-            if (!configEntryUtill["DecideSuccess_Perfect"])
+            if (!configEntryUtill["DecideSuccess_Perfect1"])
             {
                 return;
             }
@@ -107,6 +108,12 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             SetworkSuccessLvMax();
         }
 
+        /// <summary>
+        /// 호출을 안함. 
+        /// </summary>
+        /// <param name="sceneMode"></param>
+        /// <param name="index"></param>
+        /// <param name="commu"></param>
         [HarmonyPatch(typeof(ScheduleAPI), "DecideSuccess")]
         [HarmonyPostfix]
         public static void DecideSuccessHarmonyPostfix(WorkResultSceneMode sceneMode, int index, bool commu)
@@ -118,7 +125,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 , commu
             );
 
-            if (!configEntryUtill["DecideSuccess_Perfect"])
+            if (!configEntryUtill["DecideSuccess_Perfect2"])
             {
                 return;
             }

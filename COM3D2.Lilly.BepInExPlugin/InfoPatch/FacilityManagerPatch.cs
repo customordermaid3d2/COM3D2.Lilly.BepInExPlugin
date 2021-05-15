@@ -46,9 +46,8 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
         
 
         [HarmonyPostfix, HarmonyPatch(typeof(FacilityManager), "ResetData")]
-        public static void ResetData(
-            Dictionary<int, FacilityDataTable.FacilityDefaultData> ___m_FacilityDefaultDataArray
-            , DataArray<int, SimpleExperienceSystem> ___m_FacilityExpArray
+        public static void ResetData(            
+             DataArray<int, SimpleExperienceSystem> ___m_FacilityExpArray
             , DataArray<string, string> ___m_FacilityAchievementList
             )
         {
@@ -59,7 +58,6 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
                 , m_NextDayFacilityArray.Count
                 , m_FacilityArray.Length
             );
-            m_FacilityDefaultDataArray = ___m_FacilityDefaultDataArray;
             FacilityExpArray = ___m_FacilityExpArray;
             m_FacilityAchievementList = ___m_FacilityAchievementList;
         }
