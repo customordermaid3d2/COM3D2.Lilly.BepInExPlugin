@@ -115,7 +115,16 @@ https://youtu.be/CHb02i-M418
 ## OnOffGUI
 
 콘솔창에 로그 기록되는거 켜고.끄기 위한거  
+하지만 기능 그고 키는것도 적용중  
 각 클래스마다 천천히 적용중  
+
+### ScheduleAPIPatch
+
+스케줄 관리 관련
+
+- VisibleNightWork : 모든 밤시중 보여주기 가능. 버그 발생하니 그냥 끄자.
+- EnableNightWork : 모든 밤시중 선택 가능. 버그 발생하니 그냥 끄자.
+- EnableNoonWork : 모든 업무 선택 가능. 버그 발생하니 그냥 끄자.
 
 
 ## 로그온오프

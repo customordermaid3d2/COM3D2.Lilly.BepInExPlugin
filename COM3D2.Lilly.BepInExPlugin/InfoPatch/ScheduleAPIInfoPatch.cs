@@ -84,6 +84,7 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
 
             //SetRandomCommu(isDaytime);
         }
+
         public static Maid IsSlotInMaid(string maidGuid)
         {
             for (int i = 0; i < 40; i++)

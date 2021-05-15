@@ -29,9 +29,6 @@ namespace COM3D2.Lilly.Plugin.Utill
         private static readonly string sectionMain = "ConfigEntryUtill";
         private readonly string section;
 
-        //public List<string> kyes=new List<string>();
-
-
         private ConfigEntryUtill() : base()
         {
             MyLog.LogDebug("ConfigEntryUtill.ctor", sectionMain);
@@ -50,23 +47,15 @@ namespace COM3D2.Lilly.Plugin.Utill
             MyLog.LogDebug("ConfigEntryUtill.ctor", section, keys.Length);
             this.section = section;
             SectionList.Add(section, this);
-            //foreach (var key in keys)
-            //{
-            //    Add(key, true);
-            //}
-            //kyes.AddRange(keys);//나중에 처리하자            
-            //Lilly.actionsAwake += Awake;
-            ListSetup(keys.ToList());
+            Add(keys.ToList());
         }
 
         public static ConfigEntryUtill Create()
         {
             if (!SectionList.ContainsKey(sectionMain))
                 return new ConfigEntryUtill();
-            else
-            {
-                return SectionList[sectionMain];
-            }
+            else            
+                return SectionList[sectionMain];            
         }
 
         public static ConfigEntryUtill Create(string section)
@@ -75,11 +64,8 @@ namespace COM3D2.Lilly.Plugin.Utill
             if (!SectionList.ContainsKey(section))
                 return new ConfigEntryUtill(section);
             else
-            {
                 return SectionList[section];
-            }
         }
-
         public static ConfigEntryUtill Create(string section, params string[] keys)
         {
             MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
@@ -87,51 +73,27 @@ namespace COM3D2.Lilly.Plugin.Utill
                 return new ConfigEntryUtill(section, keys);
             else
             {
-                //listAll[section].kyes.AddRange(keys);
-                SectionList[section].ListSetup(keys.ToList());
+                SectionList[section].Add(keys.ToList());
                 return SectionList[section];
             }
         }
 
-        public static bool Get(string section, string key)
-        {
-            if (!SectionList.ContainsKey(section))
-            {
-                SectionList.Add(section, new ConfigEntryUtill(section));
-            }
-            return SectionList[section][key];
+        public bool this[string section, string key, bool defaultValue = true] {
+            get => Create(section)[key, defaultValue];
+            set => Create(section)[key, defaultValue] = value;
         }
 
-        public void ListSetup(List<string> kyes)
-        {
-            MyLog.LogMessage("ConfigEntryUtill.Awake", section, kyes.Count);
-            foreach (var item in kyes)
-            {
-                MyLog.LogDebug("ConfigEntryUtill.Awake", section, item);
-                if (!KeyList.ContainsKey(item))
-                {
-                    Add(item, true);
-                }
-            }
-            MyLog.LogMessage("ConfigEntryUtill.Awake", section, KeyList.Count);
-        }
-
-        public bool this[string section, string key] {
-            get => Create(section)[key];
-            set => Create(section)[key] = value;
-        }
-
-        public bool this[string key] {
+        public bool this[string key,bool defaultValue=true] {
             get
             {
                 if (!KeyList.ContainsKey(key))                
-                    Add(key, true);                
+                    Add(key, defaultValue);                
                 return KeyList[key].Value;
             }
             set
             {
                 if (!KeyList.ContainsKey(key))                
-                    Add(key, true);                
+                    Add(key, defaultValue);                
                 KeyList[key].Value = value;
             }
         }
@@ -141,7 +103,21 @@ namespace COM3D2.Lilly.Plugin.Utill
             set => KeyList.ElementAt(key).Value.Value = value;            
         }
 
-        private void Add(string key, bool defaultValue, string description = null)
+        public void Add(List<string> kyes, bool defaultValue=true)
+        {
+            //MyLog.LogMessage("ConfigEntryUtill.Awake", section, kyes.Count);
+            foreach (var item in kyes)
+            {
+                //MyLog.LogDebug("ConfigEntryUtill.Awake", section, item);
+                if (!KeyList.ContainsKey(item))
+                {
+                    Add(item, defaultValue);
+                }
+            }
+            //MyLog.LogMessage("ConfigEntryUtill.Awake", section, KeyList.Count);
+        }
+
+        public void Add(string key, bool defaultValue = true, string description = null)
         {
             KeyList.Add(
                 key,
@@ -225,16 +201,6 @@ namespace COM3D2.Lilly.Plugin.Utill
             MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
             return new ConfigEntryUtill<T>(section, defult, keys);
         }
-        /*
-        public static T Get(string section, string key)
-        {
-            if (!listAll.ContainsKey(section))
-            {
-                listAll.Add(section, new ConfigEntryUtill<T>(section, null));
-            }
-            return listAll[section][key];
-        }
-        */
 
         public void Awake()
         {

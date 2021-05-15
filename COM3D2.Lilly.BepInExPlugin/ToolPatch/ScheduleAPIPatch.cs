@@ -149,7 +149,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPostfix]//HarmonyPostfix ,HarmonyPrefix
         public static void VisibleNightWork(ref bool __result, int workId, Maid maid)
         {
-            if (!configEntryUtill["VisibleNightWork"])
+            if (!configEntryUtill["VisibleNightWork",false])
             {
                 MyLog.LogMessage("ScheduleAPI.VisibleNightWork"
                     , __result
@@ -173,7 +173,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPostfix]//HarmonyPostfix ,HarmonyPrefix
         public static void EnableNightWork(ref bool __result, int workId, Maid maid)
         {
-            if (!configEntryUtill["EnableNightWork"])
+            if (!configEntryUtill["EnableNightWork", false])
             {
                 MyLog.LogMessage("ScheduleAPI.EnableNightWork"
                     , __result
@@ -190,7 +190,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPrefix]//HarmonyPostfix ,HarmonyPrefix
         public static void EnableNoonWork(ref bool __result, int workId, Maid maid)
         {
-            if (!configEntryUtill["EnableNoonWork"])
+            if (!configEntryUtill["EnableNoonWork", false])
             {
                 MyLog.LogMessage("ScheduleAPI.EnableNoonWork"
                     , __result
