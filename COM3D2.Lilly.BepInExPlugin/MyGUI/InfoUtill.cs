@@ -4,6 +4,7 @@ using COM3D2.Lilly.Plugin.ToolPatch;
 using Kasizuki;
 using MaidStatus;
 using PlayerStatus;
+using Schedule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,9 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             if (GUILayout.Button("정보 얻기 바디 관련")) InfoUtill.GetTbodyInfo();
             if (GUILayout.Button("정보 얻기 플레이어 관련")) InfoUtill.GetPlayerInfo();
             if (GUILayout.Button("정보 얻기 메이드 관련")) InfoUtill.GetMaidInfo();
+            if (GUILayout.Button("ScheduleCSVData.WorkData")) InfoUtill.GetScheduleCSVDataAllData();
+            if (GUILayout.Button("GetFacilityArray")) InfoUtill.GetFacilityArray();
+            if (GUILayout.Button("Facility.FacilityStatus")) InfoUtill.GetFacilityStatus();
 
             if (GUILayout.Button("ScenarioSelectMgrPatch 관련")) ScenarioSelectMgrPatch.print();
 
@@ -37,6 +41,176 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             if (GUILayout.Button("GetStrIKCtrlPairInfo")) FullBodyIKMgrPatch.GetStrIKCtrlPairInfo();
 #endif
         }
+
+        private static void GetFacilityStatus()
+        {
+            List<Facility.FacilityStatus> list = FacilityDataTable.GetFacilityStatusArray(true).ToList();
+            MyLog.LogMessage(
+                "GetFacilityStatus"
+                , list.Count
+            );
+
+            foreach (var item in list)
+            {
+                MyLog.LogMessage(
+                    item.name
+                    , item.typeID                    
+                );
+            }
+        }
+
+        private static void GetFacilityArray()
+        {
+            Facility[] v =GameMain.Instance.FacilityMgr.GetFacilityArray();
+            MyLog.LogMessage(
+                "GetFacilityArray"
+                , v.Length
+            );
+            foreach (var item in v)
+            {
+                if (item==null)
+                {
+                    continue;
+                }
+                MyLog.LogMessage(
+                    item.defaultData.workData.id
+                    ,item.defaultData.ID
+                    ,item.defaultName
+                    ,item.facilityName
+                    ,item.GetInstanceID()
+                    
+                    );
+            }
+        }
+
+        /*
+[Message:     Lilly] GetFacilityArray , 60
+[Message:     Lilly] 3001 , 100 , トレーニングルーム , トレーニングルーム , -15798
+[Message:     Lilly] 3004 , 150 , 劇場 , 劇場 , -15804
+[Message:     Lilly] 3008 , 310 , SMクラブ , SM클럽 , -15810
+[Message:     Lilly] 3007 , 300 , ソープ , 소프 , -15816
+[Message:     Lilly] 3011 , 1010 , 高級オープンカフェ , 고급 오픈 카페 , -15822
+[Message:     Lilly] 3014 , 1050 , 高級バーラウンジ , 고급 바라운지 , -15828
+[Message:     Lilly] 3019 , 1340 , 高級カジノ , 고급 카지노 , -15834
+[Message:     Lilly] 3001 , 100 , トレーニングルーム , 트레이닝 룸 , -15840
+[Message:     Lilly] 3015 , 1300 , 高級ソープ , 고급 소프 , -15846
+[Message:     Lilly] 3004 , 150 , 劇場 , 극장 , -15852
+[Message:     Lilly] 0 , 2000 , ご主人様専用ソープランド , 주인님 전용 소프랜드 , -15858
+[Message:     Lilly] 3017 , 1320 , 高級ホテル , 고급 호텔 , -15864
+[Message:     Lilly] 3260 , 3090 , ゲレンデ , 슬로프 , -15870
+[Message:     Lilly] 3006 , 170 , カジノ , 카지노 , -15876
+[Message:     Lilly] 3009 , 320 , ホテル , 호텔 , -15882
+[Message:     Lilly] 3018 , 1330 , 高級リフレ , 고급 리프레 , -15888
+[Message:     Lilly] 3013 , 1040 , 高級劇場 , 고급 극장 , -15894
+[Message:     Lilly] 4000 , 4000 , ポールダンスステージ , 폴댄스 스테이지 , -15900
+[Message:     Lilly] 3002 , 120 , オープンカフェ , 오픈 카페 , -15906
+[Message:     Lilly] 3120 , 3050 , 神社 , 신사 , -15912
+[Message:     Lilly] 3016 , 1310 , 高級SMクラブ , 고급 SM클럽 , -15918
+[Message:     Lilly] 3010 , 330 , リフレ , 리프레 , -15924
+[Message:     Lilly] 3005 , 160 , バーラウンジ , 바라운지 , -15930
+[Message:     Lilly] 3100 , 3010 , シーカフェ , 해변 카페 , -15936
+[Message:     Lilly] 3300 , 3130 , 春の庭園 , 봄의 공원 , -15942
+[Message:     Lilly] 3003 , 130 , レストラン , 레스토랑 , -15948
+[Message:     Lilly] 0 , 2010 , ご主人様専用SMクラブ , 주인님 전용 SM클럽 , -15954
+[Message:     Lilly] 3012 , 1020 , 高級レストラン , 고급 레스토랑 , -15960
+
+         */
+
+
+        /*
+[Message:     Lilly] 3000 , 3001 , 100 , Basic , 52 , 3000 , 施設強化 ,  , COM3D , Work , False , False , False , PowerUp , Basic
+[Message:     Lilly] 3001 , 3001 , 100 , Basic , 52 , 3001 , トレーニングルーム ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3002 , 3002 , 100 , Basic , 52 , 3002 , オープンカフェ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3003 , 3003 , 100 , Basic , 52 , 3003 , レストラン ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3004 , 3004 , 100 , Basic , 52 , 3004 , 劇場 ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3005 , 3005 , 100 , Basic , 52 , 3005 , バーラウンジ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3006 , 3006 , 100 , Basic , 52 , 3006 , カジノ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3007 , 3007 , 100 , Basic , 52 , 3007 , ソープ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3008 , 3008 , 100 , Basic , 52 , 3008 , SMクラブ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3009 , 3009 , 100 , Basic , 52 , 3009 , 宿泊部屋 ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3010 , 3010 , 100 , Basic , 52 , 3010 , メイドリフレ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3011 , 3011 , 100 , Basic , 52 , 3011 , 高級オープンカフェ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3012 , 3012 , 100 , Basic , 52 , 3012 , 高級レストラン ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3013 , 3013 , 100 , Basic , 52 , 3013 , 高級劇場 ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3014 , 3014 , 100 , Basic , 52 , 3014 , 高級バーラウンジ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3015 , 3015 , 100 , Basic , 52 , 3015 , 高級ソープ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3016 , 3016 , 100 , Basic , 52 , 3016 , 高級SMクラブ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3017 , 3017 , 100 , Basic , 52 , 3017 , 高級宿泊部屋 ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3018 , 3018 , 100 , Basic , 52 , 3018 , 高級メイドリフレ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3019 , 3019 , 100 , Basic , 52 , 3019 , 高級カジノ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3100 , 3100 , 100 , Basic , 52 , 3100 , シーカフェ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3120 , 3120 , 100 , Basic , 52 , 3120 , 神社 ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 4000 , 4000 , 100 , Basic , 52 , 4000 , ポールダンス ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3260 , 3260 , 100 , Basic , 52 , 3260 , ゲレンデ ,  , COM3D , Work , False , True , False , Basic , Basic
+[Message:     Lilly] 3300 , 3300 , 100 , Basic , 52 , 3300 , 春の庭園 ,  , COM3D , Work , False , True , False , Basic , Basic
+
+         */
+
+
+
+        private static void GetScheduleCSVDataAllData()
+        {
+            MyLog.LogMessage(
+                 "ScheduleCSVData.AllData"
+                , ScheduleCSVData.AllData.Count
+            );
+            MyLog.LogMessage(
+                "ScheduleCSVData.WorkData"
+                , ScheduleCSVData.WorkData.Count
+            );
+
+            // public static Dictionary<int, ScheduleCSVData.Training> TrainingData
+            // public static Dictionary<int, ScheduleCSVData.Yotogi> YotogiData
+            // public static ReadOnlyDictionary<int, ScheduleCSVData.Work> WorkData
+            // public static ReadOnlyDictionary<int, ScheduleCSVData.ScheduleBase> AllData
+            foreach (var item in ScheduleCSVData.WorkData)
+            {
+                ScheduleCSVData.Work training = item.Value;
+                    MyLog.LogMessage(
+                        item.Key  // work id
+                        , training.facility.workData.id
+                        , training.facilityId
+                        , training.trainingType
+                        , training.categoryID
+                        , training.id
+                        , training.name
+                        , training.information
+                        , training.mode
+                        , training.type
+                        , training.IsCommon
+                        , training.isCommu
+                        , training.IsLegacy
+                        , training.workTyp
+                        , training.trainingType
+                        
+                        );
+            }
+
+            foreach (KeyValuePair<int, ScheduleCSVData.Work> keyValuePair in FacilityDataTable.GetAllWorkData(true))
+            {
+
+            }
+
+            //foreach (var item in ScheduleCSVData.AllData)
+            //{
+            //    ScheduleCSVData.ScheduleBase scheduleBase = item.Value;
+            //    MyLog.LogMessage(
+            //        item.Key
+            //        , scheduleBase.categoryID
+            //        , scheduleBase.id
+            //        , scheduleBase.name
+            //        , scheduleBase.information
+            //        , scheduleBase.mode
+            //        , scheduleBase.type
+            //        , scheduleBase.IsCommon
+            //        , scheduleBase.isCommu
+            //        , scheduleBase.IsLegacy
+            //        );
+            //}
+        }
+
+
+
 
         private static void GetGameInfo()
         {

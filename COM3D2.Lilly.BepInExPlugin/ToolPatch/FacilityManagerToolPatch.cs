@@ -1,10 +1,12 @@
 ﻿using FacilityFlag;
 using HarmonyLib;
+using PlayerStatus;
 using Schedule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using wf;
 
 namespace COM3D2.Lilly.Plugin.ToolPatch
 {
@@ -39,7 +41,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         //    );
         //    FacilityManager = GameMain.Instance.FacilityMgr;
         //}
-        
+
         [HarmonyPostfix, HarmonyPatch(typeof(FacilityDataTable), "ReadCSVFacilityDefaultData")]
         public static void ReadCSVFacilityDefaultData(Dictionary<int, FacilityDataTable.FacilityDefaultData> ___m_FacilityDefaultDataArray)
         {
@@ -118,24 +120,24 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                     , facility.enabled
                 );
             }
-            if (m_FacilityDefaultDataArray!=null)
-            foreach (var item in m_FacilityDefaultDataArray)
-            {
-                MyLog.LogMessage(
-                    "FacilityManagerToolPatch.print3"
-                    , item.Key
-                    , item.Value.fileName
-                    , item.Value.fileNameNight
-                    , item.Value.ID
-                    , item.Value.name
-                    , item.Value.minMaidCount
-                    , item.Value.maxMaidCount
-                    , item.Value.rank
-                    , item.Value.businessType
-                    , item.Value.businessTypeID
-                    , item.Value.businessTypeName
-                );
-            }
+            if (m_FacilityDefaultDataArray != null)
+                foreach (var item in m_FacilityDefaultDataArray)
+                {
+                    MyLog.LogMessage(
+                        "FacilityManagerToolPatch.print3"
+                        , item.Key
+                        , item.Value.fileName
+                        , item.Value.fileNameNight
+                        , item.Value.ID
+                        , item.Value.name
+                        , item.Value.minMaidCount
+                        , item.Value.maxMaidCount
+                        , item.Value.rank
+                        , item.Value.businessType
+                        , item.Value.businessTypeID
+                        , item.Value.businessTypeName
+                    );
+                }
             foreach (var item in FacilityDataTable.GetFacilityStatusArray(true))
             {
                 MyLog.LogMessage(
@@ -162,6 +164,8 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             );
 
             List<Facility.FacilityStatus> list = FacilityDataTable.GetFacilityStatusArray(true).ToList();
+
+
             for (int i = 2; i < GameMain.Instance.FacilityMgr.FacilityCountMax; i++)
             {
                 var item = list[UnityEngine.Random.Range(0, list.Count)];
@@ -176,7 +180,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 }
             }
         }
-        
+
         /// <summary>
         /// 시설 자동 배치
         /// </summary>
@@ -193,12 +197,12 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             );
 
             List<Facility.FacilityStatus> listBak = FacilityDataTable.GetFacilityStatusArray(true).ToList();
-            List<Facility.FacilityStatus> list=new List<Facility.FacilityStatus>();
+            List<Facility.FacilityStatus> list = new List<Facility.FacilityStatus>();
             for (int i = 2; i < GameMain.Instance.FacilityMgr.FacilityCountMax; i++)
             {
                 if (list.Count == 0)
                 {
-                    list.AddRange(listBak);                    
+                    list.AddRange(listBak);
                 }
                 var item = list[0];
                 Facility facility = GameMain.Instance.FacilityMgr.CreateNewFacility(item.typeID);
@@ -210,108 +214,338 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             }
         }
 
-        public static void SetFacilityAllMaid(ScheduleMgr.ScheduleTime scheduleTime )
+        public static void SetFacilityAllMaid(ScheduleMgr.ScheduleTime scheduleTime)
         {
-            List<Facility> facilitys = GameMain.Instance.FacilityMgr.GetFacilityArray().Where(x=> x !=null).ToList();
-            List<string> maids = GameMain.Instance.CharacterMgr.status.scheduleSlot.Where(x=>x.maid_guid != string.Empty).Select(x=>x.maid_guid).ToList();
-            //List<Maid> maids = ScheduleMgrPatch.m_scheduleApi.slot.Select(x => x.maid).ToList();
-            MyLog.LogMessage("SetFacilityAllMaid1"
+
+            MyLog.LogMessage(
+                "SetFacilityAllMaid1"
+                );
+            //List<KeyValuePair<int, ScheduleCSVData.Work>> works = ScheduleCSVData.WorkData.ToList();
+
+            // 스케줄의 슬롯 정보
+            // public Maid GetScheduleSlot(int slotNo)
+            // if (string.IsNullOrEmpty(this.scheduleSlot[slotNo].maid_guid))
+            ScheduleData[] scheduleDatas = GameMain.Instance.CharacterMgr.status.scheduleSlot;
+
+            // 사용 가능한 목록
+            List<int> slots = new();
+            for (int i = 0; i < scheduleDatas.Length; i++)
+            {
+                if (scheduleDatas[i].maid_guid == string.Empty)
+                    continue;
+                slots.Add(i);
+            }
+
+            //var facilitys = GameMain.Instance.FacilityMgr.GetFacilityArray().Where(x=>x).ToList();
+            var facilitys = GameMain.Instance.FacilityMgr.GetFacilityArray().ToList();
+
+            MyLog.LogMessage(
+                "SetFacilityAllMaid3"
+                , scheduleDatas.Length
+                , slots.Count
                 , facilitys.Count
-                , maids.Count
-                , scheduleTime
-            );
-
-            if (maids.Count==0)
-            {
-                return;
-            }
-            while (2< facilitys.Count)
-            {
-                int n = UnityEngine.Random.Range(2, facilitys.Count);
-                var facility = facilitys[n];
-                MyLog.LogDebug("SetFacilityAllMaid2"
-                    , n
-                    , facility.defaultName
-                    , facility.facilityName
-                    , facility.name
-                    , facility.guid
-                    , facility.tag
-                    , facility.enabled
-                    , facility.isActiveAndEnabled
-                    , facility.minMaidCount
-                    , facility.maxMaidCount
-                    , maids.Count
-                    , facility.hideFlags                    
                 );
-                if(facility.minMaidCount<= maids.Count)
+
+            // 구현부
+            Facility facility;
+            Maid maid;
+            FacilityDataTable.FacilityDefaultData defaultData;
+            ScheduleCSVData.Work workData;
+
+            while (facilitys.Count > 2)
+            {
+                int n2 = UnityEngine.Random.Range(2, facilitys.Count);
+                if (facilitys[n2] == null)
                 {
-                    for (int i = 0; i < facility.minMaidCount; i++)
-                    {
-                        //Maid maid= maids[UnityEngine.Random.Range(0, maids.Count)];
-                        string maid = maids[UnityEngine.Random.Range(0, maids.Count)];
-                        bool b = ScheduleAPI.FacilitySlotActive(maid, facility, scheduleTime);
-                        MyLog.LogDebug("SetFacilityAllMaid3"
-                            , maid
-                            , b
+                    MyLog.LogMessage(
+                        "SetFacilityAllMaid null"
+                        , n2
                         );
-                        maids.Remove(maid);                        
-                    }
-                }           
-                facilitys.Remove(facility);
-            }
-            while (maids.Count>0)
-            {
-                var facility = facilitys[1];
-                MyLog.LogDebug("SetFacilityAllMaid4"
-                    , 1
-                    , facility.defaultName
-                    , facility.facilityName
-                    , facility.name
-                    , facility.guid
-                    , facility.tag
-                    , facility.enabled
-                    , facility.isActiveAndEnabled
-                    , facility.minMaidCount
-                    , facility.maxMaidCount
-                    , facility.hideFlags
-                );
-                string maid = maids[UnityEngine.Random.Range(0, maids.Count)];
-                if (ScheduleAPI.FacilitySlotActive(maid, facility, scheduleTime))
-                {
-                    MyLog.LogDebug("SetFacilityAllMaid5"
-                        , maid
-                    );
                 }
-                maids.Remove(maid);
+                else
+                {
+                    facility = facilitys[n2];
+
+                    if (facility.minMaidCount <= slots.Count)
+                    {
+                        for (int k = 0; k < facility.minMaidCount; k++)
+                        {
+
+                            defaultData = facility.defaultData;
+                            workData = defaultData.workData;
+
+                            int n1 = UnityEngine.Random.Range(0, slots.Count);
+                            try
+                            {
+                                maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[n1]);
+
+                                MyLog.LogMessage(
+                                    "SetFacilityAllMaid4"
+                                    , n2
+                                    , n1
+                                    , MyUtill.GetMaidFullName(maid)
+                                    , facility.defaultName
+
+                                    );
+                                
+                                ScheduleMgrPatch.m_scheduleApi.SetNoonWorkSlot_Safe(scheduleTime, slots[n1], workData.id);
+                                /*
+                                if (scheduleTime == ScheduleMgr.ScheduleTime.DayTime)
+                                {
+                                    maid.status.noonWorkId = workData.id;
+                                }
+                                else if (scheduleTime == ScheduleMgr.ScheduleTime.Night)
+                                {
+                                    maid.status.nightWorkId = workData.id;
+                                }*/
+                                //ScheduleAPI.AddTrainingFacility(maid, kp.Value.Key, scheduleTime);
+                                facility.AllocationMaid(maid, scheduleTime);
+                            }
+                            catch (Exception e)
+                            {
+                                MyLog.LogWarning(
+                                "SetFacilityAllMaid4"
+                                , n2
+                                , e.ToString()
+                                );
+                            }
+                            slots.RemoveAt(n1);
+                        }
+                        if (slots.Count == 0)
+                        {
+                            if (!DailyMgr.IsLegacy)
+                            {
+                                GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
+                            }
+                            ScheduleAPI.MaidWorkIdErrorCheck(true);
+                            return;
+                        }
+                    }
+
+                }
+                facilitys.RemoveAt(n2);
             }
 
-            // 설정후 업뎃
-            GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
+            facility = facilitys[1];
+            defaultData = facility.defaultData;
+            workData = defaultData.workData;
+            while (slots.Count > 0)
+            {
+                int n1 = 0;
+                maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[n1]);
+
+                ScheduleMgrPatch.m_scheduleApi.SetNoonWorkSlot_Safe(scheduleTime, slots[n1], workData.id);
+                /*
+                if (scheduleTime == ScheduleMgr.ScheduleTime.DayTime)
+                {
+                    maid.status.noonWorkId = workData.id;
+                }
+                else if (scheduleTime == ScheduleMgr.ScheduleTime.Night)
+                {
+                    maid.status.nightWorkId = workData.id;
+                }
+                */
+                //ScheduleAPI.AddTrainingFacility(maid, kp.Value.Key, scheduleTime);
+                facility.AllocationMaid(maid, scheduleTime);
+
+                slots.RemoveAt(n1);
+            }
+
+            if (!DailyMgr.IsLegacy)
+            {
+                GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
+            }
+            ScheduleAPI.MaidWorkIdErrorCheck(true);
+
+
+
+            //ScheduleAPI.AddTrainingFacility(maid, workId, scheduleTime);
+
+
+
+
+
         }
 
 
-        /*
-         
-                MyLog.LogMessage(
-                    "FacilityManagerToolPatch.SetFacilityAll2"
-                    , item.name
-                    , item.typeID
-                    , facility.defaultName
-                    , facility.facilityName
-                    , facility.name
-                    , facility.minMaidCount
-                    , facility.maxMaidCount
-                    , facility.nowDayTimeMaidCount
-                    , facility.staffRankDayTime
-                    , facility.staffRankNight
-                    , facility.tag
-                    , facility.typeCostume
-                    , facility.hideFlags
-                    , facility.enabled
+        public static void SetFacilityAllMaid_fail(ScheduleMgr.ScheduleTime scheduleTime)
+        {
+            MyLog.LogMessage(
+                "SetFacilityAllMaid1"
                 );
-         
-         
-         */
+            List<KeyValuePair<int, ScheduleCSVData.Work>> works = ScheduleCSVData.WorkData.ToList();
+
+            // 스케줄의 슬롯 정보
+            // public Maid GetScheduleSlot(int slotNo)
+            // if (string.IsNullOrEmpty(this.scheduleSlot[slotNo].maid_guid))
+            ScheduleData[] scheduleDatas = GameMain.Instance.CharacterMgr.status.scheduleSlot;
+
+            // 사용 가능한 목록
+            List<int> slots = new();
+            for (int i = 0; i < scheduleDatas.Length; i++)
+            {
+                if (scheduleDatas[i].maid_guid == null)
+                    continue;
+                slots.Add(i);
+            }
+
+            Facility[] facilityArray = GameMain.Instance.FacilityMgr.GetFacilityArray();
+
+            List<KeyValuePair<Facility, KeyValuePair<int, ScheduleCSVData.Work>>> list = new();
+
+            //foreach (Facility facility in facilityArray)
+            for (int i = 0; i < facilityArray.Length; i++)
+            {
+                Facility facility = facilityArray[i];
+                if (!(facility == null))
+                {
+                    foreach (var work in works)
+                    {
+                        //if (facility.defaultData.ID == work.Value.facilityId)//이거론 안됨
+                        if (facility.defaultName == work.Value.facility.name)
+                        {
+                            MyLog.LogMessage(
+                            "SetFacilityAllMaid2"
+                            , facility.defaultName
+                            , work.Value.name
+                            , facility.defaultData.ID
+                            , work.Value.facilityId
+                            );
+                            list.Add(new(facility, work));
+                            break;
+                        }
+                    }
+                }
+            }
+
+            MyLog.LogMessage(
+                "SetFacilityAllMaid3"
+                , works.Count
+                , scheduleDatas.Length
+                , slots.Count
+                , facilityArray.Length
+                , list.Count
+                );
+
+            // 구현부
+            KeyValuePair<Facility, KeyValuePair<int, ScheduleCSVData.Work>> kp;
+            Maid maid;
+            while (list.Count > 2)
+            {
+                int n2 = UnityEngine.Random.Range(2, list.Count);
+                kp = list[n2];
+
+                if (kp.Key.minMaidCount <= slots.Count)
+                {
+                    for (int k = 0; k < kp.Key.minMaidCount; k++)
+                    {
+                        int n1 = UnityEngine.Random.Range(0, slots.Count);
+                        maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[n1]);
+
+                        MyLog.LogMessage(
+                            "SetFacilityAllMaid4"
+                            , n2
+                            , n1
+                            , MyUtill.GetMaidFullName(maid)
+                            , kp.Key.defaultName
+                            , kp.Value.Value.name
+                            , kp.Key.defaultData.ID
+                            , kp.Value.Value.facilityId
+                            );
+
+                        if (scheduleTime == ScheduleMgr.ScheduleTime.DayTime)
+                        {
+                            maid.status.noonWorkId = kp.Value.Key;
+                        }
+                        else if (scheduleTime == ScheduleMgr.ScheduleTime.Night)
+                        {
+                            maid.status.nightWorkId = kp.Value.Key;
+                        }
+                        //ScheduleAPI.AddTrainingFacility(maid, kp.Value.Key, scheduleTime);
+                        kp.Key.AllocationMaid(maid, scheduleTime);
+
+                        slots.RemoveAt(n1);
+                    }
+                    if (slots.Count == 0)
+                    {
+                        GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
+                        return;
+                    }
+                }
+                list.RemoveAt(n2);
+            }
+
+            kp = list[1];
+            while (slots.Count > 0)
+            {
+                int n1 = 0;
+                maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[n1]);
+
+                if (scheduleTime == ScheduleMgr.ScheduleTime.DayTime)
+                {
+                    maid.status.noonWorkId = kp.Value.Key;
+                }
+                else if (scheduleTime == ScheduleMgr.ScheduleTime.Night)
+                {
+                    maid.status.nightWorkId = kp.Value.Key;
+                }
+                //ScheduleAPI.AddTrainingFacility(maid, kp.Value.Key, scheduleTime);
+                kp.Key.AllocationMaid(maid, scheduleTime);
+
+                slots.RemoveAt(n1);
+            }
+            GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
+
+
+
+            //ScheduleAPI.AddTrainingFacility(maid, workId, scheduleTime);
+
+
+
+
+
+        }
 
     }
 }
+/*
+ *                     MyLog.LogMessage(
+                        item.Key  // work id
+                        , training.facilityId
+                        , training.trainingType
+                        , training.categoryID
+                        , training.id
+                        , training.name
+                        , training.information
+                        , training.mode
+                        , training.type
+                        , training.IsCommon
+                        , training.isCommu
+                        , training.IsLegacy
+                        );
+[Message:     Lilly] 3000 , 100 , Basic , 52 , 3000 , 施設強化 ,  , COM3D , Work , False , False , False
+[Message:     Lilly] 3001 , 100 , Basic , 52 , 3001 , トレーニングルーム ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3002 , 100 , Basic , 52 , 3002 , オープンカフェ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3003 , 100 , Basic , 52 , 3003 , レストラン ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3004 , 100 , Basic , 52 , 3004 , 劇場 ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3005 , 100 , Basic , 52 , 3005 , バーラウンジ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3006 , 100 , Basic , 52 , 3006 , カジノ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3007 , 100 , Basic , 52 , 3007 , ソープ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3008 , 100 , Basic , 52 , 3008 , SMクラブ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3009 , 100 , Basic , 52 , 3009 , 宿泊部屋 ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3010 , 100 , Basic , 52 , 3010 , メイドリフレ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3011 , 100 , Basic , 52 , 3011 , 高級オープンカフェ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3012 , 100 , Basic , 52 , 3012 , 高級レストラン ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3013 , 100 , Basic , 52 , 3013 , 高級劇場 ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3014 , 100 , Basic , 52 , 3014 , 高級バーラウンジ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3015 , 100 , Basic , 52 , 3015 , 高級ソープ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3016 , 100 , Basic , 52 , 3016 , 高級SMクラブ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3017 , 100 , Basic , 52 , 3017 , 高級宿泊部屋 ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3018 , 100 , Basic , 52 , 3018 , 高級メイドリフレ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3019 , 100 , Basic , 52 , 3019 , 高級カジノ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3100 , 100 , Basic , 52 , 3100 , シーカフェ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3120 , 100 , Basic , 52 , 3120 , 神社 ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 4000 , 100 , Basic , 52 , 4000 , ポールダンス ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3260 , 100 , Basic , 52 , 3260 , ゲレンデ ,  , COM3D , Work , False , True , False
+[Message:     Lilly] 3300 , 100 , Basic , 52 , 3300 , 春の庭園 ,  , COM3D , Work , False , True , False
+ */
