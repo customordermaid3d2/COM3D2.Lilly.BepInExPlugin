@@ -1,4 +1,5 @@
 ﻿using com.workman.cm3d2.scene.dailyEtc;
+using COM3D2.Lilly.Plugin.Utill;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,12 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
     {
         // SceneMgr
 
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+        "SceneMgrPatch"
+        , "커뮤니티_자동_적용"
+        , "슬롯에_메이드_자동_배치"
+        , "시설에_메이드_자동_배치"
+        );
 
         //private string m_sceneName;
 
@@ -37,9 +44,25 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             );
             if (openType == "Daytime")
             {
-                ScheduleAPIPatch.SetRandomCommu(true);
-                ScheduleAPIPatch.SetRandomCommu(false);
+                if (configEntryUtill["슬롯에_메이드_자동_배치"])
+                {
+                    ScheduleMgrPatch.SetSlotAllMaid();
+                }
+
+                if (configEntryUtill["시설에_메이드_자동_배치"])
+                {
+                    FacilityManagerToolPatch.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
+                    FacilityManagerToolPatch.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
+                }
+
+                if (configEntryUtill["커뮤니티_자동_적용"])
+                {
+                    ScheduleAPIPatch.SetRandomCommu(true);
+                    ScheduleAPIPatch.SetRandomCommu(false);
+                }
             }
+
+
         }
     }
 }

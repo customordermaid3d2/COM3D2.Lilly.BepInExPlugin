@@ -17,7 +17,7 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
     {
         // KagScript
 
-        public static ConfigEntryUtill configEntryUtill = new ConfigEntryUtill(
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
         "KagScriptPatch"
         , "LoadScenarioString"
         , "GoToLabel"

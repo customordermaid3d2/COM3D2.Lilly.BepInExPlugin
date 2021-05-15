@@ -14,7 +14,7 @@ namespace COM3D2.Lilly.Plugin
     /// </summary>
     public static class CharacterMgrPatch // 이름은 마음대로 지어도 되긴 한데 나같은 경우 정리를 위해서 해킹 대상 클래스 이름에다가 접미사를 붇임
     {
-        public static ConfigEntryUtill configEntryUtill = new ConfigEntryUtill(
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
             "CharacterMgrPatch"
             , "SetActive"
             , "Deactivate"

@@ -64,7 +64,7 @@ namespace COM3D2.Lilly.Plugin
             AwakeUtill.customFile = Lilly.customFile;
             GUIVirtual.customFile = Lilly.customFile;
             ConfigEntryUtill.customFile = Lilly.customFile;
-            configEntryUtill = new ConfigEntryUtill(
+            configEntryUtill = ConfigEntryUtill.Create(
             "Lilly"
             , "OnSceneLoaded"
             );

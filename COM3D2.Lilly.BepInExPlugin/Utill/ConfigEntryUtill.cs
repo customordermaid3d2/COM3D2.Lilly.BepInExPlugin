@@ -8,128 +8,147 @@ using System.Text;
 namespace COM3D2.Lilly.Plugin.Utill
 {
 
-    public class ConfigEntryUtill :  IEnumerator, IEnumerable
+    public class ConfigEntryUtill : IEnumerator, IEnumerable
     {
+        /*
+                public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+        "CameraMainPatch"
+        , "FadeIn"
+        , "FadeOut"
+        , "FadeInNoUI"
+        , "FadeOutNoUI"
+        );
+        if(configEntryUtill["FadeIn"])
+        */
         public static ConfigFile customFile;
-        public static Dictionary<string, ConfigEntryUtill> listAll = new Dictionary<string, ConfigEntryUtill>();
-        public Dictionary<string, ConfigEntry<bool>> list = new Dictionary<string, ConfigEntry<bool>>();
-        public string section;
 
-        public List<string> kyes=new List<string>();
+        public static Dictionary<string, ConfigEntryUtill> SectionList { get; } = new Dictionary<string, ConfigEntryUtill>();
+
+        public Dictionary<string, ConfigEntry<bool>> KeyList { get; } = new Dictionary<string, ConfigEntry<bool>>();
+
+        private static readonly string sectionMain = "ConfigEntryUtill";
+        private readonly string section;
+
+        //public List<string> kyes=new List<string>();
 
 
-        public ConfigEntryUtill(string section):base()
+        private ConfigEntryUtill() : base()
+        {
+            MyLog.LogDebug("ConfigEntryUtill.ctor", sectionMain);
+            SectionList.Add(sectionMain, this);
+        }
+
+        private ConfigEntryUtill(string section) : base()
         {
             MyLog.LogDebug("ConfigEntryUtill.ctor", section);
             this.section = section;
-            listAll.Add(section, this);
+            SectionList.Add(section, this);
         }
-        
-        public ConfigEntryUtill(string section,params string[] keys) : base()
+
+        private ConfigEntryUtill(string section, params string[] keys) : base()
         {
             MyLog.LogDebug("ConfigEntryUtill.ctor", section, keys.Length);
             this.section = section;
-            listAll.Add(section, this);
+            SectionList.Add(section, this);
             //foreach (var key in keys)
             //{
             //    Add(key, true);
             //}
-            kyes.AddRange(keys);//나중에 처리하자            
+            //kyes.AddRange(keys);//나중에 처리하자            
             //Lilly.actionsAwake += Awake;
-            Awake();
+            ListSetup(keys.ToList());
+        }
+
+        public static ConfigEntryUtill Create()
+        {
+            if (!SectionList.ContainsKey(sectionMain))
+                return new ConfigEntryUtill();
+            else
+            {
+                return SectionList[sectionMain];
+            }
+        }
+
+        public static ConfigEntryUtill Create(string section)
+        {
+            MyLog.LogDebug("ConfigEntryUtill.Create", section);
+            if (!SectionList.ContainsKey(section))
+                return new ConfigEntryUtill(section);
+            else
+            {
+                return SectionList[section];
+            }
         }
 
         public static ConfigEntryUtill Create(string section, params string[] keys)
         {
             MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
-            return new ConfigEntryUtill(section, keys);
+            if (!SectionList.ContainsKey(section))
+                return new ConfigEntryUtill(section, keys);
+            else
+            {
+                //listAll[section].kyes.AddRange(keys);
+                SectionList[section].ListSetup(keys.ToList());
+                return SectionList[section];
+            }
         }
 
         public static bool Get(string section, string key)
         {
-            if (!listAll.ContainsKey(section))
+            if (!SectionList.ContainsKey(section))
             {
-                listAll.Add(section, new ConfigEntryUtill(section));
+                SectionList.Add(section, new ConfigEntryUtill(section));
             }
-            return listAll[section][key];
+            return SectionList[section][key];
         }
 
-        public  void Awake()
+        public void ListSetup(List<string> kyes)
         {
             MyLog.LogMessage("ConfigEntryUtill.Awake", section, kyes.Count);
             foreach (var item in kyes)
             {
                 MyLog.LogDebug("ConfigEntryUtill.Awake", section, item);
-                if (!list.ContainsKey(item))
+                if (!KeyList.ContainsKey(item))
                 {
                     Add(item, true);
                 }
             }
-            MyLog.LogMessage("ConfigEntryUtill.Awake", section, list.Count);
+            MyLog.LogMessage("ConfigEntryUtill.Awake", section, KeyList.Count);
         }
-        /*
-        public static bool this[string section,string key] {
-            get
-            {
-                if (!listAll.ContainsKey(section))
-                {
-                    listAll.Add(section, new ConfigEntryUtill(section));
-                }                
-                if (!list.ContainsKey(key))
-                {
-                    Add(key, true);
-                }
-                return list[key].Value;
-            }
-            set
-            {
 
-                if (!list.ContainsKey(key))
-                {
-                    Add(key, true);
-                }
-                list[key].Value = value;
-            }
+        public bool this[string section, string key] {
+            get => Create(section)[key];
+            set => Create(section)[key] = value;
         }
-        */
+
         public bool this[string key] {
             get
             {
-                if (!list.ContainsKey(key))
-                {
-                    Add(key, true);
-                }
-                return list[key].Value;
+                if (!KeyList.ContainsKey(key))                
+                    Add(key, true);                
+                return KeyList[key].Value;
             }
             set
             {
-                if (!list.ContainsKey(key))
-                {
-                    Add(key, true);
-                }
-                list[key].Value = value;
+                if (!KeyList.ContainsKey(key))                
+                    Add(key, true);                
+                KeyList[key].Value = value;
             }
         }
 
         public bool this[int key] {
-            get
-            {
-                return list.ElementAt(key).Value.Value;
-            }
-            set
-            {
-                list.ElementAt(key).Value.Value = value;
-            }
+            get => KeyList.ElementAt(key).Value.Value;
+            set => KeyList.ElementAt(key).Value.Value = value;            
         }
 
-        public void Add(string key, bool defaultValue, string description = null)
+        private void Add(string key, bool defaultValue, string description = null)
         {
-            list.Add(
+            KeyList.Add(
                 key,
                 customFile.Bind(
                     section,
-                    key,
-                    defaultValue
+                    key
+                    , defaultValue
                 )
             );
         }
@@ -146,7 +165,7 @@ namespace COM3D2.Lilly.Plugin.Utill
         public bool MoveNext()
         {
             position++;
-            return (position < list.Count);
+            return (position < KeyList.Count);
         }
 
         //IEnumerable
@@ -156,7 +175,9 @@ namespace COM3D2.Lilly.Plugin.Utill
         }
 
         //IEnumerable
-        object IEnumerator.Current =>   list.ElementAt(position);
+        object IEnumerator.Current => KeyList.ElementAt(position);
+
+
     }
 
 
@@ -182,7 +203,7 @@ namespace COM3D2.Lilly.Plugin.Utill
             listAll.Add(section, this);
         }
 
-        public ConfigEntryUtill(string section, T defult,params string[] keys) : base()
+        public ConfigEntryUtill(string section, T defult, params string[] keys) : base()
         {
             MyLog.LogDebug("ConfigEntryUtill.ctor", section, keys.Length);
 
@@ -202,7 +223,7 @@ namespace COM3D2.Lilly.Plugin.Utill
         public static ConfigEntryUtill<T> Create(string section, T defult, params string[] keys)
         {
             MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
-            return new ConfigEntryUtill<T>(section,defult, keys);
+            return new ConfigEntryUtill<T>(section, defult, keys);
         }
         /*
         public static T Get(string section, string key)

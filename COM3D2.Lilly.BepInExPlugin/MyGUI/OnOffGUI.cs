@@ -16,12 +16,12 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         public override void SetButtonList()
         {
-            GUILayout.Label("ConfigEntryUtill : "+ ConfigEntryUtill.listAll.Count);
+            GUILayout.Label("ConfigEntryUtill : "+ ConfigEntryUtill.SectionList.Count);
             // ConfigEntryUtill
-            foreach (var kp in ConfigEntryUtill.listAll)
+            foreach (var kp in ConfigEntryUtill.SectionList)
             {
-                GUILayout.Label(kp.Key + " : " + kp.Value.list.Count);
-                foreach (var item in kp.Value.list)
+                GUILayout.Label(kp.Key + " : " + kp.Value.KeyList.Count);
+                foreach (var item in kp.Value.KeyList)
                 {
                     if (GUILayout.Button(item.Key+":"+ item.Value.Value)) item.Value.Value=!item.Value.Value;
                 }

@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using COM3D2.Lilly.Plugin.Utill;
+using HarmonyLib;
 using Schedule;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,18 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
     {
         // ScheduleAPI
 
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+        "ScheduleAPIInfoPatch"
+        , "FacilitySlotActive"
+        );
+
         // public static bool FacilitySlotActive(string maidGuid, Facility facility, ScheduleMgr.ScheduleTime time)
         [HarmonyPatch(typeof(ScheduleAPI), "FacilitySlotActive")]
         [HarmonyPrefix]
         public static void FacilitySlotActive(
             string maidGuid, Facility facility, ScheduleMgr.ScheduleTime time)
         {
+            if(configEntryUtill["FacilitySlotActive"])
             MyLog.LogMessage("ScheduleAPI.FacilitySlotActive"
                 , maidGuid
                 , facility.facilityName
@@ -37,7 +44,8 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
             {
                 key = maid.status.nightWorkId;
             }
-            MyLog.LogMessage("ScheduleAPI.FacilitySlotActive1"
+            if (configEntryUtill["FacilitySlotActive"])
+                MyLog.LogMessage("ScheduleAPI.FacilitySlotActive1"
                 , MyUtill.GetMaidFullName(maid)
                 , key
             );
@@ -47,12 +55,14 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
                 if (scheduleBase.type == ScheduleTaskCtrl.TaskType.Work)
                 {
                     ScheduleCSVData.Work work = (ScheduleCSVData.Work)scheduleBase;
-                    MyLog.LogMessage("ScheduleAPI.FacilitySlotActive2"
+                    if (configEntryUtill["FacilitySlotActive"])
+                        MyLog.LogMessage("ScheduleAPI.FacilitySlotActive2"
                         , work.facilityId
                         , work.facility.ID
                         , work.facility.name
                     );
-                    MyLog.LogMessage("ScheduleAPI.FacilitySlotActive3"
+                    if (configEntryUtill["FacilitySlotActive"])
+                        MyLog.LogMessage("ScheduleAPI.FacilitySlotActive3"
                         , ScheduleCSVData.faclilityPowerUpWorkId
                         , facility.defaultData.ID
                         , facility.defaultData.name

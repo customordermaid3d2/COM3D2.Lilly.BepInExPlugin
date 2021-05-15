@@ -16,6 +16,11 @@ namespace COM3D2.Lilly.Plugin
 
         public static ScheduleScene m_scheduleApi;
 
+        /*
+        [HarmonyPostfix, HarmonyPatch(typeof(ScheduleMgr),MethodType.Constructor)]
+        private static void LoadData()
+        */
+
         /// <summary>
         /// 스케줄에 들어가야 로딩됨
         /// </summary>

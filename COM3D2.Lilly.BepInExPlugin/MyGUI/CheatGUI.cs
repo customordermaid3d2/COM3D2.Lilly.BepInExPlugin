@@ -28,8 +28,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         public override void SetButtonList()
         {
             if (GUILayout.Button("일상 플레그 처리")) CheatGUI.SetWorkAll();
-            if (GUILayout.Button("시설 자동 생성 - 랜덤")) FacilityManagerToolPatch.SetFacilityAll();
-            if (GUILayout.Button("시설 자동 생성 - 순차")) FacilityManagerToolPatch.SetFacilityAll2();
+            if (GUILayout.Button("시설 자동 생성 - 랜덤")) FacilityManagerToolPatch.SetFacilityAll(true);
+            if (GUILayout.Button("시설 자동 생성 - 순차")) FacilityManagerToolPatch.SetFacilityAll(false);
 
             GUILayout.Label("모든 메이드 대상");
             if (GUILayout.Button("시나리오 처리 처리")) ScenarioDataUtill.SetScenarioDataAll();

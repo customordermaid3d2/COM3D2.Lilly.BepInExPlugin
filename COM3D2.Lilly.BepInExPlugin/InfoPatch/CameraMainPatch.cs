@@ -10,7 +10,7 @@ namespace COM3D2.Lilly.Plugin
 {
     class CameraMainPatch
     {
-        public static ConfigEntryUtill configEntryUtill = new ConfigEntryUtill(
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
         "CameraMainPatch"
         , "FadeIn"
         , "FadeOut"
