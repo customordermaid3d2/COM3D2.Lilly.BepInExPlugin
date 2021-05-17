@@ -63,6 +63,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             infoList.Add(typeof(GameObjectPatch));// 
             infoList.Add(typeof(KagScriptPatch));// 
             infoList.Add(typeof(MaidPatch));// 아이템 장착 확인용
+            infoList.Add(typeof(SoundMgrPatch));// 스케줄 관리
             infoList.Add(typeof(ScheduleAPIInfoPatch));// 스케줄 관리
             infoList.Add(typeof(ScheduleMgrPatch));// 스케줄 관리
             infoList.Add(typeof(ScenarioSelectMgrPatch));// 시나리오 정보 출력용 

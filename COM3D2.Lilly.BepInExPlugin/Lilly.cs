@@ -56,9 +56,9 @@ namespace COM3D2.Lilly.Plugin
 
         public Lilly()
         {
-            MyLog.LogDebug("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
+            MyLog.LogDarkBlue("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
             stopwatch.Start(); // 시간측정 시작
-            MyLog.LogDarkBlue("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
+            MyLog.LogMessage("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 
             customFile = Config;
             AwakeUtill.customFile = Lilly.customFile;

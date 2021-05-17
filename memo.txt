@@ -2,6 +2,10 @@
 GameMain.Instance.FacilityMgr.FacilityCountMax
 GameMain.Instance.FacilityMgr
 GameMain.Instance.CharacterMgr.status;
+GameMain.Instance.SoundMgr.PlayBGM("BGM005.ogg", 0f, true);
+GameMain.Instance.BgMgr.ChangeBg(this.m_BGname);
+
+GameMain.Instance.SoundMgr;
 
 Maid maid = array[UnityEngine.Random.Range(0, array.Length)];
 

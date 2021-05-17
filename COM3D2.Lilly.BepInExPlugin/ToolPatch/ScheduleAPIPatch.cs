@@ -29,6 +29,11 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         
         public static void SetworkSuccessLvMax()
         {
+            if (!configEntryUtill["GetCommunicationMaid_log"])
+                MyLog.LogMessage("ScheduleAPI.SetworkSuccessLvMax"
+                , ScheduleCSVData.workSuccessLvMissIncidence
+                , ScheduleCSVData.workSuccessLvPerfectIncidence
+            );
             // 효과 없음
             ScheduleCSVData.workSuccessLvMissIncidence = 0;
             ScheduleCSVData.workSuccessLvPerfectIncidence = 100;

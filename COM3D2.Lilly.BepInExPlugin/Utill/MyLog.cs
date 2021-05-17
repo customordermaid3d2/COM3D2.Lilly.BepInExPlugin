@@ -10,6 +10,7 @@ namespace COM3D2.Lilly.Plugin
 {
     public class MyLog 
     {
+        static ManualLogSource log = BepInEx.Logging.Logger.CreateLogSource("Lilly");
 
 
         public MyLog()
@@ -49,7 +50,6 @@ namespace COM3D2.Lilly.Plugin
             Console.ResetColor();
         }
 
-        static ManualLogSource log = BepInEx.Logging.Logger.CreateLogSource("Lilly");
 
         private static void LogOut(object[] args, Action<string> action)
         {
