@@ -16,7 +16,7 @@ namespace COM3D2.Lilly.Plugin
         // 
         [HarmonyPatch(typeof(ScoutManager), "isModeEnabled", MethodType.Getter)]
         [HarmonyPrefix]
-        public static bool GetIsScoutMode(ref bool __result)
+        public static bool GetIsScoutMode(ref bool __result)// , bool value
         {
             MyLog.LogMessage("ScoutManager.GetIsScoutMode");
             __result = Product.type == Product.Type.JpAdult && PluginData.IsEnabled("GP001FB");

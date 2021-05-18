@@ -14,6 +14,7 @@ namespace COM3D2.Lilly.Plugin
             "TBodyPatch"
             , "BoneMorph_FromProcItem"
             , "VertexMorph_FromProcItem"
+            , "LoadBody_R"
         );
 
         public  void init()
@@ -43,6 +44,17 @@ namespace COM3D2.Lilly.Plugin
                 ,tag
                 ,f
                 );
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(TBody), "LoadBody_R")]
+        public static void LoadBody_R(string f_strModelFileName, Maid f_maid)
+        {
+            if (config["LoadBody_R"])
+                MyLog.LogMessage("TBody.LoadBody_R"
+                , f_strModelFileName
+                , MyUtill.GetMaidFullName(f_maid)
+                );
+
         }
 
 #if COM3D2_157

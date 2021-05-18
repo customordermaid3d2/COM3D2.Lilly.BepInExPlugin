@@ -86,6 +86,13 @@ namespace COM3D2.Lilly.Plugin
                 print("DelProp",___m_aryMaidProp[(int)idx]);
         }
 
+        [HarmonyPatch(typeof(Maid), "Visible", MethodType.Setter)]
+        [HarmonyPrefix]
+        public static void Visible(Maid __instance, bool value)
+        {
+            MyLog.LogMessage("Visible", MyUtill.GetMaidFullName(__instance), value, __instance.IsCrcBody, __instance.boMAN);
+        }
+
         public static void print(string s,MaidProp maidProp)
         {
             if (maidProp==null)
