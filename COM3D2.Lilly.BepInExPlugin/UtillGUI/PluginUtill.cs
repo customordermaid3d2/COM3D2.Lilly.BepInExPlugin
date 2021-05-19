@@ -22,12 +22,17 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
 
         public override void SetButtonList()
         {
-            if (GUILayout.Button("GameObjectMgr.enabled")) GameObjectMgr.instance.enabled = !GameObjectMgr.instance.enabled;
+            if (GUILayout.Button("GameObjectMgr.enabled" + ":" + GameObjectMgr.instance.enabled)) GameObjectMgr.instance.enabled = !GameObjectMgr.instance.enabled;
+            GUILayout.Label("test2");            
+            foreach (var item in baseUnityPlugins)
+            {
+                if (GUILayout.Button(item.Info.Metadata.Name + ":" + item.Info.Instance.enabled)) item.Info.Instance.enabled = !item.Info.Instance.enabled;
+            }
             GUILayout.Label("test2");            
             foreach (var item in baseUnityPlugins)
             {
                 if (GUILayout.Button(item.Info.Metadata.Name + ":" + item.enabled)) item.enabled = !item.enabled;
-            }
+            }            
         }
 
 
