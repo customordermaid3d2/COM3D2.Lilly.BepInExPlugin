@@ -20,7 +20,7 @@ using COM3D2.Lilly.Plugin.Utill;
 
 namespace COM3D2.Lilly.Plugin.MyGUI
 {
-    public class EasyUtill : GUIVirtual
+    public class EasyUtill : GUIVirtualMgr
     {
         //public static Scene scene;       
 
@@ -40,10 +40,16 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         public static string scenario_str = string.Empty;
         public static string label_name = string.Empty;
+        private float hSliderValue = 0.0f;
 
         public override void SetButtonList()
         {
             GUILayout.Label("now scene.name : " + Lilly.scene.name);
+
+            GUILayout.Label(hSliderValue<9f ? "이 슬라이더는 아무 기능 없음" : "아무 기능 없대두 =_=");
+            hSliderValue = GUILayout.HorizontalSlider( hSliderValue, 0.0f, 10.0f );
+            hSliderValue = GUILayout.HorizontalScrollbar( hSliderValue,5f ,0.0f, 10.0f );
+
             if (GUILayout.Button("mod reflash2")) modreflash2();
 
             if (GUILayout.Button("SetRandomCommu")) { ScheduleAPIPatch.SetRandomCommu(true); ScheduleAPIPatch.SetRandomCommu(false); };

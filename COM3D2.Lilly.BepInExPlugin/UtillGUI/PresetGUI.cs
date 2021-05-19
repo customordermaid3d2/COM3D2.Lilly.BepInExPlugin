@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace COM3D2.Lilly.Plugin.MyGUI
 {
-    public class PresetGUI : GUIVirtual
+    public class PresetGUI : GUIVirtualMgr
     {
         public PresetGUI()
         {

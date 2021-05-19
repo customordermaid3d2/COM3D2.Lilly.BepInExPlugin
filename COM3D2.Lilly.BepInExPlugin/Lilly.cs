@@ -3,6 +3,7 @@ using BepInEx.Configuration;
 using COM3D2.Lilly.Plugin.InfoPatch;
 using COM3D2.Lilly.Plugin.MyGUI;
 using COM3D2.Lilly.Plugin.Utill;
+using COM3D2.Lilly.Plugin.UtillGUI;
 using COM3D2API;
 using HarmonyLib;
 using System;
@@ -21,18 +22,26 @@ namespace COM3D2.Lilly.Plugin
     [BepInProcess("COM3D2x64.exe")]
     public class Lilly : BaseUnityPlugin 
     {
-        public static ConfigFile customFile;// = new ConfigFile(Path.Combine(Paths.ConfigPath, "COM3D2.Lilly.Plugin.cfg"), true);
+        public static Lilly Instance;
 
         Stopwatch stopwatch = new Stopwatch(); //객체 선언
-        
         public static System.Random rand = new System.Random();
 
-        public static bool isLogOn = true;
-
+        public static ConfigFile customFile;// = new ConfigFile(Path.Combine(Paths.ConfigPath, "COM3D2.Lilly.Plugin.cfg"), true);
         public static ConfigEntryUtill configEntryUtill;
+        public static bool isLogOn = true;
+        
+        public static HarmonyUtill harmonyUtill;
+        public static InfoUtill infoUtill;
+        public static CheatGUI cheatUtill;
+        public static EasyUtill easyUtill;
+        public static MaidEditGui maidEditGui;
+        public static PresetGUI presetGUI;
+        public static OnOffGUI OnOffGUI;
 
         public static event Action actionsAwake;
         public static event Action actionsInit;
+
 
         public static void SetLogOnOff()
         {
@@ -46,23 +55,17 @@ namespace COM3D2.Lilly.Plugin
             isGuiOn = !isGuiOn;
         }
 
-        public static HarmonyUtill harmonyUtill;
-        public static InfoUtill infoUtill;
-        public static CheatGUI cheatUtill;
-        public static EasyUtill easyUtill;
-        public static MaidEditGui maidEditGui;
-        public static OnOffGUI OnOffGUI;
-        public static PresetGUI presetGUI;
-
         public Lilly()
         {
+            Instance = this;
+
             MyLog.LogDarkBlue("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
             stopwatch.Start(); // 시간측정 시작
             MyLog.LogMessage("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 
             customFile = Config;
             AwakeUtill.customFile = Lilly.customFile;
-            GUIVirtual.customFile = Lilly.customFile;
+            GUIVirtualMgr.customFile = Lilly.customFile;
             ConfigEntryUtill.customFile = Lilly.customFile;
             configEntryUtill = ConfigEntryUtill.Create(
             "Lilly"
@@ -94,11 +97,10 @@ namespace COM3D2.Lilly.Plugin
 
 
         /// <summary>
-        /// 한번만 실행됨
+        /// 2.한번만 실행됨
         /// 단순 참조는 위에서 처리하고
         /// 초기화 같은건 이걸 이용하자
         /// </summary>
-
         public void Awake()
         {
             System.Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
@@ -109,6 +111,9 @@ namespace COM3D2.Lilly.Plugin
                 actionsAwake();
         }
 
+        /// <summary>
+        /// 3.
+        /// </summary>
         public void OnEnable()
         {
             MyLog.LogMessage("OnEnable");
@@ -118,10 +123,14 @@ namespace COM3D2.Lilly.Plugin
             HarmonyUtill.SetHarmonyPatchAll();            
         }
 
+        /// <summary>
+        /// 4. 게임 실행중 한번만 실행됨
+        /// </summary>
         public void Start()
         {
             MyLog.LogMessage("Start");
-            GUIVirtual.ActionsStart();
+            GameObjectMgr.Install(gameObject);
+            GUIVirtualMgr.ActionsStart();
         }
 
         public static Scene scene;
@@ -148,14 +157,14 @@ namespace COM3D2.Lilly.Plugin
 
         public void OnGUI()
         {            
-            GUIVirtual.ActionsOnGui();
+            GUIVirtualMgr.ActionsOnGui();
         }
 
         public void OnDisable()
         {
             MyLog.LogMessage("OnDisable");
 
-            GUIVirtual.SetGuiOffAll();
+            GUIVirtualMgr.SetGuiOffAll();
 
             SceneManager.sceneLoaded -= this.OnSceneLoaded;
 

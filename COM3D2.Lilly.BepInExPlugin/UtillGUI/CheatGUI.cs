@@ -18,7 +18,7 @@ using Yotogis;
 
 namespace COM3D2.Lilly.Plugin.MyGUI
 {
-    public class CheatGUI : GUIVirtual
+    public class CheatGUI : GUIVirtualMgr
     {
         public CheatGUI() : base("CheatUtill")
         {

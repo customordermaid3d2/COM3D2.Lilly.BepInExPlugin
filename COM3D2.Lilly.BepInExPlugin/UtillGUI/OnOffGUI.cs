@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace COM3D2.Lilly.Plugin.MyGUI
 {
-    public class OnOffGUI : GUIVirtual
+    public class OnOffGUI : GUIVirtualMgr
     {
         public OnOffGUI() : base("OnOffGUI")
         {

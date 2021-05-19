@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace COM3D2.Lilly.Plugin.MyGUI
 {
-    public class HarmonyUtill : GUIVirtual
+    public class HarmonyUtill : GUIVirtualMgr
     {
         // 하모니 적용되면 여기에 추가할것
         public static Dictionary<Type, Harmony> harmonys = new Dictionary<Type, Harmony>();

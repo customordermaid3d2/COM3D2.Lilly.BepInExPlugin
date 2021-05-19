@@ -23,6 +23,7 @@ namespace COM3D2.Lilly.Plugin.Utill
         }
 
         private static Dictionary<string, GUILayoutOption[]> gs = new Dictionary<string, GUILayoutOption[]>();
+        private static Dictionary<Type, GUILayoutOption[]> tmp = new Dictionary<Type, GUILayoutOption[]>();
 
         private GUILayoutOptionUtill()
         {
@@ -81,6 +82,8 @@ namespace COM3D2.Lilly.Plugin.Utill
                 return gs[key];
             }
         }
+        
+
 
         public enum Type
         {

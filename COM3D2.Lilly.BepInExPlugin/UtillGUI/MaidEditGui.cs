@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace COM3D2.Lilly.Plugin.MyGUI
 {
-    public class MaidEditGui : GUIVirtual
+    public class MaidEditGui : GUIVirtualMgr
     {
         public static ConfigEntry<bool> _GP01FBFaceEyeRandomOnOff;
         public static ConfigEntry<bool> newMaid;

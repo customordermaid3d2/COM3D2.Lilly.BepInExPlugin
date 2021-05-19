@@ -76,17 +76,17 @@ namespace COM3D2.Lilly.Plugin
             //if (GUILayout.Button("Random Preset All. set All " + lists.Count)) { RandPreset(ListType.All, PresetType.All); }
             if (GUILayout.Button("Random Preset Run")) { RandPresetRun(); }
             if (GUILayout.Button("Random list load")) { LoadList(); }
+            GUILayout.Label("PresetType "+ selGridPreset);
+            selGridPreset = GUILayout.Toolbar(selGridPreset, namesPreset);
+            GUILayout.Label("ListType "+ selGridList);
+            selGridList = GUILayout.SelectionGrid(selGridList, namesList,2);
             GUILayout.Label("ModType "+ selGridMod);
             selGridMod = GUILayout.SelectionGrid(selGridMod, namesMod, 1);
-            GUILayout.Label("PresetType "+ selGridPreset);
-            selGridPreset = GUILayout.SelectionGrid(selGridPreset, namesPreset, 1);
-            GUILayout.Label("ListType "+ selGridList);
-            selGridList = GUILayout.SelectionGrid(selGridList, namesList, 1);
             if ((ModType)selGridMod == ModType.OneMaid)
             {
             GUILayout.Label("Maid List "+ selGridmaid);
             //GUI.enabled = modType == ModType.OneMaid;
-            selGridmaid = GUILayout.SelectionGrid(selGridmaid, CharacterMgrPatch.namesMaid, 1);
+            selGridmaid = GUILayout.SelectionGrid(selGridmaid, CharacterMgrPatch.namesMaid, 2);
             }
             GUI.enabled = true;
         }

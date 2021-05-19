@@ -18,7 +18,7 @@ using Yotogis;
 
 namespace COM3D2.Lilly.Plugin.MyGUI
 {
-    public class InfoUtill : GUIVirtual
+    public class InfoUtill : GUIVirtualMgr
     {
         public override void SetButtonList()
         {
@@ -38,7 +38,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             GUILayout.Label("메이드 관리에서 사용 SceneMaidManagement");
             GUI.enabled = Lilly.scene.name == "SceneMaidManagement";
             if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) InfoUtill.GetMaidFlag(MaidManagementMainPatch.___select_maid_);
-
+            
 #if COM3D2_157
             if (GUILayout.Button("GetStrIKCtrlPairInfo")) FullBodyIKMgrPatch.GetStrIKCtrlPairInfo();
 #endif
@@ -188,6 +188,20 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             }
 
             //MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.);
+
+            foreach (var item in GUI.skin.customStyles)
+            {
+                MyLog.LogMessage(
+                    item.name
+                    , item.fixedWidth
+                    , item.fixedHeight
+                    , item.stretchWidth
+                    , item.stretchHeight
+                    , item.font.name
+                    , item.fontSize
+                    , item.fontStyle                    
+                    );
+            }
 
             MyLog.LogInfo();
 

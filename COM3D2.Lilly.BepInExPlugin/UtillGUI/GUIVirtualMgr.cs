@@ -13,15 +13,15 @@ namespace COM3D2.Lilly.Plugin.MyGUI
     /// 메뉴 화면 표준화
     /// 상속 받은후 SetButtonList 에다가 버튼 목록만 작성하고 있음
     /// </summary>
-    public class GUIVirtual// : AwakeUtill
+    public class GUIVirtualMgr// : AwakeUtill
     {
-        private static int WindowId = new System.Random().Next();
+        private int WindowId = new System.Random().Next();
         private static Rect windowRect = new Rect(40f, 40f, 300f, 600f);
         // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
         //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
-        private static GUIStyle windowStyle;
+        //private static GUIStyle windowStyle;
 
-        private static GUILayoutOptionUtill guio= GUILayoutOptionUtill.Instance;
+        private static GUILayoutOptionUtill guio = GUILayoutOptionUtill.Instance;
 
         private bool isGuiOn = false;
         internal static ConfigFile customFile;
@@ -33,19 +33,23 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         public string name = "GUIVirtual";
 
-        public static int pageMax = 0;
+        public static Dictionary<int ,GUIVirtualMgr> guis = new Dictionary<int, GUIVirtualMgr>() ;
+        public static int pageCount = 0;
+        public static int pageNow = 0;
         public int pageNum = 0;
+        public static bool open = true;
 
         public bool IsGuiOn {
             get => isGuiOn;
             set
             {
+                pageNow = pageNum;
                 isGuiOff();
                 isGuiOn = value;
             }
         }
 
-        public GUIVirtual() : base()
+        public GUIVirtualMgr() : base()
         {
             MyLog.LogDebug("GUIVirtual()");
 
@@ -54,7 +58,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         }
 
-        public GUIVirtual(string name) : base()
+        public GUIVirtualMgr(string name) : base()
         {
             MyLog.LogDebug("GUIVirtual()", name);
             this.name = name;
@@ -62,32 +66,13 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         }
 
         private void Seting()
-        {
-            pageNum = pageMax++;
+        {            
+            guis.Add(pageNum = pageCount++, this);
             isGuiOff += SetGuiOff;
             actionsOnGui += OnGui;
             actionsStart += Start;
             actionsSetButtonList += SetButtonList;
             SystemShortcutAPI.AddButton(name, new Action(SetGuiOnOff), name, GearMenu.png);
-        }
-
-        public static void SetGuiOffAll()
-        {
-            isGuiOff();
-        }
-
-        public static void ActionsOnGui()
-        {
-            actionsOnGui();
-        }
-
-
-        
-
-        public static void ActionsStart()
-        {
-
-            actionsStart();
         }
 
         public virtual void SetName()
@@ -98,6 +83,14 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         public virtual void SetName(string name)
         {
             this.name = name;
+        }
+
+
+        #region GUI On OFF
+
+        public static void SetGuiOffAll()
+        {
+            isGuiOff();
         }
 
         public virtual void SetGuiOff()
@@ -112,7 +105,18 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             //MyLog.LogDebug("SetGuiOnOff", name, IsGuiOn);
         }
 
-        public  void init()
+        public virtual void GoPage(int p)
+        {
+            MyLog.LogDebug("GUIVirtual.GoPage", p);
+            pageNow = (p + pageCount) % pageCount;
+            guis[pageNow].IsGuiOn = true;
+        }
+
+        #endregion
+
+
+
+        public void init()
         {
             MyLog.LogDebug("GUIVirtual.init", name);
             //configEntryUtill = new ConfigEntryUtill(
@@ -120,15 +124,29 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             //, "OnSceneLoaded"
             //);
         }
-        public  void Awake()
+
+        public void Awake()
         {
             MyLog.LogDebug("GUIVirtual.Awake", name);
 
         }
 
+        public static void ActionsStart()
+        {
+
+            actionsStart();
+        }
+
         public virtual void Start()
         {
             MyLog.LogDebug("Start", name);
+        }
+
+        #region OnGui
+
+        public static void ActionsOnGui()
+        {
+            actionsOnGui();
         }
 
         public virtual void OnGui()
@@ -138,64 +156,71 @@ namespace COM3D2.Lilly.Plugin.MyGUI
                 return;
             }
 
-            if (windowStyle == null)
-            {
-                windowStyle = new GUIStyle(GUI.skin.box);
-            }
+            //if (windowStyle == null)
+            //{
+            //    windowStyle = new GUIStyle(GUI.skin.box);
+            //}
+            // Assign the currently skin to be Unity's default.
+            GUI.skin = null;
 
+            // 화면 밖으로 안나가게 조정
             windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + 20, Screen.width - 20);
             windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + 20, Screen.height - 20);
 
-            windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, string.Empty, windowStyle);
-        }
+            windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, Lilly.Instance.name);
+        } 
 
         protected Vector2 scrollPosition;
 
-        public bool max = true;
+       
 
         /// <summary>
-        /// 
+        /// GUI는 이걸 오버라이드 해서 작성하기
         /// </summary>
         /// <param name="windowId"></param>
         public virtual void GuiFunc(int windowId)
         {
-
+            //GUI.DragWindow();//이건 마지막이여야 의도대로 작동 하는듯?
             GUILayout.BeginVertical();
 
             #region title
 
             GUILayout.BeginHorizontal();
 
-            GUILayout.Label(name + " List");
+            GUILayout.Label(name + " : "+ windowId);
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("-", guio[GUILayoutOptionUtill.Type.Height, 20])) { max = !max; }
+            GUILayout.Label(pageNow + " / " + pageNum + " / " + pageCount+" , "+ open);
+            if (GUILayout.Button("<", guio[GUILayoutOptionUtill.Type.Height, 20]))
+            {
+                MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
+                GoPage(pageNow+1);
+            }
+            if (GUILayout.Button(">", guio[GUILayoutOptionUtill.Type.Height, 20]))
+            {
+                MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
+                GoPage(pageNow - 1);
+            }
+            if (GUILayout.Button("-", guio[GUILayoutOptionUtill.Type.Height, 20])) { open = !open; }
 
             GUILayout.EndHorizontal();
 
             #endregion
 
-            if (max)
+            if (open && pageNow == pageNum)
             {
 
-            #region body
+                #region body
 
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition);
+                scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
-            //try
-            //{
-            SetButtonList();
-            //}
-            //catch (Exception e)
-            //{
-            //    MyLog.LogFatal("SetButtonList", e.ToString());
-            //}
+                SetButtonList();
 
-            GUILayout.EndScrollView();
+                GUILayout.EndScrollView();
 
-            #endregion
-                            
+                #endregion
+
             }
-            
+
             GUILayout.EndVertical();
 
             GUI.enabled = true;
@@ -206,6 +231,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         {
             MyLog.LogWarning("SetButtonList", name);
         }
+
+        #endregion
 
     }
 }
