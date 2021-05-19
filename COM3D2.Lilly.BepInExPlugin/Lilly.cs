@@ -58,8 +58,10 @@ namespace COM3D2.Lilly.Plugin
         public Lilly()
         {
             Instance = this;
+            name = "COM3D2.Lilly.Plugin";
 
             MyLog.LogDarkBlue("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
+
             stopwatch.Start(); // 시간측정 시작
             MyLog.LogMessage("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 

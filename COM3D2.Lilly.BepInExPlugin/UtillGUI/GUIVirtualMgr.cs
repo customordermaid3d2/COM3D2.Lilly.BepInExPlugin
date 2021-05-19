@@ -105,7 +105,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             //MyLog.LogDebug("SetGuiOnOff", name, IsGuiOn);
         }
 
-        public virtual void GoPage(int p)
+        public static void GoPage(int p)
         {
             MyLog.LogDebug("GUIVirtual.GoPage", p);
             pageNow = (p + pageCount) % pageCount;
@@ -180,6 +180,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         /// <param name="windowId"></param>
         public virtual void GuiFunc(int windowId)
         {
+            GUI.enabled = true;
             //GUI.DragWindow();//이건 마지막이여야 의도대로 작동 하는듯?
             GUILayout.BeginVertical();
 
@@ -223,8 +224,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
             GUILayout.EndVertical();
 
-            GUI.enabled = true;
             GUI.DragWindow();
+            GUI.enabled = true;
         }
 
         public virtual void SetButtonList()

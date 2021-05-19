@@ -95,7 +95,7 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
 
 
         private const float windowSpace = 40.0f;
-        private Rect windowRect = new Rect(windowSpace, windowSpace, 400, 400);
+        private Rect windowRect = new Rect(windowSpace, windowSpace, 400f, 400f);
         private int windowId = new System.Random().Next();
         private float sliderValue = 1.0f;
         private float maxSliderValue = 10.0f;
@@ -131,10 +131,10 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
             //GUI.DragWindow(); 여기 있으면 창 전체가 드레그만 됨
 
             // Wrap everything in the designated GUI Area
-            GUILayout.BeginArea(new Rect(0, 0, 400, 300));
+            // GUILayout.BeginArea(new Rect(0, 0, 400f, 300f));//Window 안에서 쓰면 작동 안됨
 
-                // Begin the singular Horizontal Group
-                GUILayout.BeginHorizontal();
+            // Begin the singular Horizontal Group
+            GUILayout.BeginHorizontal();
 
                     // Place a Button normally
                     if (GUILayout.RepeatButton("Increase max\nSlider Value"))
@@ -169,7 +169,7 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
 
                 GUILayout.EndHorizontal();
 
-            GUILayout.EndArea();
+           // GUILayout.EndArea();
             GUI.DragWindow();
         }
 
