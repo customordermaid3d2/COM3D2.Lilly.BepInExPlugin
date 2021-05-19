@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using COM3D2.Lilly.Plugin.Utill;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,16 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
     {
         //GameMain
 
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+        "GameMain"
+        );
+
         // public void LoadScene(string f_strSceneName)
         [HarmonyPatch(typeof(GameMain), "LoadScene")]
         [HarmonyPostfix]
         public static void LoadScene(string f_strSceneName)
         {
+            if (configEntryUtill["LoadScene"])
             MyLog.LogMessage("GameMain.LoadScene", f_strSceneName);
         }
 
@@ -27,11 +33,13 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPostfix]
         public static void Deserialize(ref bool __result)
         {
-            MyLog.LogMessage("Deserialize", __result);
+            if (configEntryUtill["Deserialize"])
+                MyLog.LogMessage("Deserialize", __result);
             if (!__result)
             {
                 //UICamera.InputEnable = true;
-                GameMain.Instance.LoadScene("SceneToTitle");
+                if (configEntryUtill["Deserialize"])
+                    GameMain.Instance.LoadScene("SceneToTitle");
             }
         }
 
@@ -45,7 +53,8 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyFinalizer]
         public static void DeserializeFinalizer(ref Exception __exception)
         {
-            MyLog.LogMessage("DeserializeFinalizer");
+            if (configEntryUtill["Deserialize"])
+                MyLog.LogMessage("DeserializeFinalizer");
         }
     }
 }

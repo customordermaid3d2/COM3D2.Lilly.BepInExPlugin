@@ -21,6 +21,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
         private static GUIStyle windowStyle;
 
+        private static GUILayoutOptionUtill guio= GUILayoutOptionUtill.Instance;
+
         private bool isGuiOn = false;
         internal static ConfigFile customFile;
 
@@ -149,14 +151,33 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         protected Vector2 scrollPosition;
 
+        public bool max = true;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="windowId"></param>
         public virtual void GuiFunc(int windowId)
         {
 
             GUILayout.BeginVertical();
 
+            #region title
+
+            GUILayout.BeginHorizontal();
+
             GUILayout.Label(name + " List");
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("-", guio[GUILayoutOptionUtill.Type.Height, 20])) { max = !max; }
+
+            GUILayout.EndHorizontal();
+
+            #endregion
+
+            #region body
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition);
+
             //try
             //{
             SetButtonList();
@@ -168,7 +189,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
             GUILayout.EndScrollView();
 
-            GUILayout.FlexibleSpace();
+            #endregion
 
             GUILayout.EndVertical();
 

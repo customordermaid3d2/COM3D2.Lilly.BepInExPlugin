@@ -233,7 +233,7 @@ namespace COM3D2.Lilly.Plugin
         /// </summary>
         internal static void LoadList()
         {
-            MyLog.LogMessage("LoadList Preset");
+            MyLog.LogMessage("LoadList Preset", Environment.CurrentDirectory);
 
             listWear.Clear();
             listBody.Clear();
@@ -241,7 +241,7 @@ namespace COM3D2.Lilly.Plugin
             lists.Clear();
 
             // 하위경로포함
-            foreach (string f_strFileName in Directory.GetFiles(Path.Combine(GameMain.Instance.SerializeStorageManager.StoreDirectoryPath, "Preset"), "*.preset", SearchOption.AllDirectories))
+            foreach (string f_strFileName in Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Preset"), "*.preset", SearchOption.AllDirectories))
             {
                 //jUnityEngine.Debug.Log("RandPreset load : " + f_strFileName);
 

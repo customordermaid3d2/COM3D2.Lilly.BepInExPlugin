@@ -150,6 +150,18 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             MyLog.LogInfo("Application.unityVersion : " + Application.unityVersion);
             MyLog.LogInfo("Application.companyName : " + Application.companyName);
 
+            MyLog.LogInfo("Environment.CurrentDirectory : " + Environment.CurrentDirectory);
+            MyLog.LogInfo("Environment.SystemDirectory : " + Environment.SystemDirectory);
+            MyLog.LogInfo("Environment.ApplicationData : " + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            MyLog.LogInfo("Environment.CommonApplicationData : " + Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
+            MyLog.LogInfo("Environment.LocalApplicationData : " + Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+            MyLog.LogInfo("Environment.Personal : " + Environment.GetFolderPath(Environment.SpecialFolder.Personal));
+            MyLog.LogInfo("Environment.History : " + Environment.GetFolderPath(Environment.SpecialFolder.History));
+            MyLog.LogInfo("Environment.Desktop : " + Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+            MyLog.LogInfo("Environment.Programs : " + Environment.GetFolderPath(Environment.SpecialFolder.Programs));
+
+            MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);            
+
             MyLog.LogInfo("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
 
             MyLog.LogInfo("Product.windowTitel : " + Product.windowTitel);
@@ -175,7 +187,6 @@ namespace COM3D2.Lilly.Plugin.MyGUI
                 MyLog.LogMessage(type.Name , item.Name , item.GetValue(null));
             }
 
-            MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);
             //MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.);
 
             MyLog.LogInfo();

@@ -90,7 +90,8 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPrefix]
         public static void Visible(Maid __instance, bool value)
         {
-            MyLog.LogMessage("Visible", MyUtill.GetMaidFullName(__instance), value, __instance.IsCrcBody, __instance.boMAN);
+            if (configEntryUtill["Visible"])
+                MyLog.LogMessage("Visible", MyUtill.GetMaidFullName(__instance), value, __instance.IsCrcBody, __instance.boMAN);
         }
 
         public static void print(string s,MaidProp maidProp)

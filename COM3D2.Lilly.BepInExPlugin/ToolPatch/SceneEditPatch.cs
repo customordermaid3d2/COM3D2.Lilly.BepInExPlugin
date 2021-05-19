@@ -16,6 +16,11 @@ namespace COM3D2.Lilly.Plugin
     {
         // SceneEdit        
 
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+        "SceneEdit"
+        );
+
+
         //public static List<SceneEdit.SliderItemSet> m_listSliderItem;
         //public static Type sliderItemSet;
         //public static SceneEdit Instance;
@@ -42,7 +47,8 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), MethodType.Constructor)]
         public static void SceneEditCtor()//SceneEdit __Instance  // Constructor에서는 안먹힘 생성도 안됐기때문?
         {
-            MyLog.LogMessage("SceneEdit.Constructor");
+            if (configEntryUtill["Constructor", false])
+                MyLog.LogMessage("SceneEdit.Constructor");
             //Instance = __Instance;
             //Instance = SceneEdit.Instance;
         }
@@ -67,7 +73,8 @@ namespace COM3D2.Lilly.Plugin
                 MyLog.LogError("SceneEdit.Start:null");
                 return;
             }
-            MyLog.LogMessage("SceneEdit.Start:" + ___m_maid.status.charaName.name1 + " , " + ___m_maid.status.charaName.name2);
+            if (configEntryUtill["Start", false])
+                MyLog.LogMessage("SceneEdit.Start:" + ___m_maid.status.charaName.name1 + " , " + ___m_maid.status.charaName.name2);
 
         }
         
@@ -75,7 +82,8 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix]
         public static void OnCompleteFadeIn() // Maid ___m_maid,SceneEdit __instance
         {
-            MyLog.LogMessage("SceneEdit.OnCompleteFadeIn", newMaid);
+            if (configEntryUtill["OnCompleteFadeIn", false])
+                MyLog.LogMessage("SceneEdit.OnCompleteFadeIn", newMaid);
             newMaidSetting();
         }
 
@@ -100,7 +108,8 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), "OnCharaLoadCompleted")]
         public static void OnCharaLoadCompleted()
         {
-            MyLog.LogMessage("SceneEdit.OnCharaLoadCompleted"
+            if (configEntryUtill["OnCharaLoadCompleted", false])
+                MyLog.LogMessage("SceneEdit.OnCharaLoadCompleted"
                //, EasyUtill._GP01FBFaceEyeRandomOnOff.Value
                //, EasyUtill._SetMaidStatusOnOff.Value
                 );
@@ -111,7 +120,8 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPrefix, HarmonyPatch(typeof(SceneEdit), "OnEndScene")]
         public static void OnEndScene(string ___m_strScriptArg, Maid ___m_maid)
         {
-            MyLog.LogMessage("SceneEdit.OnEndScene"
+            if (configEntryUtill["OnEndScene", false])
+                MyLog.LogMessage("SceneEdit.OnEndScene"
                , ___m_strScriptArg
             );
             if (MaidEditGui.newMaid.Value)
