@@ -15,7 +15,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
     /// </summary>
     public class GUIVirtualMgr// : AwakeUtill
     {
-        private int WindowId = new System.Random().Next();
+        //private int WindowId = new System.Random().Next();// 제대로 랜덤 생성 안됨
+        //private int WindowId = UnityEngine.Random.;// 제대로 랜덤 생성 안됨
         private static Rect windowRect = new Rect(40f, 40f, 300f, 600f);
         // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
         //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
@@ -140,6 +141,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         public virtual void Start()
         {
             MyLog.LogDebug("Start", name);
+            windowRect.x = Screen.width - windowRect.width  - 20;
         }
 
         #region OnGui
@@ -167,7 +169,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + 20, Screen.width - 20);
             windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + 20, Screen.height - 20);
 
-            windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, Lilly.Instance.name);
+            windowRect = GUILayout.Window(pageNow, windowRect, GuiFunc, Lilly.Instance.name);
         } 
 
         protected Vector2 scrollPosition;
@@ -194,12 +196,12 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             if (GUILayout.Button("<", guio[GUILayoutOptionUtill.Type.Height, 20]))
             {
                 MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
-                GoPage(pageNow+1);
+                GoPage(pageNow - 1);
             }
             if (GUILayout.Button(">", guio[GUILayoutOptionUtill.Type.Height, 20]))
             {
                 MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
-                GoPage(pageNow - 1);
+                GoPage(pageNow + 1);
             }
             if (GUILayout.Button("-", guio[GUILayoutOptionUtill.Type.Height, 20])) { open = !open; }
 

@@ -2,6 +2,7 @@
 using COM3D2.Lilly.Plugin.MyGUI;
 using COM3D2.Lilly.Plugin.ToolPatch;
 using COM3D2.Lilly.Plugin.Utill;
+using COM3D2.Lilly.Plugin.UtillGUI;
 using Kasizuki;
 using MaidStatus;
 using PlayerStatus;
@@ -20,6 +21,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 {
     public class InfoUtill : GUIVirtualMgr
     {
+        private float hSliderValue = 0.0f;
+
         public override void SetButtonList()
         {
             if (GUILayout.Button("게임 정보 얻기 ")) InfoUtill.GetGameInfo();
@@ -38,7 +41,16 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             GUILayout.Label("메이드 관리에서 사용 SceneMaidManagement");
             GUI.enabled = Lilly.scene.name == "SceneMaidManagement";
             if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) InfoUtill.GetMaidFlag(MaidManagementMainPatch.___select_maid_);
+
+            GUI.enabled = true;
             
+            GUILayout.Label(hSliderValue < 9f ? "이 슬라이더는 아무 기능 없음" : "아무 기능 없대두 =_=");
+            hSliderValue = GUILayout.HorizontalSlider(hSliderValue, 0.0f, 10.0f);
+            hSliderValue = GUILayout.HorizontalScrollbar(hSliderValue, 5f, 0.0f, 10.0f + 5f);
+            //if (GUILayout.Button("GameObjectMgr.SetActive")) GameObjectMgr.instance.gameObject.SetActive(!GameObjectMgr.instance.gameObject.activeSelf);// 이럴경우 Lilly 플러그인 자체가 꺼짐
+            if (GUILayout.Button("GameObjectMgr.SetActive")) GameObjectMgr.instance.enabled= !GameObjectMgr.instance.enabled);
+
+
 #if COM3D2_157
             if (GUILayout.Button("GetStrIKCtrlPairInfo")) FullBodyIKMgrPatch.GetStrIKCtrlPairInfo();
 #endif

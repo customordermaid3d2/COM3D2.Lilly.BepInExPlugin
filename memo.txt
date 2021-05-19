@@ -5,7 +5,8 @@ GameMain.Instance.CharacterMgr.status;
 GameMain.Instance.SoundMgr.PlayBGM("BGM005.ogg", 0f, true);
 GameMain.Instance.BgMgr.ChangeBg(this.m_BGname);
 
-GameMain.Instance.SoundMgr;
+PluginBase[] array = UnityEngine.Object.FindObjectsOfType<PluginBase>();
+array[i].enabled = !array[i].enabled;
 
 Maid maid = array[UnityEngine.Random.Range(0, array.Length)];
 

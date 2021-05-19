@@ -16,7 +16,7 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
     /// </summary>
     class GameObjectMgr : MonoBehaviour
     {
-        public static GameObjectMgr _instance;
+        public static GameObjectMgr instance;
 
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
             "GameObjectMgr"
@@ -32,12 +32,14 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
         public static GameObjectMgr Install(GameObject container)
         {
             MyLog.LogMessage("GameObjectMgr.Install");
-            if (_instance == null)
+                instance = container.GetComponent<GameObjectMgr>();
+            if (instance == null)
             {
-                _instance = container.AddComponent<GameObjectMgr>();
-                MyLog.LogMessage("GameObjectMgr.Install", _instance.name);
+                instance = container.AddComponent<GameObjectMgr>();
+                MyLog.LogMessage("GameObjectMgr.Install", instance.name);
+                
             }
-            return _instance;
+            return instance;
         }
 
         public void Awake()
@@ -57,7 +59,7 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
         {
             MyLog.LogMessage("GameObjectMgr.Start");
             StartCoroutine("MyCoroutine");
-            Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "COM3D2.Lilly.Plugin."+_instance.name));
+            Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "COM3D2.Lilly.Plugin."+instance.name));
         }
 
         public void Update()
