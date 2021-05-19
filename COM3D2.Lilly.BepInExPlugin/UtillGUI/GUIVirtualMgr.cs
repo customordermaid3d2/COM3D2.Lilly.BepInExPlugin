@@ -17,7 +17,10 @@ namespace COM3D2.Lilly.Plugin.MyGUI
     {
         //private int WindowId = new System.Random().Next();// 제대로 랜덤 생성 안됨
         //private int WindowId = UnityEngine.Random.;// 제대로 랜덤 생성 안됨
+        private static Rect windowRectMax = new Rect(40f, 40f, 300f, 600f);
+        private static Rect windowRectMin = new Rect(40f, 40f, 300f, 45);
         private static Rect windowRect = new Rect(40f, 40f, 300f, 600f);
+
         // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
         //private GUIStyle windowStyle = new GUIStyle(GUI.skin.box);
         //private static GUIStyle windowStyle;
@@ -38,7 +41,18 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         public static int pageCount = 0;
         public static int pageNow = 0;
         public int pageNum = 0;
-        public static bool open = true;
+        private static bool open = true;
+        public static bool Open { get => open; 
+            set  {
+                if (open = value)
+                {
+                    windowRect = windowRectMax;
+                }
+                else
+                {
+                    windowRect = windowRectMin;
+                }
+            } }
 
         public bool IsGuiOn {
             get => isGuiOn;
@@ -49,6 +63,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
                 isGuiOn = value;
             }
         }
+
 
         public GUIVirtualMgr() : base()
         {
@@ -192,7 +207,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
             GUILayout.Label(name + " : "+ windowId);
             GUILayout.FlexibleSpace();
-            GUILayout.Label(pageNow + " / " + pageNum + " / " + pageCount+" , "+ open);
+            GUILayout.Label(pageNow + " / " + pageNum + " / " + pageCount+" , "+ Open);
             if (GUILayout.Button("<", guio[GUILayoutOptionUtill.Type.Height, 20]))
             {
                 MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
@@ -203,13 +218,13 @@ namespace COM3D2.Lilly.Plugin.MyGUI
                 MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
                 GoPage(pageNow + 1);
             }
-            if (GUILayout.Button("-", guio[GUILayoutOptionUtill.Type.Height, 20])) { open = !open; }
+            if (GUILayout.Button("-", guio[GUILayoutOptionUtill.Type.Height, 20])) { Open = !Open; }
 
             GUILayout.EndHorizontal();
 
             #endregion
 
-            if (open && pageNow == pageNum)
+            if (Open && pageNow == pageNum)
             {
 
                 #region body

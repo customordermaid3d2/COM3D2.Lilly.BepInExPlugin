@@ -10,7 +10,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
     {
         public PresetGUI()
         {
-            name = "EasyUtill";
+            name = "PresetGUI";
         }
 
         public override void SetButtonList()

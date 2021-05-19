@@ -83,8 +83,8 @@ namespace COM3D2.Lilly.Plugin
             cheatUtill = new CheatGUI();
             easyUtill = new EasyUtill();
             maidEditGui = new MaidEditGui();
-            OnOffGUI = new OnOffGUI();
             presetGUI = new PresetGUI();
+            OnOffGUI = new OnOffGUI();
             pluginUtill = new PluginUtill();
 
             GearMenu.SetButton();

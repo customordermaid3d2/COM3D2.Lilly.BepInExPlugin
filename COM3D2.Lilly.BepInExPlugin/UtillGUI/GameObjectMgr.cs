@@ -58,31 +58,31 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
         public void Start()
         {
             MyLog.LogMessage("GameObjectMgr.Start");
-            StartCoroutine("MyCoroutine");
+            //StartCoroutine("MyCoroutine");
             Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "COM3D2.Lilly.Plugin."+instance.name));
         }
 
         public void Update()
         {
-            if (configEntryUtill["Update"])
+            if (configEntryUtill["Update", false])
                 MyLog.LogMessage("GameObjectMgr.Update", ++UpdateCount);
         }
 
         public void FixedUpdate()
         {
-            if (configEntryUtill["FixedUpdate"])
+            if (configEntryUtill["FixedUpdate", false])
                 MyLog.LogMessage("GameObjectMgr.FixedUpdate", ++FixedUpdateCount);
         }
 
         public void LateUpdate()
         {
-            if (configEntryUtill["LateUpdate"])
+            if (configEntryUtill["LateUpdate",false])
                 MyLog.LogMessage("GameObjectMgr.LateUpdate", ++LateUpdateCount, time=+Time.deltaTime, Time.deltaTime);
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (configEntryUtill["OnSceneLoaded"])
+            if (configEntryUtill["OnSceneLoaded", false])
                 MyLog.LogMessage("GameObjectMgr.OnSceneLoaded"
                 , scene.buildIndex
                 , scene.rootCount
@@ -106,10 +106,10 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
 
         public void OnGUI()
         {
-            if (configEntryUtill["OnGUI"])
+            if (configEntryUtill["OnGUI", false])
                 MyLog.LogMessage("GameObjectMgr.OnGUI", ++OnGUICount);
 
-            if (!configEntryUtill["OnGUI.GUI"])
+            if (!configEntryUtill["OnGUI.GUI", false])
                 return;
 
             // Assign the currently skin to be Unity's default.
