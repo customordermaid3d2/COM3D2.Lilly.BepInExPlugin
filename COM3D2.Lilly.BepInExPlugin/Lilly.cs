@@ -38,6 +38,7 @@ namespace COM3D2.Lilly.Plugin
         public static MaidEditGui maidEditGui;
         public static PresetGUI presetGUI;
         public static OnOffGUI OnOffGUI;
+        public static PluginUtill pluginUtill;
 
         public static event Action actionsAwake;
         public static event Action actionsInit;
@@ -72,6 +73,7 @@ namespace COM3D2.Lilly.Plugin
             configEntryUtill = ConfigEntryUtill.Create(
             "Lilly"
             , "OnSceneLoaded"
+            , "GameObjectMgr" //configEntryUtill["GameObjectMgr"]
             );
 
             MyLog.LogMessage("ConfigFilePath", customFile.ConfigFilePath);
@@ -83,6 +85,7 @@ namespace COM3D2.Lilly.Plugin
             maidEditGui = new MaidEditGui();
             OnOffGUI = new OnOffGUI();
             presetGUI = new PresetGUI();
+            pluginUtill = new PluginUtill();
 
             GearMenu.SetButton();
             PresetUtill.init();
@@ -132,6 +135,7 @@ namespace COM3D2.Lilly.Plugin
         {
             MyLog.LogMessage("Start");
             GameObjectMgr.Install(gameObject);
+            GameObjectMgr.instance.enabled = configEntryUtill["GameObjectMgr",false];
             GUIVirtualMgr.ActionsStart();
         }
 

@@ -48,7 +48,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             hSliderValue = GUILayout.HorizontalSlider(hSliderValue, 0.0f, 10.0f);
             hSliderValue = GUILayout.HorizontalScrollbar(hSliderValue, 5f, 0.0f, 10.0f + 5f);
             //if (GUILayout.Button("GameObjectMgr.SetActive")) GameObjectMgr.instance.gameObject.SetActive(!GameObjectMgr.instance.gameObject.activeSelf);// 이럴경우 Lilly 플러그인 자체가 꺼짐
-            if (GUILayout.Button("GameObjectMgr.SetActive")) GameObjectMgr.instance.enabled= !GameObjectMgr.instance.enabled);
+            
 
 
 #if COM3D2_157
