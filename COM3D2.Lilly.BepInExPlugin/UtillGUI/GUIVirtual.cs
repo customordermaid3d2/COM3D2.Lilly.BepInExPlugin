@@ -174,6 +174,9 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
             #endregion
 
+            if (max)
+            {
+
             #region body
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition);
@@ -190,7 +193,9 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             GUILayout.EndScrollView();
 
             #endregion
-
+                            
+            }
+            
             GUILayout.EndVertical();
 
             GUI.enabled = true;
