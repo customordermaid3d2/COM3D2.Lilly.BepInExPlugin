@@ -205,9 +205,9 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
             GUILayout.BeginHorizontal();
 
-            GUILayout.Label(name + " : "+ windowId);
+            GUILayout.Label(name );
             GUILayout.FlexibleSpace();
-            GUILayout.Label(pageNow + " / " + pageNum + " / " + pageCount+" , "+ Open);
+            GUILayout.Label(pageNum + " / " + pageCount+" , "+ Open);
             if (GUILayout.Button("<", guio[GUILayoutOptionUtill.Type.Height, 20]))
             {
                 MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
@@ -219,6 +219,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
                 GoPage(pageNow + 1);
             }
             if (GUILayout.Button("-", guio[GUILayoutOptionUtill.Type.Height, 20])) { Open = !Open; }
+            if (GUILayout.Button("x", guio[GUILayoutOptionUtill.Type.Height, 20])) { isGuiOff(); }
 
             GUILayout.EndHorizontal();
 
