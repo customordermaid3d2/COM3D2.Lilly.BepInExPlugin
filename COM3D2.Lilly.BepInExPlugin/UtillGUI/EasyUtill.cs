@@ -28,7 +28,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         public EasyUtill()
         {
 
-            name = "EasyUtill";
+            nameGUI = "EasyUtill";
         }
 
         public void SetScene()

@@ -86,7 +86,7 @@ namespace COM3D2.Lilly.Plugin
             {
             GUILayout.Label("Maid List "+ selGridmaid);
             //GUI.enabled = modType == ModType.OneMaid;
-            selGridmaid = GUILayout.SelectionGrid(selGridmaid, CharacterMgrPatch.namesMaid, 2);
+            selGridmaid = GUILayout.SelectionGrid(selGridmaid, CharacterMgrPatch.namesMaid, 1);
             }
             GUI.enabled = true;
         }

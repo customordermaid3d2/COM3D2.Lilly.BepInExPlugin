@@ -20,22 +20,22 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         public MaidEditGui()
         {
-            name = "MaidEditGui";
+            nameGUI = "MaidEditGui";
 
             _GP01FBFaceEyeRandomOnOff = customFile.Bind(
-              name,
+              nameGUI,
               "_GP01FBFaceEyeRandomOnOff",
               true
               );
 
             newMaid = customFile.Bind(
-              name,
+              nameGUI,
               "newMaid",
               true
               );
 
             movMaid = customFile.Bind(
-              name,
+              nameGUI,
               "movMaid",
               true
               );

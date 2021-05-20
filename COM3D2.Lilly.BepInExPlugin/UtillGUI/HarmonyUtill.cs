@@ -204,7 +204,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         public static void SetHarmonyPatch(Type item)
         {
             ConfigEntry<bool> t = customFile.Bind(
-                Instance.name,
+                Instance.nameGUI,
                 item.Name,
                 true
                 );
@@ -242,7 +242,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         public static void SetHarmonyUnPatch(Type item)
         {
             ConfigEntry<bool> t = customFile.Bind(
-                Instance.name,
+                Instance.nameGUI,
                 item.Name,
                 false);
                 t.Value = false;

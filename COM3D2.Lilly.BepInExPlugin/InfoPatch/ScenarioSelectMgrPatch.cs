@@ -17,7 +17,7 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
         // 시나리오 데이터별 플레이 정보?
         //public readonly Dictionary<ScenarioData.PlayableCondition, ScenarioData.PlayableData> m_PlayableData = new Dictionary<ScenarioData.PlayableCondition, ScenarioData.PlayableData>();
 
-        [HarmonyPatch(typeof(ScenarioSelectMgr),MethodType.Constructor)]
+        [HarmonyPatch(typeof(ScenarioSelectMgr), MethodType.Constructor)]
         [HarmonyPostfix]
 
         internal static void ScenarioSelectMgrCtor(
@@ -72,28 +72,33 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
         {
             //AccessTools.Field
             MyLog.LogDarkBlue("m_AllScenarioData. start");
-            foreach (var item in m_AllScenarioData)
+            if (m_AllScenarioData!=null)
             {
-                ScenarioData scenarioData = item.Value;
-                MyLog.LogMessage("ScenarioSelectMgr1"
-                , scenarioData.ID
-                , scenarioData.NotLineTitle
-                //, scenarioData.Title
-                , scenarioData.ScenarioScript
-                , scenarioData.EventContents
-                , scenarioData.IsImportant
-                , scenarioData.IsPlayable
-                , scenarioData.IsOncePlayed
-                , scenarioData.ScriptLabel
-                , scenarioData.NotPlayAgain                
-                , scenarioData.EventMaidCount
-                , scenarioData.ConditionCount
-                , MyUtill.Join("/",scenarioData.ConditionText)               
-                );
+
+                foreach (var item in m_AllScenarioData)
+                {
+                    ScenarioData scenarioData = item.Value;
+                    MyLog.LogMessage("ScenarioSelectMgr1"
+                    , scenarioData.ID
+                    , scenarioData.NotLineTitle
+                    //, scenarioData.Title
+                    , scenarioData.ScenarioScript
+                    , scenarioData.EventContents
+                    , scenarioData.IsImportant
+                    , scenarioData.IsPlayable
+                    , scenarioData.IsOncePlayed
+                    , scenarioData.ScriptLabel
+                    , scenarioData.NotPlayAgain
+                    , scenarioData.EventMaidCount
+                    , scenarioData.ConditionCount
+                    , MyUtill.Join("/", scenarioData.ConditionText)
+                    );
+                }
             }
 
             MyLog.LogDarkBlue("m_ImportantScenarioList. start");
-            foreach (ScenarioData scenarioData in m_ImportantScenarioList)
+            if (m_ImportantScenarioList != null)
+                foreach (ScenarioData scenarioData in m_ImportantScenarioList)
             {
                 MyLog.LogMessage("ScenarioSelectMgr2"
                 , scenarioData.ID

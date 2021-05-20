@@ -13,12 +13,12 @@ namespace COM3D2.Lilly.Plugin.MyGUI
     /// 메뉴 화면 표준화
     /// 상속 받은후 SetButtonList 에다가 버튼 목록만 작성하고 있음
     /// </summary>
-    public class GUIVirtualMgr// : AwakeUtill
+    public class GUIVirtualMgr : MonoBehaviour// : AwakeUtill
     {
         //private int WindowId = new System.Random().Next();// 제대로 랜덤 생성 안됨
         //private int WindowId = UnityEngine.Random.;// 제대로 랜덤 생성 안됨
-        private static Rect windowRectMax = new Rect(40f, 40f, 300f, 600f);
-        private static Rect windowRectMin = new Rect(40f, 40f, 300f, 45);
+       //private static Rect windowRectMax = new Rect(40f, 40f, 300f, 600f);
+       //private static Rect windowRectMin = new Rect(40f, 40f, 300f, 45);
         private static Rect windowRect = new Rect(40f, 40f, 300f, 600f);
 
         // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
@@ -35,7 +35,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         public static event Action actionsStart;
         public static event Action actionsSetButtonList;
 
-        public string name = "GUIVirtual";
+        public string nameGUI = "GUIVirtual";
 
         public static Dictionary<int ,GUIVirtualMgr> guis = new Dictionary<int, GUIVirtualMgr>() ;
         public static int pageCount = 0;
@@ -46,11 +46,11 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             set  {
                 if (open = value)
                 {
-                    windowRect = windowRectMax;
+                    windowRect.height= 600f;
                 }
                 else
                 {
-                    windowRect = windowRectMin;
+                    windowRect.height= 45f;                    
                 }
             } }
 
@@ -70,6 +70,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             MyLog.LogDebug("GUIVirtual()");
 
             SetName();
+            //name = "GUIVirtual";
             Seting();
 
         }
@@ -77,7 +78,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         public GUIVirtualMgr(string name) : base()
         {
             MyLog.LogDebug("GUIVirtual()", name);
-            this.name = name;
+            this.nameGUI = name;
             Seting();
         }
 
@@ -88,17 +89,17 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             actionsOnGui += OnGui;
             actionsStart += Start;
             actionsSetButtonList += SetButtonList;
-            SystemShortcutAPI.AddButton(name, new Action(SetGuiOnOff), name, GearMenu.png);
+            SystemShortcutAPI.AddButton(nameGUI, new Action(SetGuiOnOff), nameGUI, GearMenu.png);
         }
 
         public virtual void SetName()
         {
-            name = GetType().Name;
+            nameGUI = GetType().Name;
         }
 
         public virtual void SetName(string name)
         {
-            this.name = name;
+            this.nameGUI = name;
         }
 
 
@@ -134,7 +135,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         public void init()
         {
-            MyLog.LogDebug("GUIVirtual.init", name);
+            MyLog.LogDebug("GUIVirtual.init", nameGUI);
             //configEntryUtill = new ConfigEntryUtill(
             //"GUIVirtual_" + name
             //, "OnSceneLoaded"
@@ -143,7 +144,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         public void Awake()
         {
-            MyLog.LogDebug("GUIVirtual.Awake", name);
+            MyLog.LogDebug("GUIVirtual.Awake", nameGUI);
 
         }
 
@@ -155,8 +156,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         public virtual void Start()
         {
-            MyLog.LogDebug("Start", name);
             windowRect.x = Screen.width - windowRect.width  - 20;
+            MyLog.LogDebug("Start", nameGUI, Screen.width, windowRect.width, windowRect.x);
         }
 
         #region OnGui
@@ -205,9 +206,9 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
             GUILayout.BeginHorizontal();
 
-            GUILayout.Label(name );
+            GUILayout.Label(nameGUI );
             GUILayout.FlexibleSpace();
-            GUILayout.Label(pageNum + " / " + pageCount+" , "+ Open);
+            GUILayout.Label((pageNum+1 )+ " / " + pageCount+" , "+ Open);
             if (GUILayout.Button("<", guio[GUILayoutOptionUtill.Type.Height, 20]))
             {
                 MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
@@ -248,7 +249,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         public virtual void SetButtonList()
         {
-            MyLog.LogWarning("SetButtonList", name);
+            MyLog.LogWarning("SetButtonList", nameGUI);
         }
 
         #endregion

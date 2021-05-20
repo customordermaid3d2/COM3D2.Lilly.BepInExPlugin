@@ -201,18 +201,25 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
             //MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.);
 
-            foreach (var item in GUI.skin.customStyles)
+            if (GUI.skin)
             {
-                MyLog.LogMessage(
-                    item.name
-                    , item.fixedWidth
-                    , item.fixedHeight
-                    , item.stretchWidth
-                    , item.stretchHeight
-                    , item.font.name
-                    , item.fontSize
-                    , item.fontStyle                    
-                    );
+                foreach (var item in GUI.skin.customStyles)
+                {
+                    MyLog.LogMessage(
+                        item.name
+                        , item.fixedWidth
+                        , item.fixedHeight
+                        , item.stretchWidth
+                        , item.stretchHeight
+                        , item.font.name
+                        , item.fontSize
+                        , item.fontStyle                    
+                        );
+                }
+            }
+            else
+            {
+                MyLog.LogInfo("GUI.skin null");
             }
 
             MyLog.LogInfo();
@@ -555,14 +562,15 @@ namespace COM3D2.Lilly.Plugin.MyGUI
             }
 
             // 밤시증 스킬 및 커맨드 정보
+            try
             {
                 SortedDictionary<int, Skill.Data> sd;
                 Skill.Data skilld;
                 Yotogis.Skill.Data.Command command;
                 MyLog.LogMessage("skill_data_list", Skill.skill_data_list.Length);
-                for (int i = 0; i < Skill.skill_data_list.Length; i++)
+                foreach (var item2 in Skill.skill_data_list)
                 {
-                    sd =Skill.skill_data_list[i];
+                    sd = item2;
                     foreach (var item in sd)
                     {
                         skilld = item.Value;
@@ -585,16 +593,21 @@ namespace COM3D2.Lilly.Plugin.MyGUI
                     }
                 }
             }
+            catch (Exception e)
+            {
 
+                MyLog.LogMessage("YotogiClass:" + e.ToString());
+            }
 
+            try
             {
                 SortedDictionary<int, Skill.Old.Data> sd;
                 Skill.Old.Data skilld;
                 Yotogis.Skill.Old.Data.Command command;
                 MyLog.LogMessage("skill_data_list", Skill.Old.skill_data_list.Length);
-                for (int i = 0; i < Skill.skill_data_list.Length; i++)
+                foreach (var item2 in Skill.Old.skill_data_list)
                 {
-                    sd = Skill.Old.skill_data_list[i];
+                    sd = item2;
                     foreach (var item in sd)
                     {
                         skilld = item.Value;
@@ -617,6 +630,12 @@ namespace COM3D2.Lilly.Plugin.MyGUI
                     }
                 }
             }
+            catch (Exception e)
+            {
+
+                MyLog.LogMessage("YotogiClass:" + e.ToString());
+            }
+
 
 
             MyLog.LogMessage();

@@ -33,7 +33,8 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
                 }
                 return facilityExpArray;
             }
-            set => facilityExpArray = value; }
+            set => facilityExpArray = value;
+        }
 
         /// <summary>
         /// 겜 실행시 한번만 실행됨
@@ -43,10 +44,10 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
         {
             facilityManager = __instance;
         }
-        
+
 
         [HarmonyPostfix, HarmonyPatch(typeof(FacilityManager), "ResetData")]
-        public static void ResetData(            
+        public static void ResetData(
              DataArray<int, SimpleExperienceSystem> ___m_FacilityExpArray
             , DataArray<string, string> ___m_FacilityAchievementList
             )
@@ -89,49 +90,76 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
             FacilityManagerPatch.SetData();
 
             Facility facility;
-
-            foreach (var item in FacilityManagerPatch.m_FacilityArray)
-            {
-                facility = item;
-                MyLog.LogMessage(
-                    "FacilityManagerToolPatch.print1"
-                    , facility.defaultName
-                    , facility.facilityName
-                    , facility.name
-                    , facility.minMaidCount
-                    , facility.maxMaidCount
-                    , facility.nowDayTimeMaidCount
-                    , facility.staffRankDayTime
-                    , facility.staffRankNight
-                    , facility.tag
-                    , facility.typeCostume
-                    , facility.hideFlags
-                    , facility.enabled
-                );
-            }
-            foreach (var item in FacilityManagerPatch.m_NextDayFacilityArray)
-            {
-                facility = item.Value;
-                MyLog.LogMessage(
-                    "FacilityManagerToolPatch.print2"
-                    , item.Key
-                    , facility.defaultName
-                    , facility.facilityName
-                    , facility.name
-                    , facility.minMaidCount
-                    , facility.maxMaidCount
-                    , facility.nowDayTimeMaidCount
-                    , facility.staffRankDayTime
-                    , facility.staffRankNight
-                    , facility.tag
-                    , facility.typeCostume
-                    , facility.hideFlags
-                    , facility.enabled
-                );
-            }
-            if (FacilityManagerPatch.m_FacilityDefaultDataArray != null)
-                foreach (var item in FacilityManagerPatch.m_FacilityDefaultDataArray)
+            if (FacilityManagerPatch.m_FacilityArray != null)
+                foreach (var item in FacilityManagerPatch.m_FacilityArray)
                 {
+                    if (item == null)
+                    {
+                        continue;
+                    }
+                    facility = item;
+                    MyLog.LogMessage(
+                        "FacilityManagerToolPatch.print1"
+                        , facility.defaultName
+                        , facility.facilityName
+                        , facility.name
+                        , facility.minMaidCount
+                        , facility.maxMaidCount
+                        , facility.nowDayTimeMaidCount
+                        , facility.staffRankDayTime
+                        , facility.staffRankNight
+                        , facility.tag
+                        , facility.typeCostume
+                        , facility.hideFlags
+                        , facility.enabled
+                    );
+                }
+            else
+            {
+                MyLog.LogWarning(
+    "m_FacilityArray null");
+            }
+
+            if (FacilityManagerPatch.m_NextDayFacilityArray != null)
+                foreach (var item in FacilityManagerPatch.m_NextDayFacilityArray)
+                {
+                    if (item.Value == null)
+                    {
+                        continue;
+                    }
+                    facility = item.Value;
+                    MyLog.LogMessage(
+                        "FacilityManagerToolPatch.print2"
+                        , item.Key
+                        , facility.defaultName
+                        , facility.facilityName
+                        , facility.name
+                        , facility.minMaidCount
+                        , facility.maxMaidCount
+                        , facility.nowDayTimeMaidCount
+                        , facility.staffRankDayTime
+                        , facility.staffRankNight
+                        , facility.tag
+                        , facility.typeCostume
+                        , facility.hideFlags
+                        , facility.enabled
+                    );
+                }
+            else
+            {
+                MyLog.LogWarning(
+    "m_NextDayFacilityArray null");
+            }
+
+
+
+            if (FacilityManagerPatch.m_FacilityDefaultDataArray != null)
+                foreach (KeyValuePair<int, FacilityDataTable.FacilityDefaultData> item in FacilityManagerPatch.m_FacilityDefaultDataArray)
+                {
+                    if (item.Value == null)
+                    {
+                        continue;
+                    }
                     MyLog.LogMessage(
                         "FacilityManagerToolPatch.print3"
                         , item.Key
@@ -147,6 +175,13 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
                         , item.Value.businessTypeName
                     );
                 }
+            else
+            {
+                MyLog.LogWarning(
+    "m_FacilityDefaultDataArray null");
+            }
+
+
             foreach (var item in FacilityDataTable.GetFacilityStatusArray(true))
             {
                 MyLog.LogMessage(

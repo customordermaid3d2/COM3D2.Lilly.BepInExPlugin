@@ -26,7 +26,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             , "DecideSuccess_Perfect"
             , "EnableNightWork"
         );
-        
+
         public static void SetworkSuccessLvMax()
         {
             if (!configEntryUtill["GetCommunicationMaid_log"])
@@ -45,14 +45,13 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         /// </summary>
         public static void SetRandomCommu(bool isDaytime)
         {
-            List<Maid> list = new List<Maid>();
-            list = ScheduleAPI.CanCommunicationMaids(isDaytime);
-            int i=UnityEngine.Random.Range(0, list.Count);
+            List<Maid> list = ScheduleAPI.CanCommunicationMaids(isDaytime);
             if (list.Count > 0)
             {
+                int i = UnityEngine.Random.Range(0, list.Count);
                 if (isDaytime)
                 {
-                    foreach (var item in list)
+                    foreach (Maid item in list)
                     {
                         item.status.noonCommu = false;
                     }
@@ -66,11 +65,17 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                     }
                     list[i].status.nightCommu = true;
                 }
+                MyLog.LogMessage("ScheduleAPI.SetRandomCommu"
+                    , MyUtill.GetMaidFullName(list[i])
+                    , isDaytime
+                ); 
             }
-            MyLog.LogMessage("ScheduleAPI.SetRandomCommu"
-                , MyUtill.GetMaidFullName(list[i])
-                , isDaytime
-            ); ;
+            else
+            {
+                MyLog.LogMessage("ScheduleAPI.SetRandomCommu count 0"
+    , isDaytime
+); 
+            }
         }
 
         /// <summary>
@@ -78,7 +83,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         /// public static Maid GetCommunicationMaid(bool isDaytime)
         /// </summary>
         /// <param name="isDaytime"></param>        
-        [HarmonyPatch(typeof(ScheduleAPI), "GetCommunicationMaid")]        
+        [HarmonyPatch(typeof(ScheduleAPI), "GetCommunicationMaid")]
         [HarmonyPrefix]
         public static void GetCommunicationMaid(bool isDaytime)//Maid __result,
         {
@@ -180,7 +185,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPostfix]//HarmonyPostfix ,HarmonyPrefix
         public static void VisibleNightWork(ref bool __result, int workId, Maid maid)
         {
-            if (!configEntryUtill["VisibleNightWork",false])
+            if (!configEntryUtill["VisibleNightWork", false])
             {
                 MyLog.LogMessage("ScheduleAPI.VisibleNightWork"
                     , __result
@@ -242,7 +247,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             //return false; // SceneFreeModeSelectManager.IsFreeMode;
         }
 
-//#if DEBUG
+        //#if DEBUG
 
         /// <summary>
         /// 분석용
@@ -361,7 +366,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             return true;
         }
 
-//#endif
+        //#endif
 
     }
 }
