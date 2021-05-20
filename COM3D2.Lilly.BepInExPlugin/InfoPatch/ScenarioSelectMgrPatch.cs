@@ -70,59 +70,72 @@ namespace COM3D2.Lilly.Plugin.InfoPatch
 
         internal static void print()
         {
-            //AccessTools.Field
-            MyLog.LogDarkBlue("m_AllScenarioData. start");
-            if (m_AllScenarioData!=null)
+            try
             {
 
-                foreach (var item in m_AllScenarioData)
+                //AccessTools.Field
+                MyLog.LogDarkBlue("m_AllScenarioData. start");
+                if (m_AllScenarioData != null)
                 {
-                    ScenarioData scenarioData = item.Value;
-                    MyLog.LogMessage("ScenarioSelectMgr1"
-                    , scenarioData.ID
-                    , scenarioData.NotLineTitle
-                    //, scenarioData.Title
-                    , scenarioData.ScenarioScript
-                    , scenarioData.EventContents
-                    , scenarioData.IsImportant
-                    , scenarioData.IsPlayable
-                    , scenarioData.IsOncePlayed
-                    , scenarioData.ScriptLabel
-                    , scenarioData.NotPlayAgain
-                    , scenarioData.EventMaidCount
-                    , scenarioData.ConditionCount
-                    , MyUtill.Join("/", scenarioData.ConditionText)
-                    );
+
+                    foreach (var item in m_AllScenarioData)
+                    {
+                        if (item.Value == null)
+                        {
+                            continue;
+                        }
+                        ScenarioData scenarioData = item.Value;
+                        MyLog.LogMessage("ScenarioSelectMgr1"
+                        , scenarioData.ID
+                        , scenarioData.NotLineTitle
+                        //, scenarioData.Title
+                        , scenarioData.ScenarioScript
+                        , scenarioData.EventContents
+                        , scenarioData.IsImportant
+                        , scenarioData.IsPlayable
+                        , scenarioData.IsOncePlayed
+                        , scenarioData.ScriptLabel
+                        , scenarioData.NotPlayAgain
+                        , scenarioData.EventMaidCount
+                        , scenarioData.ConditionCount
+                        , MyUtill.Join("/", scenarioData.ConditionText)
+                        );
+                    }
                 }
-            }
 
-            MyLog.LogDarkBlue("m_ImportantScenarioList. start");
-            if (m_ImportantScenarioList != null)
-                foreach (ScenarioData scenarioData in m_ImportantScenarioList)
-            {
-                MyLog.LogMessage("ScenarioSelectMgr2"
-                , scenarioData.ID
-                , scenarioData.NotLineTitle
-                //, scenarioData.Title
-                , scenarioData.ScenarioScript
-                , scenarioData.EventContents
-                , scenarioData.IsImportant
-                , scenarioData.IsPlayable
-                , scenarioData.IsOncePlayed
-                , scenarioData.ScriptLabel
-                , scenarioData.NotPlayAgain
-                , scenarioData.EventMaidCount
-                , scenarioData.ConditionCount
-                , MyUtill.Join("/", scenarioData.ConditionText)
+                MyLog.LogDarkBlue("m_ImportantScenarioList. start");
+                if (m_ImportantScenarioList != null)
+                    foreach (ScenarioData scenarioData in m_ImportantScenarioList)
+                    {
+                        MyLog.LogMessage("ScenarioSelectMgr2"
+                        , scenarioData.ID
+                        , scenarioData.NotLineTitle
+                        //, scenarioData.Title
+                        , scenarioData.ScenarioScript
+                        , scenarioData.EventContents
+                        , scenarioData.IsImportant
+                        , scenarioData.IsPlayable
+                        , scenarioData.IsOncePlayed
+                        , scenarioData.ScriptLabel
+                        , scenarioData.NotPlayAgain
+                        , scenarioData.EventMaidCount
+                        , scenarioData.ConditionCount
+                        , MyUtill.Join("/", scenarioData.ConditionText)
+                        );
+                    }
+
+                MyLog.LogMessage("ScenarioSelectMgr3"
+                    , m_AllScenarioData.Count
+                    , m_ImportantScenarioList.Count
+                    , m_AddedScenerio.Length
                 );
+
             }
-
-            MyLog.LogMessage("ScenarioSelectMgr3"
-                , m_AllScenarioData.Count
-                , m_ImportantScenarioList.Count
-                , m_AddedScenerio.Length
-            );
-
+            catch (Exception e)
+            {
+                MyLog.LogWarning ("ScenarioSelectMgr4",e.ToString()
+);
+            }
         }
 
 

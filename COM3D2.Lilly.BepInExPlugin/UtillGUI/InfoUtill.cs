@@ -201,7 +201,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
             //MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.);
 
-            if (GUI.skin)
+            if (GUI.skin!=null && GUI.skin.customStyles!=null)
             {
                 foreach (var item in GUI.skin.customStyles)
                 {

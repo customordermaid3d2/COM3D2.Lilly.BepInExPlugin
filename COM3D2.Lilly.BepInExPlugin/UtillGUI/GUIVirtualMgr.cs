@@ -47,10 +47,12 @@ namespace COM3D2.Lilly.Plugin.MyGUI
                 if (open = value)
                 {
                     windowRect.height= 600f;
+                    windowRect.width= 300f;
                 }
                 else
                 {
-                    windowRect.height= 45f;                    
+                    windowRect.height= 40f;
+                    windowRect.width= 200f;
                 }
             } }
 
@@ -174,11 +176,6 @@ namespace COM3D2.Lilly.Plugin.MyGUI
                 return;
             }
 
-            //if (windowStyle == null)
-            //{
-            //    windowStyle = new GUIStyle(GUI.skin.box);
-            //}
-            // Assign the currently skin to be Unity's default.
             GUI.skin = null;
 
             // 화면 밖으로 안나가게 조정
@@ -208,7 +205,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
             GUILayout.Label(nameGUI );
             GUILayout.FlexibleSpace();
-            GUILayout.Label((pageNum+1 )+ " / " + pageCount+" , "+ Open);
+            if (Open)
+                GUILayout.Label((pageNum+1 )+ " / " + pageCount);
             if (GUILayout.Button("<", guio[GUILayoutOptionUtill.Type.Height, 20]))
             {
                 MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
