@@ -15,10 +15,15 @@ namespace COM3D2.Lilly.Plugin.MyGUI
     /// </summary>
     public class GUIVirtualMgr : MonoBehaviour// : AwakeUtill
     {
+
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+        "GUIVirtualMgr"
+        );
+
         //private int WindowId = new System.Random().Next();// 제대로 랜덤 생성 안됨
         //private int WindowId = UnityEngine.Random.;// 제대로 랜덤 생성 안됨
-       //private static Rect windowRectMax = new Rect(40f, 40f, 300f, 600f);
-       //private static Rect windowRectMin = new Rect(40f, 40f, 300f, 45);
+        //private static Rect windowRectMax = new Rect(40f, 40f, 300f, 600f);
+        //private static Rect windowRectMin = new Rect(40f, 40f, 300f, 45);
         private static Rect windowRect = new Rect(40f, 40f, 300f, 600f);
 
         // static 안됨. GUIStyle 같이 GUI 는 OnGui안에서만 쓸수 있다 함
@@ -27,6 +32,7 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         private static GUILayoutOptionUtill guio = GUILayoutOptionUtill.Instance;
 
+        private static bool isGuiOnMain = true;
         private bool isGuiOn = false;
         internal static ConfigFile customFile;
 
@@ -44,16 +50,19 @@ namespace COM3D2.Lilly.Plugin.MyGUI
         private static bool open = true;
         public static bool Open { get => open; 
             set  {
+                if (open != value)
                 if (open = value)
                 {
                     windowRect.height= 600f;
                     windowRect.width= 300f;
+                        windowRect.x -= 100;
                 }
                 else
                 {
                     windowRect.height= 40f;
                     windowRect.width= 200f;
-                }
+                        windowRect.x += 100;
+                    }
             } }
 
         public bool IsGuiOn {
@@ -126,7 +135,8 @@ namespace COM3D2.Lilly.Plugin.MyGUI
 
         public static void GoPage(int p)
         {
-            MyLog.LogDebug("GUIVirtual.GoPage", p);
+            if (configEntryUtill["GoPage",false])
+                MyLog.LogDebug("GUIVirtual.GoPage", p);
             pageNow = (p + pageCount) % pageCount;
             guis[pageNow].IsGuiOn = true;
         }
@@ -209,12 +219,14 @@ namespace COM3D2.Lilly.Plugin.MyGUI
                 GUILayout.Label((pageNum+1 )+ " / " + pageCount);
             if (GUILayout.Button("<", guio[GUILayoutOptionUtill.Type.Height, 20]))
             {
+                if(configEntryUtill["GuiFunc",false])
                 MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
                 GoPage(pageNow - 1);
             }
             if (GUILayout.Button(">", guio[GUILayoutOptionUtill.Type.Height, 20]))
             {
-                MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
+                if (configEntryUtill["GuiFunc",false])
+                    MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
                 GoPage(pageNow + 1);
             }
             if (GUILayout.Button("-", guio[GUILayoutOptionUtill.Type.Height, 20])) { Open = !Open; }
