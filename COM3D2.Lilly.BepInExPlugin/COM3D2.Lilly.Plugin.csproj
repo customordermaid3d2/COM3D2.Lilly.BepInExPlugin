@@ -15,10 +15,12 @@
 	  <DefineConstants>TRACE;COM3D2_155</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="UtillTool\InvokeAttribute.cs" />
+	  <Compile Remove="Utill\AwakeUtill.cs" />
 	  <Compile Remove="Utill\MyHarmonyAttribute.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Remove="BasePatch\ScheduleCtrlPatch.bak" />
+	  <None Remove="PatchBase\ScheduleCtrlPatch.bak" />
 	  <None Remove="comfile.bat" />
 	</ItemGroup>
 	<ItemGroup>

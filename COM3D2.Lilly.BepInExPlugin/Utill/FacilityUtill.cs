@@ -1,4 +1,4 @@
-﻿using COM3D2.Lilly.Plugin.InfoPatch;
+﻿using COM3D2.Lilly.Plugin.PatchInfo;
 using COM3D2.Lilly.Plugin.Utill;
 using FacilityFlag;
 using HarmonyLib;

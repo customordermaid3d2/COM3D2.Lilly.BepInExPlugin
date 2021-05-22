@@ -1,4 +1,4 @@
-﻿using COM3D2.Lilly.Plugin.MyGUI;
+﻿using COM3D2.Lilly.Plugin.GUIMgr;
 using COM3D2.Lilly.Plugin.ToolPatch;
 using System;
 using System.Collections.Generic;
@@ -153,7 +153,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                 return;
             }
             */
-            if (HarmonyUtill.GetHarmonyPatchCheck(typeof(MaidManagementMainPatch)))
+            if (GUIHarmony.GetHarmonyPatchCheck(typeof(MaidManagementMainPatch)))
                 RemoveEventEndFlag(MaidManagementMainPatch.___select_maid_);
             else
                 MyLog.LogDarkBlue("HarmonyUtill에서 MaidManagementMainPatch 를 켜주시고 메이드를 선택하세요");

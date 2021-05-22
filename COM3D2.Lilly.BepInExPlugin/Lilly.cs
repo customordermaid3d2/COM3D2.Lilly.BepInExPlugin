@@ -1,7 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
-using COM3D2.Lilly.Plugin.InfoPatch;
-using COM3D2.Lilly.Plugin.MyGUI;
+using COM3D2.Lilly.Plugin.PatchInfo;
+using COM3D2.Lilly.Plugin.GUIMgr;
 using COM3D2.Lilly.Plugin.Utill;
 using COM3D2.Lilly.Plugin.UtillGUI;
 using COM3D2API;
@@ -18,27 +18,20 @@ using UnityEngine.SceneManagement;
 namespace COM3D2.Lilly.Plugin
 {
     // https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin
-    [BepInPlugin("COM3D2.Lilly.Plugin", "COM3D2.Lilly.Plugin", "21.5.16")]// 버전 규칙 잇음. 반드시 2~4개의 숫자구성으로 해야함. 미준수시 못읽어들임
+    [BepInPlugin("COM3D2.Lilly.Plugin", "COM3D2.Lilly.Plugin", "21.5.22")]// 버전 규칙 잇음. 반드시 2~4개의 숫자구성으로 해야함. 미준수시 못읽어들임
     [BepInProcess("COM3D2x64.exe")]
     public class Lilly : BaseUnityPlugin 
     {
         public static Lilly Instance;
 
-        Stopwatch stopwatch = new Stopwatch(); //객체 선언
+        public static Stopwatch stopwatch = new Stopwatch(); //객체 선언
         public static System.Random rand = new System.Random();
 
         public static ConfigFile customFile;// = new ConfigFile(Path.Combine(Paths.ConfigPath, "COM3D2.Lilly.Plugin.cfg"), true);
         public static ConfigEntryUtill configEntryUtill;
         public static bool isLogOn = true;
         
-        public static HarmonyUtill harmonyUtill;
-        public static InfoUtill infoUtill;
-        public static CheatGUI cheatUtill;
-        public static EasyUtill easyUtill;
-        public static MaidEditGui maidEditGui;
-        public static PresetGUI presetGUI;
-        public static OnOffGUI OnOffGUI;
-        public static PluginUtill pluginUtill;
+        public static GUIMgr.GUIMgr guiVirtualMgr;
 
         public static event Action actionsAwake;
         public static event Action actionsInit;
@@ -67,36 +60,28 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogMessage("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 
             customFile = Config;
-            AwakeUtill.customFile = Lilly.customFile;
-            GUIVirtualMgr.customFile = Lilly.customFile;
-            ConfigEntryUtill.customFile = Lilly.customFile;
+
+            ConfigEntryUtill.init();
+
+            GearMenu.SetButton();
+            GUIHarmony.init();
+            GUIMgr.GUIMgr.init();
+            PresetUtill.init();
+
+            MyLog.LogMessage("ConfigFilePath", customFile.ConfigFilePath);
+
+            // 성능이 너무 나쁨. 하모니가 괜히 클래스 지정한게 아닌듯
+            //InvokeInit.Invoke();
+            //InvokeAwake.Invoke();
+            if (actionsInit.GetLength()>0)
+            actionsInit();
+
             configEntryUtill = ConfigEntryUtill.Create(
             "Lilly"
             , "OnSceneLoaded"
             , "GameObjectMgr" //configEntryUtill["GameObjectMgr"]
             );
 
-            MyLog.LogMessage("ConfigFilePath", customFile.ConfigFilePath);
-
-            harmonyUtill = new HarmonyUtill();
-            infoUtill = new InfoUtill();
-            cheatUtill = new CheatGUI();
-            easyUtill = new EasyUtill();
-            maidEditGui = new MaidEditGui();
-            presetGUI = new PresetGUI();
-            OnOffGUI = new OnOffGUI();
-            pluginUtill = new PluginUtill();
-
-            GearMenu.SetButton();
-            PresetUtill.init();
-
-            // 성능이 너무 나쁨. 하모니가 괜히 클래스 지정한게 아닌듯
-            //InvokeInit.Invoke();
-            //InvokeAwake.Invoke();
-
-
-            if (actionsInit.GetLength()>0)
-            actionsInit();
         }
 
 
@@ -110,7 +95,7 @@ namespace COM3D2.Lilly.Plugin
         {
             System.Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
-            MyLog.LogMessage("Awake",dateTime.ToString("u"));
+            MyLog.LogMessage("Lully.Awake", dateTime.ToString("u"));
 
             if (actionsAwake.GetLength() > 0)
                 actionsAwake();
@@ -125,7 +110,7 @@ namespace COM3D2.Lilly.Plugin
 
             SceneManager.sceneLoaded += this.OnSceneLoaded;
 
-            HarmonyUtill.SetHarmonyPatchAll();            
+            GUIHarmony.SetHarmonyPatchAll();            
         }
 
         /// <summary>
@@ -136,7 +121,8 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogMessage("Start");
             GameObjectMgr.Install(gameObject);
             GameObjectMgr.instance.enabled = configEntryUtill["GameObjectMgr",false];
-            GUIVirtualMgr.ActionsStart();
+
+            guiVirtualMgr = GUIMgr.GUIMgr.Install(gameObject);
         }
 
         public static Scene scene;
@@ -162,19 +148,19 @@ namespace COM3D2.Lilly.Plugin
         }
 
         public void OnGUI()
-        {            
-            GUIVirtualMgr.ActionsOnGui();
+        {
+            
         }
 
         public void OnDisable()
         {
             MyLog.LogMessage("OnDisable");
 
-            GUIVirtualMgr.SetGuiOffAll();
+            //GUIVirtualMgr.SetGuiOffAll();
 
             SceneManager.sceneLoaded -= this.OnSceneLoaded;
 
-            HarmonyUtill.SetHarmonyUnPatchAll();
+            GUIHarmony.SetHarmonyUnPatchAll();
         }
 
 
