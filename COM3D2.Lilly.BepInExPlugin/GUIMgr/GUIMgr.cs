@@ -22,13 +22,13 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         );
         internal static ConfigFile customFile;
 
+        public const  int openW = 50;
         private static Rect windowRect = new Rect(40f, 40f, 300f, 600f);
 
-        public static GUIMgr instance;
+       public static GUIMgr instance;
 
         private static GUILayoutOptionUtill guio = GUILayoutOptionUtill.Instance;
 
-        private static bool isGuiOnMain = true;
 
         public static event Action actionsStart = delegate { }; 
 
@@ -48,6 +48,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             }
         }  // 현제 페이지
         public int pageNum = 0; // 해당 클래스 페이지 번호
+        private static bool isGuiOnMain = true;
         private static bool open = true;
         public static bool Open {
             get => open;
@@ -58,13 +59,13 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                     {
                         windowRect.height = 600f;
                         windowRect.width = 300f;
-                        windowRect.x -= 100;
+                        windowRect.x -= openW;
                     }
                     else
                     {
                         windowRect.height = 40f;
-                        windowRect.width = 200f;
-                        windowRect.x += 100;
+                        windowRect.width = 300f- openW;
+                        windowRect.x += openW;
                     }
             }
         }
@@ -98,18 +99,6 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         internal static void init()
         {
             customFile = Lilly.customFile;
-            PageNow = customFile.Bind("GUIMgr", "PageNow", 0);
-
-            harmonyUtill = new GUIHarmony();
-            infoUtill = new GUIInfo();
-            cheatUtill = new GUICheat();
-            easyUtill = new GUIEasy();
-            maidEditGui = new GUIMaidEdit();
-            presetGUI = new GUIPreset();
-            OnOffGUI = new GUIOnOff();
-            pluginUtill = new GUIPlugin();
-
-            PageNow.Value=(PageNow.Value + pageCount) % pageCount;
         }
 
         public static GUIMgr Install(GameObject container)
@@ -118,7 +107,21 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             instance = container.GetComponent<GUIMgr>();
             if (instance == null)
             {
+                PageNow = customFile.Bind("GUIMgr", "PageNow", 0);
+
                 instance = container.AddComponent<GUIMgr>();
+
+                harmonyUtill = new GUIHarmony();
+                infoUtill = new GUIInfo();
+                cheatUtill = new GUICheat();
+                easyUtill = new GUIEasy();
+                maidEditGui = new GUIMaidEdit();
+                presetGUI = new GUIPreset();
+                OnOffGUI = new GUIOnOff();
+                pluginUtill = new GUIPlugin();
+
+                PageNow.Value = (PageNow.Value + pageCount) % pageCount;
+
                 MyLog.LogMessage("GameObjectMgr.Install", instance.name);
             }
             return instance;
@@ -208,24 +211,25 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             GUILayout.BeginHorizontal();
 
-            GUILayout.Label(guis[pageNow].nameGUI);
+            GUILayout.Label(guis[pageNow].nameGUI, guio[100, 20]);
             GUILayout.FlexibleSpace();
             if (Open)
-                GUILayout.Label((pageNow + 1) + " / " + pageCount);
-            if (GUILayout.Button("<", guio[GUILayoutOptionUtill.Type.Height, 20]))
+                GUILayout.Label((pageNow + 1) + " / " + pageCount, guio[40, 20]);
+            if (GUILayout.Button("M", guio[20, 20])) pageNow = 0;
+            if (GUILayout.Button("<", guio[20, 20]))
             {
                 if (configEntryUtill["GuiFunc", false])
                     MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
                 pageNow--;
             }
-            if (GUILayout.Button(">", guio[GUILayoutOptionUtill.Type.Height, 20]))
+            if (GUILayout.Button(">", guio[20, 20]))
             {
                 if (configEntryUtill["GuiFunc", false])
                     MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
                 pageNow++;
             }
-            if (GUILayout.Button("-", guio[GUILayoutOptionUtill.Type.Height, 20])) { Open = !Open; }
-            if (GUILayout.Button("x", guio[GUILayoutOptionUtill.Type.Height, 20])) { isGuiOnMain = true; }
+            if (GUILayout.Button("-", guio[20, 20])) { Open = !Open; }
+            if (GUILayout.Button("x", guio[20, 20])) { isGuiOnMain = false; }
 
             GUILayout.EndHorizontal();
 
@@ -259,7 +263,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         /// </summary>
         public virtual void SetBody()
         {
-            pageNow=GUILayout.SelectionGrid(pageNow, guis.Select(x=> x.Value .nameGUI).ToArray(),1);
+            if (GUILayout.Button("All LogOnOff")) Lilly.SetLogOnOff();
+            GUILayout.Label("page list");
+            pageNow =GUILayout.SelectionGrid(pageNow, guis.Select(x=> x.Value .nameGUI).ToArray(),1);
             //MyLog.LogWarning("SetBody", nameGUI);
             //foreach (var item in guis)
             //{
