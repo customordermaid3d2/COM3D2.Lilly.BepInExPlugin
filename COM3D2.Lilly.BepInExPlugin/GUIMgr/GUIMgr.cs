@@ -151,16 +151,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         public virtual void SetGuiOnOff()
         {
             isGuiOnMain = !isGuiOnMain;
-            //MyLog.LogDebug("SetGuiOnOff", name, IsGuiOn);
         }
-
-        //public virtual void GoPage(int p)
-        //{
-        //    if (configEntryUtill["GoPage", false])
-        //        MyLog.LogDebug("GUIVirtual.GoPage", p);
-        //    pageNow = (p + pageCount) % pageCount;
-        //    //guis[pageNow].IsGuiOn = true;
-        //}
 
         #endregion
 
@@ -244,7 +235,6 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
                 //actionsBody[pageNow]();
                 guis[pageNow].SetBody();//이거나 저거나 같은데......
-
 
                 GUILayout.EndScrollView();
 

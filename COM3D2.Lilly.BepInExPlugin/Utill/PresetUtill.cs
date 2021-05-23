@@ -139,7 +139,7 @@ namespace COM3D2.Lilly.Plugin
                 m_maid = GameMain.Instance.CharacterMgr.GetMaid(0);
                 if (m_maid == null)
                 {
-                    MyLog.LogWarning("RandPreset maid null");
+                    //MyLog.LogWarning("RandPreset maid null");
                     return;
                 }
             }
@@ -191,7 +191,7 @@ namespace COM3D2.Lilly.Plugin
         {
             if (m_maid == null)
             {
-                MyLog.LogWarning("SetMaidPreset maid null");
+                //MyLog.LogWarning("SetMaidPreset maid null");
                 return;
             }
             if (m_maid.IsBusy)

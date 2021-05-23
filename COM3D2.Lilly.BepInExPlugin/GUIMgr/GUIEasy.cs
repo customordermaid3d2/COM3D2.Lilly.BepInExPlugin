@@ -7,6 +7,7 @@ using UnityEngine;
 using COM3D2.Lilly.Plugin.PatchInfo;
 using COM3D2.Lilly.Plugin.ToolPatch;
 using COM3D2.Lilly.Plugin.Utill;
+using HarmonyLib;
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
@@ -34,7 +35,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GUILayout.Label("now scene.name : " + Lilly.scene.name);
 
 
-            if (GUILayout.Button("mod reflash2")) modreflash2();
+            if (GUILayout.Button("mod reflash 0")) ModRefresh0();
+            if (GUILayout.Button("mod reflash 1")) ModRefresh1();
+            if (GUILayout.Button("mod reflash 2")) ModRefresh2();
 
             if (GUILayout.Button("SetRandomCommu")) { ScheduleAPIPatch.SetRandomCommu(true); ScheduleAPIPatch.SetRandomCommu(false); };
 
@@ -74,10 +77,49 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             //if (GUILayout.Button("mod reflash")) modreflash();
         }
 
+        private void ModRefresh1()
+        {
+            if (isRunModreflash)
+                return;
 
+            isRunModreflash = true;
+            Task.Factory.StartNew(() =>
+            {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                MyLog.LogDarkBlue("modreflash1. start ", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 
+                FileSystemWindows m_ModFileSystem = (FileSystemWindows)GameUty.FileSystemMod;
+                if (Directory.Exists(UTY.gameProjectPath + "\\Mod"))
+                {
+                    string[] list2 = m_ModFileSystem.GetList(string.Empty, AFileSystemBase.ListType.AllFolder);
+                    foreach (string text31 in list2)
+                    {
+                        if (m_ModFileSystem.AddAutoPath(text31))
+                        {
+                            UnityEngine.Debug.Log(text31 + " 파일 추가");
+                        }
+                    }
+                }
+                if (m_ModFileSystem != null)
+                {
+                    //string[] list3 = m_ModFileSystem.GetList(string.Empty, AFileSystemBase.ListType.AllFile);
+                    //string[] m_aryModOnlysMenuFiles = GameUty.ModOnlysMenuFiles;
+                    //m_aryModOnlysMenuFiles = Array.FindAll<string>(list3, (string i) => new Regex(".*\\.menu$").IsMatch(i));
+                    typeof(GameUty).GetField("m_aryModOnlysMenuFiles").SetValue(null, Array.FindAll<string>(GameUty.FileSystemMod.GetList(string.Empty, AFileSystemBase.ListType.AllFile), (string i) => new Regex(".*\\.menu$").IsMatch(i)));
 
-        private void modreflash2()
+                }
+
+                MyLog.LogDarkBlue("modreflash1. end ", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
+                isRunModreflash = false;
+            }
+            );
+        }
+
+        /// <summary>
+        /// 중복 현상 발생
+        /// </summary>
+        private void ModRefresh2()
         {
             if (isRunModreflash)
                 return;
@@ -110,7 +152,10 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         static bool isRunModreflash = false;
 
-        private void modreflash()
+        /// <summary>
+        /// 잘못 만든듯
+        /// </summary>
+        private void ModRefresh0()
         {
             if (isRunModreflash)
                 return;
@@ -120,42 +165,21 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                MyLog.LogDarkBlue("modreflash. start ", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
+                MyLog.LogDarkBlue("modreflash0. start ", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 
-                FileSystemWindows m_ModFileSystem = null;
-                string text = UTY.gameProjectPath + "\\";
-                if (Directory.Exists(text + "Mod"))
+                bool flag = Directory.Exists(UTY.gameProjectPath + "\\Mod\\");
+                if (flag)
                 {
-                    m_ModFileSystem = new FileSystemWindows();
-                    m_ModFileSystem.SetBaseDirectory(text);
-                    m_ModFileSystem.AddFolder("Mod");
-
-                    string[] list2 = m_ModFileSystem.GetList(string.Empty, AFileSystemBase.ListType.AllFolder);
-                    foreach (string text31 in list2)
-                    {
-                        if (!m_ModFileSystem.AddAutoPath(text31))
-                        {
-                            UnityEngine.Debug.Log("m_ModFileSystemのAddAutoPathには既に " + text31 + " がありました。");
-                        }
-                    }
+                    GameUty.UpdateFileSystemPath();
+                    GameUty.UpdateFileSystemPathOld();
                 }
-                //typeof(GameUty).GetField("m_ModFileSystem").SetValue(null, m_ModFileSystem);
-                // 메이드 에딧에서 목록만 갱신함
-                if (m_ModFileSystem != null)
+                bool flag3 = GameUty.FileSystemMod != null;
+                if (flag3)
                 {
-                    string[] list3 = m_ModFileSystem.GetList(string.Empty, AFileSystemBase.ListType.AllFile);
-                    //GameUty.m_aryModOnlysMenuFiles = Array.FindAll<string>(list3, (string i) => new Regex(".*\\.menu$").IsMatch(i));
-                    string[] list4 = Array.FindAll<string>(list3, (string i) => new Regex(".*\\.menu$").IsMatch(i));
-                    typeof(GameUty).GetField("m_aryModOnlysMenuFiles").SetValue(null, list4);
-
-                }
-                if (m_ModFileSystem != null)
-                {
-                    m_ModFileSystem.Dispose();
-                    m_ModFileSystem = null;
+                    typeof(GameUty).GetField("m_aryModOnlysMenuFiles").SetValue(null, Array.FindAll<string>(GameUty.FileSystemMod.GetList(string.Empty, AFileSystemBase.ListType.AllFile), (string i) => new Regex(".*\\.menu$").IsMatch(i)));
                 }
 
-                MyLog.LogDarkBlue("modreflash. end ", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
+                MyLog.LogDarkBlue("modreflash0. end ", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
                 isRunModreflash = false;
             }
             );

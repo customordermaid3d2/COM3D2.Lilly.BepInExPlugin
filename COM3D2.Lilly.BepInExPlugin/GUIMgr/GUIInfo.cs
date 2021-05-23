@@ -174,6 +174,12 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);            
 
+            MyLog.LogInfo("UTY.gameProjectPath : " + UTY.gameProjectPath);
+            MyLog.LogInfo("UTY.gameDataPath : " + UTY.gameDataPath);
+
+
+            MyLog.LogInfo("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
+
             MyLog.LogInfo("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
 
             MyLog.LogInfo("Product.windowTitel : " + Product.windowTitel);
