@@ -11,6 +11,11 @@ namespace COM3D2.Lilly.Plugin
 {
     class PresetUtill 
     {
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+"PresetUtill"
+);
+
+
         public static System.Random rand = new System.Random();
 
         public static List<string> listWear = new List<string>();
@@ -133,7 +138,9 @@ namespace COM3D2.Lilly.Plugin
 
         internal static void RandPreset( Maid m_maid = null,ListType listType = ListType.All, PresetType presetType = PresetType.none)
         {
-            UnityEngine.Debug.Log("RandPreset");
+            if (configEntryUtill["RandPreset", false])
+                MyLog.LogDebug("RandPreset");
+
             if (m_maid == null)
             {
                 m_maid = GameMain.Instance.CharacterMgr.GetMaid(0);
@@ -150,7 +157,7 @@ namespace COM3D2.Lilly.Plugin
 
             if (list.Count == 0)
             {
-                UnityEngine.Debug.LogWarning("RandPreset No list");
+                MyLog.LogWarning("RandPreset No list");
                 return;
             }
 
@@ -196,11 +203,13 @@ namespace COM3D2.Lilly.Plugin
             }
             if (m_maid.IsBusy)
             {
-                UnityEngine.Debug.Log("RandPreset Maid Is Busy");
+                if (configEntryUtill["SetMaidPreset", false])
+                    MyLog.LogDebug("RandPreset Maid Is Busy");
                 return;
             }
 
-            UnityEngine.Debug.Log("SetMaidPreset select :" + file);
+            if (configEntryUtill["SetMaidPreset", false])
+                MyLog.LogDebug("SetMaidPreset select :" + file);
             CharacterMgr.Preset preset = GameMain.Instance.CharacterMgr.PresetLoad(file);
             switch (presetType)
             {
@@ -221,7 +230,8 @@ namespace COM3D2.Lilly.Plugin
             //preset.strFileName = file;
             if (preset == null)
             {
-                UnityEngine.Debug.Log("SetMaidPreset preset null ");
+                if (configEntryUtill["SetMaidPreset", false])
+                    MyLog.LogDebug("SetMaidPreset preset null ");
                 return;
             }
             GameMain.Instance.CharacterMgr.PresetSet(m_maid, preset);
@@ -234,7 +244,8 @@ namespace COM3D2.Lilly.Plugin
         /// </summary>
         internal static void LoadList()
         {
-            MyLog.LogMessage("LoadList Preset", Environment.CurrentDirectory);
+            if (configEntryUtill["LoadList",false])
+                MyLog.LogMessage("LoadList Preset", Environment.CurrentDirectory);
 
             listWear.Clear();
             listBody.Clear();

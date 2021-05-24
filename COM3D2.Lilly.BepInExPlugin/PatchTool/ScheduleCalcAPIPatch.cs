@@ -15,7 +15,6 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
 
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
         "ScheduleCalcAPI"
-        , "SimulateMaidStatusResult"
         );
 
         /// <summary>
@@ -25,7 +24,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPrefix, HarmonyPatch(typeof(ScheduleCalcAPI), "SimulateMaidStatusResult", new Type[] { typeof(Maid), typeof(int) , typeof(ScheduleData.WorkSuccessLv) , typeof(bool) })]
         public static void SimulateMaidStatusResult(Maid maid, int workId,ref ScheduleData.WorkSuccessLv successLv , bool commu = false)
         {
-            if (configEntryUtill["SimulateMaidStatusResult"])
+            if (configEntryUtill["SimulateMaidStatusResult",false])
             MyLog.LogMessage(
                 "ScheduleCalcAPI.SimulateMaidStatusResult"
                 , MyUtill.GetMaidFullName(maid)

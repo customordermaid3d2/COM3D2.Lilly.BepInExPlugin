@@ -13,6 +13,11 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 {
     public class GUIMaidEdit : GUIMgr
     {
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+        "GUIMaidEdit"
+        );
+
+
         public static ConfigEntry<bool> _GP01FBFaceEyeRandomOnOff;
         public static ConfigEntry<bool> newMaid;
         public static ConfigEntry<bool> movMaid;
@@ -104,6 +109,16 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
             //GUILayout.Label("------------");
             
             if (GUILayout.Button("Maid add")) AddStockMaid();
+            if (GUILayout.Button("Maid add * 10")) 
+                for (int i = 0; i < 10; i++)
+                {
+                    AddStockMaid() ;
+                }  
+            if (GUILayout.Button("Maid add * 50")) 
+                for (int i = 0; i < 10; i++)
+                {
+                    AddStockMaid() ;
+                }  
             
             if (GUILayout.Button("Personal Rand " + rndPersonal + " " + PersonalNames[selGridPersonal])) rndPersonal=!rndPersonal;
             if (!rndPersonal)
@@ -163,6 +178,7 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
 
         private void AddStockMaid()
         {
+            if(configEntryUtill["AddStockMaid"])
             MyLog.LogMessage("GUIMaidEdit.AddStockMaid");
 
             Maid maid = GameMain.Instance.CharacterMgr.AddStockMaid();
@@ -215,7 +231,8 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
 
             PresetUtill.RandPreset(maid);
 
-            MyLog.LogMessage("GUIMaidEdit.AddStockMaid", MyUtill.GetMaidFullName(maid));
+            if (configEntryUtill["AddStockMaid"])
+                MyLog.LogMessage("GUIMaidEdit.AddStockMaid", MyUtill.GetMaidFullName(maid));
         }
 
         public static void GP01FBFaceEyeRandom(int v, Maid m_maid = null)

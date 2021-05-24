@@ -29,19 +29,11 @@ namespace COM3D2.Lilly.Plugin
             //Lilly.actionsAwake += Awake;
             }
 
-        public  void Awake()
+        [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), "Awake")]
+        public static void Awake()
         {
-            /*
-            try
-            {
-                sliderItemSet = AccessTools.TypeByName("SliderItemSet");
-                sliderItemSet.GetProperty("m_listSliderItem");
-            }
-            catch (Exception e)
-            {
-                MyLog.LogError("SceneEdit.Awake", e.ToString());
-            }
-            */
+            if (configEntryUtill["Awake"])
+                MyLog.LogMessage("SceneEdit.Awake");
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(SceneEdit), MethodType.Constructor)]

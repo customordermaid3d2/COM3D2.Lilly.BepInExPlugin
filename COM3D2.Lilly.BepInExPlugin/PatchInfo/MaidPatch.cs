@@ -25,8 +25,6 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
 
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
         "MaidPatch"
-        , "SetProp"
-        , "DelProp"
         );
 
         /// <summary>
@@ -81,7 +79,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void DelProp(Maid __instance, MPN idx, bool f_bTemp, MaidProp[] ___m_aryMaidProp)
         {
-            if (configEntryUtill["DelProp"])
+            if (configEntryUtill["DelProp", false])
                 if (__instance.Visible)
                     print("DelProp", ___m_aryMaidProp[(int)idx]);
         }
@@ -90,7 +88,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void Visible(Maid __instance, bool value)
         {
-            if (configEntryUtill["Visible"])
+            if (configEntryUtill["Visible",false])
                 MyLog.LogMessage("Visible", MyUtill.GetMaidFullName(__instance), value, __instance.IsCrcBody, __instance.boMAN);
         }
 
