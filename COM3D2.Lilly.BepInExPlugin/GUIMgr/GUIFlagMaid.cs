@@ -9,7 +9,7 @@ using wf;
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
-    public class GUIFlag : GUIMgr
+    public class GUIFlagMaid : GUIMgr
     {
         static GUILayoutOptionUtill guio = GUILayoutOptionUtill.Instance;
         public static string flag = string.Empty;
@@ -99,7 +99,19 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(item.Key);
                 GUILayout.FlexibleSpace();
-                if (GUILayout.Button("del", guio[GUILayoutOptionUtill.Type.Width, 40]))
+                if (GUILayout.Button("a", guio[GUILayoutOptionUtill.Type.Width, 20]))
+                {
+                    MyLog.LogMessage("add flag", item.Key);
+                    maid.status.AddFlag(item.Value,1);
+                    MaidManagementMainPatch.flags = maid.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                }
+                if (GUILayout.Button("0", guio[GUILayoutOptionUtill.Type.Width, 20]))
+                {
+                    MyLog.LogMessage("Set flag", item.Key);
+                    maid.status.SetFlag(item.Value,0);
+                    MaidManagementMainPatch.flags = maid.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                }
+                if (GUILayout.Button("d", guio[GUILayoutOptionUtill.Type.Width, 20]))
                 {
                     MyLog.LogMessage("del flag" , item.Key);
                     maid.status.RemoveFlag(item.Value);
@@ -110,7 +122,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             GUILayout.Label("경고! 모든 플레그 삭제");
             GUILayout.BeginHorizontal();
-            GUILayout.Label("경고! 모든 플레그 삭제");
+            GUILayout.Label("경고! 모든 플레그 삭제=>");
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("del", guio[GUILayoutOptionUtill.Type.Width, 40]))
             {
@@ -148,8 +160,21 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(item.Key);
                 GUILayout.FlexibleSpace();
-                if (GUILayout.Button("del", guio[GUILayoutOptionUtill.Type.Width, 40]))
+                if (GUILayout.Button("a", guio[GUILayoutOptionUtill.Type.Width, 20]))
                 {
+                    MyLog.LogMessage("add flag", item.Key);
+                    maid.status.OldStatus.AddFlag(item.Value, 1);
+                    MaidManagementMainPatch.flagsOld = maid.status.OldStatus.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                }
+                if (GUILayout.Button("0", guio[GUILayoutOptionUtill.Type.Width, 20]))
+                {
+                    MyLog.LogMessage("Set flag", item.Key);
+                    maid.status.OldStatus.SetFlag(item.Value, 0);
+                    MaidManagementMainPatch.flagsOld = maid.status.OldStatus.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                }
+                if (GUILayout.Button("d", guio[GUILayoutOptionUtill.Type.Width, 15]))
+                {
+                    MyLog.LogMessage("del flag", item.Key);
                     maid.status.OldStatus.RemoveFlag(item.Value);
                     MaidManagementMainPatch.flagsOld = maid.status.OldStatus.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
                 }
@@ -158,7 +183,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             GUILayout.Label("경고! 모든 플레그 삭제");
             GUILayout.BeginHorizontal();
-            GUILayout.Label("경고! 모든 플레그 삭제");
+            GUILayout.Label("경고! 모든 플레그 삭제=>");
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("del", guio[GUILayoutOptionUtill.Type.Width, 40]))
             {

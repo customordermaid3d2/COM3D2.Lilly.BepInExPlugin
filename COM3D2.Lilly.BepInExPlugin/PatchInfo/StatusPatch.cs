@@ -136,6 +136,15 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             );
         }
 
+        public static Dictionary<string, string> flagsPlayer=new Dictionary<string, string>();
+
+        // public bool RemoveFlag(string flagName)
+        [HarmonyPostfix, HarmonyPatch(typeof(PlayerStatus.Status), "Deserialize")]
+        public static void Deserialize()
+        {
+            StatusPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+        }
+
         // =================================
 
         // public void AddFlag(string flagName, int value)

@@ -75,10 +75,11 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         public static GUICheat cheatUtill;
         public static GUIEasy easyUtill;
         public static GUIMaidEdit maidEditGui;
-        public static GUIPreset presetGUI;
+        public static GUIRndPreset presetGUI;
         public static GUIOnOff OnOffGUI;
         public static GUIPlugin pluginUtill;
-        public static GUIFlag GUIFlag;
+        public static GUIFlagMaid GUIFlag;
+        public static GUIFlagPlayer GUIFlagPlayer;
 
         public GUIMgr() : base()
         {
@@ -117,8 +118,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 cheatUtill = new GUICheat();
                 easyUtill = new GUIEasy();
                 maidEditGui = new GUIMaidEdit();
-                presetGUI = new GUIPreset();
-                GUIFlag = new GUIFlag();
+                presetGUI = new GUIRndPreset();
+                GUIFlag = new GUIFlagMaid();
+                GUIFlagPlayer = new GUIFlagPlayer();
                 OnOffGUI = new GUIOnOff();
                 pluginUtill = new GUIPlugin();
 

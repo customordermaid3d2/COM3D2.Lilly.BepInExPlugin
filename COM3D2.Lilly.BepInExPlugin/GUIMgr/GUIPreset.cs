@@ -2,9 +2,9 @@
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
-    public class GUIPreset : GUIMgr
+    public class GUIRndPreset : GUIMgr
     {
-        public GUIPreset()
+        public GUIRndPreset()
         {
             nameGUI = "PresetGUI";
         }
