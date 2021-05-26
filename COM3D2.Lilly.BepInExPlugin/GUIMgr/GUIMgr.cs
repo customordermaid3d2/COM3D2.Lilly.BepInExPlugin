@@ -78,6 +78,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         public static GUIPreset presetGUI;
         public static GUIOnOff OnOffGUI;
         public static GUIPlugin pluginUtill;
+        public static GUIFlag GUIFlag;
 
         public GUIMgr() : base()
         {
@@ -117,6 +118,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 easyUtill = new GUIEasy();
                 maidEditGui = new GUIMaidEdit();
                 presetGUI = new GUIPreset();
+                GUIFlag = new GUIFlag();
                 OnOffGUI = new GUIOnOff();
                 pluginUtill = new GUIPlugin();
 

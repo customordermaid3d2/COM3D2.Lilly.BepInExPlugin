@@ -31,20 +31,20 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         private ConfigEntryUtill() : base()
         {
-            MyLog.LogDebug("ConfigEntryUtill.ctor", sectionMain);
+            //MyLog.LogDebug("ConfigEntryUtill.ctor", sectionMain);
             SectionList.Add(sectionMain, this);
         }
 
         private ConfigEntryUtill(string section) : base()
         {
-            MyLog.LogDebug("ConfigEntryUtill.ctor", section);
+            //MyLog.LogDebug("ConfigEntryUtill.ctor", section);
             this.section = section;
             SectionList.Add(section, this);
         }
 
         private ConfigEntryUtill(string section, params string[] keys) : base()
         {
-            MyLog.LogDebug("ConfigEntryUtill.ctor", section, keys.Length);
+            //MyLog.LogDebug("ConfigEntryUtill.ctor", section, keys.Length);
             this.section = section;
             SectionList.Add(section, this);
             Add(keys.ToList());
@@ -60,7 +60,7 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         public static ConfigEntryUtill Create(string section)
         {
-            MyLog.LogDebug("ConfigEntryUtill.Create", section);
+            //MyLog.LogDebug("ConfigEntryUtill.Create", section);
             if (!SectionList.ContainsKey(section))
                 return new ConfigEntryUtill(section);
             else
@@ -68,7 +68,7 @@ namespace COM3D2.Lilly.Plugin.Utill
         }
         public static ConfigEntryUtill Create(string section, params string[] keys)
         {
-            MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
+            //MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
             if (!SectionList.ContainsKey(section))
                 return new ConfigEntryUtill(section, keys);
             else
@@ -176,7 +176,7 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         public ConfigEntryUtill(string section, T defult) : base()
         {
-            MyLog.LogDebug("ConfigEntryUtill.ctor", section);
+            //MyLog.LogDebug("ConfigEntryUtill.ctor", section);
 
             this.section = section;
             this.defult = defult;
@@ -186,7 +186,7 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         public ConfigEntryUtill(string section, T defult, params string[] keys) : base()
         {
-            MyLog.LogDebug("ConfigEntryUtill.ctor", section, keys.Length);
+            //MyLog.LogDebug("ConfigEntryUtill.ctor", section, keys.Length);
 
             this.section = section;
             this.defult = defult;
@@ -203,22 +203,22 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         public static ConfigEntryUtill<T> Create(string section, T defult, params string[] keys)
         {
-            MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
+            //MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
             return new ConfigEntryUtill<T>(section, defult, keys);
         }
 
         public void Awake()
         {
-            MyLog.LogMessage("ConfigEntryUtill.Awake", section, kyes.Count);
+            //MyLog.LogMessage("ConfigEntryUtill.Awake", section, kyes.Count);
             foreach (var item in kyes)
             {
-                MyLog.LogDebug("ConfigEntryUtill.Awake", section, item);
+                //MyLog.LogDebug("ConfigEntryUtill.Awake", section, item);
                 if (!list.ContainsKey(item))
                 {
                     Add(item, defult);
                 }
             }
-            MyLog.LogMessage("ConfigEntryUtill.Awake", section, list.Count);
+            //MyLog.LogMessage("ConfigEntryUtill.Awake", section, list.Count);
         }
 
         public T this[string key] {

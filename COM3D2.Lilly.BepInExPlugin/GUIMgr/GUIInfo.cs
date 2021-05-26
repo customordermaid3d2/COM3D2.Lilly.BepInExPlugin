@@ -40,7 +40,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             GUILayout.Label("메이드 관리에서 사용 SceneMaidManagement");
             GUI.enabled = Lilly.scene.name == "SceneMaidManagement";
-            if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) GUIInfo.GetMaidFlag(MaidManagementMainPatch.___select_maid_);
+            if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) GUIInfo.GetMaidFlag(MaidManagementMainPatch.select_maid);
 
             GUI.enabled = true;
             

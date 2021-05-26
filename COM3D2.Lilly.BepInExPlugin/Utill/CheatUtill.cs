@@ -23,12 +23,15 @@ namespace COM3D2.Lilly.Plugin.Utill
         public static void SetMaidAll(Maid maid)
         {
             MyLog.LogMessage(
-                "CheatUtill.SetMaidAll"
+                "CheatUtill.SetMaidAll st"
                 );
             StatusUtill.SetMaidStatus(maid);
             SkillClassUtill.SetMaidYotogiClass(maid);
             SkillClassUtill.SetMaidJobClass(maid);
             SkillClassUtill.SetMaidSkill(maid);
+            MyLog.LogMessage(
+            "CheatUtill.SetMaidAll end"
+            );
         }
 
         internal static void SetHeroineType(HeroineType transfer)
@@ -36,7 +39,7 @@ namespace COM3D2.Lilly.Plugin.Utill
             MyLog.LogMessage(
             "CheatUtill.SetHeroineType"
             );
-            MaidManagementMainPatch.___select_maid_.status.heroineType = transfer;
+            MaidManagementMainPatch.select_maid.status.heroineType = transfer;
         }
 
         public static void SetFacilityAllMaid(ScheduleMgr.ScheduleTime scheduleTime)

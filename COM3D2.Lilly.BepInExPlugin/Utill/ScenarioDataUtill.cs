@@ -9,6 +9,9 @@ namespace COM3D2.Lilly.Plugin.Utill
 {
     class ScenarioDataUtill
     {
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+    "ScenarioDataUtill"
+    );
 
         static bool isRunSetScenarioDataAll = false;
 
@@ -21,6 +24,7 @@ namespace COM3D2.Lilly.Plugin.Utill
             Task.Factory.StartNew(() =>
             {
                 isRunSetScenarioDataAll = true;
+
                 MyLog.LogDarkBlue("SetScenarioDataAll. start");
 
                 // 병렬 처리
@@ -31,7 +35,8 @@ namespace COM3D2.Lilly.Plugin.Utill
                     if (scenarioData.IsPlayable)
                     {
                         //MyLog.LogMessageS(".m_EventMaid");
-                        MyLog.LogMessage("SetScenarioDataAll1"
+                        if (configEntryUtill["SetScenarioDataAll", false])
+                            MyLog.LogMessage("SetScenarioDataAll1"
                         , scenarioData.ID
                         , scenarioData.Title
                         , scenarioData.ScenarioScript
@@ -41,7 +46,8 @@ namespace COM3D2.Lilly.Plugin.Utill
                         {
                             if (maid.status.heroineType == HeroineType.Sub)
                             {
-                                MyLog.LogMessage("SetScenarioDataAll2"
+                                if (configEntryUtill["SetScenarioDataAll", false])
+                                    MyLog.LogMessage("SetScenarioDataAll2"
                                 , MyUtill.GetMaidFullName(maid)
                                 , maid.status.heroineType
                                 );
@@ -53,7 +59,8 @@ namespace COM3D2.Lilly.Plugin.Utill
                             bool b = maid.status.GetEventEndFlag(scenarioData.ID);
                             if (!b)
                             {
-                                MyLog.LogMessage("SetScenarioDataAll3"
+                                if (configEntryUtill["SetScenarioDataAll", false])
+                                    MyLog.LogMessage("SetScenarioDataAll3"
                                     , MyUtill.GetMaidFullName(maid)
                                     , b
                                     );

@@ -45,18 +45,18 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             );
             if (openType == "Daytime")
             {
-                if (configEntryUtill["슬롯에_메이드_자동_배치"])
+                if (configEntryUtill["슬롯에_메이드_자동_배치", false])
                 {
                     ScheduleMgrPatch.SetSlotAllMaid();
                 }
 
-                if (configEntryUtill["시설에_메이드_자동_배치"])
+                if (configEntryUtill["시설에_메이드_자동_배치", false])
                 {
                     CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
                     CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
                 }
 
-                if (configEntryUtill["커뮤니티_자동_적용"])
+                if (configEntryUtill["커뮤니티_자동_적용", false])
                 {
                     ScheduleAPIPatch.SetRandomCommu(true);
                     ScheduleAPIPatch.SetRandomCommu(false);

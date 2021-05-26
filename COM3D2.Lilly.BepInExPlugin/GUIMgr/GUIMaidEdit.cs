@@ -115,7 +115,7 @@ MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.d
                     AddStockMaid() ;
                 }  
             if (GUILayout.Button("Maid add * 50")) 
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 50; i++)
                 {
                     AddStockMaid() ;
                 }  

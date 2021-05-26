@@ -53,8 +53,8 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             GUILayout.Label("메이드 관리에서 사용 SceneMaidManagement");
             GUI.enabled = Lilly.scene.name == "SceneMaidManagement";
-            if (GUILayout.Button("선택 메이드 스텟, 스킬, 잡, 클래스 처리")) CheatUtill.SetMaidAll(MaidManagementMainPatch.___select_maid_);
-            if (GUILayout.Button("선택 메이드 플레그 제거")) FlagUtill.RemoveEventEndFlag(true);
+            if (GUILayout.Button("선택 메이드 스텟, 스킬, 잡, 클래스 처리")) CheatUtill.SetMaidAll(MaidManagementMainPatch.select_maid);
+            //if (GUILayout.Button("선택 메이드 플레그 제거")) FlagUtill.RemoveEventEndFlag(true);
             if (GUILayout.Button("HeroineType.Original")) CheatUtill.SetHeroineType(HeroineType.Original);
             if (GUILayout.Button("HeroineType.Transfer")) CheatUtill.SetHeroineType(HeroineType.Transfer);
             GUI.enabled = true;

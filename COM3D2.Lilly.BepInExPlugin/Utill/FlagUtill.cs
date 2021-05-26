@@ -154,7 +154,7 @@ namespace COM3D2.Lilly.Plugin.Utill
             }
             */
             if (GUIHarmony.GetHarmonyPatchCheck(typeof(MaidManagementMainPatch)))
-                RemoveEventEndFlag(MaidManagementMainPatch.___select_maid_);
+                RemoveEventEndFlag(MaidManagementMainPatch.select_maid);
             else
                 MyLog.LogDarkBlue("HarmonyUtill에서 MaidManagementMainPatch 를 켜주시고 메이드를 선택하세요");
             //RemoveEventEndFlag(SceneEdit.Instance.maid);

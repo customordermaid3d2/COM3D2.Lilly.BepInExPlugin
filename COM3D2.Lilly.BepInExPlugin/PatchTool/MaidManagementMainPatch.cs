@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using wf;
 
 namespace COM3D2.Lilly.Plugin.ToolPatch
 {
@@ -15,7 +16,13 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
     class MaidManagementMainPatch
     {
 
-        public static Maid ___select_maid_;
+        public static Maid select_maid;
+        //public static liststring select_maid;
+        //public static ReadOnlyDictionary<string, int> flags;
+        public static Dictionary<string, string> flags;
+        public static Dictionary<string, string> flagsOld;
+
+
         /// <summary>
         /// 메이드 관리에서 모든 버튼 활성화
         /// </summary>
@@ -29,12 +36,20 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             MyLog.LogMessage(
                 "MaidManagementMain.OnSelectChara:"
                 , MyUtill.GetMaidFullName(___select_maid_));
-            MaidManagementMainPatch.___select_maid_ = ___select_maid_;
+            MaidManagementMainPatch.select_maid = ___select_maid_;
+            flags = MaidManagementMainPatch.select_maid.status.flags.ToDictionary( x=> x.Key + " , " + x.Value,x=> x.Key);
+            if (___select_maid_.status.OldStatus!=null)
+            {
+                MaidManagementMainPatch.flagsOld = MaidManagementMainPatch.select_maid.status.OldStatus.flags.ToDictionary( x=> x.Key + " , " + x.Value,x=> x.Key);
+            }
+            else
+            {
+                flagsOld.Clear();
+            }
 
             // MaidStatusUtill.SetMaidStatus(___select_maid_);
             //___m_maid.status.base = 9999;
             //___m_maid.status.base = 9999;
-
             foreach (var item in ___button_dic_)
             {
                 item.Value.isEnabled = true;

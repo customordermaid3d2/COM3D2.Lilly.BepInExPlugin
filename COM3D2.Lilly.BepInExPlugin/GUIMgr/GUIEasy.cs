@@ -14,7 +14,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
     public class GUIEasy : GUIMgr
     {
         //public static Scene scene;       
-
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+        "GUIEasy"
+        );
 
         public GUIEasy()
         {
@@ -49,6 +51,10 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             if (GUILayout.Button("시설에 메이드 자동 배치 - 야간")) CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
             GUI.enabled = true;
 
+            GUILayout.Label("매일 자동 적용.");
+            if (GUILayout.Button("슬롯에_메이드_자동_배치 " + configEntryUtill["SceneMgrPatch", "슬롯에_메이드_자동_배치", false])) configEntryUtill["SceneMgrPatch", "슬롯에_메이드_자동_배치", false] = !configEntryUtill["SceneMgrPatch", "슬롯에_메이드_자동_배치", false];
+            if (GUILayout.Button("시설에_메이드_자동_배치 " + configEntryUtill["SceneMgrPatch", "시설에_메이드_자동_배치", false])) configEntryUtill["SceneMgrPatch", "시설에_메이드_자동_배치", false] = !configEntryUtill["SceneMgrPatch", "시설에_메이드_자동_배치", false];
+            if (GUILayout.Button("커뮤니티_자동_적용 " + configEntryUtill["SceneMgrPatch","커뮤니티_자동_적용", false])) configEntryUtill["SceneMgrPatch", "커뮤니티_자동_적용", false] = !configEntryUtill["SceneMgrPatch", "커뮤니티_자동_적용", false];
 
 
             GUILayout.Label("scenario_str ");
