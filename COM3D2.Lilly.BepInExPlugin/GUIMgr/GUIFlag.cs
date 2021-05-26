@@ -14,6 +14,8 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         static GUILayoutOptionUtill guio = GUILayoutOptionUtill.Instance;
         public static string flag = string.Empty;
         public static string flagVs = string.Empty;
+        public static string[] typesAll = new string[] { "new", "old" };
+        public static string[] typesone = new string[] { "new" };
         public static string[] types = new string[] { "new", "old" };
         public static int flagV = 1;
         public static int type = 0;
@@ -36,12 +38,12 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 if (maid.status.OldStatus == null)
                 {
                     a = bodyFlag;
-                    types = new string[] { "new" };
+                    types = typesone;
                     type = 0;
                 }
                 else
                 {
-                    types = new string[] { "new", "old" };
+                    types = typesAll;
                 }
 
             }
@@ -105,6 +107,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 }
                 GUILayout.EndHorizontal();
             }
+
             GUILayout.Label("경고! 모든 플레그 삭제");
             GUILayout.BeginHorizontal();
             GUILayout.Label("경고! 모든 플레그 삭제");

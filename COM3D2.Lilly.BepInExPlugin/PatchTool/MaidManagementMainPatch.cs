@@ -20,7 +20,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         //public static liststring select_maid;
         //public static ReadOnlyDictionary<string, int> flags;
         public static Dictionary<string, string> flags;
-        public static Dictionary<string, string> flagsOld;
+        public static Dictionary<string, string> flagsOld=new Dictionary<string, string>();
 
 
         /// <summary>
