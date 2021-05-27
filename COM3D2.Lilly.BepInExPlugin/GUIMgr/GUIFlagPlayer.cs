@@ -52,7 +52,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             }
             GUILayout.EndHorizontal();
 
-            GUILayout.Label("보유한 플레그 목록");
+            GUILayout.Label("보유한 플레그 목록 " + StatusPatch.flagsPlayer.Count);
             foreach (var item in StatusPatch.flagsPlayer)
             {
                 GUILayout.BeginHorizontal();

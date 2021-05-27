@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace COM3D2.Lilly.Plugin.UtillGUI
 {
@@ -28,6 +29,8 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
         public int OnGUICount = 0;
         public int CoroutineCount = 0;
         public float time = 0;
+
+        Dropdown dropdown;
 
         public static GameObjectMgr Install(GameObject container)
         {
@@ -125,6 +128,8 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
                     MyLog.LogMessage("GameObjectMgr.OnGUI.changed", GUI.changed);
             }
         }
+
+        
 
         private void WindowFunction(int id)
         {

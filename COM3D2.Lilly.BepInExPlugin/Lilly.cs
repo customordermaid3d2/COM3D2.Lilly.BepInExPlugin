@@ -14,6 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
 namespace COM3D2.Lilly.Plugin
 {
@@ -29,6 +30,8 @@ namespace COM3D2.Lilly.Plugin
 
         public static ConfigFile customFile;// = new ConfigFile(Path.Combine(Paths.ConfigPath, "COM3D2.Lilly.Plugin.cfg"), true);
         public static ConfigEntryUtill configEntryUtill;
+        private ConfigEntry<BepInEx.Configuration.KeyboardShortcut> ShowCounter { get; set; }
+
         public static bool isLogOn = true;
         
         public static GUIMgr.GUIMgr guiVirtualMgr;
@@ -60,8 +63,9 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogMessage("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 
             customFile = Config;
-
+            ShowCounter = Config.Bind("KeyboardShortcut", "KeyboardShortcut0", new BepInEx.Configuration.KeyboardShortcut(KeyCode.Alpha0, KeyCode.LeftControl));
             ConfigEntryUtill.init();
+
 
             //GearMenu.SetButton();
             GUIHarmony.init();
@@ -147,6 +151,24 @@ namespace COM3D2.Lilly.Plugin
                 , string.Format("{0:0.000} ", stopwatch.Elapsed.ToString())
                 );
             
+        }
+
+        private void Update()
+        {
+            if (!configEntryUtill["Update"])
+                return;
+            if (ShowCounter.Value.IsDown())
+            {
+                MyLog.LogMessage("IsDown", ShowCounter.Value.Modifiers, ShowCounter.Value.MainKey);
+            }
+            if (ShowCounter.Value.IsPressed())
+            {
+                MyLog.LogMessage("IsPressed", ShowCounter.Value.Modifiers, ShowCounter.Value.MainKey);
+            }
+            if (ShowCounter.Value.IsUp())
+            {
+                MyLog.LogMessage("IsUp", ShowCounter.Value.Modifiers, ShowCounter.Value.MainKey);
+            }
         }
 
         public void OnGUI()

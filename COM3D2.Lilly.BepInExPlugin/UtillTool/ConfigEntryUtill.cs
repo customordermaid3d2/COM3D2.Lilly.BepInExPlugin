@@ -88,6 +88,11 @@ namespace COM3D2.Lilly.Plugin.Utill
             ConfigEntryUtill.customFile = Lilly.customFile;
         }
 
+        internal static void init(ConfigFile customFile)
+        {
+            ConfigEntryUtill.customFile = customFile;
+        }
+
         public bool this[string key, bool defaultValue = true] {
             get
             {

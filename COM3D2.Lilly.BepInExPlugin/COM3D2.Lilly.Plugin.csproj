@@ -47,6 +47,9 @@
 	    <HintPath>..\lib\COM3D2.API.dll</HintPath>
 	    <Private>false</Private>
 	  </Reference>
+	  <Reference Include="ConfigurationManager">
+	    <HintPath>..\..\_lib2\ConfigurationManager.dll</HintPath>
+	  </Reference>
 	  <Reference Include="Mono.Cecil">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\Mono.Cecil.dll</HintPath>
 	  </Reference>
@@ -71,6 +74,9 @@
 	  <Reference Include="UnityEngine">
 	    <HintPath>..\lib\UnityEngine.dll</HintPath>
 	    <Private>false</Private>
+	  </Reference>
+	  <Reference Include="UnityEngine.UI">
+	    <HintPath>..\..\_lib\UnityEngine.UI.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 	<ItemGroup>

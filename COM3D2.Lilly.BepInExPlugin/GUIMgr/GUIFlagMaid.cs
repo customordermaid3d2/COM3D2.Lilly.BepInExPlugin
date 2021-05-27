@@ -93,7 +93,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             }
             GUILayout.EndHorizontal();
 
-            GUILayout.Label("보유한 플레그 목록");
+            GUILayout.Label("보유한 플레그 목록 "+ MaidManagementMainPatch.flags.Count);
             foreach (var item in MaidManagementMainPatch.flags)
             {
                 GUILayout.BeginHorizontal();

@@ -21,16 +21,17 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         "GUIVirtualMgr"
         );
         internal static ConfigFile customFile;
+        private static ConfigEntry<BepInEx.Configuration.KeyboardShortcut> ShowCounter;
 
-        public const  int openW = 50;
+        public const int openW = 50;
         private static Rect windowRect = new Rect(40f, 40f, 300f, 600f);
 
-       public static GUIMgr instance;
+        public static GUIMgr instance;
 
         private static GUILayoutOptionUtill guio = GUILayoutOptionUtill.Instance;
 
 
-        public static event Action actionsStart = delegate { }; 
+        public static event Action actionsStart = delegate { };
 
         //private static Dictionary<int, Action> actionsBody = new Dictionary<int, Action>();
         private static Dictionary<int, GUIMgr> guis = new Dictionary<int, GUIMgr>();
@@ -64,7 +65,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                     else
                     {
                         windowRect.height = 40f;
-                        windowRect.width = 300f- openW;
+                        windowRect.width = 300f - openW;
                         windowRect.x += openW;
                     }
             }
@@ -88,7 +89,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             //name = "GUIVirtual";
             Seting();
 
-            MyLog.LogDebug("GUIVirtual()",nameGUI);
+            MyLog.LogDebug("GUIVirtual()", nameGUI);
         }
 
         public GUIMgr(string name) : base()
@@ -101,6 +102,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         internal static void init()
         {
             customFile = Lilly.customFile;
+            ShowCounter = customFile.Bind("GUIVirtualMgr", "GUI ON OFF KeyboardShortcut", new BepInEx.Configuration.KeyboardShortcut(KeyCode.Alpha0, KeyCode.LeftControl));
         }
 
         public static GUIMgr Install(GameObject container)
@@ -136,7 +138,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             guis.Add(pageNum = pageCount++, this);
             //actionsBody.Add(pageNum , SetBody);
             actionsStart += ActionsStart;
-       }
+        }
 
         public virtual void SetName()
         {
@@ -151,7 +153,6 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         #region GUI On OFF
 
-
         public virtual void SetGuiOnOff()
         {
             isGuiOnMain = !isGuiOnMain;
@@ -161,7 +162,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         public virtual void ActionsStart()
         {
-            MyLog.LogDebug("GUIVirtual.ActionsStart", pageNow,nameGUI);
+            MyLog.LogDebug("GUIVirtual.ActionsStart", pageNow, nameGUI);
         }
 
         private void Start()
@@ -171,6 +172,28 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             SystemShortcutAPI.AddButton("Lilly Plugin", new Action(SetGuiOnOff), "Lilly Plugin", GearMenu.png);
             actionsStart();
         }
+
+
+        private void Update()
+        {
+            //if (!configEntryUtill["Update"])
+            //    return;
+            //if (ShowCounter.Value.IsDown())
+            //{
+            //    MyLog.LogMessage("IsDown", ShowCounter.Value.Modifiers, ShowCounter.Value.MainKey);
+            //}
+            //if (ShowCounter.Value.IsPressed())
+            //{
+            //    MyLog.LogMessage("IsPressed", ShowCounter.Value.Modifiers, ShowCounter.Value.MainKey);
+            //}
+            if (ShowCounter.Value.IsUp())
+            {
+                if (!configEntryUtill["Update"])
+                    MyLog.LogMessage("IsUp", ShowCounter.Value.Modifiers, ShowCounter.Value.MainKey);
+                isGuiOnMain = !isGuiOnMain;
+            }
+        }
+
 
         #region OnGui
 
@@ -259,7 +282,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         {
             if (GUILayout.Button("All LogOnOff")) Lilly.SetLogOnOff();
             GUILayout.Label("page list");
-            pageNow =GUILayout.SelectionGrid(pageNow, guis.Select(x=> x.Value .nameGUI).ToArray(),1);
+            pageNow = GUILayout.SelectionGrid(pageNow, guis.Select(x => x.Value.nameGUI).ToArray(), 1);
             //MyLog.LogWarning("SetBody", nameGUI);
             //foreach (var item in guis)
             //{
