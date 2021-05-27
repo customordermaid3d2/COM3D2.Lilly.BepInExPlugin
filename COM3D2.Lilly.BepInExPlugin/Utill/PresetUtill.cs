@@ -28,7 +28,7 @@ namespace COM3D2.Lilly.Plugin
         //public static ModType modType = ModType.OneMaid;
         private static int selGridMod= (int)ModType.AllMaid_RandomPreset;
         private static int selGridList = (int)ListType.All;
-        private static int selGridPreset = (int)PresetType.All;
+        private static int selGridPreset = (int)CharacterMgrPatchBase.PresetType.All;
         private static int selGridmaid = 0;
 
         public static string[] namesMod;
@@ -43,13 +43,7 @@ namespace COM3D2.Lilly.Plugin
             All
         }
 
-        public enum PresetType
-        {
-            none,
-            Wear,
-            Body,
-            All
-        }
+
         
         public enum ModType
         {
@@ -62,7 +56,7 @@ namespace COM3D2.Lilly.Plugin
         {
             MyLog.LogDebug("PresetUtill", "init");
             namesMod = Enum.GetNames(typeof(ModType));
-            namesPreset = Enum.GetNames(typeof(PresetType));
+            namesPreset = Enum.GetNames(typeof(CharacterMgrPatchBase.PresetType));
             namesList  = Enum.GetNames(typeof(ListType));
         }
 
@@ -94,6 +88,10 @@ namespace COM3D2.Lilly.Plugin
             //GUI.enabled = modType == ModType.OneMaid;
             selGridmaid = GUILayout.SelectionGrid(selGridmaid, CharacterMgrPatch.namesMaid, 1);
             }
+            if (GUI.changed)
+            {
+                CharacterMgrPatchBase.presetType = (CharacterMgrPatchBase.PresetType)selGridPreset;
+            }
             GUI.enabled = true;
         }
 
@@ -115,20 +113,20 @@ namespace COM3D2.Lilly.Plugin
                 case ModType.OneMaid:
                     m_maid=CharacterMgrPatch.m_gcActiveMaid[selGridmaid];
                     file = list[rand.Next(list.Count)];
-                    SetMaidPreset((PresetType)selGridPreset, m_maid, file);
+                    SetMaidPreset( m_maid, file);
                     break;
                 case ModType.AllMaid_OnePreset:
                     file = list[rand.Next(list.Count)];
                     foreach (var item in CharacterMgrPatch.m_gcActiveMaid)
                     {
-                        SetMaidPreset((PresetType)selGridPreset, item, file);
+                        SetMaidPreset( item, file);
                     }
                     break;
                 case ModType.AllMaid_RandomPreset:
                     foreach (var item in CharacterMgrPatch.m_gcActiveMaid)
                     {
                         file = list[rand.Next(list.Count)];
-                        SetMaidPreset((PresetType)selGridPreset, item, file);
+                        SetMaidPreset( item, file);
                     }
                     break;
                 default:
@@ -136,7 +134,7 @@ namespace COM3D2.Lilly.Plugin
             }
         }
 
-        internal static void RandPreset( Maid m_maid = null,ListType listType = ListType.All, PresetType presetType = PresetType.none)
+        internal static void RandPreset( Maid m_maid = null,ListType listType = ListType.All)
         {
             if (configEntryUtill["RandPreset", false])
                 MyLog.LogDebug("RandPreset");
@@ -163,7 +161,7 @@ namespace COM3D2.Lilly.Plugin
 
             string file = list[rand.Next(list.Count)];
 
-            SetMaidPreset(presetType, m_maid, file);
+            SetMaidPreset( m_maid, file);
         }
 
         private static List<string> GetList(ListType listType, List<string> list)
@@ -194,7 +192,7 @@ namespace COM3D2.Lilly.Plugin
             return list;
         }
 
-        private static void SetMaidPreset(PresetType presetType, Maid m_maid, string file)
+        private static void SetMaidPreset(  Maid m_maid, string file)
         {
             if (m_maid == null)
             {
@@ -210,21 +208,9 @@ namespace COM3D2.Lilly.Plugin
 
             if (configEntryUtill["SetMaidPreset", false])
                 MyLog.LogDebug("SetMaidPreset select :" + file);
+
             CharacterMgr.Preset preset = GameMain.Instance.CharacterMgr.PresetLoad(file);
-            switch (presetType)
-            {
-                case PresetType.Wear:
-                    preset.ePreType = CharacterMgr.PresetType.Wear;
-                    break;
-                case PresetType.Body:
-                    preset.ePreType = CharacterMgr.PresetType.Body;
-                    break;
-                case PresetType.All:
-                    preset.ePreType = CharacterMgr.PresetType.All;
-                    break;
-                default:
-                    break;
-            }
+
             //Main.CustomPresetDirectory = Path.GetDirectoryName(file);
             //UnityEngine.Debug.Log("RandPreset preset path "+ GameMain.Instance.CharacterMgr.PresetDirectory);
             //preset.strFileName = file;

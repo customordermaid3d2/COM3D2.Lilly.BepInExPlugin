@@ -115,11 +115,13 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix]
         public static void PresetSet(Maid f_maid, CharacterMgr.Preset f_prest)
         {
-            if (configEntryUtill["PresetSet"])
+
+
+
+            if (configEntryUtill["PresetSet",false])
             {
                 return;
             }
-
             MyLog.LogMessage("CharacterMgr.PresetSet.f_prest.strFileName:" + f_prest.strFileName + " , " + f_prest.ePreType);
             MaidProp[] array = MyUtill.getMaidProp(f_prest);
             foreach (MaidProp maidProp in array)
