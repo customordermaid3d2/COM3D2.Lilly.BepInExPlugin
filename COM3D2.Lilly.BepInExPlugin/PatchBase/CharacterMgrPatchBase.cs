@@ -41,9 +41,13 @@ namespace COM3D2.Lilly.Plugin
         // public void PresetSet(Maid f_maid, CharacterMgr.Preset f_prest) // 155
         // 테스팅 완료
         [HarmonyPatch(typeof(CharacterMgr), "PresetSet", new Type[] { typeof(Maid), typeof(CharacterMgr.Preset) })]
-        [HarmonyPostfix]
+        [HarmonyPrefix]
         public static void PresetSet(Maid f_maid, CharacterMgr.Preset f_prest)
         {
+            MyLog.Log("PresetSet.Prefix"
+            , MyUtill.GetMaidFullName(f_maid)
+            , f_prest.strFileName
+            );
             switch (presetType)
             {
                 case PresetType.Wear:
