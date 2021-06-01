@@ -118,7 +118,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix, HarmonyPatch(typeof(PlayerStatus.Status), "GetFlag")]
         public static void PlayerStatusGetFlag(string flagName, int __result)
         {
-            if (config["GetFlag"])
+            if (config["GetFlag", false])
                 MyLog.LogMessage("PlayerStatusGetFlag"
                 , flagName
                 , __result
@@ -129,20 +129,11 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix, HarmonyPatch(typeof(PlayerStatus.Status), "RemoveFlag")]
         public static void PlayerStatusRemoveFlag(string flagName, bool __result)
         {
-            if (config["RemoveFlag"])
+            if (config["RemoveFlag",false])
                 MyLog.LogMessage("PlayerStatusRemoveFlag"
                 , flagName
                 , __result
             );
-        }
-
-        public static Dictionary<string, string> flagsPlayer=new Dictionary<string, string>();
-
-        // public bool RemoveFlag(string flagName)
-        [HarmonyPostfix, HarmonyPatch(typeof(PlayerStatus.Status), "Deserialize")]
-        public static void Deserialize()
-        {
-            StatusPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
         }
 
         // =================================
@@ -162,7 +153,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix, HarmonyPatch(typeof(MaidStatus.Status), "GetEventEndFlag")]
         public static void GetEventEndFlag(int id, bool __result)
         {
-            if (config["GetFlag"])
+            if (config["GetFlag", false])
                 MyLog.LogMessage("MaidStatusGetFlag"
                 , id
                 , __result
@@ -173,7 +164,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix, HarmonyPatch(typeof(MaidStatus.Status), "RemoveEventEndFlag")]
         public static void RemoveEventEndFlag(int id)
         {
-            if (config["RemoveFlag"])
+            if (config["RemoveFlag", false])
                 if (config["RemoveFlag"])
                 MyLog.LogMessage("MaidStatusRemoveFlag"
                 , id
@@ -208,7 +199,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix, HarmonyPatch(typeof(MaidStatus.Status), "GetFlag")]
         public static void MaidStatusGetFlag(string flagName, int __result)
         {
-            if (config["GetFlag"])
+            if (config["GetFlag", false])
                 MyLog.LogMessage("MaidStatusGetFlag"
                 , flagName
                 , __result
@@ -219,7 +210,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix, HarmonyPatch(typeof(MaidStatus.Status), "RemoveFlag")]
         public static void MaidStatusRemoveFlag(string flagName, bool __result)
         {
-            if (config["RemoveFlag"])
+            if (config["RemoveFlag", false])
                 MyLog.LogMessage("MaidStatusRemoveFlag"
                 , flagName
                 , __result
@@ -256,7 +247,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix, HarmonyPatch(typeof(MaidStatus.Old.Status), "GetFlag")]
         public static void MaidStatusOldGetFlag(string flagName, int __result)
         {
-            if (config["GetFlag"])
+            if (config["GetFlag", false])
                 MyLog.LogMessage("MaidStatusOldGetFlag"
                 , flagName
                 , __result
@@ -267,7 +258,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix, HarmonyPatch(typeof(MaidStatus.Old.Status), "RemoveFlag")]
         public static void MaidStatusOldRemoveFlag(string flagName, bool __result)
         {
-            if (config["RemoveFlag"])
+            if (config["RemoveFlag", false])
                 MyLog.LogMessage("MaidStatusOldRemoveFlag"
                 , flagName
                 , __result

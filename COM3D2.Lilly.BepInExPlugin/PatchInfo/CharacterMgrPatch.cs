@@ -81,7 +81,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix]
         public static void SetActive(Maid f_maid, int f_nActiveSlotNo, bool f_bMan)
         {
-            if (configEntryUtill["SetActive"])
+            if (configEntryUtill["SetActive", false])
                 MyLog.LogMessage("CharacterMgr.SetActive", f_nActiveSlotNo, MyUtill.GetMaidFullName(f_maid));
             if (!f_bMan)
                 namesMaid[f_nActiveSlotNo] = MyUtill.GetMaidFullName(f_maid);
@@ -92,7 +92,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void Deactivate(int f_nActiveSlotNo, bool f_bMan)
         {
-            if (configEntryUtill["Deactivate"])
+            if (configEntryUtill["Deactivate",false])
                 MyLog.LogMessage("CharacterMgr.Deactivate", f_nActiveSlotNo);// HarmonyPrefix로 했는데도 m_gcActiveMaid 에선 제거되있네
             if (!f_bMan)
                 namesMaid[f_nActiveSlotNo] = string.Empty;

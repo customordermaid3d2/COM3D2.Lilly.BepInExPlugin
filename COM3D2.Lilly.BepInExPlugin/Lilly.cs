@@ -102,7 +102,7 @@ namespace COM3D2.Lilly.Plugin
             MyLog.LogMessage("Lully.Awake", dateTime.ToString("u"));
 
             GameObjectMgr.Install(gameObject);
-            GameObjectMgr.instance.enabled = configEntryUtill["GameObjectMgr", false];
+            //GameObjectMgr.instance.enabled = configEntryUtill["GameObjectMgr", false];
 
             guiVirtualMgr = GUIMgr.GUIMgr.Install(gameObject);
 

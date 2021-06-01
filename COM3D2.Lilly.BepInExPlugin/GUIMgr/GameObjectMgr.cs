@@ -55,13 +55,19 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
         {
             MyLog.LogMessage("GameObjectMgr.OnEnable");
             SceneManager.sceneLoaded += this.OnSceneLoaded;
+            //configEntryUtill["OnGUI.GUI", false] = true;
         }
 
         public void Start()
         {
             MyLog.LogMessage("GameObjectMgr.Start");
             //StartCoroutine("MyCoroutine");
-            Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "COM3D2.Lilly.Plugin."+instance.name));
+
+            // F:\COM3D2_155\COM3D2.Lilly.Plugin
+            //Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "COM3D2.Lilly.Plugin"));
+
+            // F:\COM3D2_155\COM3D2.Lilly.Plugin
+            //Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, instance.name));
         }
 
         public void Update()
@@ -111,8 +117,8 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
             if (configEntryUtill["OnGUI", false])
                 MyLog.LogMessage("GameObjectMgr.OnGUI", ++OnGUICount);
 
-            if (!configEntryUtill["OnGUI.GUI", false])
-                return;
+            //if (!configEntryUtill["OnGUI.GUI", false])
+            //    return;
 
             // Assign the currently skin to be Unity's default.
             GUI.skin = null;
@@ -195,7 +201,7 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
             if (configEntryUtill["OnDisable"])
                 MyLog.LogMessage("GameObjectMgr.OnDisable");
             SceneManager.sceneLoaded -= this.OnSceneLoaded;
-
+            isCoroutine = false;
         }
 
         public IEnumerator MyCoroutine()

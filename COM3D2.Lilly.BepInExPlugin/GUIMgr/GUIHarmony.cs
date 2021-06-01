@@ -11,17 +11,30 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using COM3D2.Lilly.Plugin.PatchTool;
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
     public class GUIHarmony : GUIMgr
     {
+        public struct SHarmony
+        {
+            public Type type;
+            public bool patch;
+
+            public SHarmony(Type type, bool patch=true)
+            {
+                this.type = type;
+                this.patch = patch;
+            }
+        }
+
         // 하모니 적용되면 여기에 추가할것
         public static Dictionary<Type, Harmony> harmonys = new Dictionary<Type, Harmony>();
 
-        public static List<Type> infoList = new List<Type>();
-        public static List<Type> baseList = new List<Type>();
-        public static List<Type> toolList = new List<Type>();
+        public static List<SHarmony> infoList = new List<SHarmony>();
+        public static List<SHarmony> baseList = new List<SHarmony>();
+        public static List<SHarmony> toolList = new List<SHarmony>();
 
         public static bool isToolPatch = true;
         public static bool isInfoPatch = true;
@@ -53,55 +66,56 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         private static void SetHarmonyInfoList()
         {
-            infoList.Add(typeof(AudioSourceMgrPatch));
-            infoList.Add(typeof(BgMgrPatch));
+            infoList.Add(new(typeof(AudioSourceMgrPatch)));
+            infoList.Add(new(typeof(BgMgrPatch)));
             //infoList.Add(typeof(BoneMorph_Patch));//157 임시조치용 메이드 보이스 피치
-            infoList.Add(typeof(CameraMainPatch));// 페이드 인 아웃 확인용
-            infoList.Add(typeof(CharacterMgrPatch));// 프리셋값 출력용
-            infoList.Add(typeof(FacilityManagerPatch));// 회상 모드에서 버튼 활성화용            
-            infoList.Add(typeof(GameObjectPatch));// 
-            infoList.Add(typeof(KagScriptPatch));// 
-            infoList.Add(typeof(MaidPatch));// 아이템 장착 확인용
-            infoList.Add(typeof(SoundMgrPatch));// 스케줄 관리
-            infoList.Add(typeof(ScheduleAPIInfoPatch));// 스케줄 관리
-            infoList.Add(typeof(ScheduleMgrPatch));// 스케줄 관리
-            infoList.Add(typeof(ScenarioSelectMgrPatch));// 시나리오 정보 출력용 
-            infoList.Add(typeof(StatusPatch));// 플레그 관리
-            infoList.Add(typeof(TBodyPatch));// 스케줄 관리
+            infoList.Add(new(typeof(CameraMainPatch)));// 페이드 인 아웃 확인용
+            infoList.Add(new(typeof(CharacterMgrPatch)));// 프리셋값 출력용
+            infoList.Add(new(typeof(FacilityManagerPatch)));// 회상 모드에서 버튼 활성화용            
+            infoList.Add(new(typeof(GameObjectPatch),false));// 
+            infoList.Add(new(typeof(KagScriptPatch)));// 
+            infoList.Add(new(typeof(MaidPatch)));// 아이템 장착 확인용
+            infoList.Add(new(typeof(SoundMgrPatch)));// 스케줄 관리
+            infoList.Add(new(typeof(ScheduleAPIInfoPatch)));// 스케줄 관리
+            infoList.Add(new(typeof(ScheduleMgrPatch)));// 스케줄 관리
+            infoList.Add(new(typeof(ScenarioSelectMgrPatch)));// 시나리오 정보 출력용 
+            infoList.Add(new(typeof(StatusPatch),false));// 플레그 관리
+            infoList.Add(new(typeof(TBodyPatch),false));// 바디 파라미터값 출력 관련
             //infoList.Add(typeof(FullBodyIKMgrPatch));// 뼈 관련. 안뜨는거 같음
         }
 
         public static void SetHarmonyToolList()
         {
 
-            toolList.Add(typeof(AbstractFreeModeItemPatch));// 프리 모드에서 모든 이벤트 열기 위한용 오버 플로우
-            //toolList.Add(typeof(ClassDataPatch));// 실시간 클래스 경험치 최대값 설정. 성능 나쁨
-            toolList.Add(typeof(EmpireLifeModeManagerToolPatch));// 회상모드 시나리오 처리용?            
-            toolList.Add(typeof(GameMainPatch));// 세이브 파일 로딩시 버전 차이 등으로 로딩 못하고 멈출경우 자동으로 타이틀로 돌아감
-            toolList.Add(typeof(MaidManagementMainPatch));//메이드 관리에서 모든 버튼 활성화
-            toolList.Add(typeof(SceneEditPatch)); //메이드 에딧 진입시 모든 스텟 적용
-            toolList.Add(typeof(ScenarioDataPatch));// 회상모드 시나리오 처리용?
-            toolList.Add(typeof(SceneFreeModeSelectManagerPatch));// 회상 모드에서 버튼 활성화용
-            toolList.Add(typeof(ScheduleCalcAPIPatch));// 커뮤니티 자동적용 포함되있음
-            toolList.Add(typeof(ScheduleAPIPatch));// 회상모드 시나리오 처리용?
-            toolList.Add(typeof(SceneMgrPatch));// 커뮤니티 자동적용 포함되있음
+            toolList.Add(new(typeof(AbstractFreeModeItemPatch)));// 프리 모드에서 모든 이벤트 열기 위한용 오버 플로우
+            toolList.Add(new(typeof(ClassDataPatch),false));// 실시간 클래스 경험치 최대값 설정. 성능 나쁨
+            toolList.Add(new(typeof(EmpireLifeModeManagerToolPatch)));// 회상모드 시나리오 처리용?            
+            toolList.Add(new(typeof(GameMainPatch)));// 세이브 파일 로딩시 버전 차이 등으로 로딩 못하고 멈출경우 자동으로 타이틀로 돌아감
+            toolList.Add(new(typeof(MaidManagementMainPatch)));//메이드 관리에서 모든 버튼 활성화
+            toolList.Add(new(typeof(SceneEditPatch))); //메이드 에딧 진입시 모든 스텟 적용
+            toolList.Add(new(typeof(ScenarioDataPatch)));// 회상모드 시나리오 처리용?
+            toolList.Add(new(typeof(SceneFreeModeSelectManagerPatch)));// 회상 모드에서 버튼 활성화용
+            toolList.Add(new(typeof(ScheduleCalcAPIPatch)));// 커뮤니티 자동적용 포함되있음
+            toolList.Add(new(typeof(ScheduleAPIPatch)));// 회상모드 시나리오 처리용?
+            toolList.Add(new(typeof(SceneMgrPatch)));// 커뮤니티 자동적용 포함되있음
+            toolList.Add(new(typeof(StatusToolPatch)));// 
                                                 //toolList.Add(typeof(NPRShaderPatch));// 회상모드 시나리오 처리용?
                                                 //toolList.Add(typeof(UnityInjectorLoaderPatch));// 회상모드 시나리오 처리용?
                                                 //toolList.Add(typeof(ScheduleMaxPatch));// 슬롯 최대 늘리기 실패
-            toolList.Add(typeof(WorkResultScenePatch));// 커뮤니티 자동적용 포함되있음
+            toolList.Add(new(typeof(WorkResultScenePatch)));// 커뮤니티 자동적용 포함되있음
         }
 
         private static void SetHarmonyBaseList()
         {
-            baseList.Add(typeof(CharacterMgrPatchBase));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
-            baseList.Add(typeof(EmpireLifeModeManagerBasePatch));// 회상모드 시나리오 처리용?
+            baseList.Add(new(typeof(CharacterMgrPatchBase)));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
+            baseList.Add(new(typeof(EmpireLifeModeManagerBasePatch)));// 회상모드 시나리오 처리용?
             //baseList.Add(typeof(GameUtyPatch));// mod reflash. 필요 없음
-            baseList.Add(typeof(NDebugPatch));// 망할 메세지 박스
-            baseList.Add(typeof(ProfileCtrlPatch));// 스케줄 관련
-            baseList.Add(typeof(ScheduleCtrlPatch));// 스케줄 관련
-            baseList.Add(typeof(ScheduleScenePatch));// 스케줄 관련
-            baseList.Add(typeof(ScoutManagerPatch));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
-            //baseList.Add(typeof(ScheduleTaskCtrlPatch));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
+            baseList.Add(new(typeof(NDebugPatch)));// 망할 메세지 박스
+            baseList.Add(new(typeof(ProfileCtrlPatch)));// 스케줄 관련
+            baseList.Add(new(typeof(ScheduleCtrlPatch)));// 스케줄 관련
+            baseList.Add(new(typeof(ScheduleScenePatch)));// 스케줄 관련
+            baseList.Add(new(typeof(ScoutManagerPatch)));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
+            baseList.Add(new(typeof(ScheduleTaskCtrlPatch),false));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
         }
 
 
@@ -119,20 +133,20 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             SetHarmonyUnPatchAll(toolList);
         }
 
-        public static void SetHarmonyPatchAll(List<Type> list)
+        public static void SetHarmonyPatchAll(List<SHarmony> list)
         {
             // https://github.com/BepInEx/HarmonyX/wiki/Patching-with-Harmony
             // 이거로 원본 메소드에 연결시켜줌. 이게 일종의 해킹
 
             // Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(),null);// 이건 사용법 모르겠음
             MyLog.LogDarkYellow();
-            foreach (Type item in list) // 인셉션 나면 중단되는 현상 제거
+            foreach (SHarmony item in list) // 인셉션 나면 중단되는 현상 제거
             {
                 ConfigEntry<bool> t = customFile.Bind("HarmonyUtill",
-                    item.Name,
-                    true);                
+                    item.type.Name,
+                    item.patch);                
                 MyLog.LogDarkMagenta("SetHarmonyPatch"
-                    , item.Name
+                    , item.type.Name
                     , t.Value
                     );
                 if (t.Value)
@@ -143,27 +157,27 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             MyLog.LogDarkYellow();
         }
 
-        public static void SetHarmonyUnPatchAll(List<Type> list)
+        public static void SetHarmonyUnPatchAll(List<SHarmony> list)
         {
             // https://github.com/BepInEx/HarmonyX/wiki/Patching-with-Harmony
             // 이거로 원본 메소드에 연결시켜줌. 이게 일종의 해킹
 
             // Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(),null);// 이건 사용법 모르겠음
 
-            foreach (Type item in list) // 인셉션 나면 중단되는 현상 제거
+            foreach (SHarmony item in list) // 인셉션 나면 중단되는 현상 제거
             {
                 SetHarmonyUnPatchAll(item);
             }
         }
 
-        public static void SetHarmonyUnPatchAll(Type item)
+        public static void SetHarmonyUnPatchAll(SHarmony item)
         {
             try
             {
                 Harmony harmony;
-                if (harmonys.TryGetValue(item, out harmony))
+                if (harmonys.TryGetValue(item.type, out harmony))
                 {
-                    harmonys.Remove(item);
+                    harmonys.Remove(item.type);
                     harmony.UnpatchSelf();
                 }
             }
@@ -173,7 +187,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             }
         }
 
-        public static void SetHarmonyPatch(ref bool isPatch, List<Type> list)
+        public static void SetHarmonyPatch(ref bool isPatch, List<SHarmony> list)
         {
             if (isPatch)
             {
@@ -186,37 +200,37 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             isPatch = !isPatch;
         }
 
-        public static void SetHarmonyPatch(List<Type> list)
+        public static void SetHarmonyPatch(List<SHarmony> list)
         {
             // https://github.com/BepInEx/HarmonyX/wiki/Patching-with-Harmony
             // 이거로 원본 메소드에 연결시켜줌. 이게 일종의 해킹
 
             // Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(),null);// 이건 사용법 모르겠음
             MyLog.LogLine();
-            foreach (Type item in list) // 인셉션 나면 중단되는 현상 제거
+            foreach (SHarmony item in list) // 인셉션 나면 중단되는 현상 제거
             {
                 SetHarmonyPatch(item);
             }
             MyLog.LogLine();
         }
         
-        public static void SetHarmonyPatch(Type item)
+        public static void SetHarmonyPatch(SHarmony item)
         {
             ConfigEntry<bool> t = customFile.Bind(
                 Instance.nameGUI,
-                item.Name,
+                item.type.Name,
                 true
                 );
             t.Value = true;
             MyLog.LogDarkMagenta("SetHarmonyPatch"
-                , item.Name
+                , item.type.Name
                 , t.Value
                 );
             try
             {
-                if (!harmonys.ContainsKey(item))
+                if (!harmonys.ContainsKey(item.type))
                 {
-                    harmonys.Add(item, Harmony.CreateAndPatchAll(item, null));
+                    harmonys.Add(item.type, Harmony.CreateAndPatchAll(item.type, null));
                 }
             }
             catch (Exception e)
@@ -225,36 +239,36 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             }
         }
 
-        public static void SetHarmonyUnPatch(List<Type> list)
+        public static void SetHarmonyUnPatch(List<SHarmony> list)
         {
             // https://github.com/BepInEx/HarmonyX/wiki/Patching-with-Harmony
             // 이거로 원본 메소드에 연결시켜줌. 이게 일종의 해킹
 
             // Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(),null);// 이건 사용법 모르겠음
 
-            foreach (Type item in list) // 인셉션 나면 중단되는 현상 제거
+            foreach (SHarmony item in list) // 인셉션 나면 중단되는 현상 제거
             {
                 SetHarmonyUnPatch(item);
             }
         }
 
-        public static void SetHarmonyUnPatch(Type item)
+        public static void SetHarmonyUnPatch(SHarmony item)
         {
             ConfigEntry<bool> t = customFile.Bind(
                 Instance.nameGUI,
-                item.Name,
-                false);
+                item.type.Name,
+                item.patch);
                 t.Value = false;
             MyLog.LogDarkMagenta("SetHarmonyUnPatch"
-                , item.Name
+                , item.type.Name
                 , t.Value
                 );
             try
             {
                 Harmony harmony;
-                if (harmonys.TryGetValue(item, out harmony))
+                if (harmonys.TryGetValue(item.type, out harmony))
                 {
-                    harmonys.Remove(item);
+                    harmonys.Remove(item.type);
                     harmony.UnpatchSelf();
                     
                 }
@@ -291,7 +305,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         }
 
-        private static void SetButtonList1(string text, ref bool isPatch, List<Type> list)
+        private static void SetButtonList1(string text, ref bool isPatch, List<SHarmony> list)
         {
             if (GUILayout.Button(text+ isPatch))
             {
@@ -300,8 +314,8 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             foreach (var item in list)
             {
-                bool b = GetHarmonyPatchCheck(item);
-                if (GUILayout.Button(item.Name + " , " + b))
+                bool b = GetHarmonyPatchCheck(item.type);
+                if (GUILayout.Button(item.type.Name + " , " + b))
                 {
                     if (b)
                     {

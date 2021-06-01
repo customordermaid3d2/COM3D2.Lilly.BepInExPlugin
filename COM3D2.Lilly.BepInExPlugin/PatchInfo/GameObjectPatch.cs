@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using COM3D2.Lilly.Plugin.Utill;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,20 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
     {
         // GameObject
 
+
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+            "GameObjectPatch"
+        );
+
         [HarmonyPostfix, HarmonyPatch(typeof(GameObject), "SetActive")]
         public static void SetActive(GameObject __instance, bool value)
-        {
-            if ("New Game Object" == __instance.name || "Explanation" == __instance.name)
+        {            
+            if (!configEntryUtill ["SetActive",false] ||
+                "New Game Object" == __instance.name ||
+                "keta0" == __instance.name || 
+                "keta1" == __instance.name || 
+                "Explanation" == __instance.name
+                )
                 return;
             if (value)
             {

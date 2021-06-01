@@ -1,4 +1,5 @@
 ﻿using COM3D2.Lilly.Plugin.PatchInfo;
+using COM3D2.Lilly.Plugin.PatchTool;
 using COM3D2.Lilly.Plugin.ToolPatch;
 using COM3D2.Lilly.Plugin.Utill;
 using System;
@@ -31,7 +32,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GUI.enabled = true;
             if (GUILayout.Button("reflash"))
             {
-                StatusPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);                
+                StatusToolPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);                
             }
             GUILayout.Label("플레그 추가");
             GUILayout.BeginHorizontal();
@@ -47,13 +48,13 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 if (!string.IsNullOrEmpty(flag))
                 {
                     GameMain.Instance.CharacterMgr.status.AddFlag(flag, flagV);
-                    StatusPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                    StatusToolPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
                 }
             }
             GUILayout.EndHorizontal();
 
-            GUILayout.Label("보유한 플레그 목록 " + StatusPatch.flagsPlayer.Count);
-            foreach (var item in StatusPatch.flagsPlayer)
+            GUILayout.Label("보유한 플레그 목록 " + StatusToolPatch.flagsPlayer.Count);
+            foreach (var item in StatusToolPatch.flagsPlayer)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(item.Key);
@@ -62,19 +63,19 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 {
                     MyLog.LogMessage("add flag", item.Key);
                     GameMain.Instance.CharacterMgr.status.AddFlag(item.Value, 1);
-                    StatusPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                    StatusToolPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
                 }
                 if (GUILayout.Button("0", guio[GUILayoutOptionUtill.Type.Width, 20]))
                 {
                     MyLog.LogMessage("Set flag", item.Key);
                     GameMain.Instance.CharacterMgr.status.SetFlag(item.Value, 0);
-                    StatusPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                    StatusToolPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
                 }
                 if (GUILayout.Button("d", guio[GUILayoutOptionUtill.Type.Width, 20]))
                 {
                     MyLog.LogMessage("del flag", item.Key);
                     GameMain.Instance.CharacterMgr.status.RemoveFlag(item.Value);
-                    StatusPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                    StatusToolPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
                 }
                 GUILayout.EndHorizontal();
             }
@@ -85,11 +86,11 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("del", guio[GUILayoutOptionUtill.Type.Width, 40]))
             {
-                foreach (var item in StatusPatch.flagsPlayer)
+                foreach (var item in StatusToolPatch.flagsPlayer)
                 {
                     MyLog.LogMessage("del flag", item.Key);
                     GameMain.Instance.CharacterMgr.status.RemoveFlag(item.Value);
-                    StatusPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                    StatusToolPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
                 }
             }
             GUILayout.EndHorizontal();

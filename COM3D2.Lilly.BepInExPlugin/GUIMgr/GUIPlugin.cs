@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using COM3D2.Lilly.Plugin.Utill;
 using COM3D2.Lilly.Plugin.UtillGUI;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,10 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
     {
         List<BaseUnityPlugin> baseUnityPlugins = new List<BaseUnityPlugin>();
 
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+            "GUIPlugin"
+        );
+
         public override void ActionsStart()
         {
             MyLog.LogMessage("GUIMaidEdit.AddStockMaid");
@@ -19,6 +24,12 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             //baseUnityPlugins.Remove(UnityEngine.Object.FindObjectOfType<Lilly>());
             baseUnityPlugins.Remove(Lilly.Instance);
+
+            GameObjectMgr.instance.enabled = configEntryUtill["GameObjectMgr", false];
+            foreach (var item in baseUnityPlugins)
+            {
+                item.enabled = configEntryUtill[item.Info.Metadata.Name];                
+            }
         }
 
         public override void SetBody()
