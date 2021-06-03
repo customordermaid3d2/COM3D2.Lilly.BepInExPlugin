@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using COM3D2.Lilly.Plugin.PatchTool;
+using COM3D2.Lilly.Plugin.PatchBase;
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
@@ -73,8 +74,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             infoList.Add(new(typeof(CharacterMgrPatch)));// 프리셋값 출력용
             infoList.Add(new(typeof(FacilityManagerPatch)));// 회상 모드에서 버튼 활성화용            
             infoList.Add(new(typeof(GameObjectPatch),false));// 
-            infoList.Add(new(typeof(KagScriptPatch)));// 
+            infoList.Add(new(typeof(KagPatch)));// 
             infoList.Add(new(typeof(MaidPatch)));// 아이템 장착 확인용
+            infoList.Add(new(typeof(ScreenPatch)));//
             infoList.Add(new(typeof(SoundMgrPatch)));// 스케줄 관리
             infoList.Add(new(typeof(ScheduleAPIInfoPatch)));// 스케줄 관리
             infoList.Add(new(typeof(ScheduleMgrPatch)));// 스케줄 관리
@@ -112,6 +114,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             //baseList.Add(typeof(GameUtyPatch));// mod reflash. 필요 없음
             baseList.Add(new(typeof(NDebugPatch)));// 망할 메세지 박스
             baseList.Add(new(typeof(ProfileCtrlPatch)));// 스케줄 관련
+            baseList.Add(new(typeof(SaveAndLoadMgrPatch)));// 망할 메세지 박스
             baseList.Add(new(typeof(ScheduleCtrlPatch)));// 스케줄 관련
             baseList.Add(new(typeof(ScheduleScenePatch)));// 스케줄 관련
             baseList.Add(new(typeof(ScoutManagerPatch)));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.

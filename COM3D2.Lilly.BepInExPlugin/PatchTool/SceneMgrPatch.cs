@@ -18,9 +18,6 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
 
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
         "SceneMgrPatch"
-        , "커뮤니티_자동_적용"
-        , "슬롯에_메이드_자동_배치"
-        , "시설에_메이드_자동_배치"
         );
 
         //private string m_sceneName;
@@ -50,11 +47,11 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                     ScheduleMgrPatch.SetSlotAllMaid();
                 }
 
-                if (configEntryUtill["시설에_메이드_자동_배치", false])
-                {
-                    CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
-                    CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
-                }
+              // if (configEntryUtill["메이드_스케줄_자동_배치", false])
+              // {
+              //     ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.DayTime);
+              //     ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.Night);
+              // }
 
                 if (configEntryUtill["커뮤니티_자동_적용", false])
                 {

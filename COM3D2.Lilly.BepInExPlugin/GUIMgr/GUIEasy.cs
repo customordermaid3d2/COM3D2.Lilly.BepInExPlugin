@@ -8,6 +8,7 @@ using COM3D2.Lilly.Plugin.PatchInfo;
 using COM3D2.Lilly.Plugin.ToolPatch;
 using COM3D2.Lilly.Plugin.Utill;
 using HarmonyLib;
+using Schedule;
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
@@ -29,8 +30,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         }
 
-        public static string scenario_str = string.Empty;
-        public static string label_name = string.Empty;
+
 
         public override void SetBody()
         {
@@ -47,40 +47,22 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GUI.enabled = ScheduleMgrPatch.m_scheduleApi != null;
             if (GUILayout.Button("슬롯에 메이드 자동 배치")) ScheduleMgrPatch.SetSlotAllMaid();
             if (GUILayout.Button("슬롯의 메이드들 제거")) ScheduleMgrPatch.SetSlotAllDel();
-            if (GUILayout.Button("시설에 메이드 자동 배치 - 주간")) CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
-            if (GUILayout.Button("시설에 메이드 자동 배치 - 야간")) CheatUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
+            if (GUILayout.Button("메이드 스케줄 자동 배치 - 주간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.DayTime);
+            if (GUILayout.Button("메이드 스케줄 자동 배치 - 야간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.Night);
+            if (GUILayout.Button("메이드 밤시중 자동 배치 - 주간")) ScheduleUtill.SetYotogiAllMaid(ScheduleMgr.ScheduleTime.DayTime);
+            if (GUILayout.Button("메이드 밤시중 자동 배치 - 야간")) ScheduleUtill.SetYotogiAllMaid(ScheduleMgr.ScheduleTime.Night);
+            if (GUILayout.Button("메이드 시설에 자동 배치 - 주간")) ScheduleUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
+            if (GUILayout.Button("메이드 시설에 자동 배치 - 야간")) ScheduleUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
+
             GUI.enabled = true;
 
             GUILayout.Label("매일 자동 적용.");
             if (GUILayout.Button("슬롯에_메이드_자동_배치 " + configEntryUtill["SceneMgrPatch", "슬롯에_메이드_자동_배치", false])) configEntryUtill["SceneMgrPatch", "슬롯에_메이드_자동_배치", false] = !configEntryUtill["SceneMgrPatch", "슬롯에_메이드_자동_배치", false];
-            if (GUILayout.Button("시설에_메이드_자동_배치 " + configEntryUtill["SceneMgrPatch", "시설에_메이드_자동_배치", false])) configEntryUtill["SceneMgrPatch", "시설에_메이드_자동_배치", false] = !configEntryUtill["SceneMgrPatch", "시설에_메이드_자동_배치", false];
+            //if (GUILayout.Button("메이드_스케줄_자동_배치 " + configEntryUtill["SceneMgrPatch", "메이드_스케줄_자동_배치", false])) configEntryUtill["SceneMgrPatch", "메이드_스케줄_자동_배치", false] = !configEntryUtill["SceneMgrPatch", "메이드_스케줄_자동_배치", false];
             if (GUILayout.Button("커뮤니티_자동_적용 " + configEntryUtill["SceneMgrPatch","커뮤니티_자동_적용", false])) configEntryUtill["SceneMgrPatch", "커뮤니티_자동_적용", false] = !configEntryUtill["SceneMgrPatch", "커뮤니티_자동_적용", false];
 
 
-            GUILayout.Label("scenario_str ");
-            scenario_str = GUILayout.TextField(scenario_str);
-            GUILayout.Label("label_name ");
-            label_name = GUILayout.TextField(label_name);
-            if (GUILayout.Button("Exec run1"))
-            {
-                if (scenario_str != "" && label_name != "")
-                    KagScriptPatch.run1(scenario_str, label_name);
-            }
-            if (GUILayout.Button("Exec run2"))
-            {
-                if (scenario_str != "" && label_name != "")
-                    KagScriptPatch.run2(scenario_str, label_name);
-            }
-
-            /*
-            GUILayout.Label("ScheduleTaskCtrlPatch");
-            GUI.enabled = ScheduleTaskCtrlPatch.instance != null;
-            if (GUILayout.Button("스케줄 자동 채우기")) ScheduleTaskCtrlPatch.SetScheduleSlot();
             GUI.enabled = true;
-            */
-
-            GUI.enabled = true;
-            //if (GUILayout.Button("mod reflash")) modreflash();
         }
 
         private void ModRefresh1()
@@ -191,7 +173,6 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             );
         }   /*
         */
-
 
 
         /*

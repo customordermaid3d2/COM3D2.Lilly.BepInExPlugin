@@ -13,7 +13,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
     /// GameMain.Instance.LoadScene("SceneToTitle");
     /// 스크립트 읽고 어느 명령어 부분으로 이동했는지 정보 출력용  
     /// </summary>
-    class KagScriptPatch
+    class KagPatch
     {
         // KagScript
 
@@ -24,7 +24,16 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         , "LoadScenario"
         );
 
-        public static void run1(string scenario_str, string label_name)
+
+
+        public static void SceneToTitle()
+        {
+            //GameMain.Instance.ScriptMgr.adv_kag.tag_backup
+            GameMain.Instance.LoadScene("SceneDaily");
+        }
+
+
+        public static void LoadAdvScenarioScript(string scenario_str, string label_name)
         {
             GameMain.Instance.ScriptMgr.LoadAdvScenarioScript(scenario_str, label_name);        
             GameMain.Instance.ScriptMgr.adv_kag.Exec();
@@ -35,7 +44,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             */
         }
 
-        public static void run2(string scenario_str, string label_name)
+        public static void LoadScenarioStringGoToLabel(string scenario_str, string label_name)
         {
             /*
             GameMain.Instance.ScriptMgr.LoadAdvScenarioScript(scenario_str, label_name);        
@@ -61,7 +70,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         public static void GoToLabel(string label_name)
         {
             if (configEntryUtill["GoToLabel"])
-                MyLog.LogMessage("GoToLabel.", label_name);
+                MyLog.LogMessage("GoToLabel", label_name);
         }
 
         [HarmonyPatch(typeof(KagScript), "LoadScenario")]
@@ -69,7 +78,37 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         public static void LoadScenario(string file_name)
         {
             if (configEntryUtill["LoadScenario"])
-                MyLog.LogMessage("LoadScenario.", file_name);
+                MyLog.LogMessage("LoadScenario", file_name);
+        }
+
+        /// <summary>
+        /// public bool TagSceneCall(KagTagSupport tag_data)
+        /// </summary>
+        /// <param name="file_name"></param>
+        [HarmonyPatch(typeof(ADVKagManager), "TagSceneCall")]
+        [HarmonyPostfix]
+        public static void TagSceneCall(KagTagSupport tag_data, ADVKagManager __instance)
+        {
+            if (configEntryUtill["TagSceneCall"])
+            {
+                MyLog.LogMessage("TagSceneCall");
+                foreach (var item in __instance.tag_backup)
+                {
+                    MyLog.LogMessage("TagSceneCall",item.Key, item.Value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// public virtual void LoadScriptFile(string file_name, string label_name = "")
+        /// </summary>
+        /// <param name="file_name"></param>
+        [HarmonyPatch(typeof(BaseKagManager), "LoadScriptFile")]
+        [HarmonyPostfix]
+        public static void LoadScriptFile(string file_name, string label_name = "")
+        {
+            if (configEntryUtill["LoadScriptFile"])
+                MyLog.LogMessage("LoadScriptFile", file_name, label_name);
         }
     }
 }

@@ -12,6 +12,8 @@ Maid maid = array[UnityEngine.Random.Range(0, array.Length)];
 
 AccessTools.Method(typeof(UnityInjectorLoaderPatch), "SetHarmony")
 
+GameMain.Instance.SerializeStorageManager.StoreDirectoryPath
+
 __result
 __instance
 

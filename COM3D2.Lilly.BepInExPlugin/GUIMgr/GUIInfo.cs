@@ -31,10 +31,11 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             if (GUILayout.Button("정보 얻기 바디 관련")) GUIInfo.GetTbodyInfo();
             if (GUILayout.Button("정보 얻기 플레이어 관련")) GUIInfo.GetPlayerInfo();
             if (GUILayout.Button("정보 얻기 메이드 관련")) GUIInfo.GetMaidInfo();
-            if (GUILayout.Button("ScheduleCSVData.WorkData")) GUIInfo.GetScheduleCSVDataAllData();
+            if (GUILayout.Button("ScheduleCSVData.WorkData")) GUIInfo.GetScheduleCSVDataWorkData();
+            if (GUILayout.Button("ScheduleCSVData.YotogiData")) GUIInfo.GetScheduleCSVDataYotogiData();
             if (GUILayout.Button("GetFacilityArray")) FacilityUtill.GetFacilityArray();
             if (GUILayout.Button("Facility.FacilityStatus")) FacilityUtill.GetFacilityStatus();
-           // if (GUILayout.Button("FacilityMgr")) InfoUtill.GetFacilityMgr();
+            // if (GUILayout.Button("FacilityMgr")) InfoUtill.GetFacilityMgr();
 
             if (GUILayout.Button("ScenarioSelectMgrPatch 관련")) ScenarioSelectMgrPatch.print();
 
@@ -43,12 +44,12 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) GUIInfo.GetMaidFlag(MaidManagementMainPatch.select_maid);
 
             GUI.enabled = true;
-            
+
             GUILayout.Label(hSliderValue < 9f ? "이 슬라이더는 아무 기능 없음" : "아무 기능 없대두 =_=");
             hSliderValue = GUILayout.HorizontalSlider(hSliderValue, 0.0f, 10.0f);
             hSliderValue = GUILayout.HorizontalScrollbar(hSliderValue, 5f, 0.0f, 10.0f + 5f);
             //if (GUILayout.Button("GameObjectMgr.SetActive")) GameObjectMgr.instance.gameObject.SetActive(!GameObjectMgr.instance.gameObject.activeSelf);// 이럴경우 Lilly 플러그인 자체가 꺼짐
-            
+
 
 
 #if COM3D2_157
@@ -88,8 +89,41 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
          */
 
 
+        private static void GetScheduleCSVDataYotogiData()
+        {
+            MyLog.LogMessage(
+                 "ScheduleCSVData.AllData"
+                , ScheduleCSVData.AllData.Count
+            );
+            MyLog.LogMessage(
+                "ScheduleCSVData.WorkData"
+                , ScheduleCSVData.YotogiData.Count
+            );
 
-        private static void GetScheduleCSVDataAllData()
+            foreach (var item in ScheduleCSVData.YotogiData)
+            {
+                ScheduleCSVData.Yotogi training = item.Value;
+                MyLog.LogMessage(
+                    item.Key  // work id
+
+                    , training.categoryID
+                    , training.id
+                    , training.name
+                    , training.information
+                    , training.mode
+                    , training.type
+                    , training.IsCommon
+                    , training.isCommu
+                    , training.IsLegacy
+                    , training.yotogiType
+
+                    );
+            }
+        }
+
+
+
+        private static void GetScheduleCSVDataWorkData()
         {
             MyLog.LogMessage(
                  "ScheduleCSVData.AllData"
@@ -107,30 +141,30 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             foreach (var item in ScheduleCSVData.WorkData)
             {
                 ScheduleCSVData.Work training = item.Value;
-                    MyLog.LogMessage(
-                        item.Key  // work id
-                        , training.facility.workData.id
-                        , training.facilityId
-                        , training.trainingType
-                        , training.categoryID
-                        , training.id
-                        , training.name
-                        , training.information
-                        , training.mode
-                        , training.type
-                        , training.IsCommon
-                        , training.isCommu
-                        , training.IsLegacy
-                        , training.workTyp
-                        , training.trainingType
-                        
-                        );
+                MyLog.LogMessage(
+                    item.Key  // work id
+                    , training.facility.workData.id
+                    , training.facilityId
+                    , training.trainingType
+                    , training.categoryID
+                    , training.id
+                    , training.name
+                    , training.information
+                    , training.mode
+                    , training.type
+                    , training.IsCommon
+                    , training.isCommu
+                    , training.IsLegacy
+                    , training.workTyp
+                    , training.trainingType
+
+                    );
             }
 
-            foreach (KeyValuePair<int, ScheduleCSVData.Work> keyValuePair in FacilityDataTable.GetAllWorkData(true))
-            {
-
-            }
+            //foreach (KeyValuePair<int, ScheduleCSVData.Work> keyValuePair in FacilityDataTable.GetAllWorkData(true))
+            //{
+            //
+            //}
 
             //foreach (var item in ScheduleCSVData.AllData)
             //{
@@ -172,7 +206,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             MyLog.LogInfo("Environment.Desktop : " + Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
             MyLog.LogInfo("Environment.Programs : " + Environment.GetFolderPath(Environment.SpecialFolder.Programs));
 
-            MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);            
+            MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);
 
             MyLog.LogInfo("UTY.gameProjectPath : " + UTY.gameProjectPath);
             MyLog.LogInfo("UTY.gameDataPath : " + UTY.gameDataPath);
@@ -186,7 +220,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             MyLog.LogInfo("Product.enabeldAdditionalRelation : " + Product.enabeldAdditionalRelation);
             MyLog.LogInfo("Product.enabledSpecialRelation : " + Product.enabledSpecialRelation);
-            
+
             MyLog.LogInfo("Product.isEnglish : " + Product.isEnglish);
             MyLog.LogInfo("Product.isJapan : " + Product.isJapan);
             MyLog.LogInfo("Product.isPublic : " + Product.isPublic);
@@ -202,12 +236,12 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             Type type = typeof(Misc);
             foreach (var item in type.GetFields())
             {
-                MyLog.LogMessage(type.Name , item.Name , item.GetValue(null));
+                MyLog.LogMessage(type.Name, item.Name, item.GetValue(null));
             }
 
             //MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.);
 
-            if (GUI.skin!=null && GUI.skin.customStyles!=null)
+            if (GUI.skin != null && GUI.skin.customStyles != null)
             {
                 foreach (var item in GUI.skin.customStyles)
                 {
@@ -219,7 +253,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                         , item.stretchHeight
                         , item.font.name
                         , item.fontSize
-                        , item.fontStyle                    
+                        , item.fontStyle
                         );
                 }
             }
@@ -581,14 +615,14 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                     {
                         skilld = item.Value;
                         MyLog.LogMessage("skill_data_list"
-                            , skilld.id 
+                            , skilld.id
                             , skilld.name
                             , skilld.player_num
-                            , skilld.category                        
+                            , skilld.category
                             );
                         command = skilld.command;
                         foreach (var item1 in command.data)
-                        {                        
+                        {
                             MyLog.LogMessage("skill_data_list.command"
                             , item1.basic.id
                             , item1.basic.name

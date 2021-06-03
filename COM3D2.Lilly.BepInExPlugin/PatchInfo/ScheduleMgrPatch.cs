@@ -57,7 +57,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             ) // string __m_BGMName 못가져옴
         {
             MyLog.LogMessage("ClickTask"
-                , UIButton.current.name
+                , UIButton.current.name                
                 , MyUtill.GetMaidFullName(___m_Ctrl.SelectedMaid)
                 );
         }

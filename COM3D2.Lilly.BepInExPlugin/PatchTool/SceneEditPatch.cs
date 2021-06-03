@@ -115,7 +115,13 @@ namespace COM3D2.Lilly.Plugin
             if (configEntryUtill["OnEndScene", false])
                 MyLog.LogMessage("SceneEdit.OnEndScene"
                , ___m_strScriptArg
+               , MyUtill.GetMaidFullName(___m_maid)
             );
+            // MaidManagementMain.OnSelectChara: , A1 , 구 메이드 비서   , Sub , Exclusive
+            if (___m_maid.status.heroineType==MaidStatus.HeroineType.Sub)
+            {
+                return;
+            }
             if (GUIMaidEdit.newMaid.Value)
             {
                 GameMain.Instance.CMSystem.SetTmpGenericFlag("新規雇用メイド", 1);
