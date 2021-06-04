@@ -15,6 +15,7 @@
 	  <DefineConstants>TRACE;COM3D2_155</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="UtillTool\Demo.cs" />
 	  <Compile Remove="UtillTool\InvokeAttribute.cs" />
 	  <Compile Remove="Utill\AwakeUtill.cs" />
 	  <Compile Remove="Utill\MyHarmonyAttribute.cs" />

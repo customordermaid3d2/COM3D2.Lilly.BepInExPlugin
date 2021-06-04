@@ -11,8 +11,28 @@ namespace COM3D2.Lilly.Plugin.Utill
     class ScheduleUtill
     {
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
-    "class ScheduleUtill"
-);
+            "class ScheduleUtill"
+        );
+
+        public static Dictionary<int, ScheduleCSVData.Yotogi> yotogiDataCm;
+
+        public static Dictionary<int, ScheduleCSVData.Yotogi> YotogiData {
+            get
+            {
+                if (DailyMgrPatch.IsLegacy)
+                {
+                    if (yotogiDataCm==null)
+                    {
+                        yotogiDataCm = ScheduleCSVData.YotogiData.Where(x=>x.Value.mode!=ScheduleCSVData.ScheduleBase.Mode.COM3D).ToDictionary(x=>x.Key,x=>x.Value);
+                    }
+                    return yotogiDataCm;
+                }
+                else
+                {
+                    return ScheduleCSVData.YotogiData;
+                }
+            }
+        }
 
         /// <summary>
         /// 분석용
@@ -81,6 +101,9 @@ namespace COM3D2.Lilly.Plugin.Utill
             }
         }
 
+
+
+
         internal static void SetYotogiAllMaid(ScheduleMgr.ScheduleTime scheduleTime)
         {
             if (ScheduleMgrPatch.m_scheduleApi == null)
@@ -90,8 +113,8 @@ namespace COM3D2.Lilly.Plugin.Utill
                 );
                 return;
             }
-            
-            if (DailyMgr.IsLegacy && scheduleTime == ScheduleMgr.ScheduleTime.DayTime)
+
+            if (DailyMgrPatch.IsLegacy && scheduleTime == ScheduleMgr.ScheduleTime.DayTime)
             {
                 MyLog.LogMessage("SetSlotAllDel"
                 , "DayTime & Legacy 에선 사용 불가"
@@ -119,7 +142,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                 int n1 = UnityEngine.Random.Range(0, slots.Count);
                 ScheduleMgrPatch.m_scheduleApi.SetNightWorkSlot_Safe(scheduleTime, slots[n1], 10000);
                 slots.Remove(slots[n1]);
-                if (slots.Count <= 4)
+                if (slots.Count <= 4 || slots.Count == 0)
                 {
                     break;
                 }
@@ -186,7 +209,7 @@ namespace COM3D2.Lilly.Plugin.Utill
 
             int ic = UnityEngine.Random.Range(0, 5);
 
-            if (!DailyMgr.IsLegacy || scheduleTime == ScheduleMgr.ScheduleTime.Night)
+            if (!DailyMgrPatch.IsLegacy || scheduleTime == ScheduleMgr.ScheduleTime.Night)
             {
                 //밤시중용 처리
                 for (int i = 0; i < ic; i++)
@@ -194,7 +217,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                     int n1 = UnityEngine.Random.Range(0, slots.Count);
                     ScheduleMgrPatch.m_scheduleApi.SetNightWorkSlot_Safe(scheduleTime, slots[n1], 10000);
                     slots.Remove(slots[n1]);
-                    if (slots.Count <= 4)
+                    if (slots.Count <= 4 || slots.Count == 0)
                     {
                         break;
                     }
@@ -295,7 +318,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                         }
                         if (slots.Count == 0)
                         {
-                            if (!DailyMgr.IsLegacy)
+                            if (!DailyMgrPatch.IsLegacy)
                             {
                                 GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
                             }
@@ -324,7 +347,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                 slots.RemoveAt(n1);
             }
 
-            if (!DailyMgr.IsLegacy)
+            if (!DailyMgrPatch.IsLegacy)
             {
                 GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
             }
@@ -430,7 +453,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                         }
                         if (slots.Count == 0)
                         {
-                            if (!DailyMgr.IsLegacy)
+                            if (!DailyMgrPatch.IsLegacy)
                             {
                                 GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
                             }
@@ -459,7 +482,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                 slots.RemoveAt(n1);
             }
 
-            if (!DailyMgr.IsLegacy)
+            if (!DailyMgrPatch.IsLegacy)
             {
                 GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
             }

@@ -58,9 +58,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GUI.enabled = true;
 
             GUILayout.Label("매일 자동 적용.");
-            if (GUILayout.Button("슬롯에_메이드_자동_배치 " + configEntryUtill["SceneMgrPatch", "슬롯에_메이드_자동_배치", false])) configEntryUtill["SceneMgrPatch", "슬롯에_메이드_자동_배치", false] = !configEntryUtill["SceneMgrPatch", "슬롯에_메이드_자동_배치", false];
-            //if (GUILayout.Button("메이드_스케줄_자동_배치 " + configEntryUtill["SceneMgrPatch", "메이드_스케줄_자동_배치", false])) configEntryUtill["SceneMgrPatch", "메이드_스케줄_자동_배치", false] = !configEntryUtill["SceneMgrPatch", "메이드_스케줄_자동_배치", false];
-            if (GUILayout.Button("커뮤니티_자동_적용 " + configEntryUtill["SceneMgrPatch","커뮤니티_자동_적용", false])) configEntryUtill["SceneMgrPatch", "커뮤니티_자동_적용", false] = !configEntryUtill["SceneMgrPatch", "커뮤니티_자동_적용", false];
+            if (GUILayout.Button("슬롯에_메이드_자동_배치 " + configEntryUtill["DailyMgrPatch", "슬롯에_메이드_자동_배치", false])) configEntryUtill["DailyMgrPatch", "슬롯에_메이드_자동_배치", false] = !configEntryUtill["DailyMgrPatch", "슬롯에_메이드_자동_배치", false];
+            if (GUILayout.Button("메이드_스케줄_자동_배치 " + configEntryUtill["DailyMgrPatch", "메이드_스케줄_자동_배치", false])) configEntryUtill["DailyMgrPatch", "메이드_스케줄_자동_배치", false] = !configEntryUtill["DailyMgrPatch", "메이드_스케줄_자동_배치", false];
+            if (GUILayout.Button("커뮤니티_자동_적용 " + configEntryUtill["DailyMgrPatch", "커뮤니티_자동_적용", false])) configEntryUtill["DailyMgrPatch", "커뮤니티_자동_적용", false] = !configEntryUtill["DailyMgrPatch", "커뮤니티_자동_적용", false];
 
 
             GUI.enabled = true;

@@ -30,7 +30,7 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
         public int CoroutineCount = 0;
         public float time = 0;
 
-        Dropdown dropdown;
+        //Dropdown dropdown;
 
         public static GameObjectMgr Install(GameObject container)
         {

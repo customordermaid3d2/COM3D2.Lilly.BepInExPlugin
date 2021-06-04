@@ -77,7 +77,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
 
 
             List<Maid> maids = new List<Maid>();
-            if (DailyMgr.IsLegacy)
+            if (DailyMgrPatch.IsLegacy)
             {
                 maids.AddRange(GameMain.Instance.CharacterMgr.GetStockMaidList().Where(x => x.status.OldStatus != null));
             }

@@ -40,7 +40,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             MyLog.LogMessage("SceneMgr.DispatcherSceneDaily"
                 , openType
             );
-            if (!DailyMgr.IsLegacy && openType == "Daytime")
+            if (!DailyMgrPatch.IsLegacy && openType == "Daytime")
             {
                 if (configEntryUtill["___m_tagBackup", false])
                 {
