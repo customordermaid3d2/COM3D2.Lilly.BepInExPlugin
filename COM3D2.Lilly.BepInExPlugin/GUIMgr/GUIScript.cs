@@ -32,11 +32,11 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 }
             }
             if (GUILayout.Button("SceneToTitle")) GameMain.Instance.LoadScene("SceneToTitle");
-            if (GUILayout.Button("SceneDaily")) KagPatch.SceneToTitle();
+            //if (GUILayout.Button("SceneDaily")) KagPatch.SceneToTitle();
 
             GUILayout.Label("=== 세이브 로드창 ===");
-            if (GUILayout.Button("OpenLoadPanel")) SaveAndLoadMgrPatch.instance.OpenLoadPanel();
-            if (GUILayout.Button("OpenSavePanel")) SaveAndLoadMgrPatch.instance.OpenSavePanel();
+            if (GUILayout.Button("OpenLoadPanel")) BasePanelMgrPatch.OpenLoadPanel();
+            if (GUILayout.Button("OpenSavePanel")) BasePanelMgrPatch.OpenSavePanel();
 
             GUILayout.Label("=== 스크립트 실행기 ===");
 

@@ -11,19 +11,23 @@ namespace COM3D2.Lilly.Plugin.PatchBase
     {
         // SaveAndLoadMgr
 
-        public static SaveAndLoadMgr instance;
+        //public static SaveAndLoadMgr instance;
 
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
         "SaveAndLoadMgrPatch"
         );
 
-        [HarmonyPatch(typeof(SaveAndLoadMgr), "Init")]
-        [HarmonyPostfix]
-        public static void Init(SaveAndLoadMgr __instance)
-        {
-            instance = __instance;
-            if (configEntryUtill["Init"])
-                MyLog.LogMessage("SaveAndLoadMgr.Init");
-        }
+        /// <summary>
+        /// 이거론 안됨. 자꾸 파괴되서 BasePanelMgr를 참조해야할듯
+        /// </summary>
+        /// <param name="__instance"></param>
+        //[HarmonyPatch(typeof(SaveAndLoadMgr), "Init")]
+        //[HarmonyPostfix]
+        //public static void Init(SaveAndLoadMgr __instance)
+        //{
+        //    instance = __instance;
+        //    if (configEntryUtill["Init"])
+        //        MyLog.LogMessage("SaveAndLoadMgr.Init");
+        //}
     }
 }
