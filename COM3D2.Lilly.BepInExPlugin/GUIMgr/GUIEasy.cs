@@ -51,6 +51,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             if (GUILayout.Button("메이드 스케줄 자동 배치 - 야간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.Night);
             if (GUILayout.Button("메이드 밤시중 자동 배치 - 주간")) ScheduleUtill.SetYotogiAllMaid(ScheduleMgr.ScheduleTime.DayTime);
             if (GUILayout.Button("메이드 밤시중 자동 배치 - 야간")) ScheduleUtill.SetYotogiAllMaid(ScheduleMgr.ScheduleTime.Night);
+            GUI.enabled = !DailyMgrPatch.IsLegacy;
             if (GUILayout.Button("메이드 시설에 자동 배치 - 주간")) ScheduleUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
             if (GUILayout.Button("메이드 시설에 자동 배치 - 야간")) ScheduleUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
 

@@ -68,13 +68,13 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 MyLog.LogMessage("ScheduleAPI.SetRandomCommu"
                     , MyUtill.GetMaidFullName(list[i])
                     , isDaytime
-                ); 
+                );
             }
             else
             {
                 MyLog.LogMessage("ScheduleAPI.SetRandomCommu count 0"
     , isDaytime
-); 
+);
             }
         }
 
@@ -185,7 +185,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPostfix]//HarmonyPostfix ,HarmonyPrefix
         public static void VisibleNightWork(ref bool __result, int workId, Maid maid)
         {
-            if (!configEntryUtill["VisibleNightWork", false])
+            if (configEntryUtill["VisibleNightWork", false])
             {
                 MyLog.LogMessage("ScheduleAPI.VisibleNightWork"
                     , __result
@@ -193,8 +193,9 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                     , MyUtill.GetMaidFullName(maid)
                     , SceneFreeModeSelectManager.IsFreeMode
                 );
-                __result = true;
             }
+            if (configEntryUtill["VisibleNightWork_result", false])
+                __result = true;
         }
 
         /// <summary>
@@ -209,7 +210,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPostfix]//HarmonyPostfix ,HarmonyPrefix
         public static void EnableNightWork(ref bool __result, int workId, Maid maid)
         {
-            if (!configEntryUtill["EnableNightWork", false])
+            if (configEntryUtill["EnableNightWork", false])
             {
                 MyLog.LogMessage("ScheduleAPI.EnableNightWork"
                     , __result
@@ -217,16 +218,18 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                     , MyUtill.GetMaidFullName(maid)
                     , SceneFreeModeSelectManager.IsFreeMode
                 );
+
+            }
+            if (configEntryUtill["EnableNightWork_result"])
                 if (SceneFreeModeSelectManager.IsFreeMode)
                     __result = true;
-            }
         }
 
         [HarmonyPatch(typeof(ScheduleAPI), "EnableNoonWork")]
         [HarmonyPrefix]//HarmonyPostfix ,HarmonyPrefix
         public static void EnableNoonWork(ref bool __result, int workId, Maid maid)
         {
-            if (!configEntryUtill["EnableNoonWork", false])
+            if (configEntryUtill["EnableNoonWork", false])
             {
                 MyLog.LogMessage("ScheduleAPI.EnableNoonWork"
                     , __result
@@ -234,9 +237,11 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                     , MyUtill.GetMaidFullName(maid)
                     , SceneFreeModeSelectManager.IsFreeMode
                 );
-                if (SceneFreeModeSelectManager.IsFreeMode)
-                    __result = true;
+
             }
+            if (configEntryUtill["EnableNoonWork_result"])
+                if (SceneFreeModeSelectManager.IsFreeMode)
+                __result = true;
             /*
 			if (Lilly.isLogOnOffAll)
 				MyLog.LogMessage("EnableNoonWork:" + SceneFreeModeSelectManager.IsFreeMode

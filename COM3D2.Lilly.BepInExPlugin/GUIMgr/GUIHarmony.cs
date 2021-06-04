@@ -78,6 +78,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             infoList.Add(new(typeof(MaidPatch)));// 아이템 장착 확인용
             infoList.Add(new(typeof(ScreenPatch)));//
             infoList.Add(new(typeof(SoundMgrPatch)));// 스케줄 관리
+            infoList.Add(new(typeof(DailyAPIPatch)));// 스케줄 관리
+            infoList.Add(new(typeof(DailyMgrPatch)));// 스케줄 관리
+            infoList.Add(new(typeof(DailyCtrlPatch)));// 스케줄 관리
             infoList.Add(new(typeof(ScheduleAPIInfoPatch)));// 스케줄 관리
             infoList.Add(new(typeof(ScheduleMgrPatch)));// 스케줄 관리
             infoList.Add(new(typeof(ScenarioSelectMgrPatch)));// 시나리오 정보 출력용 

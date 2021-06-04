@@ -21,6 +21,12 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         public override void SetBody()
         {
+
+            GUILayout.Label("=== MainCamera ===");
+            if (GUILayout.Button("FadeOut")) GameMain.Instance.MainCamera.FadeOut();
+            if (GUILayout.Button("FadeIn")) GameMain.Instance.MainCamera.FadeIn();
+
+
             GUILayout.Label("=== 장면 이동 실행 ===");
 
             loadScene = GUILayout.TextField(loadScene);
@@ -35,8 +41,8 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             //if (GUILayout.Button("SceneDaily")) KagPatch.SceneToTitle();
 
             GUILayout.Label("=== 세이브 로드창 ===");
-            if (GUILayout.Button("OpenLoadPanel")) BasePanelMgrPatch.OpenLoadPanel();
-            if (GUILayout.Button("OpenSavePanel")) BasePanelMgrPatch.OpenSavePanel();
+            if (GUILayout.Button("OpenLoadPanel")) { BasePanelMgrPatch.OpenLoadPanel(); GameMain.Instance.MainCamera.FadeIn(); }
+            if (GUILayout.Button("OpenSavePanel")) { BasePanelMgrPatch.OpenSavePanel(); GameMain.Instance.MainCamera.FadeIn(); }
 
             GUILayout.Label("=== 스크립트 실행기 ===");
 
@@ -46,7 +52,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             label_name = GUILayout.TextField(label_name);
             if (GUILayout.Button("LoadAdvScenarioScript"))
             {
-                if (!string.IsNullOrEmpty(scenario_str)  && !string.IsNullOrEmpty(label_name)  )
+                if (!string.IsNullOrEmpty(scenario_str) && !string.IsNullOrEmpty(label_name))
                     KagPatch.LoadAdvScenarioScript(scenario_str, label_name);
             }
             if (GUILayout.Button("LoadScenarioStringGoToLabel"))

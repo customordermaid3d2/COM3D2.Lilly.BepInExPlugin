@@ -57,11 +57,14 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             ) // string __m_BGMName 못가져옴
         {
             MyLog.LogMessage("ClickTask"
-                , UIButton.current.name                
+                , UIButton.current.name
                 , MyUtill.GetMaidFullName(___m_Ctrl.SelectedMaid)
                 );
         }
 
+        /// <summary>
+        /// 경영전환시 DailyMgr.IsLegacy 가 되고, api 공유하니 주의
+        /// </summary>
         public static void SetSlotAllMaid()
         {
             if (m_scheduleApi == null)
@@ -72,8 +75,16 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                 return;
             }
 
+
             List<Maid> maids = new List<Maid>();
-            maids.AddRange(GameMain.Instance.CharacterMgr.GetStockMaidList());
+            if (DailyMgr.IsLegacy)
+            {
+                maids.AddRange(GameMain.Instance.CharacterMgr.GetStockMaidList().Where(x => x.status.OldStatus != null));
+            }
+            else
+            {
+                maids.AddRange(GameMain.Instance.CharacterMgr.GetStockMaidList());
+            }
             MyLog.LogMessage("SetSlotAllMaid"
             , maids.Count
             , m_scheduleApi.slot.Length

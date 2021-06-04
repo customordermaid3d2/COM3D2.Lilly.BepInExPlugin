@@ -35,29 +35,26 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
 
         // private void DispatcherSceneDaily(string openType)
         [HarmonyPostfix, HarmonyPatch(typeof(SceneMgr), "DispatcherSceneDaily")]
-        public static void DispatcherSceneDaily(string openType)
+        public static void DispatcherSceneDaily(string openType, Dictionary<string, string> ___m_tagBackup)
         {
             MyLog.LogMessage("SceneMgr.DispatcherSceneDaily"
                 , openType
             );
-            if (openType == "Daytime")
+            if (!DailyMgr.IsLegacy && openType == "Daytime")
             {
-                if (configEntryUtill["슬롯에_메이드_자동_배치", false])
+                if (configEntryUtill["___m_tagBackup", false])
                 {
-                    ScheduleMgrPatch.SetSlotAllMaid();
+                    foreach (var item in ___m_tagBackup)
+                    {
+                        MyLog.LogMessage("SceneMgr.DispatcherSceneDaily"
+                            , item.Key
+                            , item.Value
+                        );
+                    }
                 }
 
-              // if (configEntryUtill["메이드_스케줄_자동_배치", false])
-              // {
-              //     ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.DayTime);
-              //     ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.Night);
-              // }
 
-                if (configEntryUtill["커뮤니티_자동_적용", false])
-                {
-                    ScheduleAPIPatch.SetRandomCommu(true);
-                    ScheduleAPIPatch.SetRandomCommu(false);
-                }
+
             }
 
 
