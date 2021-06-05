@@ -43,6 +43,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             if (GUILayout.Button("SetRandomCommu")) { ScheduleAPIPatch.SetRandomCommu(true); ScheduleAPIPatch.SetRandomCommu(false); };
 
+          
+
+            GUILayout.Label("Schedule 진입 필요.");
             GUILayout.Label("Schedule 진입 필요.");
             GUI.enabled = ScheduleMgrPatch.m_scheduleApi != null;
             if (GUILayout.Button("슬롯에 메이드 자동 배치")) ScheduleMgrPatch.SetSlotAllMaid();

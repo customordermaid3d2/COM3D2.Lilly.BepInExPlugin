@@ -21,9 +21,9 @@ namespace COM3D2.Lilly.Plugin.Utill
             {
                 if (DailyMgrPatch.IsLegacy)
                 {
-                    if (yotogiDataCm==null)
+                    if (yotogiDataCm == null)
                     {
-                        yotogiDataCm = ScheduleCSVData.YotogiData.Where(x=>x.Value.mode!=ScheduleCSVData.ScheduleBase.Mode.COM3D).ToDictionary(x=>x.Key,x=>x.Value);
+                        yotogiDataCm = ScheduleCSVData.YotogiData.Where(x => x.Value.mode != ScheduleCSVData.ScheduleBase.Mode.COM3D).ToDictionary(x => x.Key, x => x.Value);
                     }
                     return yotogiDataCm;
                 }
@@ -228,11 +228,16 @@ namespace COM3D2.Lilly.Plugin.Utill
                 // //밤시중용 처리
                 for (int j = 0; j < ic; j++)
                 {
-                    int dn = UnityEngine.Random.Range(0, ScheduleCSVData.YotogiData.Count);
-                    int id = ScheduleCSVData.YotogiData.ElementAt(dn).Key;
-
                     for (int i = 0; i < 10; i++)
                     {
+                        int dn = UnityEngine.Random.Range(0, ScheduleCSVData.YotogiData.Count);
+                        if (ScheduleCSVData.YotogiData.ElementAt(dn).Value.mode == ScheduleCSVData.ScheduleBase.Mode.CM3D2)
+                        {
+                            continue;
+                        }
+
+                        int id = ScheduleCSVData.YotogiData.ElementAt(dn).Key;
+
                         int sn = UnityEngine.Random.Range(0, slots.Count);
                         maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[sn]);
 

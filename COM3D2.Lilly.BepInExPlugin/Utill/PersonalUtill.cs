@@ -47,20 +47,35 @@ namespace COM3D2.Lilly.Plugin
             maid.status.SetPersonal(data);
             maid.status.firstName = data.uniqueName;
             MyLog.LogMessage(
-                "MaidManagementMain.Employment"
-                ,MyUtill.GetMaidFullName(maid)
+                "PersonalUtill.SetPersonalRandom"
+                , MyUtill.GetMaidFullName(maid)
             );
             return a;
         }
-        
+
+        public static void SetPersonalCare(Maid maid)
+        {
+            MyLog.LogMessage(
+                "PersonalUtill.SetPersonalCare"
+                , MyUtill.GetMaidFullName(maid)
+                , (maid.status.OldStatus != null)
+            );
+            maid.status.SetPersonal(maid.status.personal);
+            MyLog.LogMessage(
+                "PersonalUtill.SetPersonalCare"
+                , MyUtill.GetMaidFullName(maid)
+                , (maid.status.OldStatus !=null)
+            );
+        }
+
         public static Personal.Data SetPersonal(Maid maid,int index)
         {            
             Personal.Data data=GetPersonalData(index);
             maid.status.SetPersonal(data);
             maid.status.firstName = data.uniqueName;
             MyLog.LogMessage(
-                "MaidManagementMain.Employment"
-                ,MyUtill.GetMaidFullName(maid)
+                "PersonalUtill.SetPersonal"
+                , MyUtill.GetMaidFullName(maid)
             );
             return data;
         }

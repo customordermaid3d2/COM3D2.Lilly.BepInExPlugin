@@ -83,6 +83,10 @@ namespace COM3D2.Lilly.Plugin
                       maid.status.personal.replaceText
                     , maid.status.fullNameEnStyle
                     , maid.status.heroineType
+                    , maid.status.personal.replaceText
+                    , maid.status.personal.uniqueName
+                    , maid.status.personal.drawName
+                    , maid.status.personal.oldPersonal
                     , maid.status.contract
                 }
             );
