@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace COM3D2.Lilly.Plugin.Utill
 {
@@ -54,6 +55,13 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         public static ConfigEntryUtill Create()
         {
+
+            if (customFile == null)
+            {
+                Debug.LogError("customFile is null!");
+                return null;
+            }
+
             if (!SectionList.ContainsKey(sectionMain))
                 return new ConfigEntryUtill();
             else
@@ -62,6 +70,11 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         public static ConfigEntryUtill Create(string section)
         {
+            if (customFile == null)
+            {
+                Debug.LogError("customFile is null!");
+                return null;
+            }
             //MyLog.LogDebug("ConfigEntryUtill.Create", section);
             if (!SectionList.ContainsKey(section))
                 return new ConfigEntryUtill(section);
@@ -70,6 +83,11 @@ namespace COM3D2.Lilly.Plugin.Utill
         }
         public static ConfigEntryUtill Create(string section, params string[] keys)
         {
+            if (customFile == null)
+            {
+                Debug.LogError("customFile is null!");
+                return null;
+            }
             //MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
             if (!SectionList.ContainsKey(section))
                 return new ConfigEntryUtill(section, keys);
@@ -196,6 +214,7 @@ namespace COM3D2.Lilly.Plugin.Utill
         private static readonly string sectionMain = "ConfigEntryUtill";
         private readonly string section;
         private T defaultValue;
+
         internal static void init(ConfigFile customFile)
         {
             ConfigEntryUtill<T>.customFile = customFile;
@@ -226,6 +245,11 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         public static ConfigEntryUtill<T> Create()
         {
+            if (customFile == null)
+            {
+                Debug.LogError("customFile is null!");
+                return null;
+            }
             if (!SectionList.ContainsKey(sectionMain))
                 return new ConfigEntryUtill<T>();
             else
@@ -234,6 +258,11 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         public static ConfigEntryUtill<T> Create(string section, T defaultValue)
         {
+            if (customFile == null)
+            {
+                Debug.LogError("customFile is null!");
+                return null;
+            }
             //MyLog.LogDebug("ConfigEntryUtill.Create", section);
             if (!SectionList.ContainsKey(section))
                 return new ConfigEntryUtill<T>(section, defaultValue);
@@ -242,6 +271,11 @@ namespace COM3D2.Lilly.Plugin.Utill
         }
         public static ConfigEntryUtill<T> Create(string section, T defaultValue, params string[] keys)
         {
+            if (customFile == null)
+            {
+                Debug.LogError("customFile is null!");
+                return null;
+            }
             //MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
             if (!SectionList.ContainsKey(section))
                 return new ConfigEntryUtill<T>(section, defaultValue, keys);
@@ -316,7 +350,7 @@ namespace COM3D2.Lilly.Plugin.Utill
         {
             KeyList.Add(
                 key,
-                customFile.Bind(
+                customFile.Bind<T>(
                     section,
                     key
                     , defaultValue
