@@ -111,6 +111,7 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
         private float maxSliderValue = 10.0f;
         private float mySlider = 1.0f;
         private bool isCoroutine = false;
+        private Vector2 scrollPosition;
 
         public void OnGUI()
         {
@@ -146,6 +147,7 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
             // GUILayout.BeginArea(new Rect(0, 0, 400f, 300f));//Window 안에서 쓰면 작동 안됨
 
             // Begin the singular Horizontal Group
+            scrollPosition=GUILayout.BeginScrollView(scrollPosition);
             GUILayout.BeginHorizontal();
 
                     // Place a Button normally
@@ -180,8 +182,8 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
             }
 
                 GUILayout.EndHorizontal();
-
-           // GUILayout.EndArea();
+            GUILayout.EndScrollView();
+            // GUILayout.EndArea();
             GUI.DragWindow();
         }
 

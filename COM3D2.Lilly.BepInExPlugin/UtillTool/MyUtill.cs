@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -208,6 +210,15 @@ namespace COM3D2.Lilly.Plugin
 
             // 리턴
             return relativePath.Replace('/', Path.DirectorySeparatorChar);
+        }
+
+        public static byte[] ExtractResource(Bitmap image)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, ImageFormat.Png);
+                return ms.ToArray();
+            }
         }
 
     }

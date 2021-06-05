@@ -64,7 +64,7 @@ namespace COM3D2.Lilly.Plugin
 
             customFile = Config;
             ShowCounter = Config.Bind("KeyboardShortcut", "KeyboardShortcut0", new BepInEx.Configuration.KeyboardShortcut(KeyCode.Alpha0, KeyCode.LeftControl));
-            ConfigEntryUtill.init();
+            ConfigEntryUtill.init(Config);
 
 
             //GearMenu.SetButton();

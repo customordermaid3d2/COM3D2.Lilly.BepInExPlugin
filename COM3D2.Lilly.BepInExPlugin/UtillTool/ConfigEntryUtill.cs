@@ -17,7 +17,7 @@ namespace COM3D2.Lilly.Plugin.Utill
     /// );
     ///         if(configEntryUtill["FadeIn"])
     /// </summary>
-    public class ConfigEntryUtill : IEnumerator, IEnumerable
+    public class ConfigEntryUtill : IEnumerator<KeyValuePair<string, ConfigEntry<bool>>>, IEnumerable<KeyValuePair<string, ConfigEntry<bool>>>
     {
 
         public static ConfigFile customFile;
@@ -25,6 +25,8 @@ namespace COM3D2.Lilly.Plugin.Utill
         public static Dictionary<string, ConfigEntryUtill> SectionList { get; } = new Dictionary<string, ConfigEntryUtill>();
 
         public Dictionary<string, ConfigEntry<bool>> KeyList { get; } = new Dictionary<string, ConfigEntry<bool>>();
+
+
 
         private static readonly string sectionMain = "ConfigEntryUtill";
         private readonly string section;
@@ -83,11 +85,6 @@ namespace COM3D2.Lilly.Plugin.Utill
             set => Create(section)[key, defaultValue] = value;
         }
 
-        internal static void init()
-        {
-            ConfigEntryUtill.customFile = Lilly.customFile;
-        }
-
         internal static void init(ConfigFile customFile)
         {
             ConfigEntryUtill.customFile = customFile;
@@ -139,157 +136,241 @@ namespace COM3D2.Lilly.Plugin.Utill
             );
         }
 
+        #region IEnumerator
+
         int position = -1;
 
-        //IEnumerator and IEnumerable require these methods.
-        public IEnumerator GetEnumerator()
+        public KeyValuePair<string, ConfigEntry<bool>> Current => KeyList.ElementAt(position);
+
+        object IEnumerator.Current => KeyList.ElementAt(position);
+
+        public void Dispose()
         {
-            return (IEnumerator)this;
+            throw new NotImplementedException();
         }
 
-        //IEnumerator
         public bool MoveNext()
         {
             position++;
             return (position < KeyList.Count);
         }
 
-        //IEnumerable
         public void Reset()
         {
-            position = 0;
+            position = -1;
         }
 
-        //IEnumerable
-        object IEnumerator.Current => KeyList.ElementAt(position);
 
+        #endregion
 
+        #region IEnumerable
+
+        public IEnumerator<KeyValuePair<string, ConfigEntry<bool>>> GetEnumerator()
+        {
+            for (int i = 0; i < KeyList.Count; i++)
+            {
+                yield return KeyList.ElementAt(i);
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (int i = 0; i < KeyList.Count; i++)
+            {
+                yield return KeyList.ElementAt(i);
+            }
+        }
+
+        #endregion
     }
 
-
-
-    public class ConfigEntryUtill<T> : IEnumerator, IEnumerable
+    public class ConfigEntryUtill<T> : IEnumerator<KeyValuePair<string, ConfigEntry<T>>>, IEnumerable<KeyValuePair<string, ConfigEntry<T>>>
     {
+
         public static ConfigFile customFile;
-        public static Dictionary<string, ConfigEntryUtill<T>> listAll = new Dictionary<string, ConfigEntryUtill<T>>();
-        public Dictionary<string, ConfigEntry<T>> list = new Dictionary<string, ConfigEntry<T>>();
-        public string section;
-        public T defult;
 
-        public List<string> kyes = new List<string>();
+        public static Dictionary<string, ConfigEntryUtill<T>> SectionList { get; } = new Dictionary<string, ConfigEntryUtill<T>>();
 
+        public Dictionary<string, ConfigEntry<T>> KeyList { get; } = new Dictionary<string, ConfigEntry<T>>();
 
-        public ConfigEntryUtill(string section, T defult) : base()
+        private static readonly string sectionMain = "ConfigEntryUtill";
+        private readonly string section;
+        private T defaultValue;
+        internal static void init(ConfigFile customFile)
+        {
+            ConfigEntryUtill<T>.customFile = customFile;
+        }
+
+        private ConfigEntryUtill() : base()
+        {
+            //MyLog.LogDebug("ConfigEntryUtill.ctor", sectionMain);
+            SectionList.Add(sectionMain, this);
+        }
+
+        private ConfigEntryUtill(string section, T defaultValue) : base()
         {
             //MyLog.LogDebug("ConfigEntryUtill.ctor", section);
-
             this.section = section;
-            this.defult = defult;
-
-            listAll.Add(section, this);
+            this.defaultValue = defaultValue;
+            SectionList.Add(section, this);
         }
 
-        public ConfigEntryUtill(string section, T defult, params string[] keys) : base()
+        private ConfigEntryUtill(string section, T defaultValue, params string[] keys) : base()
         {
             //MyLog.LogDebug("ConfigEntryUtill.ctor", section, keys.Length);
-
             this.section = section;
-            this.defult = defult;
-
-            listAll.Add(section, this);
-            //foreach (var key in keys)
-            //{
-            //    Add(key, true);
-            //}
-            kyes.AddRange(keys);//나중에 처리하자            
-            //Lilly.actionsAwake += Awake;
-            Awake();
+            this.defaultValue = defaultValue;
+            SectionList.Add(section, this);
+            Add(keys.ToList(), defaultValue);
         }
 
-        public static ConfigEntryUtill<T> Create(string section, T defult, params string[] keys)
+        public static ConfigEntryUtill<T> Create()
+        {
+            if (!SectionList.ContainsKey(sectionMain))
+                return new ConfigEntryUtill<T>();
+            else
+                return SectionList[sectionMain];
+        }
+
+        public static ConfigEntryUtill<T> Create(string section, T defaultValue)
+        {
+            //MyLog.LogDebug("ConfigEntryUtill.Create", section);
+            if (!SectionList.ContainsKey(section))
+                return new ConfigEntryUtill<T>(section, defaultValue);
+            else
+                return SectionList[section];
+        }
+        public static ConfigEntryUtill<T> Create(string section, T defaultValue, params string[] keys)
         {
             //MyLog.LogDebug("ConfigEntryUtill.Create", section, keys.Length);
-            return new ConfigEntryUtill<T>(section, defult, keys);
+            if (!SectionList.ContainsKey(section))
+                return new ConfigEntryUtill<T>(section, defaultValue, keys);
+            else
+            {
+                SectionList[section].Add(keys.ToList(), defaultValue);
+                return SectionList[section];
+            }
         }
 
-        public void Awake()
+        public T this[string section, string key, T defaultValue] {
+            get => Create(section, defaultValue)[key, defaultValue];
+            set => Create(section, defaultValue)[key, defaultValue] = value;
+        }
+
+        public T this[string section, string key] {
+            get => Create(section, defaultValue)[key];
+            set => Create(section, defaultValue)[key] = value;
+        }
+
+        public T this[string key, T defaultValue] {
+            get
+            {
+                if (!KeyList.ContainsKey(key))
+                    Add(key, defaultValue);
+                return KeyList[key].Value;
+            }
+            set
+            {
+                if (!KeyList.ContainsKey(key))
+                    Add(key, defaultValue);
+                KeyList[key].Value = value;
+            }
+        }
+
+
+        public T this[string key] {
+            get
+            {
+                if (!KeyList.ContainsKey(key))
+                    Add(key, defaultValue);
+                return KeyList[key].Value;
+            }
+            set
+            {
+                if (!KeyList.ContainsKey(key))
+                    Add(key, defaultValue);
+                KeyList[key].Value = value;
+            }
+        }
+
+        public T this[int key] {
+            get => KeyList.ElementAt(key).Value.Value;
+            set => KeyList.ElementAt(key).Value.Value = value;
+        }
+
+        public void Add(List<string> kyes, T defaultValue)
         {
             //MyLog.LogMessage("ConfigEntryUtill.Awake", section, kyes.Count);
             foreach (var item in kyes)
             {
                 //MyLog.LogDebug("ConfigEntryUtill.Awake", section, item);
-                if (!list.ContainsKey(item))
+                if (!KeyList.ContainsKey(item))
                 {
-                    Add(item, defult);
+                    Add(item, defaultValue);
                 }
             }
-            //MyLog.LogMessage("ConfigEntryUtill.Awake", section, list.Count);
-        }
-
-        public T this[string key] {
-            get
-            {
-                if (!list.ContainsKey(key))
-                {
-                    Add(key, defult);
-                }
-                return list[key].Value;
-            }
-            set
-            {
-                if (!list.ContainsKey(key))
-                {
-                    Add(key, defult);
-                }
-                list[key].Value = value;
-            }
-        }
-
-        public T this[int key] {
-            get
-            {
-                return list.ElementAt(key).Value.Value;
-            }
-            set
-            {
-                list.ElementAt(key).Value.Value = value;
-            }
+            //MyLog.LogMessage("ConfigEntryUtill.Awake", section, KeyList.Count);
         }
 
         public void Add(string key, T defaultValue, string description = null)
         {
-            list.Add(
+            KeyList.Add(
                 key,
                 customFile.Bind(
                     section,
-                    key,
-                    defaultValue
+                    key
+                    , defaultValue
                 )
             );
         }
 
+        #region IEnumerator
+
         int position = -1;
 
-        //IEnumerator and IEnumerable require these methods.
-        public IEnumerator GetEnumerator()
+        public KeyValuePair<string, ConfigEntry<T>> Current => KeyList.ElementAt(position);
+
+        object IEnumerator.Current => KeyList.ElementAt(position);
+
+        public void Dispose()
         {
-            return (IEnumerator)this;
+            throw new NotImplementedException();
         }
 
-        //IEnumerator
         public bool MoveNext()
         {
             position++;
-            return (position < list.Count);
+            return (position < KeyList.Count);
         }
 
-        //IEnumerable
         public void Reset()
         {
-            position = 0;
+            position = -1;
         }
 
-        //IEnumerable
-        object IEnumerator.Current => list.ElementAt(position);
+
+        #endregion
+
+        #region IEnumerable
+
+        public IEnumerator<KeyValuePair<string, ConfigEntry<T>>> GetEnumerator()
+        {
+            for (int i = 0; i < KeyList.Count; i++)
+            {
+                yield return KeyList.ElementAt(i);
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (int i = 0; i < KeyList.Count; i++)
+            {
+                yield return KeyList.ElementAt(i);
+            }
+        }
+
+        #endregion
     }
+
+
 }

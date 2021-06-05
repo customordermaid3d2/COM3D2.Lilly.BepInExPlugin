@@ -80,6 +80,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             infoList.Add(new(typeof(SoundMgrPatch)));// 스케줄 관리
             infoList.Add(new(typeof(DailyAPIPatch)));// 스케줄 관리
             infoList.Add(new(typeof(DailyMgrPatch)));// 스케줄 관리
+            infoList.Add(new(typeof(SceneManagerPatch)));// 스케줄 관리
             infoList.Add(new(typeof(DailyCtrlPatch)));// 스케줄 관리
             infoList.Add(new(typeof(ScheduleAPIInfoPatch)));// 스케줄 관리
             infoList.Add(new(typeof(ScheduleMgrPatch)));// 스케줄 관리

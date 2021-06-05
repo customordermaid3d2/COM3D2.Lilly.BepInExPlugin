@@ -269,6 +269,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         public static void GetSceneInfo()
         {
+            MyLog.LogMessage("GetSceneInfo"
+                , SceneManager.sceneCount
+                );
             for (int i = 0; i < SceneManager.sceneCount; i++)
             {
                 Scene scene = SceneManager.GetSceneAt(i);
@@ -283,6 +286,8 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                     );
             }
         }
+
+        // GetSceneInfo , 9 , 5 , SceneTitle , True , False , True , Assets/Scene/SceneTitle.unity
 
         public static void GetTbodyInfo()
         {
