@@ -10,7 +10,7 @@ using System.Text;
 namespace COM3D2.Lilly.Plugin
 {
     /// <summary>
-    /// 스케줄 max값 늘리기 위한 여정
+    /// 스케줄 max값 늘리기 위한 여정. 현제 실패
     /// fail
     /// </summary>
     class ScheduleMaxPatch

@@ -24,12 +24,12 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         public static void LoadScene(string f_strSceneName)
         {
             if (configEntryUtill["LoadScene"])
-            MyLog.LogMessage("GameMain.LoadScene", f_strSceneName);
+                MyLog.LogMessage("GameMain.LoadScene", f_strSceneName);
         }
 
         // public bool Deserialize(int f_nSaveNo, bool scriptExec = true)
 
-        [HarmonyPatch(typeof(GameMain), "Deserialize",new Type[] { typeof(int) , typeof(bool) })]
+        [HarmonyPatch(typeof(GameMain), "Deserialize", new Type[] { typeof(int), typeof(bool) })]
         [HarmonyPostfix]
         public static void Deserialize(ref bool __result)
         {

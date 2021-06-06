@@ -34,12 +34,11 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         public static Dictionary<Type, Harmony> harmonys = new Dictionary<Type, Harmony>();
 
         public static List<SHarmony> infoList = new List<SHarmony>();
-        public static List<SHarmony> baseList = new List<SHarmony>();
         public static List<SHarmony> toolList = new List<SHarmony>();
 
         public static bool isToolPatch = true;
         public static bool isInfoPatch = true;
-        public static bool isBasePatch = true;
+
 
         public static GUIHarmony Instance;
 
@@ -61,32 +60,37 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         {
 
             SetHarmonyInfoList();
-            SetHarmonyBaseList();
             SetHarmonyToolList();
         }
 
         private static void SetHarmonyInfoList()
         {
             infoList.Add(new(typeof(AudioSourceMgrPatch)));
-            infoList.Add(new(typeof(BgMgrPatch)));
+            infoList.Add(new(typeof(BgMgrPatch),false));
             //infoList.Add(typeof(BoneMorph_Patch));//157 임시조치용 메이드 보이스 피치
-            infoList.Add(new(typeof(CameraMainPatch)));// 페이드 인 아웃 확인용
+            infoList.Add(new(typeof(CameraMainPatch),false));// 페이드 인 아웃 확인용
             infoList.Add(new(typeof(CharacterMgrPatch)));// 프리셋값 출력용
+            infoList.Add(new(typeof(DailyAPIPatch),false));// 스케줄 관리           
+            infoList.Add(new(typeof(DailyCtrlPatch)));// 스케줄 관리
             infoList.Add(new(typeof(FacilityManagerPatch)));// 회상 모드에서 버튼 활성화용            
             infoList.Add(new(typeof(GameObjectPatch),false));// 
             infoList.Add(new(typeof(KagPatch)));// 
             infoList.Add(new(typeof(MaidPatch)));// 아이템 장착 확인용
-            infoList.Add(new(typeof(ScreenPatch)));//
+            infoList.Add(new(typeof(ScreenPatch),false));//
             infoList.Add(new(typeof(SoundMgrPatch)));// 스케줄 관리
-            infoList.Add(new(typeof(DailyAPIPatch)));// 스케줄 관리
-            infoList.Add(new(typeof(DailyMgrPatch)));// 스케줄 관리
             infoList.Add(new(typeof(SceneManagerPatch)));// 스케줄 관리
-            infoList.Add(new(typeof(DailyCtrlPatch)));// 스케줄 관리
+            infoList.Add(new(typeof(SlotBasePatch),false));// 스케줄 관리
             infoList.Add(new(typeof(ScheduleAPIInfoPatch)));// 스케줄 관리
+            infoList.Add(new(typeof(ScheduleScenePatch),false));// 스케줄 관련. 단순 정보성
             infoList.Add(new(typeof(ScheduleMgrPatch)));// 스케줄 관리
+            infoList.Add(new(typeof(SceneMgrPatch), false));// 커뮤니티 자동적용 포함되있음
             infoList.Add(new(typeof(ScenarioSelectMgrPatch)));// 시나리오 정보 출력용 
+            infoList.Add(new(typeof(ScheduleTaskCtrlPatch), false));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
             infoList.Add(new(typeof(StatusPatch),false));// 플레그 관리
             infoList.Add(new(typeof(TBodyPatch),false));// 바디 파라미터값 출력 관련
+            infoList.Add(new(typeof(UTYPatch)));// , false
+            infoList.Add(new(typeof(WorkResultScenePatch), false));// 
+            infoList.Add(new(typeof(YotogiStageSelectManagerPatch)));// , false
             //infoList.Add(typeof(FullBodyIKMgrPatch));// 뼈 관련. 안뜨는거 같음
         }
 
@@ -94,50 +98,42 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         {
 
             toolList.Add(new(typeof(AbstractFreeModeItemPatch)));// 프리 모드에서 모든 이벤트 열기 위한용 오버 플로우
+            toolList.Add(new(typeof(BasePanelMgrPatch)));// 망할 메세지 박스
             toolList.Add(new(typeof(ClassDataPatch),false));// 실시간 클래스 경험치 최대값 설정. 성능 나쁨
-            toolList.Add(new(typeof(EmpireLifeModeManagerToolPatch)));// 회상모드 시나리오 처리용?            
+            toolList.Add(new(typeof(CharacterMgrPatchBase)));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
+            toolList.Add(new(typeof(DailyMgrPatch)));// 스케줄 관리 
+            toolList.Add(new(typeof(EmpireLifeModeManagerPatch)));// 회상모드 시나리오 처리용?
             toolList.Add(new(typeof(GameMainPatch)));// 세이브 파일 로딩시 버전 차이 등으로 로딩 못하고 멈출경우 자동으로 타이틀로 돌아감
             toolList.Add(new(typeof(MaidManagementMainPatch)));//메이드 관리에서 모든 버튼 활성화
+            toolList.Add(new(typeof(NDebugPatch)));// 망할 메세지 박스
+            toolList.Add(new(typeof(ProfileCtrlPatch)));// 스케줄 관련
             toolList.Add(new(typeof(SceneEditPatch))); //메이드 에딧 진입시 모든 스텟 적용
             toolList.Add(new(typeof(ScenarioDataPatch)));// 회상모드 시나리오 처리용?
             toolList.Add(new(typeof(SceneFreeModeSelectManagerPatch)));// 회상 모드에서 버튼 활성화용
             toolList.Add(new(typeof(ScheduleCalcAPIPatch)));// 커뮤니티 자동적용 포함되있음
             toolList.Add(new(typeof(ScheduleAPIPatch)));// 회상모드 시나리오 처리용?
-            toolList.Add(new(typeof(SceneMgrPatch)));// 커뮤니티 자동적용 포함되있음
+            toolList.Add(new(typeof(ScoutManagerPatch)));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.            
             toolList.Add(new(typeof(StatusToolPatch)));// 
-                                                //toolList.Add(typeof(NPRShaderPatch));// 회상모드 시나리오 처리용?
-                                                //toolList.Add(typeof(UnityInjectorLoaderPatch));// 회상모드 시나리오 처리용?
-                                                //toolList.Add(typeof(ScheduleMaxPatch));// 슬롯 최대 늘리기 실패
-            toolList.Add(new(typeof(WorkResultScenePatch)));// 커뮤니티 자동적용 포함되있음
+                                                       //toolList.Add(typeof(NPRShaderPatch));// 회상모드 시나리오 처리용?
+                                                       //toolList.Add(typeof(UnityInjectorLoaderPatch));// 회상모드 시나리오 처리용?
+                                                       //toolList.Add(typeof(ScheduleMaxPatch));// 슬롯 최대 늘리기 실패
+
+            //baseList.Add(typeof(GameUtyPatch));// mod reflash. 필요 없음
+            //baseList.Add(new(typeof(SaveAndLoadMgrPatch), false));// 구현된거 없음
+            //baseList.Add(new(typeof(ScheduleCtrlPatch),false));// 스케줄 관련 현제 사용되는곳 없음           
         }
 
-        private static void SetHarmonyBaseList()
-        {
-            baseList.Add(new(typeof(CharacterMgrPatchBase)));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
-            baseList.Add(new(typeof(EmpireLifeModeManagerBasePatch)));// 회상모드 시나리오 처리용?
-            //baseList.Add(typeof(GameUtyPatch));// mod reflash. 필요 없음
-            baseList.Add(new(typeof(NDebugPatch)));// 망할 메세지 박스
-            baseList.Add(new(typeof(ProfileCtrlPatch)));// 스케줄 관련
-            baseList.Add(new(typeof(SaveAndLoadMgrPatch)));// 망할 메세지 박스
-            baseList.Add(new(typeof(BasePanelMgrPatch)));// 망할 메세지 박스
-            baseList.Add(new(typeof(ScheduleCtrlPatch)));// 스케줄 관련
-            baseList.Add(new(typeof(ScheduleScenePatch)));// 스케줄 관련
-            baseList.Add(new(typeof(ScoutManagerPatch)));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
-            baseList.Add(new(typeof(ScheduleTaskCtrlPatch),false));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
-        }
 
 
         public static void SetHarmonyPatchAll()
         {
             SetHarmonyPatchAll(infoList);
-            SetHarmonyPatchAll(baseList);
             SetHarmonyPatchAll(toolList);
         }
 
         public static void SetHarmonyUnPatchAll()
         {
             SetHarmonyUnPatchAll(infoList);
-            SetHarmonyUnPatchAll(baseList);
             SetHarmonyUnPatchAll(toolList);
         }
 
@@ -304,9 +300,6 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             GUILayout.Label("infoList 대상");
             SetButtonList1("infoList 온오프 ", ref isInfoPatch, infoList);
-
-            GUILayout.Label("baseList 대상");
-            SetButtonList1("baseList 온오프 ", ref isBasePatch, baseList);
 
             GUILayout.EndScrollView();
 

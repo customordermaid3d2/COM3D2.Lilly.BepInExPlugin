@@ -57,6 +57,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GUI.enabled = !DailyMgrPatch.IsLegacy;
             if (GUILayout.Button("메이드 시설에 자동 배치 - 주간")) ScheduleUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
             if (GUILayout.Button("메이드 시설에 자동 배치 - 야간")) ScheduleUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
+            
+            GUILayout.Label("밤시중");
+            if (GUILayout.Button("스킬 자동 선택"+ configEntryUtill["YotogiSkillSelectManagerPatch", "AddSkill"])) configEntryUtill["YotogiSkillSelectManagerPatch", "AddSkill"]= !configEntryUtill["YotogiSkillSelectManagerPatch", "AddSkill"];
 
             GUI.enabled = true;
 

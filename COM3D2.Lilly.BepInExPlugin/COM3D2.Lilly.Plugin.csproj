@@ -21,7 +21,6 @@
 	  <Compile Remove="Utill\MyHarmonyAttribute.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Remove="PatchBase\ScheduleCtrlPatch.bak" />
 	  <None Remove="comfile.bat" />
 	</ItemGroup>
 	<ItemGroup>

@@ -20,6 +20,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         public static void AddScoutMaid(ScoutMainScreenManager __instance)
         {
             SceneEditPatch.newMaid = true;
+
             MyLog.LogMessage("ScoutMainScreenManagerPatch.AddScoutMaid"
                 , __instance.parent_mgr.moveScreen.next_label
                 );

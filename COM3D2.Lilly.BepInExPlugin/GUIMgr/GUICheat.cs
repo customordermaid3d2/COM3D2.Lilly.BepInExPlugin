@@ -37,7 +37,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             GUILayout.Label("모든 메이드 대상");
             if (GUILayout.Button("시나리오 처리 처리")) ScenarioDataUtill.SetScenarioDataAll();
-            if (GUILayout.Button("라이프 클리어 처리 ")) EmpireLifeModeManagerBasePatch.SetEmpireLifeModeDataAll();
+            if (GUILayout.Button("라이프 클리어 처리 ")) EmpireLifeModeManagerPatch.SetEmpireLifeModeDataAll();
             if (GUILayout.Button("JobClass 처리")) SkillClassUtill.SetMaidJobClassAll();
             if (GUILayout.Button("YotogiClass 처리")) SkillClassUtill.SetMaidYotogiClassAll();
             if (GUILayout.Button("Skill 처리")) SkillClassUtill.SetMaidSkillAll();

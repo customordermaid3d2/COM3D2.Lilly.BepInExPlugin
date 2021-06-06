@@ -127,12 +127,15 @@ namespace COM3D2.Lilly.Plugin.Utill
 
             // 사용 가능한 메이드 슬롯 목록
             List<int> slots = new();
-            for (int i = 0; i < scheduleDatas.Length; i++)
-            {
-                if (scheduleDatas[i].maid_guid == string.Empty)
-                    continue;
-                slots.Add(i);
-            }
+            SetSlots(scheduleDatas, slots);
+
+            SetNightWork(scheduleTime, slots);
+
+        }
+
+        private static void SetNightWork(ScheduleMgr.ScheduleTime scheduleTime, List<int> slots)
+        {
+            Maid maid;
 
             int ic = UnityEngine.Random.Range(0, 5);
 
@@ -140,6 +143,10 @@ namespace COM3D2.Lilly.Plugin.Utill
             for (int i = 0; i < ic; i++)
             {
                 int n1 = UnityEngine.Random.Range(0, slots.Count);
+                maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[n1]);
+                if (maid.status.heroineType == MaidStatus.HeroineType.Sub)
+                    continue;
+
                 ScheduleMgrPatch.m_scheduleApi.SetNightWorkSlot_Safe(scheduleTime, slots[n1], 10000);
                 slots.Remove(slots[n1]);
                 if (slots.Count <= 4 || slots.Count == 0)
@@ -148,18 +155,25 @@ namespace COM3D2.Lilly.Plugin.Utill
                 }
             }
 
-            //ic = UnityEngine.Random.Range(0, 40);
+            ic = UnityEngine.Random.Range(0, 40);
 
             // //밤시중용 처리
-            for (int j = 0; j < 40; j++)
+            for (int j = 0; j < ic; j++)
             {
-                int dn = UnityEngine.Random.Range(0, ScheduleCSVData.YotogiData.Count);
-                int id = ScheduleCSVData.YotogiData.ElementAt(dn).Key;
-
                 for (int i = 0; i < 10; i++)
                 {
+                    int dn = UnityEngine.Random.Range(0, ScheduleCSVData.YotogiData.Count);
+                    if (ScheduleCSVData.YotogiData.ElementAt(dn).Value.mode == ScheduleCSVData.ScheduleBase.Mode.CM3D2)
+                    {
+                        continue;
+                    }
+
+                    int id = ScheduleCSVData.YotogiData.ElementAt(dn).Key;
+
                     int sn = UnityEngine.Random.Range(0, slots.Count);
                     maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[sn]);
+                    if (maid.status.heroineType == MaidStatus.HeroineType.Sub)
+                        break;
 
                     if (!ScheduleUtill.CheckYotogi(maid, id, scheduleTime))
                     {
@@ -175,6 +189,7 @@ namespace COM3D2.Lilly.Plugin.Utill
             }
 
         }
+
 
         public static void SetScheduleAllMaid(ScheduleMgr.ScheduleTime scheduleTime)
         {
@@ -200,59 +215,12 @@ namespace COM3D2.Lilly.Plugin.Utill
 
             // 사용 가능한 메이드 슬롯 목록
             List<int> slots = new();
-            for (int i = 0; i < scheduleDatas.Length; i++)
-            {
-                if (scheduleDatas[i].maid_guid == string.Empty)
-                    continue;
-                slots.Add(i);
-            }
-
-            int ic = UnityEngine.Random.Range(0, 5);
+            SetSlots(scheduleDatas, slots);
 
             if (!DailyMgrPatch.IsLegacy || scheduleTime == ScheduleMgr.ScheduleTime.Night)
             {
-                //밤시중용 처리
-                for (int i = 0; i < ic; i++)
-                {
-                    int n1 = UnityEngine.Random.Range(0, slots.Count);
-                    ScheduleMgrPatch.m_scheduleApi.SetNightWorkSlot_Safe(scheduleTime, slots[n1], 10000);
-                    slots.Remove(slots[n1]);
-                    if (slots.Count <= 4 || slots.Count == 0)
-                    {
-                        break;
-                    }
-                }
 
-                ic = UnityEngine.Random.Range(0, 40);
-
-                // //밤시중용 처리
-                for (int j = 0; j < ic; j++)
-                {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        int dn = UnityEngine.Random.Range(0, ScheduleCSVData.YotogiData.Count);
-                        if (ScheduleCSVData.YotogiData.ElementAt(dn).Value.mode == ScheduleCSVData.ScheduleBase.Mode.CM3D2)
-                        {
-                            continue;
-                        }
-
-                        int id = ScheduleCSVData.YotogiData.ElementAt(dn).Key;
-
-                        int sn = UnityEngine.Random.Range(0, slots.Count);
-                        maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[sn]);
-
-                        if (!ScheduleUtill.CheckYotogi(maid, id, scheduleTime))
-                        {
-                            ScheduleMgrPatch.m_scheduleApi.SetNightWorkSlot_Safe(scheduleTime, slots[sn], id);
-                            slots.Remove(slots[sn]);
-                            break;
-                        }
-                    }
-                    if (slots.Count == 0)
-                    {
-                        break;
-                    }
-                }
+                SetNightWork(scheduleTime, slots);
 
             }
 
@@ -357,6 +325,16 @@ namespace COM3D2.Lilly.Plugin.Utill
                 GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
             }
             ScheduleAPI.MaidWorkIdErrorCheck(true);
+        }
+
+        private static void SetSlots(ScheduleData[] scheduleDatas, List<int> slots)
+        {
+            for (int i = 0; i < scheduleDatas.Length; i++)
+            {
+                if (scheduleDatas[i].maid_guid == string.Empty)
+                    continue;
+                slots.Add(i);
+            }
         }
 
         public static void SetFacilityAllMaid(ScheduleMgr.ScheduleTime scheduleTime)
