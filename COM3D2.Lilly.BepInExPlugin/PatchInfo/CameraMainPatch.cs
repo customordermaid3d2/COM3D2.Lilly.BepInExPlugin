@@ -24,7 +24,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix]
         private static void FadeIn(CameraMain __instance) // string __m_BGMName 못가져옴
         {
-            if (configEntryUtill["FadeIn"])
+            if (configEntryUtill["FadeIn", false])
                 MyLog.LogMessage("FadeIn : " + __instance.GetFadeState());
 
         }
@@ -33,7 +33,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix]
         private static void FadeOut(CameraMain __instance) // string __m_BGMName 못가져옴
         {
-            if (configEntryUtill["FadeOut"])
+            if (configEntryUtill["FadeOut", false])
                 MyLog.LogMessage("FadeOut : " + __instance.GetFadeState());
 
         }
@@ -42,7 +42,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix]
         private static void FadeInNoUI(CameraMain __instance) // string __m_BGMName 못가져옴
         {
-            if (configEntryUtill["FadeInNoUI"])
+            if (configEntryUtill["FadeInNoUI", false])
                 MyLog.LogMessage("FadeInNoUI : " + __instance.GetFadeState());
 
         }
@@ -51,7 +51,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix]
         private static void FadeOutNoUI(CameraMain __instance) // string __m_BGMName 못가져옴
         {
-            if (configEntryUtill["FadeOutNoUI"])
+            if (configEntryUtill["FadeOutNoUI", false])
                 MyLog.LogMessage("FadeOutNoUI : " + __instance.GetFadeState());
 
         }

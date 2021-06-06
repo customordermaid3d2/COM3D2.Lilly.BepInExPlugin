@@ -19,7 +19,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         /// <summary>
         /// public static GameObject GetChildObject(GameObject f_goParent, string f_strObjName, bool f_bNoError = false)
         /// </summary>
-        [HarmonyPatch(typeof(YotogiStageSelectManager), "GetChildObject", new Type[] { typeof(GameObject), typeof(string), typeof(bool) })]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
+        [HarmonyPatch(typeof(UTY), "GetChildObject", new Type[] { typeof(GameObject), typeof(string), typeof(bool) })]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
         [HarmonyPrefix]
         public static void GetChildObject(GameObject f_goParent, string f_strObjName, bool f_bNoError )
         {

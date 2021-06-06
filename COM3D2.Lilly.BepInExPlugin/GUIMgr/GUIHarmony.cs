@@ -88,8 +88,13 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             infoList.Add(new(typeof(ScheduleTaskCtrlPatch), false));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
             infoList.Add(new(typeof(StatusPatch),false));// 플레그 관리
             infoList.Add(new(typeof(TBodyPatch),false));// 바디 파라미터값 출력 관련
-            infoList.Add(new(typeof(UTYPatch)));// , false
+            infoList.Add(new(typeof(UTYPatch), false));//
             infoList.Add(new(typeof(WorkResultScenePatch), false));// 
+            infoList.Add(new(typeof(YotogiOldSkillContainerViewerPatch)));// , false
+            infoList.Add(new(typeof(YotogiOldSkillSelectManagerPatch)));// , false
+            infoList.Add(new(typeof(YotogiOldStageSelectManagerPatch)));// , false
+            infoList.Add(new(typeof(YotogiSkillContainerViewerPatch)));// , false
+            infoList.Add(new(typeof(YotogiSkillSelectManagerPatch)));// , false
             infoList.Add(new(typeof(YotogiStageSelectManagerPatch)));// , false
             //infoList.Add(typeof(FullBodyIKMgrPatch));// 뼈 관련. 안뜨는거 같음
         }

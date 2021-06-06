@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Yotogis;
 
 namespace COM3D2.Lilly.Plugin.PatchInfo
 {
@@ -16,6 +17,37 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         "YotogiSkillSelectManagerPatch"
         );
 
+        [HarmonyPatch(typeof(YotogiSkillSelectManager), "Awake")]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
+        [HarmonyPostfix]
+        public static void Awake()
+        {
+            //if (configEntryUtill["SetResolution"])
+            {
+                MyLog.LogMessage("YotogiSkillSelectManager.Awake");
+            }
+
+        }
+
+        /// <summary>
+        /// public void CreateSkillButtons(Skill.Data.SpecialConditionType type)
+        /// </summary>
+        /// <param name="___category_data_array_"></param>
+        [HarmonyPatch(typeof(YotogiSkillSelectManager), "CreateSkillButtons")]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
+        [HarmonyPostfix]
+        public static void CreateSkillButtons(Skill.Data.SpecialConditionType type)
+        {
+            //if (configEntryUtill["SetResolution"])
+            {
+                MyLog.LogMessage("YotogiSkillSelectManager.CreateSkillButtons", type);
+            }
+
+        }
+
+        public static bool isAddSkill {
+            get => configEntryUtill["AddSkill"];
+            set => configEntryUtill["AddSkill"] = value;
+        }
+
         [HarmonyPatch(typeof(YotogiSkillSelectManager), "OnCall")]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
         [HarmonyPostfix]
         public static void OnCall()
@@ -24,9 +56,10 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             {
                 MyLog.LogMessage("YotogiSkillSelectManager.OnCall");
             }
-            if (configEntryUtill["AddSkill"])
+            if (isAddSkill)
             {
-                YotogiSkillContainerViewerPatch.AddSkill();
+                YotogiSkillContainerViewerPatch.AddSkill(true);
+                //AddSkill();
             }
         }
         
@@ -100,20 +133,5 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             }
         }
 
-        /*
-        public static void test()
-        {
-            List<YotogiSkillListManager.Data> skill_list = this.category_data_array_[(int)category].skill_list;
-            for (int j = 0; j < skill_list.Count; j++)
-            {
-                GameObject gameObject = this.CreateNewSkillUnit(childObject2);
-                YotogiSkillLockUnit componentInChildren = gameObject.GetComponentInChildren<YotogiSkillLockUnit>();
-                YotogiSkillUnit componentInChildren2 = gameObject.GetComponentInChildren<YotogiSkillUnit>();
-                componentInChildren2.SetSkillData(this.maid_, skill_list[j].skillData, skill_list[j].maidStatusSkillData, componentInChildren, skill_list[j].conditionDatas);
-                componentInChildren2.SetConditionsPanel(childObject3);
-                this.skill_unit_list_.Add(componentInChildren2.gameObject);
-            }
-        }
-        */
     }
 }

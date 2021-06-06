@@ -174,7 +174,7 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
 
                     if (GUILayout.RepeatButton("StartCoroutine add"))
                     {
-                        StartCoroutine("MyCoroutine");
+                        StartCoroutine(MyCoroutine());
                     }
                     if (GUILayout.RepeatButton("StartCoroutine end all"))
                     {
