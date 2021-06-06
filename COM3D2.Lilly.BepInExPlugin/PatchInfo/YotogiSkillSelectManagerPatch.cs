@@ -17,15 +17,17 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         "YotogiSkillSelectManagerPatch"
         );
 
+        public static YotogiSkillSelectManager instance;
+
         [HarmonyPatch(typeof(YotogiSkillSelectManager), "Awake")]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
         [HarmonyPostfix]
-        public static void Awake()
+        public static void Awake(YotogiSkillSelectManager __instance)
         {
             //if (configEntryUtill["SetResolution"])
             {
                 MyLog.LogMessage("YotogiSkillSelectManager.Awake");
             }
-
+            instance = __instance;
         }
 
         /// <summary>
@@ -52,7 +54,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix]
         public static void OnCall()
         {
-            //if (configEntryUtill["SetResolution"])
+            if (configEntryUtill["OnCall"])
             {
                 MyLog.LogMessage("YotogiSkillSelectManager.OnCall");
             }
@@ -77,7 +79,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void OnClickEdit()
         {
-            //if (configEntryUtill["SetResolution"])
+            if (configEntryUtill["OnClickEdit"])
             {
                 MyLog.LogMessage("YotogiSkillSelectManager.OnClickEdit");
             }
@@ -87,7 +89,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void OnClickFromCategoryButton(GameObject obj, Yotogi.Category category)
         {
-            //if (configEntryUtill["SetResolution"])
+            if (configEntryUtill["OnClickFromCategoryButton"])
             {
                 MyLog.LogMessage("YotogiSkillSelectManager.OnClickFromCategoryButton"
                     , obj.name
@@ -100,7 +102,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void OnClickFromSkillUnit(GameObject game_obj)
         {
-            //if (configEntryUtill["SetResolution"])
+            if (configEntryUtill["OnClickFromSkillUnit"])
             {
                 MyLog.LogMessage("YotogiSkillSelectManager.OnClickFromSkillUnit"
                     , game_obj
@@ -111,7 +113,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void CreateNewSkillUnit(GameObject root)
         {
-            //if (configEntryUtill["SetResolution"])
+            if (configEntryUtill["CreateNewSkillUnit"])
             {
                 MyLog.LogMessage("YotogiSkillSelectManager.CreateNewSkillUnit"
                     , root

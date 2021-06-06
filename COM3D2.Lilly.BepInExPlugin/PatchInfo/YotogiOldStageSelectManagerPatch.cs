@@ -55,10 +55,10 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             }
         }
 
-        // public void SetStageData(YotogiOld.StageData stage_data, bool enabled)
-        [HarmonyPatch(typeof(YotogiOldStageUnit), "SetStageData")]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
+        //public void SetStageData(YotogiOld.StageData stage_data, bool enabled)
+        [HarmonyPatch(typeof(YotogiOldStageUnit), "SetStageData", new Type[] { typeof(YotogiOld.StageData), typeof(bool) })]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
         [HarmonyPostfix]
-        public static void SetStageData(YotogiOld.StageData stage_data, bool enabled, bool isDaytime, YotogiOldStageUnit __instance, UILabel ___name_label_)
+        public static void SetStageData(YotogiOld.StageData stage_data, bool enabled, YotogiOldStageUnit __instance, UILabel ___name_label_)
         {
             //if (configEntryUtill["SetResolution"])
             {
@@ -67,7 +67,6 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                     , stage_data.draw_name
                     , stage_data.stage_name
                     , enabled
-                    , isDaytime
                     );
             }
             if (enabled)

@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using COM3D2.Lilly.Plugin.Utill;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,10 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
     class YotogiSkillContainerViewerPatch
     {
         // YotogiSkillContainerViewer
+
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+"YotogiSkillContainerViewerPatch"
+);
 
         public static YotogiSkillContainerViewer instance;
         public static Maid maid;
@@ -52,7 +57,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void AddSkill(Skill.Data data, bool lockSkillExp)
         {
-            //if (configEntryUtill["SetResolution"])
+            if (configEntryUtill["AddSkill"])
             {
                 MyLog.LogMessage("YotogiSkillContainerViewer.AddSkill"
                     , data.name
@@ -89,7 +94,8 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                     setting_stage_data_ = YotogiStage.GetAllDatas(true)[0];
                 }
 
-                foreach (Skill.Data.SpecialConditionType type in Enum.GetValues(typeof(Skill.Data.SpecialConditionType)))
+                //foreach (Skill.Data.SpecialConditionType type in Enum.GetValues(typeof(Skill.Data.SpecialConditionType)))
+                foreach (Skill.Data.SpecialConditionType type in YotogiSkillSelectManagerPatch.instance.conditionSetting.checkBoxTypes)
                 {
                     //bool enabled = false;
                     Dictionary<int, YotogiSkillListManager.Data> dictionary = YotogiSkillListManager.CreateDatas(maid.status, true, type);
@@ -99,22 +105,44 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                         if (value.skillData.IsExecStage(setting_stage_data_))
                         {
                             MyLog.LogMessage("AddSkill"
+                            , type
                             , value.skillData.category
                             , value.skillData.id
                             , value.skillData.name
+                            , value.maidStatusSkillData != null
                             );
-                            skillList.Add(value.skillData);
+                            if(value.maidStatusSkillData!=null)
+                                skillList.Add(value.skillData);
                             //skillOldList.Add(value.skillDataOld);
                         }
                     }
                 }
             }
+            int c = UnityEngine.Random.Range(0, skillList.Count);
+
+
 
             if (skillList.Count > 0)
             {
                 for (int i = 0; i < 7; i++)
                 {
-                    instance.AddSkill(skillList.ElementAt(UnityEngine.Random.Range(0, skillList.Count)), false);
+                    c = UnityEngine.Random.Range(0, skillList.Count);
+                    try
+                    {
+                        MyLog.LogMessage("AddSkill"
+                        , skillList[c].category
+                        , skillList[c].id
+                        , skillList[c].name                        
+                        , skillList[c].specialConditionType
+                        , skillList[c].start_call_file
+                        , skillList[c].start_call_file2
+                        );
+                        instance.AddSkill(skillList[c], false);
+                    }
+                    catch (Exception e)
+                    {
+                        MyLog.LogError(e.ToString());
+                    }
                 }
             }
         }

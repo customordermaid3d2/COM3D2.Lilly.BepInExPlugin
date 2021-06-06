@@ -30,7 +30,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void OnCallPre()//YotogiStageSelectManager __instance
         {
-            //if (configEntryUtill["SetResolution"])
+            if (configEntryUtill["OnCallPre"])
             {
                 MyLog.LogMessage("YotogiStageSelectManager.OnCall");
             }
@@ -46,7 +46,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix]
         public static void OnCallPost(YotogiStageSelectManager __instance)
         {
-            //if (configEntryUtill["SetResolution"])
+            if (configEntryUtill["OnCallPost"])
             {
                 MyLog.LogMessage("YotogiStageSelectManager.OnCall");
             }
@@ -110,7 +110,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix]
         public static void CreatePrefab(GameObject parent, string path, bool trans_reset = true)
         {            
-            //if (configEntryUtill["SetResolution"])
+            if (configEntryUtill["CreatePrefab"])
             {
                 MyLog.LogMessage("Utility.CreatePrefab"
                     , parent.name

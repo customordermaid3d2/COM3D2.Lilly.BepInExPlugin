@@ -25,6 +25,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         public const int openW = 50;
         private static Rect windowRect = new Rect(40f, 40f, 300f, 600f);
+        private const float windowSpace = 40.0f;
 
         public static GUIMgr instance;
 
@@ -209,8 +210,10 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GUI.skin = null;
 
             // 화면 밖으로 안나가게 조정
-            windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + 20, Screen.width - 20);
-            windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + 20, Screen.height - 20);
+            //windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + 20, Screen.width - 20);
+            //windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + 20, Screen.height - 20);
+            windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + windowSpace, Screen.width - windowSpace);
+            windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + windowSpace, Screen.height - windowSpace);
 
             windowRect = GUILayout.Window(pageNow, windowRect, GuiFunc, Lilly.Instance.name);
         }
@@ -273,8 +276,8 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             GUILayout.EndVertical();
 
-            GUI.DragWindow();
             GUI.enabled = true;
+            GUI.DragWindow();
         }
 
         /// <summary>

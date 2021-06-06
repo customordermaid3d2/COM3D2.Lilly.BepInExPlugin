@@ -23,7 +23,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void GetChildObject(GameObject f_goParent, string f_strObjName, bool f_bNoError )
         {
-            //if (configEntryUtill["SetResolution"])
+            if (configEntryUtill["GetChildObject"])
             {
                 MyLog.LogMessage("UTY.GetChildObject"
                     , f_goParent.name

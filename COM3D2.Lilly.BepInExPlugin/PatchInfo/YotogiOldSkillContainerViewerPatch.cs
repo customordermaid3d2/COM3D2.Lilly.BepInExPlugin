@@ -85,6 +85,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                             , oldData.id
                             , oldData.name
                             );
+                        
                         skillList.Add(oldData);
                     }
                 }
@@ -94,7 +95,14 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             {                
                 for (int i = 0; i < 7; i++)
                 {
-                    instance.AddSkill(skillList.ElementAt(UnityEngine.Random.Range(0, skillList.Count)));
+                    try
+                    {
+                        instance.AddSkill(skillList.ElementAt(UnityEngine.Random.Range(0, skillList.Count)));
+                    }
+                    catch (Exception e)
+                    {
+                        MyLog.LogError(e.ToString());
+                    }
                 }                
             }
         }

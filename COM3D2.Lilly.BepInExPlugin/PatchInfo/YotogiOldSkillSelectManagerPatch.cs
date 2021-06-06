@@ -32,7 +32,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
 
             if (isAddSkill)
             {
-                YotogiSkillContainerViewerPatch.AddSkill(true);
+                YotogiOldSkillContainerViewerPatch.AddSkill(true);
                 //AddSkill();
             }
         }
