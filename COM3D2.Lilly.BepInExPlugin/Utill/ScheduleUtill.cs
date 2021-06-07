@@ -1,4 +1,5 @@
 ﻿using COM3D2.Lilly.Plugin.PatchInfo;
+using MaidStatus;
 using PlayerStatus;
 using Schedule;
 using System;
@@ -133,6 +134,7 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         }
 
+        // 밤시중 스킬 선택
         private static void SetNightWork(ScheduleMgr.ScheduleTime scheduleTime, List<int> slots)
         {
             Maid maid;
@@ -165,6 +167,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                     int dn = UnityEngine.Random.Range(0, ScheduleCSVData.YotogiData.Count);
                     if (ScheduleCSVData.YotogiData.ElementAt(dn).Value.mode == ScheduleCSVData.ScheduleBase.Mode.CM3D2)
                     {
+
                         continue;
                     }
 
@@ -174,6 +177,11 @@ namespace COM3D2.Lilly.Plugin.Utill
                     maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[sn]);
                     if (maid.status.heroineType == MaidStatus.HeroineType.Sub)
                         break;
+
+                    if(!PersonalEventBlocker.IsEnabledScheduleTask(maid.status.personal, id))
+                    {
+                        break;
+                    }
 
                     if (!ScheduleUtill.CheckYotogi(maid, id, scheduleTime))
                     {
@@ -190,6 +198,232 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         }
 
+        public static void SetWorkId(ScheduleMgr.ScheduleTime workTime, int taskId, int slotId)
+        {
+            if (ScheduleCSVData.AllData.ContainsKey(taskId))
+            {
+                ScheduleCSVData.ScheduleBase scheduleBase = ScheduleCSVData.AllData[taskId];
+                //int slotId = 0;
+                //for (int i = 0; i < 40; i++)
+                //{
+                //    Maid scheduleSlot = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(i);
+                //    if (scheduleSlot != null && scheduleSlot == this.m_scheduleCtrl.SelectedMaid)
+                //    {
+                //        slotId = i;
+                //    }
+                //}
+                ScheduleTaskCtrl.TaskType type = scheduleBase.type;
+                if (type != ScheduleTaskCtrl.TaskType.Training && type != ScheduleTaskCtrl.TaskType.Work)
+                {
+                    if (type == ScheduleTaskCtrl.TaskType.Yotogi)
+                    {
+                        ScheduleMgrPatch.m_scheduleApi.SetNightWorkSlot_Safe(workTime, slotId, taskId);
+                    }
+                }
+                else
+                {
+                    ScheduleMgrPatch.m_scheduleApi.SetNoonWorkSlot_Safe(workTime, slotId, taskId);
+                }
+            }
+            if (!DailyMgr.IsLegacy)
+            {
+                GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
+            }
+            ScheduleAPI.MaidWorkIdErrorCheck(true);
+        }
+
+        public static void SetScheduleAllMaid2(ScheduleMgr.ScheduleTime scheduleTime)
+        {
+            if (ScheduleMgrPatch.m_scheduleApi == null)
+            {
+                MyLog.LogMessage("SetSlotAllDel"
+                , "스케줄 관리 접속 한번 필요"
+                );
+                return;
+            }
+
+            if (configEntryUtill["SetScheduleAllMaid", false])
+                MyLog.LogMessage(
+                "SetScheduleAllMaid"
+                );
+
+            // 스케줄의 슬롯 정보
+            // public Maid GetScheduleSlot(int slotNo)
+            // if (string.IsNullOrEmpty(this.scheduleSlot[slotNo].maid_guid))
+            ScheduleData[] scheduleDatas = GameMain.Instance.CharacterMgr.status.scheduleSlot;
+
+
+            // 사용 가능한 메이드 슬롯 목록
+            List<int> slots = new();
+            SetSlots(scheduleDatas, slots);
+
+
+            Maid maid;
+            List<ScheduleBase> scheduleData;
+            List<ScheduleBase> ids = new();
+
+            int ic = UnityEngine.Random.Range(0, 40);
+            //밤시중용 처리
+            for (int i = 0; i < ic; i++)
+            {
+                try
+                {
+                    if (slots.Count == 0 || slots.Count < 3)
+                    {
+                        break;
+                    }
+
+                    int sn = UnityEngine.Random.Range(0, slots.Count);
+                    scheduleData = ScheduleMgrPatch.m_scheduleApi.slot[sn].scheduleData;
+                    maid = ScheduleMgrPatch.m_scheduleApi.slot[sn].maid;
+                    ids.Clear();
+
+
+
+                    foreach (ScheduleBase scheduleBase in scheduleData)
+                    {
+                        if (scheduleBase.workType != ScheduleType.Work)
+                            if (PersonalEventBlocker.IsEnabledScheduleTask(maid.status.personal, scheduleBase.id)&& scheduleBase.enabled)
+                            {
+                                if (configEntryUtill["SetScheduleAllMaid_2", false])
+                                    MyLog.LogMessage("scheduleBase",
+                                    scheduleBase.id,
+                                    scheduleBase.name,
+                                    scheduleBase.workType,
+                                    scheduleBase.enabled
+                                );
+
+                                //ScheduleCSVData.AllData[scheduleBase.id]
+                                ids.Add(scheduleBase);
+                            }
+                    }
+                    int idsc = UnityEngine.Random.Range(0, ids.Count);
+                    if (configEntryUtill["SetScheduleAllMaid_2", false])
+                        MyLog.LogMessage("maid"
+                            , MyUtill.GetMaidFullName(maid)
+                            , ids[idsc].id
+                            , ids[idsc].name
+                            , ids[idsc].workType
+                            , ids[idsc].enabled
+                        );
+
+                    //ScheduleMgrPatch.m_scheduleApi.SetWorkId(scheduleTime, slots[sn], ids[UnityEngine.Random.Range(0, ids.Count)]);
+                    SetWorkId(scheduleTime, slots[sn], ids[idsc].id);
+                    slots.Remove(sn);
+
+                }
+                catch (Exception e)
+                {
+                    MyLog.Log("scheduleBase", e.ToString());
+                }
+            }
+
+
+
+
+            //var facilitys = GameMain.Instance.FacilityMgr.GetFacilityArray().Where(x=>x).ToList();
+            var facilitys = GameMain.Instance.FacilityMgr.GetFacilityArray().ToList();
+            if (configEntryUtill["SetFacilityAllMaid"])
+                MyLog.LogMessage(
+                "SetFacilityAllMaid3"
+                , scheduleDatas.Length
+                , slots.Count
+                , facilitys.Count
+                );
+
+            // 구현부
+            Facility facility;
+            FacilityDataTable.FacilityDefaultData defaultData;
+            ScheduleCSVData.Work workData;
+
+            while (facilitys.Count > 2)
+            {
+                int n2 = UnityEngine.Random.Range(2, facilitys.Count);
+                if (facilitys[n2] == null)
+                {
+                    if (configEntryUtill["SetFacilityAllMaid"])
+                        MyLog.LogMessage(
+                        "SetFacilityAllMaid null"
+                        , n2
+                        );
+                }
+                else
+                {
+                    facility = facilitys[n2];
+                    defaultData = facility.defaultData;
+                    workData = defaultData.workData;
+
+                    if (facility.minMaidCount <= slots.Count && workData.id != 0)
+                    {
+                        for (int k = 0; k < facility.minMaidCount; k++)
+                        {
+                            int n1 = UnityEngine.Random.Range(0, slots.Count);
+                            try
+                            {
+                                maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[n1]);
+                                if (configEntryUtill["SetFacilityAllMaid"])
+                                    MyLog.LogMessage(
+                                    "SetFacilityAllMaid4"
+                                    , n2
+                                    , n1
+                                    , MyUtill.GetMaidFullName(maid)
+                                    , facility.defaultName
+
+                                    );
+
+                                //if (ScheduleMgrPatch.m_scheduleApi != null)
+                                ScheduleMgrPatch.m_scheduleApi.SetNoonWorkSlot_Safe(scheduleTime, slots[n1], workData.id);
+
+                                facility.AllocationMaid(maid, scheduleTime);
+                            }
+                            catch (Exception e)
+                            {
+                                MyLog.LogWarning(
+                                "SetFacilityAllMaid4"
+                                , n2
+                                , e.ToString()
+                                );
+                            }
+                            slots.Remove(slots[n1]);
+                        }
+                        if (slots.Count == 0)
+                        {
+                            if (!DailyMgrPatch.IsLegacy)
+                            {
+                                GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
+                            }
+                            ScheduleAPI.MaidWorkIdErrorCheck(true);
+                            return;
+                        }
+                    }
+
+                }
+                facilitys.RemoveAt(n2);
+            }
+
+            facility = facilitys[1];
+            defaultData = facility.defaultData;
+            workData = defaultData.workData;
+            while (slots.Count > 0)
+            {
+                int n1 = 0;
+                maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[n1]);
+
+                //if (ScheduleMgrPatch.m_scheduleApi != null)
+                ScheduleMgrPatch.m_scheduleApi.SetNoonWorkSlot_Safe(scheduleTime, slots[n1], workData.id);
+
+                facility.AllocationMaid(maid, scheduleTime);
+
+                slots.RemoveAt(n1);
+            }
+
+            if (!DailyMgrPatch.IsLegacy)
+            {
+                GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
+            }
+            ScheduleAPI.MaidWorkIdErrorCheck(true);
+
+        }
 
         public static void SetScheduleAllMaid(ScheduleMgr.ScheduleTime scheduleTime)
         {
@@ -325,7 +559,14 @@ namespace COM3D2.Lilly.Plugin.Utill
                 GameMain.Instance.FacilityMgr.UpdateFacilityAssignedMaidData();
             }
             ScheduleAPI.MaidWorkIdErrorCheck(true);
+
+
+
+
+
+
         }
+        
 
         private static void SetSlots(ScheduleData[] scheduleDatas, List<int> slots)
         {

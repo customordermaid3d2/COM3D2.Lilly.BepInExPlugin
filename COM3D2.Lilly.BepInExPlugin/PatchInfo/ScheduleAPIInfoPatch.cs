@@ -23,7 +23,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         public static void FacilitySlotActive(
             string maidGuid, Facility facility, ScheduleMgr.ScheduleTime time)
         {
-            if(configEntryUtill["FacilitySlotActive"])
+            if(configEntryUtill["FacilitySlotActive",false])
             MyLog.LogMessage("ScheduleAPI.FacilitySlotActive"
                 , maidGuid
                 , facility.facilityName
@@ -44,7 +44,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             {
                 key = maid.status.nightWorkId;
             }
-            if (configEntryUtill["FacilitySlotActive"])
+            if (configEntryUtill["FacilitySlotActive", false])
                 MyLog.LogMessage("ScheduleAPI.FacilitySlotActive1"
                 , MyUtill.GetMaidFullName(maid)
                 , key
@@ -55,13 +55,13 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                 if (scheduleBase.type == ScheduleTaskCtrl.TaskType.Work)
                 {
                     ScheduleCSVData.Work work = (ScheduleCSVData.Work)scheduleBase;
-                    if (configEntryUtill["FacilitySlotActive"])
+                    if (configEntryUtill["FacilitySlotActive", false])
                         MyLog.LogMessage("ScheduleAPI.FacilitySlotActive2"
                         , work.facilityId
                         , work.facility.ID
                         , work.facility.name
                     );
-                    if (configEntryUtill["FacilitySlotActive"])
+                    if (configEntryUtill["FacilitySlotActive", false])
                         MyLog.LogMessage("ScheduleAPI.FacilitySlotActive3"
                         , ScheduleCSVData.faclilityPowerUpWorkId
                         , facility.defaultData.ID

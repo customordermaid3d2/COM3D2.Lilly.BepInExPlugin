@@ -110,10 +110,10 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPostfix]
         public static void CreatePrefab(GameObject parent, string path, bool trans_reset = true)
         {            
-            if (configEntryUtill["CreatePrefab"])
+            if (configEntryUtill["CreatePrefab",false])
             {
                 MyLog.LogMessage("Utility.CreatePrefab"
-                    , parent.name
+                    , parent?.name 
                     , path
                     , trans_reset
                     );

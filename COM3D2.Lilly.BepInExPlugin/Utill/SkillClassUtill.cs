@@ -28,7 +28,7 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         public static void SetMaidYotogiClass(Maid maid)
         {
-
+            MyLog.LogDarkBlue("SetMaidYotogiClass. start");
             #region YotogiClass
 
             YotogiClassSystem yotogiClassSystem = maid.status.yotogiClass;
@@ -43,6 +43,8 @@ namespace COM3D2.Lilly.Plugin.Utill
             SetExpMax(yotogiClassSystems.Select(x => x.expSystem));
 
             #endregion
+
+            MyLog.LogDarkBlue("SetMaidYotogiClass. end");
         }
 
         public static void SetMaidJobClassAll()
@@ -56,6 +58,8 @@ namespace COM3D2.Lilly.Plugin.Utill
                     continue;
                 SetMaidJobClass(maid);
             }
+
+            MyLog.LogDarkBlue("SetMaidJobClassAll. end");
         }
 
         public static void SetMaidJobClass(Maid maid)
@@ -90,6 +94,8 @@ namespace COM3D2.Lilly.Plugin.Utill
 
                 SetMaidSkill(maid);
             }
+
+            MyLog.LogDarkBlue("SetMaidSkillAll. end");
         }
 
         public static void SetMaidSkill(Maid maid)
