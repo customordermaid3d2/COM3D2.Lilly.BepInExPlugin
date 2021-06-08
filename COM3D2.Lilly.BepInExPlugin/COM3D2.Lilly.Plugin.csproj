@@ -24,6 +24,9 @@
 	  <None Remove="comfile.bat" />
 	</ItemGroup>
 	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+	<ItemGroup>
 	  <Reference Include="0Harmony">
 	    <HintPath>..\lib\0Harmony.dll</HintPath>
 	    <Private>false</Private>

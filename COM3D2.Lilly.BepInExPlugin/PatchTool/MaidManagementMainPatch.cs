@@ -33,9 +33,11 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 , MyUtill.GetMaidFullName(___select_maid_));
 
             selectMaid = ___select_maid_;
+#if FlagMaid
 
             GUIFlagMaid.SetingFlag(___select_maid_);
 
+#endif
             // MaidStatusUtill.SetMaidStatus(___select_maid_);
             //___m_maid.status.base = 9999;
             //___m_maid.status.base = 9999;

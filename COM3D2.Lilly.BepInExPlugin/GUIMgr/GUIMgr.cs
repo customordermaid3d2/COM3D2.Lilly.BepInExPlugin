@@ -6,6 +6,7 @@ using UnityEngine;
 using BepInEx.Configuration;
 using COM3D2API;
 using COM3D2.Lilly.Plugin.Utill;
+using BepInPluginSample;
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
@@ -16,6 +17,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
     public class GUIMgr : MonoBehaviour// : AwakeUtill
     {
         public string nameGUI = "GUIVirtual";
+        string[] GUINams;
 
         private ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
         "GUIVirtualMgr"
@@ -24,9 +26,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         private static ConfigEntry<BepInEx.Configuration.KeyboardShortcut> ShowCounter;
 
         public const int openW = 50;
-        private static Rect windowRect = new Rect(40f, 40f, 300f, 600f);
-        private const float windowSpace = 40.0f;
 
+
+        public static MyWindowRect myWindowRect;
         public static GUIMgr instance;
 
         private static GUILayoutOptionUtill guio = GUILayoutOptionUtill.Instance;
@@ -59,15 +61,15 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 if (open != value)
                     if (open = value)
                     {
-                        windowRect.height = 600f;
-                        windowRect.width = 300f;
-                        windowRect.x -= openW;
+                        myWindowRect.Height = 600f;
+                        myWindowRect.Width = 300f;
+                        myWindowRect.X -= openW;
                     }
                     else
                     {
-                        windowRect.height = 40f;
-                        windowRect.width = 300f - openW;
-                        windowRect.x += openW;
+                        myWindowRect.Height = 40f;
+                        myWindowRect.Width = 300f - openW;
+                        myWindowRect.X += openW;
                     }
             }
         }
@@ -80,7 +82,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         //public static GUIRndPreset presetGUI;
         public static GUIOnOff OnOffGUI;
         public static GUIPlugin pluginUtill;
+#if FlagMaid
         public static GUIFlagMaid GUIFlag;
+#endif
         public static GUIFlagPlayer GUIFlagPlayer;
         public static GUIScript GUIScript;
 
@@ -105,6 +109,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         {
             customFile = Lilly.customFile;
             ShowCounter = customFile.Bind("GUIVirtualMgr", "GUI ON OFF KeyboardShortcut", new BepInEx.Configuration.KeyboardShortcut(KeyCode.Alpha0, KeyCode.LeftControl));
+            myWindowRect = new MyWindowRect(customFile);
         }
 
         public static GUIMgr Install(GameObject container)
@@ -122,9 +127,13 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 cheatUtill = new GUICheat();
                 easyUtill = new GUIEasy();
                 maidEditGui = new GUIMaidEdit();
-                //presetGUI = new GUIRndPreset();
+#if PresetUtill
+                presetGUI = new GUIRndPreset();
+#endif
                 GUIScript = new GUIScript();
-                GUIFlag = new GUIFlagMaid();
+#if FlagMaid
+                GUIFlag = new GUIFlagMaid(); 
+#endif
                 GUIFlagPlayer = new GUIFlagPlayer();
                 OnOffGUI = new GUIOnOff();
                 pluginUtill = new GUIPlugin();
@@ -132,6 +141,8 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 PageNow.Value = (PageNow.Value + pageCount) % pageCount;
 
                 MyLog.LogMessage("GameObjectMgr.Install", instance.name);
+
+                instance.GUINams = guis.Select(x => x.Value.nameGUI).ToArray();
             }
             return instance;
         }
@@ -168,10 +179,16 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             MyLog.LogDebug("GUIVirtual.ActionsStart", pageNow, nameGUI);
         }
 
+        public void OnEnable()
+        {
+            MyLog.LogMessage("OnEnable");
+
+            // json 읽기
+            myWindowRect.load();
+        }
+
         private void Start()
         {
-            windowRect.x = Screen.width - windowRect.width - 20;
-            MyLog.LogDebug("Start", nameGUI, Screen.width, windowRect.width, windowRect.x);
             SystemShortcutAPI.AddButton("Lilly Plugin", new Action(SetGuiOnOff), "Lilly Plugin", GearMenu.png);
             actionsStart();
         }
@@ -209,13 +226,8 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             GUI.skin = null;
 
-            // 화면 밖으로 안나가게 조정
-            //windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + 20, Screen.width - 20);
-            //windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + 20, Screen.height - 20);
-            windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + windowSpace, Screen.width - windowSpace);
-            windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + windowSpace, Screen.height - windowSpace);
 
-            windowRect = GUILayout.Window(pageNow, windowRect, GuiFunc, Lilly.Instance.name);
+            myWindowRect.WindowRect = GUILayout.Window(pageNow, myWindowRect.WindowRect, GuiFunc, Lilly.Instance.name);
         }
 
         private Vector2 scrollPosition;
@@ -287,15 +299,19 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         {
             if (GUILayout.Button("All LogOnOff")) Lilly.SetLogOnOff();
             GUILayout.Label("page list");
-            pageNow = GUILayout.SelectionGrid(pageNow, guis.Select(x => x.Value.nameGUI).ToArray(), 1);
-            //MyLog.LogWarning("SetBody", nameGUI);
-            //foreach (var item in guis)
-            //{
-            //
-            //}
+
+            pageNow = GUILayout.SelectionGrid(pageNow, GUINams, 1);
+
         }
 
         #endregion
 
+
+        public void OnDisable()
+        {
+            MyLog.LogMessage("OnDisable");
+
+            myWindowRect.save();
+        }
     }
 }

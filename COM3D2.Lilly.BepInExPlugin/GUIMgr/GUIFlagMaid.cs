@@ -9,6 +9,8 @@ using wf;
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
+#if FlagMaid
+
     public class GUIFlagMaid : GUIMgr
     {
         static GUILayoutOptionUtill guio = GUILayoutOptionUtill.Instance;
@@ -226,4 +228,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         }
     }
+
+
+#endif
 }
