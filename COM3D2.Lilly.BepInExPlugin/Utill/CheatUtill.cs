@@ -39,7 +39,7 @@ namespace COM3D2.Lilly.Plugin.Utill
             MyLog.LogMessage(
             "CheatUtill.SetHeroineType"
             );
-            MaidManagementMainPatch.select_maid.status.heroineType = transfer;
+            MaidManagementMainPatch.selectMaid.status.heroineType = transfer;
         }
 
         static bool isSetAllWorkRun = false;

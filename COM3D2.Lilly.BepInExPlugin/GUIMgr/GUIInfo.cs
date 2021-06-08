@@ -41,7 +41,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             GUILayout.Label("메이드 관리에서 사용 SceneMaidManagement");
             GUI.enabled = Lilly.scene.name == "SceneMaidManagement";
-            if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) GUIInfo.GetMaidFlag(MaidManagementMainPatch.select_maid);
+            if (GUILayout.Button("정보 얻기 메이드 플레그 관련")) GUIInfo.GetMaidFlag(MaidManagementMainPatch.selectMaid);
 
             GUI.enabled = true;
 
@@ -239,9 +239,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 MyLog.LogMessage(type.Name, item.Name, item.GetValue(null));
             }
 
-            //MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.);
+            MyLog.LogInfo("GUI.skin.customStyles");
 
-            if (GUI.skin != null && GUI.skin.customStyles != null)
+            if (GUI.skin?.customStyles != null)
             {
                 foreach (var item in GUI.skin.customStyles)
                 {

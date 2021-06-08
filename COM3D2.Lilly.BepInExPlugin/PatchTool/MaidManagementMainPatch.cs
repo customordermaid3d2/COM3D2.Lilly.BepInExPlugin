@@ -16,12 +16,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
     class MaidManagementMainPatch
     {
 
-        public static Maid select_maid;
-        //public static liststring select_maid;
-        //public static ReadOnlyDictionary<string, int> flags;
-        public static Dictionary<string, string> flags;
-        public static Dictionary<string, string> flagsOld=new Dictionary<string, string>();
-
+        public static Maid selectMaid;
 
         /// <summary>
         /// 메이드 관리에서 모든 버튼 활성화
@@ -36,16 +31,10 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             MyLog.LogMessage(
                 "MaidManagementMain.OnSelectChara:"
                 , MyUtill.GetMaidFullName(___select_maid_));
-            MaidManagementMainPatch.select_maid = ___select_maid_;
-            flags = MaidManagementMainPatch.select_maid.status.flags.ToDictionary( x=> x.Key + " , " + x.Value,x=> x.Key);
-            if (___select_maid_.status.OldStatus!=null)
-            {
-                MaidManagementMainPatch.flagsOld = MaidManagementMainPatch.select_maid.status.OldStatus.flags.ToDictionary( x=> x.Key + " , " + x.Value,x=> x.Key);
-            }
-            else
-            {
-                flagsOld.Clear();
-            }
+
+            selectMaid = ___select_maid_;
+
+            GUIFlagMaid.SetingFlag(___select_maid_);
 
             // MaidStatusUtill.SetMaidStatus(___select_maid_);
             //___m_maid.status.base = 9999;
@@ -55,6 +44,8 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 item.Value.isEnabled = true;
             }
         }
+
+
 
         /// <summary>
         /// 고용 버튼 클릭시
@@ -89,16 +80,6 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 ); 
 #endif
 
-            // GameMain.Instance.SysDlg.Close();
-            // int num = this.employmentPrice;
-            // GameMain.Instance.CharacterMgr.status.money += (long)(num * -1);
-            // Maid maid = this.chara_mgr_.AddStockMaid();
-            // MaidManagementMain.BackUpSelectMaidGUID = maid.status.guid;
-            // MaidManagementMain.BackUpBarValue = 1f;
-            // MaidManagementMain.BackUpRightPanelVisible = this.chara_select_mgr_.IsRightVisible();
-            // this.chara_mgr_.SetActiveMaid(maid, 0);
-            // this.maid_management_.move_screen.SetNextLabel(this.new_edit_label_);
-            // this.Finish();
 
         }
 

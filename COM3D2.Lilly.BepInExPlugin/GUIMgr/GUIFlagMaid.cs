@@ -12,16 +12,37 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
     public class GUIFlagMaid : GUIMgr
     {
         static GUILayoutOptionUtill guio = GUILayoutOptionUtill.Instance;
-        public static string flag = string.Empty;
-        public static string flagVs = string.Empty;
-        public static string[] typesAll = new string[] { "new", "old" };
-        public static string[] typesone = new string[] { "new" };
-        public static string[] types = new string[] { "new", "old" };
-        public static int flagV = 1;
-        public static int type = 0;
-        public static event Action a = bodyFlag;
 
-        public static Maid maid;
+        private static readonly string[] typesAll = new string[] { "new", "old" };
+        private static readonly string[] typesone = new string[] { "new" };
+        private static string[] types = new string[] { "new", "old" };
+
+        private static string flagName = string.Empty;
+        private static string flagValueS = string.Empty;
+
+        private static int flagValue = 1;
+        private static int type = 0;
+
+        private static int selectedFlag;
+
+        private static event Action action = SetBodyFlag;
+
+        private static Maid maid;
+        //private static int selectedFlagold;
+
+        /// <summary>
+        /// Key : maid.flags.key + maid.flags.value
+        /// value : maid.flags.key
+        /// </summary>
+        public static Dictionary<string, string> flags;
+        //public static Dictionary<string, string> flagsOld = new Dictionary<string, string>();
+
+        public static string[] flagsStats = new string[] { };
+        //public static string[] flagsOldStats;
+
+        public static string[] flagsKey = new string[] { };
+        //public static string[] flagsOldKey;
+
 
         public override void SetBody()
         {
@@ -32,21 +53,6 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 GUILayout.Label("메이드 관리에서 사용 SceneMaidManagement");
                 return;
             }
-            if (maid!= MaidManagementMainPatch.select_maid)
-            {
-                maid = MaidManagementMainPatch.select_maid;
-                if (maid.status.OldStatus == null)
-                {
-                    a = bodyFlag;
-                    types = typesone;
-                    type = 0;
-                }
-                else
-                {
-                    types = typesAll;
-                }
-
-            }
 
             GUILayout.Label(MyUtill.GetMaidFullName(maid));
 
@@ -54,71 +60,64 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             if (GUI.changed)
             {
-                switch (type)
-                {
-                    case 0:
-                        a = bodyFlag;
-                        break;
-                    case 1:
-                        a = bodyFlagOld;
-                        break;
-                    default:
-                        break;
-                }
+                GUIFlagMaid.SetingFlag(maid);
             }
 
-            a();
+            action();
 
             GUI.enabled = true;
         }
 
-        private static void bodyFlag()
+        private static void SetBodyFlag()
         {
             GUILayout.Label("플레그 추가");
+
             GUILayout.BeginHorizontal();
-            flag = GUILayout.TextField(flag);
-            flagVs = GUILayout.TextField(flagV.ToString());
+            flagName = GUILayout.TextField(flagName);
+            flagValueS = GUILayout.TextField(flagValue.ToString("D"));
             if (GUI.changed)
             {
-                if (!int.TryParse(flagVs, out flagV))
-                    flagV = 1;
+                int.TryParse(flagValueS, out flagValue);
             }
-            if (GUILayout.Button("add", guio[GUILayoutOptionUtill.Type.Width, 40]))
+            if (GUILayout.Button("Set", guio[GUILayoutOptionUtill.Type.Width, 40]))
             {
-                if (!string.IsNullOrEmpty(flag))
+                if (!string.IsNullOrEmpty(flagName))
                 {
-                    maid.status.AddFlag(flag, flagV);
-                    MaidManagementMainPatch.flags = maid.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                    maid.status.SetFlag(flagName, flagValue);
+                    GUIFlagMaid.SetingFlag(maid);
                 }
             }
             GUILayout.EndHorizontal();
 
-            GUILayout.Label("보유한 플레그 목록 "+ MaidManagementMainPatch.flags.Count);
-            foreach (var item in MaidManagementMainPatch.flags)
+
+
+            GUILayout.Label("edit seleted flag ");
+
+            GUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("add"))//, guio[GUILayoutOptionUtill.Type.Width, 20]
             {
-                GUILayout.BeginHorizontal();
-                GUILayout.Label(item.Key);
-                GUILayout.FlexibleSpace();
-                if (GUILayout.Button("a", guio[GUILayoutOptionUtill.Type.Width, 20]))
-                {
-                    MyLog.LogMessage("add flag", item.Key);
-                    maid.status.AddFlag(item.Value,1);
-                    MaidManagementMainPatch.flags = maid.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
-                }
-                if (GUILayout.Button("0", guio[GUILayoutOptionUtill.Type.Width, 20]))
-                {
-                    MyLog.LogMessage("Set flag", item.Key);
-                    maid.status.SetFlag(item.Value,0);
-                    MaidManagementMainPatch.flags = maid.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
-                }
-                if (GUILayout.Button("d", guio[GUILayoutOptionUtill.Type.Width, 20]))
-                {
-                    MyLog.LogMessage("del flag" , item.Key);
-                    maid.status.RemoveFlag(item.Value);
-                    MaidManagementMainPatch.flags = maid.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
-                }
-                GUILayout.EndHorizontal();
+                maid.status.AddFlag(flagsKey[selectedFlag], 1);
+                GUIFlagMaid.SetingFlag(maid);
             }
+            if (GUILayout.Button("set 0"))//, guio[GUILayoutOptionUtill.Type.Width, 20]
+            {
+                maid.status.SetFlag(flagsKey[selectedFlag], 0);
+                GUIFlagMaid.SetingFlag(maid);
+            }
+            if (GUILayout.Button("del"))//, guio[GUILayoutOptionUtill.Type.Width, 20]
+            {
+                maid.status.RemoveFlag(flagsKey[selectedFlag]);
+                GUIFlagMaid.SetingFlag(maid);
+            }
+
+            GUILayout.EndHorizontal();
+
+
+
+            GUILayout.Label("보유한 플레그 목록 " + flags.Count);
+
+            selectedFlag = GUILayout.SelectionGrid(selectedFlag, flagsStats, 1);
 
             GUILayout.Label("경고! 모든 플레그 삭제");
             GUILayout.BeginHorizontal();
@@ -127,59 +126,57 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             if (GUILayout.Button("del", guio[GUILayoutOptionUtill.Type.Width, 40]))
             {
                 maid.status.RemoveFlagAll();
-                MaidManagementMainPatch.flags = maid.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                GUIFlagMaid.SetingFlag(maid);
             }
             GUILayout.EndHorizontal();
         }
 
 
-        private static void bodyFlagOld()
+        private static void SetBodyFlagOld()
         {
             GUILayout.Label("플레그 추가");
             GUILayout.BeginHorizontal();
-            flag = GUILayout.TextField(flag);
-            flagVs = GUILayout.TextField(flagV.ToString());
+            flagName = GUILayout.TextField(flagName);
+            flagValueS = GUILayout.TextField(flagValue.ToString());
             if (GUI.changed)
             {
-                if (!int.TryParse(flagVs, out flagV))
-                    flagV = 1;
+                if (!int.TryParse(flagValueS, out flagValue))
+                    flagValue = 1;
             }
-            if (GUILayout.Button("add", guio[GUILayoutOptionUtill.Type.Width, 40]))
+            if (GUILayout.Button("Set", guio[GUILayoutOptionUtill.Type.Width, 40]))
             {
-                if (string.IsNullOrEmpty(flag))
+                if (string.IsNullOrEmpty(flagName))
                 {
-                    maid.status.OldStatus.AddFlag(flag, flagV);
-                    MaidManagementMainPatch.flagsOld = maid.status.OldStatus.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                    maid.status.OldStatus.SetFlag(flagName, flagValue);
+                    GUIFlagMaid.SetingFlag(maid);
                 }
             }
             GUILayout.EndHorizontal();
 
-            GUILayout.Label("보유한 플레그 목록");
-            foreach (var item in MaidManagementMainPatch.flagsOld)
+            GUILayout.Label("edit seleted flag ");
+
+            GUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("add"))//, guio[GUILayoutOptionUtill.Type.Width, 20]
             {
-                GUILayout.BeginHorizontal();
-                GUILayout.Label(item.Key);
-                GUILayout.FlexibleSpace();
-                if (GUILayout.Button("a", guio[GUILayoutOptionUtill.Type.Width, 20]))
-                {
-                    MyLog.LogMessage("add flag", item.Key);
-                    maid.status.OldStatus.AddFlag(item.Value, 1);
-                    MaidManagementMainPatch.flagsOld = maid.status.OldStatus.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
-                }
-                if (GUILayout.Button("0", guio[GUILayoutOptionUtill.Type.Width, 20]))
-                {
-                    MyLog.LogMessage("Set flag", item.Key);
-                    maid.status.OldStatus.SetFlag(item.Value, 0);
-                    MaidManagementMainPatch.flagsOld = maid.status.OldStatus.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
-                }
-                if (GUILayout.Button("d", guio[GUILayoutOptionUtill.Type.Width, 15]))
-                {
-                    MyLog.LogMessage("del flag", item.Key);
-                    maid.status.OldStatus.RemoveFlag(item.Value);
-                    MaidManagementMainPatch.flagsOld = maid.status.OldStatus.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
-                }
-                GUILayout.EndHorizontal();
+                maid.status.OldStatus.AddFlag(flagsKey[selectedFlag], 1);
+                GUIFlagMaid.SetingFlag(maid);
             }
+            if (GUILayout.Button("set 0"))//, guio[GUILayoutOptionUtill.Type.Width, 20]
+            {
+                maid.status.OldStatus.SetFlag(flagsKey[selectedFlag], 0);
+                GUIFlagMaid.SetingFlag(maid);
+            }
+            if (GUILayout.Button("del"))//, guio[GUILayoutOptionUtill.Type.Width, 20]
+            {
+                maid.status.OldStatus.RemoveFlag(flagsKey[selectedFlag]);
+                GUIFlagMaid.SetingFlag(maid);
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.Label("보유한 플레그 목록");
+
+            selectedFlag = GUILayout.SelectionGrid(selectedFlag, flagsStats, 1);
 
             GUILayout.Label("경고! 모든 플레그 삭제");
             GUILayout.BeginHorizontal();
@@ -187,13 +184,45 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("del", guio[GUILayoutOptionUtill.Type.Width, 40]))
             {
-                foreach (var item in MaidManagementMainPatch.flagsOld)
+                foreach (var item in flags)
                 {
                     maid.status.OldStatus.RemoveFlag(item.Value);
                 }
-                MaidManagementMainPatch.flagsOld = maid.status.OldStatus.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                GUIFlagMaid.SetingFlag(maid);
             }
             GUILayout.EndHorizontal();
+
+        }
+
+
+        public static void SetingFlag(Maid maid)
+        {
+            GUIFlagMaid.maid = maid;
+            if (maid.status.OldStatus == null)
+            {
+                types = typesone;
+                type = 0;
+            }
+            else
+            {
+                types = typesAll;
+            }
+
+            switch (type)
+            {
+                case 0:
+                    action = SetBodyFlag;
+                    flags = maid.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                    break;
+                case 1:
+                    action = SetBodyFlagOld;
+                    flags = maid.status.OldStatus.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
+                    break;
+                default:
+                    break;
+            }
+            flagsKey = flags.Values.ToArray();
+            flagsStats = flags.Keys.ToArray();
 
         }
     }
