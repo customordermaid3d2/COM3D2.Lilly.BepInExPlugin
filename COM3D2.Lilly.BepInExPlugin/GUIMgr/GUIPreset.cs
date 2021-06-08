@@ -2,6 +2,8 @@
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
+#if PresetUtill
+
     public class GUIRndPreset : GUIMgr
     {
         public GUIRndPreset()
@@ -19,4 +21,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             //if (GUILayout.Button("mod reflash")) modreflash();
         }
     }
+
+#endif
+
 }

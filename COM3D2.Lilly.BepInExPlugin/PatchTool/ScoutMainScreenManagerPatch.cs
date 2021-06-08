@@ -16,10 +16,10 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
 
         // private void AddScoutMaid()
 
-        [HarmonyPostfix, HarmonyPatch(typeof(ScoutMainScreenManagerPatch), "AddScoutMaid")]
+        [HarmonyPostfix, HarmonyPatch(typeof(ScoutMainScreenManager), "AddScoutMaid")]
         public static void AddScoutMaid(ScoutMainScreenManager __instance)
         {
-            SceneEditPatch.newMaid = true;
+            //SceneEditPatch.newMaid = true;
 
             MyLog.LogMessage("ScoutMainScreenManagerPatch.AddScoutMaid"
                 , __instance.parent_mgr.moveScreen.next_label

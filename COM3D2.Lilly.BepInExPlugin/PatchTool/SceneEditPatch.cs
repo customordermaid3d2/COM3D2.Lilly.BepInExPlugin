@@ -74,9 +74,11 @@ namespace COM3D2.Lilly.Plugin
         [HarmonyPostfix]
         public static void OnCompleteFadeIn() // Maid ___m_maid,SceneEdit __instance
         {
+            /*
             if (configEntryUtill["OnCompleteFadeIn", false])
                 MyLog.LogMessage("SceneEdit.OnCompleteFadeIn", newMaid);
             newMaidSetting();
+            */
         }
 
         //[HarmonyPatch(typeof(SceneEdit.MenuItemSet), "Start")]
@@ -131,7 +133,7 @@ namespace COM3D2.Lilly.Plugin
                 GameMain.Instance.CMSystem.SetTmpGenericFlag("移籍メイド", 1);
             }
         }
-
+        /*
         public static bool newMaid = false;
 
         public static void newMaidSetting()
@@ -167,7 +169,7 @@ namespace COM3D2.Lilly.Plugin
             }
             newMaid = false;
         }
-
+        */
         // private void OnEndScene()
 
     }

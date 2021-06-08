@@ -124,7 +124,7 @@ namespace COM3D2.Lilly.Plugin.Utill
             }
 
             ScheduleData[] scheduleDatas = GameMain.Instance.CharacterMgr.status.scheduleSlot;
-            Maid maid;
+           // Maid maid;
 
             // 사용 가능한 메이드 슬롯 목록
             List<int> slots = new();

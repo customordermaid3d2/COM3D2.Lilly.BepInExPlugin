@@ -75,14 +75,19 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         [HarmonyPostfix, HarmonyPatch(typeof(MaidManagementMain), "Employment")]
         public static void Employment(string ___new_edit_label_)
         {
+            MyLog.LogMessage("MaidManagementMain.Employment"
+            , ___new_edit_label_
+            );
 
+#if PresetUtill
             SceneEditPatch.newMaid = true;
             MyLog.LogMessage("MaidManagementMain.Employment"
                 //, EasyUtill._GP01FBFaceEyeRandomOnOff.Value
                 //, EasyUtill._SetMaidStatusOnOff.Value
                 , SceneEditPatch.newMaid
                 , ___new_edit_label_
-                );
+                ); 
+#endif
 
             // GameMain.Instance.SysDlg.Close();
             // int num = this.employmentPrice;

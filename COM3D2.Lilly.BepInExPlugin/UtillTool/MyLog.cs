@@ -10,7 +10,7 @@ namespace COM3D2.Lilly.Plugin
 {
     public class MyLog 
     {
-        static ManualLogSource log = BepInEx.Logging.Logger.CreateLogSource("Lilly");
+        public static ManualLogSource log;// = BepInEx.Logging.Logger.CreateLogSource("Lilly");
 
 
         public MyLog()

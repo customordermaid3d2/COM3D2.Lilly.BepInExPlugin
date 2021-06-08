@@ -56,6 +56,7 @@ namespace COM3D2.Lilly.Plugin
         {
             Instance = this;
             name = "COM3D2.Lilly.Plugin";
+            MyLog.log = BepInEx.Logging.Logger.CreateLogSource("Lilly");
 
             MyLog.LogDarkBlue("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
 
@@ -70,7 +71,9 @@ namespace COM3D2.Lilly.Plugin
             //GearMenu.SetButton();
             GUIHarmony.init();
             GUIMgr.GUIMgr.init();
-            PresetUtill.init();
+#if PresetUtill
+            PresetUtill.init(); 
+#endif
 
             MyLog.LogMessage("ConfigFilePath", customFile.ConfigFilePath);
 

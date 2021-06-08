@@ -46,7 +46,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         // ------------------------------------
 
         public static Maid[] m_gcActiveMaid;
-        public static string[] namesMaid = new string[18];
+        
 
         [HarmonyPatch(typeof(CharacterMgr), MethodType.Constructor)]
         [HarmonyPostfix]
@@ -75,6 +75,8 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             //    MyLog.LogMessageS("PresetSetPretfix1: " + maidProp.idx + " , " + maidProp.strFileName);
             //}
         }
+
+        public static string[] namesMaid = new string[18];
 
         // private void SetActive(Maid f_maid, int f_nActiveSlotNo, bool f_bMan)
         [HarmonyPatch(typeof(CharacterMgr), "SetActive")]

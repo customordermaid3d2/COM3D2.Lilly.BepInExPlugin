@@ -215,50 +215,13 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                     maid.status.contract = MyUtill.RandomEnum(Contract.Trainee);
                     break;
             }
-            // 분석용
-            /*
-            if (maid.status.personal.oldPersonal)
-            {
-                maid.status.heroineType = HeroineType.Transfer;
-                if (maid.status.OldStatus == null)
-                {
-                    maid.status.OldStatus = new Status(this);
-                }
-            }
-            else if (maid.status.heroineType == HeroineType.Transfer)
-            {
-                maid.status.heroineType = HeroineType.Original;
-                maid.status.OldStatus = null;
-            }
-            */
-            // 불가능한 로직인듯
-            /*
-            if (string.IsNullOrEmpty(GameMain.Instance.CMSystem.CM3D2Path))
-            {
-                maid.status.heroineType = HeroineType.Original;
-            }
-            else
-            {
-                switch (selGridHeroine)
-                {
-                    case 1:
-                        maid.status.heroineType = HeroineType.Original;
-                        break;
-                    case 2:
-                        maid.status.heroineType = HeroineType.Transfer;
-                        break;
-                    default:
-                        maid.status.heroineType = MyUtill.RandomEnum(HeroineType.Sub);
-                        break;
-                }
-
-            }
-            */
+           
             if (_SetMaidStatusOnOff.Value)
                 CheatUtill.SetMaidAll(maid);
 
-
+#if PresetUtill
             PresetUtill.RandPreset(maid);
+#endif
 
             if (configEntryUtill["AddStockMaid"])
                 MyLog.LogMessage("GUIMaidEdit.AddStockMaid", MyUtill.GetMaidFullName(maid));

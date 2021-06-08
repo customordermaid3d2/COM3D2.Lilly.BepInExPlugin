@@ -9,6 +9,8 @@ using UnityEngine;
 
 namespace COM3D2.Lilly.Plugin
 {
+#if PresetUtill
+
     class PresetUtill 
     {
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
@@ -60,6 +62,9 @@ namespace COM3D2.Lilly.Plugin
             namesList  = Enum.GetNames(typeof(ListType));
         }
 
+
+
+
         public static void SetButtonList()
         {
             GUILayout.Label("Preset Random CharacterMgrPatch 필요");
@@ -76,17 +81,17 @@ namespace COM3D2.Lilly.Plugin
             //if (GUILayout.Button("Random Preset All. set All " + lists.Count)) { RandPreset(ListType.All, PresetType.All); }
             if (GUILayout.Button("Random Preset Run")) { RandPresetRun(); }
             if (GUILayout.Button("Random list load")) { LoadList(); }
-            GUILayout.Label("PresetType "+ selGridPreset);
+            GUILayout.Label("PresetType " + selGridPreset);
             selGridPreset = GUILayout.Toolbar(selGridPreset, namesPreset);
-            GUILayout.Label("ListType "+ selGridList);
-            selGridList = GUILayout.SelectionGrid(selGridList, namesList,2);
-            GUILayout.Label("ModType "+ selGridMod);
+            GUILayout.Label("ListType " + selGridList);
+            selGridList = GUILayout.SelectionGrid(selGridList, namesList, 2);
+            GUILayout.Label("ModType " + selGridMod);
             selGridMod = GUILayout.SelectionGrid(selGridMod, namesMod, 1);
             if ((ModType)selGridMod == ModType.OneMaid)
             {
-            GUILayout.Label("Maid List "+ selGridmaid);
-            //GUI.enabled = modType == ModType.OneMaid;
-            selGridmaid = GUILayout.SelectionGrid(selGridmaid, CharacterMgrPatch.namesMaid, 1);
+                GUILayout.Label("Maid List " + selGridmaid);
+                //GUI.enabled = modType == ModType.OneMaid;
+                selGridmaid = GUILayout.SelectionGrid(selGridmaid, CharacterMgrPatch.namesMaid, 1);
             }
             if (GUI.changed)
             {
@@ -95,7 +100,10 @@ namespace COM3D2.Lilly.Plugin
             GUI.enabled = true;
         }
 
-        private static void RandPresetRun()
+
+
+
+    private static void RandPresetRun()
         {
             List<string> list = lists;
             list = GetList((ListType)selGridList, list);
@@ -284,6 +292,6 @@ namespace COM3D2.Lilly.Plugin
         }
 
 
-
-    }
+}
+#endif
 }
