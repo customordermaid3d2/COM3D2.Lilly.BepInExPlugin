@@ -57,14 +57,17 @@ namespace COM3D2.Lilly.Plugin.Utill
                 SetSchedule(scheduleTime, ScheduleType.Training, slots, slotsn,c2);
 
             if (isSetFacility)
-                SetWorkFacility(scheduleTime, slots);
+                SetWorkFacility(scheduleTime, slots, slotsn);
 
             SetFinal();
         }
 
-        public static void SetWorkFacility(ScheduleMgr.ScheduleTime scheduleTime, List<int> slots)
+        public static void SetWorkFacility(ScheduleMgr.ScheduleTime scheduleTime, List<int> slots, List<int> slotsn)
         {
-            if (slots.Count==0)
+            slots.AddRange(slotsn);
+            slotsn.Clear();
+
+            if (slots.Count == 0)
             {
                 return;
             }
@@ -153,7 +156,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                 sc = UnityEngine.Random.Range(0, slots.Count);
 
                 maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[sc]);
-                if (scheduleType==ScheduleType.Yotogi && maid.status.heroineType == HeroineType.Sub)
+                if (maid.status.heroineType == HeroineType.Sub)
                 {
                     slotsn.Add(slots[sc]);
                     slots.Remove(slots[sc]);

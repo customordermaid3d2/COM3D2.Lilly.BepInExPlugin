@@ -34,6 +34,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         private static GUILayoutOptionUtill guio = GUILayoutOptionUtill.Instance;
 
+        private static string winTitle;
 
         public static event Action actionsStart = delegate { };
 
@@ -110,6 +111,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         {
             customFile = Lilly.customFile;
             ShowCounter = customFile.Bind("GUIVirtualMgr", "GUI ON OFF KeyboardShortcut", new BepInEx.Configuration.KeyboardShortcut(KeyCode.Alpha0, KeyCode.LeftControl));
+            winTitle = Lilly.Instance.name + " " + ShowCounter.Value.ToString();
             myWindowRect = new MyWindowRect(customFile);
         }
 
@@ -144,6 +146,8 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                 MyLog.LogMessage("GameObjectMgr.Install", instance.name);
 
                 instance.GUINams = guis.Select(x => x.Value.nameGUI).ToArray();
+
+                
             }
             return instance;
         }
@@ -230,10 +234,11 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GUI.skin = null;
 
 
-            myWindowRect.WindowRect = GUILayout.Window(pageNow, myWindowRect.WindowRect, GuiFunc, Lilly.Instance.name);
+            myWindowRect.WindowRect = GUILayout.Window(pageNow, myWindowRect.WindowRect, GuiFunc, winTitle );
         }
 
         private Vector2 scrollPosition;
+
 
         /// <summary>
         /// 
