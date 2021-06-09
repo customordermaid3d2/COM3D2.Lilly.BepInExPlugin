@@ -43,21 +43,27 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             if (GUILayout.Button("SetRandomCommu")) { ScheduleAPIPatch.SetRandomCommu(true); ScheduleAPIPatch.SetRandomCommu(false); };
 
-
-
-            GUILayout.Label("Schedule 진입 필요.");
             GUILayout.Label("Schedule 진입 필요.");
             GUI.enabled = ScheduleMgrPatch.m_scheduleApi != null;
             if (GUILayout.Button("슬롯에 메이드 자동 배치")) ScheduleMgrPatch.SetSlotAllMaid();
             if (GUILayout.Button("슬롯의 메이드들 제거")) ScheduleMgrPatch.SetSlotAllDel();
-            if (GUILayout.Button("메이드 스케줄 자동 배치 - 주간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.DayTime);
-            if (GUILayout.Button("메이드 스케줄 자동 배치 - 야간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.Night);
-            if (GUILayout.Button("메이드 밤시중 자동 배치 - 주간")) ScheduleUtill.SetYotogiAllMaid(ScheduleMgr.ScheduleTime.DayTime);
-            if (GUILayout.Button("메이드 밤시중 자동 배치 - 야간")) ScheduleUtill.SetYotogiAllMaid(ScheduleMgr.ScheduleTime.Night);
-            GUI.enabled = !DailyMgrPatch.IsLegacy;
-            if (GUILayout.Button("메이드 시설에 자동 배치 - 주간")) ScheduleUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.DayTime);
-            if (GUILayout.Button("메이드 시설에 자동 배치 - 야간")) ScheduleUtill.SetFacilityAllMaid(ScheduleMgr.ScheduleTime.Night);
+            if (GUILayout.Button("메이드 전체 자동 배치 - 주간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.DayTime);
+            if (GUILayout.Button("메이드 전체 자동 배치 - 야간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.Night);
+            if (GUILayout.Button("메이드 밤시중 자동 배치 - 주간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.DayTime,true,false,false);
+            if (GUILayout.Button("메이드 밤시중 자동 배치 - 야간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.Night, true, false, false);
+            if (GUILayout.Button("메이드 훈련 자동 배치 - 주간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.DayTime, false, true, false);
+            if (GUILayout.Button("메이드 훈련 자동 배치 - 야간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.Night, false, true, false);
+            if (GUILayout.Button("메이드 시설에 자동 배치 - 주간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.DayTime, false, false, true);
+            if (GUILayout.Button("메이드 시설에 자동 배치 - 야간")) ScheduleUtill.SetScheduleAllMaid(ScheduleMgr.ScheduleTime.Night, false, false, true);
+            //GUI.enabled = !DailyMgrPatch.IsLegacy;
 
+            GUI.enabled = true;
+            GUILayout.Label("매일 자동 적용.");
+            if (GUILayout.Button("슬롯에_메이드_자동_배치 " + DailyMgrPatch.isSetSlotAllMaid)) DailyMgrPatch.isSetSlotAllMaid=!DailyMgrPatch.isSetSlotAllMaid;
+            if (GUILayout.Button("메이드_스케줄_자동_배치 " + DailyMgrPatch.isSetScheduleAllMaid)) DailyMgrPatch.isSetScheduleAllMaid = !DailyMgrPatch.isSetScheduleAllMaid;
+            if (GUILayout.Button("커뮤니티_자동_적용 " + DailyMgrPatch.isSetRandomCommu)) DailyMgrPatch.isSetRandomCommu = !DailyMgrPatch.isSetRandomCommu;
+
+            GUI.enabled = true;
             GUILayout.Label("밤시중");
             if (GUILayout.Button("스테이지 자동 선택 " + YotogiStageSelectManagerPatch.isSelect)) YotogiStageSelectManagerPatch.isSelect = !YotogiStageSelectManagerPatch.isSelect;
             if (GUILayout.Button("스테이지 자동 선택 ")) YotogiStageSelectManagerPatch.Select();
@@ -68,11 +74,6 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             if (GUILayout.Button("스킬 자동 선택 old " + YotogiOldSkillSelectManagerPatch.isAddSkill)) YotogiOldSkillSelectManagerPatch.isAddSkill = !YotogiOldSkillSelectManagerPatch.isAddSkill;
             if (GUILayout.Button("스킬 자동 선택 old ")) YotogiOldSkillContainerViewerPatch.AddSkill(false);
 
-            GUI.enabled = true;
-            GUILayout.Label("매일 자동 적용.");
-            if (GUILayout.Button("슬롯에_메이드_자동_배치 " + configEntryUtill["DailyMgrPatch", "슬롯에_메이드_자동_배치", false])) configEntryUtill["DailyMgrPatch", "슬롯에_메이드_자동_배치", false] = !configEntryUtill["DailyMgrPatch", "슬롯에_메이드_자동_배치", false];
-            if (GUILayout.Button("메이드_스케줄_자동_배치 " + configEntryUtill["DailyMgrPatch", "메이드_스케줄_자동_배치", false])) configEntryUtill["DailyMgrPatch", "메이드_스케줄_자동_배치", false] = !configEntryUtill["DailyMgrPatch", "메이드_스케줄_자동_배치", false];
-            if (GUILayout.Button("커뮤니티_자동_적용 " + configEntryUtill["DailyMgrPatch", "커뮤니티_자동_적용", false])) configEntryUtill["DailyMgrPatch", "커뮤니티_자동_적용", false] = !configEntryUtill["DailyMgrPatch", "커뮤니티_자동_적용", false];
 
 
             GUI.enabled = true;

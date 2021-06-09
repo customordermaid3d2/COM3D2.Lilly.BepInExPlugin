@@ -86,6 +86,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             infoList.Add(new(typeof(ScheduleScenePatch),false));// 스케줄 관련. 단순 정보성
             infoList.Add(new(typeof(ScheduleMgrPatch)));// 스케줄 관리
             infoList.Add(new(typeof(ScheduleTaskCtrlPatch), false));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
+            infoList.Add(new(typeof(ScheduleTaskViewerPatch), false));// 
             infoList.Add(new(typeof(ScenarioSelectMgrPatch)));// 시나리오 정보 출력용 
             infoList.Add(new(typeof(StatusPatch),false));// 플레그 관리
             infoList.Add(new(typeof(TBodyPatch),false));// 바디 파라미터값 출력 관련

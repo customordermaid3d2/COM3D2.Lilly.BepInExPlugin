@@ -28,6 +28,33 @@ namespace COM3D2.Lilly.Plugin
             instance = __instance;
         }
 
+        [HarmonyPrefix, HarmonyPatch(typeof(ScheduleTaskCtrl), "SetWorkId")]
+        public static void SetWorkId(ScheduleTaskCtrl __instance
+            , ScheduleMgr.ScheduleTime workTime
+            , int taskId
+            , ScheduleCtrl ___m_scheduleCtrl
+        )
+        {
+            if (workTime == ScheduleMgr.ScheduleTime.DayTime)
+            {
+                MyLog.LogMessage(
+                "ScheduleTaskCtrl.SetWorkId"
+                , workTime
+                , taskId
+                , ___m_scheduleCtrl.SelectedMaid.status.noonWorkId
+                );
+            }
+            else if (workTime == ScheduleMgr.ScheduleTime.Night)
+            {
+                MyLog.LogMessage(
+                "ScheduleTaskCtrl.SetWorkId"
+                , workTime
+                , taskId
+                 , ___m_scheduleCtrl.SelectedMaid.status.nightWorkId
+                );
+            }
+        }
+        /*
         // private void SetWorkId(ScheduleMgr.ScheduleTime workTime, int taskId)
         [HarmonyPostfix, HarmonyPatch(typeof(ScheduleTaskCtrl), "SetWorkId")]
         public static void SetWorkId(ScheduleTaskCtrl __instance
@@ -41,7 +68,7 @@ namespace COM3D2.Lilly.Plugin
             , taskId
             );
         }
-
+        */
 
     }
 }

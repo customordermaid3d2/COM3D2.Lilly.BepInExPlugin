@@ -7,6 +7,7 @@ using BepInEx.Configuration;
 using COM3D2API;
 using COM3D2.Lilly.Plugin.Utill;
 using BepInPluginSample;
+using UnityEngine.SceneManagement;
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
@@ -185,6 +186,8 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             // json 읽기
             myWindowRect.load();
+
+            SceneManager.sceneLoaded += this.OnSceneLoaded;
         }
 
         private void Start()
@@ -311,6 +314,13 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         {
             MyLog.LogMessage("OnDisable");
 
+            myWindowRect.save();
+
+            SceneManager.sceneLoaded -= this.OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+        {
             myWindowRect.save();
         }
     }

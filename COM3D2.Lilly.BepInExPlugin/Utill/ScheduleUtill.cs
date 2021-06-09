@@ -9,7 +9,7 @@ using System.Text;
 
 namespace COM3D2.Lilly.Plugin.Utill
 {
-    class ScheduleUtill
+    class ScheduleUtill2
     {
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
             "class ScheduleUtill"
@@ -102,9 +102,6 @@ namespace COM3D2.Lilly.Plugin.Utill
             }
         }
 
-
-
-
         internal static void SetYotogiAllMaid(ScheduleMgr.ScheduleTime scheduleTime)
         {
             if (ScheduleMgrPatch.m_scheduleApi == null)
@@ -124,18 +121,149 @@ namespace COM3D2.Lilly.Plugin.Utill
             }
 
             ScheduleData[] scheduleDatas = GameMain.Instance.CharacterMgr.status.scheduleSlot;
-           // Maid maid;
+            // Maid maid;
 
             // 사용 가능한 메이드 슬롯 목록
             List<int> slots = new();
             SetSlots(scheduleDatas, slots);
 
-            SetNightWork(scheduleTime, slots);
+            SetYotogi(scheduleTime, slots);
 
         }
 
-        // 밤시중 스킬 선택
-        private static void SetNightWork(ScheduleMgr.ScheduleTime scheduleTime, List<int> slots)
+
+
+        //Dictionary<ScheduleTaskCtrl.TaskType, List<ScheduleBase>> m_listWorksData;
+        /// <summary>
+        /// 분석용 ScheduleTaskCtrl
+        /// </summary>
+        /// <param name="slotNo"></param>
+        /// <returns></returns>
+        //private List<ScheduleTaskCtrl.TaskButton> LoadYotogiData(int slotNo)
+        private static int LoadYotogiData(int slotNo)
+        {
+            //this.m_scheduleApi = this.m_scheduleMgr.GetScheduleApi();
+            List<ScheduleBase> scheduleData = ScheduleMgrPatch.m_scheduleApi.slot[slotNo].scheduleData.Where(x => x.workType != ScheduleType.Work).ToList();
+            //List<ScheduleBase> scheduleData = ScheduleMgrPatch.m_scheduleApi.slot[slotNo].scheduleData;
+            List<ScheduleBase> list = new List<ScheduleBase>();
+            Maid maid = ScheduleMgrPatch.m_scheduleApi.slot[slotNo].maid;
+            //this.m_listWorksData.Add(ScheduleTaskCtrl.TaskType.Yotogi, list);
+            //List<ScheduleTaskCtrl.TaskButton> list2 = new List<ScheduleTaskCtrl.TaskButton>();
+            MyLog.LogMessage(
+            "scheduleBase"
+            , maid.status.fullNameEnStyle
+            , slotNo
+            );
+            foreach (ScheduleBase scheduleBase in scheduleData)
+            {
+                bool flag=false;
+               //bool legacyDisable;
+               //if (DailyMgr.IsLegacy && ScheduleCSVData.WorkLegacyDisableId.Contains(scheduleBase.id))
+               //{
+               //    legacyDisable = true;
+               //}
+                if ( maid != null&& scheduleBase.enabled)
+                {
+                    flag = PersonalEventBlocker.IsEnabledScheduleTask(maid.status.personal, scheduleBase.id);
+                }
+                //list.Add(scheduleBase);
+                if (scheduleBase.workType == ScheduleType.Yotogi)
+                {
+                    ScheduleYotogi scheduleYotogi = (ScheduleYotogi)scheduleBase;
+                    if (scheduleYotogi.visible)
+                    {
+                        list.Add(scheduleBase);
+                    }
+                    if (configEntryUtill["LoadYotogiData",false])
+                    {
+                        MyLog.LogMessage(
+                        "scheduleBase"
+                        , scheduleBase.id
+                        , scheduleBase.workType
+                        , scheduleYotogi.visible
+                        , scheduleYotogi.enabled
+                        );
+                    }
+
+                }
+                if (scheduleBase.workType == ScheduleType.Training)
+                {
+                    //if (this.legacyDisable)
+                    //{
+                    //    this.visible = false;
+                    //}
+                    ScheduleTraining scheduleTraining = (ScheduleTraining)scheduleBase;
+                    if (scheduleTraining.visible)
+                    {
+                        list.Add(scheduleBase);
+                        //list2.Add(new ScheduleTaskCtrl.TrainingTaskButton {
+                        //    id = scheduleTraining.id.ToString(),
+                        //    name = scheduleTraining.name,
+                        //    rank = scheduleTraining.lv,
+                        //    expRatio = scheduleTraining.expRatioFrom0To10,
+                        //    txtTaskIcon = scheduleTraining.icon,
+                        //    enableTask = scheduleTraining.enabled,
+                        //    type = scheduleTraining.type
+                        //});
+                    }
+                    if (configEntryUtill["LoadYotogiData", false])
+                        MyLog.LogMessage(
+                    "scheduleBase"
+                    , scheduleBase.id
+                    , scheduleBase.workType
+                    , scheduleTraining.visible
+                    , scheduleTraining.enabled
+                    );
+                }
+            }
+            int ic = UnityEngine.Random.Range(0, list.Count);
+            return list[ic].id;
+            //return list2;
+        }
+        /*
+        private void CallEnableButton(Maid maid, ScheduleTaskCtrl.TaskType type, List<ScheduleTaskViewer.ViewData> viewList, ref HashSet<int> enabled_category, ref int min_category_id)
+        {
+            this.tmpData[type].views = new List<ScheduleTaskViewer.ViewData>(viewList);
+            for (int i = 0; i < this.tmpData[type].views.Count; i++)
+            {
+                if (!enabled_category.Contains(this.tmpData[type].views[i].schedule.categoryID))
+                {
+                    ScheduleCSVData.ScheduleBase schedule = this.tmpData[type].views[i].schedule;
+                    int categoryID = schedule.categoryID;
+                    if (DailyMgr.IsLegacy || schedule.mode != ScheduleCSVData.ScheduleBase.Mode.CM3D2)
+                    {
+                        if (!DailyMgr.IsLegacy || schedule.mode != ScheduleCSVData.ScheduleBase.Mode.COM3D)
+                        {
+                            if (DailyMgr.IsLegacy)
+                            {
+                                if (ScheduleTaskViewer.scheduleTime == ScheduleMgr.ScheduleTime.DayTime)
+                                {
+                                    if (categoryID != 51)
+                                    {
+                                        goto IL_135;
+                                    }
+                                }
+                                else if (ScheduleTaskViewer.scheduleTime == ScheduleMgr.ScheduleTime.Night && (categoryID == 51 || categoryID == 52))
+                                {
+                                    goto IL_135;
+                                }
+                            }
+                            if (maid.status.heroineType != HeroineType.Sub || (categoryID != 51 && categoryID != 100))
+                            {
+                                enabled_category.Add(categoryID);
+                                min_category_id = System.Math.Min(min_category_id, categoryID);
+                            }
+                        }
+                    }
+                }
+                IL_135:;
+            }
+        }
+
+        */
+
+        /// 밤시중 스킬 선택 
+        private static void SetYotogi(ScheduleMgr.ScheduleTime scheduleTime, List<int> slots)
         {
             Maid maid;
 
@@ -149,7 +277,8 @@ namespace COM3D2.Lilly.Plugin.Utill
                 if (maid.status.heroineType == MaidStatus.HeroineType.Sub)
                     continue;
 
-                ScheduleMgrPatch.m_scheduleApi.SetNightWorkSlot_Safe(scheduleTime, slots[n1], 10000);
+                //ScheduleMgrPatch.m_scheduleApi.SetNightWorkSlot_Safe(scheduleTime, slots[n1], 10000);
+                SetWorkId(scheduleTime, 10000, slots[n1]);
                 slots.Remove(slots[n1]);
                 if (slots.Count <= 4 || slots.Count == 0)
                 {
@@ -159,37 +288,43 @@ namespace COM3D2.Lilly.Plugin.Utill
 
             ic = UnityEngine.Random.Range(0, 40);
 
-            // //밤시중용 처리
+            // // 메이드별 밤시중용 처리
             for (int j = 0; j < ic; j++)
             {
-                for (int i = 0; i < 10; i++)
+                int sn = UnityEngine.Random.Range(0, slots.Count);
+                ;
+                SetWorkId(scheduleTime, slots[sn], LoadYotogiData(slots[sn]));
+                /*
+            for (int i = 0; i < 10; i++)
+            {
+
+                int dn = UnityEngine.Random.Range(0, ScheduleCSVData.YotogiData.Count);
+                if (ScheduleCSVData.YotogiData.ElementAt(dn).Value.mode == ScheduleCSVData.ScheduleBase.Mode.CM3D2)
                 {
-                    int dn = UnityEngine.Random.Range(0, ScheduleCSVData.YotogiData.Count);
-                    if (ScheduleCSVData.YotogiData.ElementAt(dn).Value.mode == ScheduleCSVData.ScheduleBase.Mode.CM3D2)
-                    {
 
-                        continue;
-                    }
-
-                    int id = ScheduleCSVData.YotogiData.ElementAt(dn).Key;
-
-                    int sn = UnityEngine.Random.Range(0, slots.Count);
-                    maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[sn]);
-                    if (maid.status.heroineType == MaidStatus.HeroineType.Sub)
-                        break;
-
-                    if(!PersonalEventBlocker.IsEnabledScheduleTask(maid.status.personal, id))
-                    {
-                        break;
-                    }
-
-                    if (!ScheduleUtill.CheckYotogi(maid, id, scheduleTime))
-                    {
-                        ScheduleMgrPatch.m_scheduleApi.SetNightWorkSlot_Safe(scheduleTime, slots[sn], id);
-                        slots.Remove(slots[sn]);
-                        break;
-                    }
+                    continue;
                 }
+
+                int id = ScheduleCSVData.YotogiData.ElementAt(dn).Key;
+
+                int sn = UnityEngine.Random.Range(0, slots.Count);
+                maid = GameMain.Instance.CharacterMgr.status.GetScheduleSlot(slots[sn]);
+                if (maid.status.heroineType == MaidStatus.HeroineType.Sub)
+                    break;
+
+                if(!PersonalEventBlocker.IsEnabledScheduleTask(maid.status.personal, id))
+                {
+                    break;
+                }
+
+                if (!ScheduleUtill.CheckYotogi(maid, id, scheduleTime))
+                {
+                    ScheduleMgrPatch.m_scheduleApi.SetNightWorkSlot_Safe(scheduleTime, slots[sn], id);
+                    slots.Remove(slots[sn]);
+                    break;
+                }
+            }
+                */
                 if (slots.Count == 0)
                 {
                     break;
@@ -231,7 +366,9 @@ namespace COM3D2.Lilly.Plugin.Utill
             }
             ScheduleAPI.MaidWorkIdErrorCheck(true);
         }
-
+        /*
+      */
+        /*
         public static void SetScheduleAllMaid2(ScheduleMgr.ScheduleTime scheduleTime)
         {
             if (ScheduleMgrPatch.m_scheduleApi == null)
@@ -424,6 +561,7 @@ namespace COM3D2.Lilly.Plugin.Utill
             ScheduleAPI.MaidWorkIdErrorCheck(true);
 
         }
+        */
 
         public static void SetScheduleAllMaid(ScheduleMgr.ScheduleTime scheduleTime)
         {
@@ -453,9 +591,7 @@ namespace COM3D2.Lilly.Plugin.Utill
 
             if (!DailyMgrPatch.IsLegacy || scheduleTime == ScheduleMgr.ScheduleTime.Night)
             {
-
-                SetNightWork(scheduleTime, slots);
-
+                SetYotogi(scheduleTime, slots);
             }
 
             //var facilitys = GameMain.Instance.FacilityMgr.GetFacilityArray().Where(x=>x).ToList();
@@ -566,7 +702,7 @@ namespace COM3D2.Lilly.Plugin.Utill
 
 
         }
-        
+
 
         private static void SetSlots(ScheduleData[] scheduleDatas, List<int> slots)
         {

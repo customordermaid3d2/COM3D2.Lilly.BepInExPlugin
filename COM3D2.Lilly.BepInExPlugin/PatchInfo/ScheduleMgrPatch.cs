@@ -64,6 +64,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
 
         /// <summary>
         /// 경영전환시 DailyMgr.IsLegacy 가 되고, api 공유하니 주의
+        /// 슬롯에 메이드 자동 배치
         /// </summary>
         public static void SetSlotAllMaid()
         {
