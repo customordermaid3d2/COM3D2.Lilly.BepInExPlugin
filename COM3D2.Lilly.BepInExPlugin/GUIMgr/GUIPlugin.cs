@@ -9,6 +9,8 @@ using UnityEngine;
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
+#if GUIPlugin
+
     public class GUIPlugin : GUIMgr
     {
         List<BaseUnityPlugin> baseUnityPlugins = new List<BaseUnityPlugin>();
@@ -28,7 +30,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GameObjectMgr.instance.enabled = configEntryUtill["GameObjectMgr", false];
             foreach (var item in baseUnityPlugins)
             {
-                item.enabled = configEntryUtill[item.Info.Metadata.Name];                
+                item.enabled = configEntryUtill[item.Info.Metadata.Name];
             }
         }
 
@@ -48,5 +50,6 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         }
 
 
-    }
+    } 
+#endif
 }

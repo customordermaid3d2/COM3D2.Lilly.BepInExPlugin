@@ -83,7 +83,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         public static GUIMaidEdit maidEditGui;
         //public static GUIRndPreset presetGUI;
         public static GUIOnOff OnOffGUI;
-        public static GUIPlugin pluginUtill;
+#if GUIPlugin
+        public static GUIPlugin pluginUtill; 
+#endif
 #if FlagMaid
         public static GUIFlagMaid GUIFlag;
 #endif
@@ -139,7 +141,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 #endif
                 GUIFlagPlayer = new GUIFlagPlayer();
                 OnOffGUI = new GUIOnOff();
-                pluginUtill = new GUIPlugin();
+#if GUIPlugin
+                pluginUtill = new GUIPlugin(); 
+#endif
 
                 PageNow.Value = (PageNow.Value + pageCount) % pageCount;
 
