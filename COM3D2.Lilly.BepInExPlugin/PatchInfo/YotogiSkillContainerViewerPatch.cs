@@ -10,6 +10,7 @@ using Yotogis;
 namespace COM3D2.Lilly.Plugin.PatchInfo
 {
     // 이게 7개 스킬 슬롯에 스킬 등록 해줌
+#if ScheduleUtill
     class YotogiSkillContainerViewerPatch
     {
         // YotogiSkillContainerViewer
@@ -79,8 +80,8 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                 MyLog.LogMessage("YotogiSkillContainerViewer.AddSkill instance==null"
                 );
                 return;
-            }          
-            
+            }
+
             if (listClear)
             {
                 YotogiStage.Data setting_stage_data_;
@@ -111,7 +112,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                             , value.skillData.name
                             , value.maidStatusSkillData != null
                             );
-                            if(value.maidStatusSkillData!=null)
+                            if (value.maidStatusSkillData != null)
                                 skillList.Add(value.skillData);
                             //skillOldList.Add(value.skillDataOld);
                         }
@@ -132,7 +133,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                         MyLog.LogMessage("AddSkill"
                         , skillList[c].category
                         , skillList[c].id
-                        , skillList[c].name                        
+                        , skillList[c].name
                         , skillList[c].specialConditionType
                         , skillList[c].start_call_file
                         , skillList[c].start_call_file2
@@ -147,5 +148,6 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             }
         }
 
-    }
+    } 
+#endif
 }

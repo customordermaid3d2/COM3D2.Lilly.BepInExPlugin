@@ -9,15 +9,16 @@ using wf;
 
 namespace COM3D2.Lilly.Plugin.PatchInfo
 {
+#if ScheduleUtill
     class YotogiStageSelectManagerPatch
     {
         // YotogiStageSelectManager
 
         public static List<YotogiStageUnit> yotogiStageUnits = new List<YotogiStageUnit>();
 
-            public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
-        "YotogiStageSelectManagerPatch"
-        );
+        public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
+    "YotogiStageSelectManagerPatch"
+    );
 
         public static YotogiStageSelectManager instance;
 
@@ -41,7 +42,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                 yotogiStageUnits.Clear();
             }
         }
-        
+
         [HarmonyPatch(typeof(YotogiStageSelectManager), "OnCall")]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
         [HarmonyPostfix]
         public static void OnCallPost(YotogiStageSelectManager __instance)
@@ -74,12 +75,12 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         /// </summary>
         [HarmonyPatch(typeof(YotogiStageUnit), "SetStageData")]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
         [HarmonyPostfix]
-        public static void SetStageData(YotogiStage.Data stage_data, bool enabled, bool isDaytime, YotogiStageUnit __instance , UILabel ___name_label_)
-        {            
+        public static void SetStageData(YotogiStage.Data stage_data, bool enabled, bool isDaytime, YotogiStageUnit __instance, UILabel ___name_label_)
+        {
             //if (configEntryUtill["SetResolution"])
             {
                 MyLog.LogMessage("YotogiStageUnit.SetStageData"
-                    , stage_data.id                    
+                    , stage_data.id
                     , stage_data.drawName
                     , stage_data.uniqueName
                     , enabled
@@ -102,23 +103,23 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             }
 
         }
-        
+
         /// <summary>
         /// 분석용
         /// </summary>
         [HarmonyPatch(typeof(Utility), "CreatePrefab")]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
         [HarmonyPostfix]
         public static void CreatePrefab(GameObject parent, string path, bool trans_reset = true)
-        {            
-            if (configEntryUtill["CreatePrefab",false])
+        {
+            if (configEntryUtill["CreatePrefab", false])
             {
                 MyLog.LogMessage("Utility.CreatePrefab"
-                    , parent?.name 
+                    , parent?.name
                     , path
                     , trans_reset
                     );
             }
-            
+
         }
 
 
@@ -143,7 +144,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             if (yotogiStageUnits.Count > 0)
             {
                 // 배경을 바꾸기만 함. 실제로도 적용 되긴 함
-                var yotogiStageUnit= yotogiStageUnits[UnityEngine.Random.Range(0, yotogiStageUnits.Count)];
+                var yotogiStageUnit = yotogiStageUnits[UnityEngine.Random.Range(0, yotogiStageUnits.Count)];
                 yotogiStageUnit.UpdateBG();
 
                 YotogiStage.Data stage_data = yotogiStageUnit.stage_data;
@@ -153,5 +154,6 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             }
 
         }
-    }
+    } 
+#endif
 }

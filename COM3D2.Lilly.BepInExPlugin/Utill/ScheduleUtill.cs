@@ -9,6 +9,8 @@ using System.Text;
 
 namespace COM3D2.Lilly.Plugin.Utill
 {
+#if ScheduleUtill
+
     class ScheduleUtill2
     {
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
@@ -156,13 +158,13 @@ namespace COM3D2.Lilly.Plugin.Utill
             );
             foreach (ScheduleBase scheduleBase in scheduleData)
             {
-                bool flag=false;
-               //bool legacyDisable;
-               //if (DailyMgr.IsLegacy && ScheduleCSVData.WorkLegacyDisableId.Contains(scheduleBase.id))
-               //{
-               //    legacyDisable = true;
-               //}
-                if ( maid != null&& scheduleBase.enabled)
+                bool flag = false;
+                //bool legacyDisable;
+                //if (DailyMgr.IsLegacy && ScheduleCSVData.WorkLegacyDisableId.Contains(scheduleBase.id))
+                //{
+                //    legacyDisable = true;
+                //}
+                if (maid != null && scheduleBase.enabled)
                 {
                     flag = PersonalEventBlocker.IsEnabledScheduleTask(maid.status.personal, scheduleBase.id);
                 }
@@ -174,7 +176,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                     {
                         list.Add(scheduleBase);
                     }
-                    if (configEntryUtill["LoadYotogiData",false])
+                    if (configEntryUtill["LoadYotogiData", false])
                     {
                         MyLog.LogMessage(
                         "scheduleBase"
@@ -850,4 +852,7 @@ namespace COM3D2.Lilly.Plugin.Utill
         }
 
     }
+
+#endif
+
 }

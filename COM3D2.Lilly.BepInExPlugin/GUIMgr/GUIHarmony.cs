@@ -84,7 +84,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             infoList.Add(new(typeof(SlotBasePatch),false));// 스케줄 관리
             infoList.Add(new(typeof(ScheduleAPIInfoPatch)));// 스케줄 관리
             infoList.Add(new(typeof(ScheduleScenePatch),false));// 스케줄 관련. 단순 정보성
-            infoList.Add(new(typeof(ScheduleMgrPatch)));// 스케줄 관리
+#if ScheduleUtill
+            infoList.Add(new(typeof(ScheduleMgrPatch)));// 스케줄 관리  
+#endif
             infoList.Add(new(typeof(ScheduleTaskCtrlPatch), false));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
             infoList.Add(new(typeof(ScheduleTaskViewerPatch), false));// 
             infoList.Add(new(typeof(ScenarioSelectMgrPatch)));// 시나리오 정보 출력용 
@@ -92,12 +94,16 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             infoList.Add(new(typeof(TBodyPatch),false));// 바디 파라미터값 출력 관련
             infoList.Add(new(typeof(UTYPatch), false));//
             infoList.Add(new(typeof(WorkResultScenePatch), false));// 
+
+#if ScheduleUtill
             infoList.Add(new(typeof(YotogiOldSkillContainerViewerPatch)));// , false
             infoList.Add(new(typeof(YotogiOldSkillSelectManagerPatch)));// , false
             infoList.Add(new(typeof(YotogiOldStageSelectManagerPatch)));// , false
             infoList.Add(new(typeof(YotogiSkillContainerViewerPatch)));// , false
             infoList.Add(new(typeof(YotogiSkillSelectManagerPatch)));// , false
-            infoList.Add(new(typeof(YotogiStageSelectManagerPatch)));// , false
+            infoList.Add(new(typeof(YotogiStageSelectManagerPatch)));// , false  
+#endif
+
             //infoList.Add(typeof(FullBodyIKMgrPatch));// 뼈 관련. 안뜨는거 같음
         }
 
@@ -108,7 +114,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             toolList.Add(new(typeof(BasePanelMgrPatch)));// 망할 메세지 박스
             toolList.Add(new(typeof(ClassDataPatch),false));// 실시간 클래스 경험치 최대값 설정. 성능 나쁨
             toolList.Add(new(typeof(CharacterMgrPatchBase)));// 스카우트 모드의 필요사항 (메이드 수 등등)을 해제.
-            toolList.Add(new(typeof(DailyMgrPatch)));// 스케줄 관리 
+#if ScheduleUtill
+            toolList.Add(new(typeof(DailyMgrPatch)));// 스케줄 관리   
+#endif
             toolList.Add(new(typeof(EmpireLifeModeManagerPatch)));// 회상모드 시나리오 처리용?
             toolList.Add(new(typeof(GameMainPatch)));// 세이브 파일 로딩시 버전 차이 등으로 로딩 못하고 멈출경우 자동으로 타이틀로 돌아감
             toolList.Add(new(typeof(MaidManagementMainPatch)));//메이드 관리에서 모든 버튼 활성화

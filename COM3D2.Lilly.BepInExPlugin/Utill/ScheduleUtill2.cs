@@ -9,13 +9,16 @@ using System.Text;
 
 namespace COM3D2.Lilly.Plugin.Utill
 {
+#if ScheduleUtill
+
     class ScheduleUtill
     {
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
             "ScheduleUtill"
         );
 
-        public static void SetScheduleAllMaid(ScheduleMgr.ScheduleTime scheduleTime,bool isYotogi = true,bool isTraining = true, bool isSetFacility = true)
+
+        public static void SetScheduleAllMaid(ScheduleMgr.ScheduleTime scheduleTime, bool isYotogi = true, bool isTraining = true, bool isSetFacility = true)
         {
             if (ScheduleMgrPatch.m_scheduleApi == null)
             {
@@ -33,12 +36,12 @@ namespace COM3D2.Lilly.Plugin.Utill
 
             SetSlots(scheduleDatas, slots);
 
-            int c1=40, c2=40 ,c3,c4;
-            if(isYotogi && isTraining&& isSetFacility)
+            int c1 = 40, c2 = 40, c3, c4;
+            if (isYotogi && isTraining && isSetFacility)
             {
-                c3= UnityEngine.Random.Range(0, 40);
-                c4= UnityEngine.Random.Range(0, 40);
-                if (c3< c4)
+                c3 = UnityEngine.Random.Range(0, 40);
+                c4 = UnityEngine.Random.Range(0, 40);
+                if (c3 < c4)
                 {
                     c1 = c3;
                     c2 -= c4;
@@ -51,10 +54,10 @@ namespace COM3D2.Lilly.Plugin.Utill
             }
 
             if (isYotogi)
-                SetSchedule(scheduleTime, ScheduleType.Yotogi, slots, slotsn,c1);
+                SetSchedule(scheduleTime, ScheduleType.Yotogi, slots, slotsn, c1);
 
             if (isTraining)
-                SetSchedule(scheduleTime, ScheduleType.Training, slots, slotsn,c2);
+                SetSchedule(scheduleTime, ScheduleType.Training, slots, slotsn, c2);
 
             if (isSetFacility)
                 SetWorkFacility(scheduleTime, slots, slotsn);
@@ -130,9 +133,9 @@ namespace COM3D2.Lilly.Plugin.Utill
         /// <param name="slots"></param>
         /// <param name="slotsn"></param>
         /// <param name="cnt"></param>
-        public static void SetSchedule(ScheduleMgr.ScheduleTime scheduleTime, ScheduleType scheduleType, List<int> slots,List<int> slotsn, int cnt = 40)
+        public static void SetSchedule(ScheduleMgr.ScheduleTime scheduleTime, ScheduleType scheduleType, List<int> slots, List<int> slotsn, int cnt = 40)
         {
-            if (scheduleType == ScheduleType.Work||cnt==0)
+            if (scheduleType == ScheduleType.Work || cnt == 0)
             {
                 return;
             }
@@ -252,5 +255,8 @@ namespace COM3D2.Lilly.Plugin.Utill
             ScheduleAPI.MaidWorkIdErrorCheck(true);
         }
 
-    }
+    } 
+#endif
+
+
 }

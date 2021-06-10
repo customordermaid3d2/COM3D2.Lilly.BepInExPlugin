@@ -10,6 +10,8 @@ using Yotogis;
 
 namespace COM3D2.Lilly.Plugin.PatchInfo
 {
+
+#if ScheduleUtill
     class YotogiOldSkillContainerViewerPatch
     {
         // YotogiOldSkillContainerViewer
@@ -85,14 +87,14 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                             , oldData.id
                             , oldData.name
                             );
-                        
+
                         skillList.Add(oldData);
                     }
                 }
             }
 
             if (skillList.Count > 0)
-            {                
+            {
                 for (int i = 0; i < 7; i++)
                 {
                     try
@@ -103,8 +105,9 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                     {
                         MyLog.LogError(e.ToString());
                     }
-                }                
+                }
             }
         }
-    }
+    } 
+#endif
 }

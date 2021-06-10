@@ -83,7 +83,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                                     , yotogi.yotogiType
                                 );
 #endif
-                        if (DailyMgrPatch.IsLegacy)
+                        if (DailyMgr.IsLegacy)
                         {
                             maid.status.OldStatus.SetFlag("_PlayedNightWorkId" + yotogi.id, 1);
                         }
@@ -106,7 +106,7 @@ namespace COM3D2.Lilly.Plugin.Utill
                             }
                         }
                     }
-                    if (DailyMgrPatch.IsLegacy)
+                    if (DailyMgr.IsLegacy)
                     {
                         maid.status.OldStatus.SetFlag("_PlayedNightWorkVip", 1);
                     }

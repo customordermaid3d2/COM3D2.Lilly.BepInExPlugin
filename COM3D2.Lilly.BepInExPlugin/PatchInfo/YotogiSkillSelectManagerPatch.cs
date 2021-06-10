@@ -9,6 +9,7 @@ using Yotogis;
 
 namespace COM3D2.Lilly.Plugin.PatchInfo
 {
+#if ScheduleUtill
     class YotogiSkillSelectManagerPatch
     {
         // YotogiSkillSelectManager
@@ -64,7 +65,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                 //AddSkill();
             }
         }
-        
+
         [HarmonyPatch(typeof(YotogiSkillSelectManager), "OnClickAllReset")]//, new Type[] { typeof(int), typeof(int), typeof(bool) }
         [HarmonyPrefix]
         public static void OnClickAllReset()
@@ -135,5 +136,6 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             }
         }
 
-    }
+    } 
+#endif
 }

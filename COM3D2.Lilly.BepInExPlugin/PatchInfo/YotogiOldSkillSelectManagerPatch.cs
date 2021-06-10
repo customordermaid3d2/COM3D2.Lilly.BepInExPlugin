@@ -7,6 +7,8 @@ using System.Text;
 
 namespace COM3D2.Lilly.Plugin.PatchInfo
 {
+#if ScheduleUtill
+
     class YotogiOldSkillSelectManagerPatch
     {
         // YotogiOldSkillSelectManager
@@ -36,5 +38,6 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                 //AddSkill();
             }
         }
-    }
+    } 
+#endif
 }

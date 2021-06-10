@@ -42,6 +42,7 @@ namespace COM3D2.Lilly.Plugin.UtillGUI
                 MyLog.LogMessage("GameObjectMgr.Install", instance.name);                
             }
             return instance;
+
         }
 
         public void Awake()

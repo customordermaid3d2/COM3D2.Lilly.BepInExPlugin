@@ -104,7 +104,7 @@ namespace COM3D2.Lilly.Plugin
             DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             MyLog.LogMessage("Lully.Awake", dateTime.ToString("u"));
 
-            GameObjectMgr.Install(gameObject);
+            //GameObjectMgr.Install(gameObject);
             //GameObjectMgr.instance.enabled = configEntryUtill["GameObjectMgr", false];
 
             guiVirtualMgr = GUIMgr.GUIMgr.Install(gameObject);

@@ -7,6 +7,7 @@ using System.Text;
 
 namespace COM3D2.Lilly.Plugin.PatchInfo
 {
+#if ScheduleUtill
     /// <summary>
     /// 메인 화면의 스케줄 관련
     /// </summary>
@@ -62,6 +63,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                 );
         }
 
+
         /// <summary>
         /// 경영전환시 DailyMgr.IsLegacy 가 되고, api 공유하니 주의
         /// 슬롯에 메이드 자동 배치
@@ -103,6 +105,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             }
         }
 
+
         public static void SetSlotAllDel()
         {
             if (m_scheduleApi == null)
@@ -119,29 +122,31 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             }
         }
 
-        /*
-		public void ClickMaidStatus()
-		{
-			string name = UIButton.current.name;
-			if (UICamera.currentTouchID == -1)
-			{
-				if (this.CurrentActiveButton == name)
-				{
-					return;
-				}
-				Debug.Log(string.Format("{0}ボタンがクリックされました。", name));
-				this.m_MaidStatusListCtrl.CreateTaskViewer(name);
-				this.CurrentActiveButton = name;
-			}
-			else if (UICamera.currentTouchID == -2)
-			{
-				Debug.Log(string.Format("{0}ボタンが右クリックされました。", name));
-				if (this.m_Ctrl.CanDeleteData(name))
-				{
-					this.m_Ctrl.DeleteMaidStatus(this.m_scheduleApi, name);
-				}
-			}
-		}
-		*/
+
+    /*
+    public void ClickMaidStatus()
+    {
+        string name = UIButton.current.name;
+        if (UICamera.currentTouchID == -1)
+        {
+            if (this.CurrentActiveButton == name)
+            {
+                return;
+            }
+            Debug.Log(string.Format("{0}ボタンがクリックされました。", name));
+            this.m_MaidStatusListCtrl.CreateTaskViewer(name);
+            this.CurrentActiveButton = name;
+        }
+        else if (UICamera.currentTouchID == -2)
+        {
+            Debug.Log(string.Format("{0}ボタンが右クリックされました。", name));
+            if (this.m_Ctrl.CanDeleteData(name))
+            {
+                this.m_Ctrl.DeleteMaidStatus(this.m_scheduleApi, name);
+            }
+        }
     }
+    */
+}
+#endif
 }

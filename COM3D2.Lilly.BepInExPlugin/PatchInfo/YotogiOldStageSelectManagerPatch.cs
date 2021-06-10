@@ -7,6 +7,8 @@ using System.Text;
 
 namespace COM3D2.Lilly.Plugin.PatchInfo
 {
+
+#if ScheduleUtill
     class YotogiOldStageSelectManagerPatch
     {
         // YotogiOldStageSelectManager
@@ -117,5 +119,6 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                 GameMain.Instance.SoundMgr.PlayBGM(yotogiStageUnit.stage_data.bgm_file, 1f, true);
             }
         }
-    }
+    } 
+#endif
 }
