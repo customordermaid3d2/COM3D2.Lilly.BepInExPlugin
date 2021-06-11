@@ -55,25 +55,10 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         }  // 현제 페이지
         public int pageNum = 0; // 해당 클래스 페이지 번호
         private static bool isGuiOnMain = true;
-        private static bool open = true;
+
         public static bool Open {
-            get => open;
-            set
-            {
-                if (open != value)
-                    if (open = value)
-                    {
-                        myWindowRect.Height = 600f;
-                        myWindowRect.Width = 300f;
-                        myWindowRect.X -= openW;
-                    }
-                    else
-                    {
-                        myWindowRect.Height = 40f;
-                        myWindowRect.Width = 300f - openW;
-                        myWindowRect.X += openW;
-                    }
-            }
+            get => myWindowRect.IsOpen;
+            set => myWindowRect.IsOpen=value;
         }
 
         public static GUIHarmony harmonyUtill;
@@ -114,7 +99,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             customFile = Lilly.customFile;
             ShowCounter = customFile.Bind("GUIVirtualMgr", "GUI ON OFF KeyboardShortcut", new BepInEx.Configuration.KeyboardShortcut(KeyCode.Alpha0, KeyCode.LeftControl));
             winTitle = Lilly.Instance.name + " " + ShowCounter.Value.ToString();
-            myWindowRect = new MyWindowRect(customFile);
+            myWindowRect = new MyWindowRect(customFile, MyAttribute.PLAGIN_FULL_NAME,300f);
         }
 
         public static GUIMgr Install(GameObject container)
@@ -238,7 +223,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GUI.skin = null;
 
 
-            myWindowRect.WindowRect = GUILayout.Window(pageNow, myWindowRect.WindowRect, GuiFunc, winTitle );
+            myWindowRect.WindowRect = GUILayout.Window(pageNow, myWindowRect.WindowRect, GuiFunc, "", GUI.skin.box);
         }
 
         private Vector2 scrollPosition;
@@ -258,10 +243,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
             GUILayout.BeginHorizontal();
 
-            GUILayout.Label(guis[pageNow].nameGUI, guio[100, 20]);
+            GUILayout.Label(guis[pageNow].nameGUI, GUILayout.Width(100), GUILayout.Height(20));
             GUILayout.FlexibleSpace();
-            if (Open)
-                GUILayout.Label((pageNow + 1) + " / " + pageCount, guio[40, 20]);
+            GUILayout.Label((pageNow + 1) + " / " + pageCount, guio[40, 20]);
             if (GUILayout.Button("M", guio[20, 20])) pageNow = 0;
             if (GUILayout.Button("<", guio[20, 20]))
             {
@@ -275,14 +259,14 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
                     MyLog.LogDebug("GUIVirtual.GuiFunc", pageNow);
                 pageNow++;
             }
-            if (GUILayout.Button("-", guio[20, 20])) { Open = !Open; }
+            if (GUILayout.Button("-", guio[20, 20])) { myWindowRect.IsOpen = !myWindowRect.IsOpen; }
             if (GUILayout.Button("x", guio[20, 20])) { isGuiOnMain = false; }
 
             GUILayout.EndHorizontal();
 
             #endregion
 
-            if (Open)
+            if (myWindowRect.IsOpen)
             {
 
                 #region body
