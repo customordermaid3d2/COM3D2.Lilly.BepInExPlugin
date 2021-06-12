@@ -35,12 +35,14 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
         {
             if (configEntryUtill["Deserialize"])
                 MyLog.LogMessage("Deserialize", __result);
+#if SaveLoadFailToTitle
             if (!__result)
             {
                 //UICamera.InputEnable = true;
                 if (configEntryUtill["Deserialize"])
                     GameMain.Instance.LoadScene("SceneToTitle");
             }
+#endif
         }
 
         //static readonly string sceneMenuLoadScript = "@AllProcPropSeqStart maid=0 sync\n" +

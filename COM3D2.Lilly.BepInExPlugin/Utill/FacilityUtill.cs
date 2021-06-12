@@ -32,19 +32,16 @@ namespace COM3D2.Lilly.Plugin.Utill
         //    );
         //    FacilityManager = GameMain.Instance.FacilityMgr;
         //}
+#if FacilityUtill
 
         public static List<Facility.FacilityStatus> listbak;
         public static List<Facility.FacilityStatus> list;
 
-        public static void GetAchievement()
-        {
-            //m_FacilityAchievementList
-        }
 
         public static void SetMaxExp()
         {
             if (FacilityManagerPatch.FacilityExpArray == null)
-            {               
+            {
                 //FacilityManagerPatch.m_FacilityExpArray= AccessTools.Field(typeof(FacilityManager), "m_FacilityAchievementList");
                 MyLog.LogWarning(
                     "FacilityManagerPatch.m_FacilityExpArray null"
@@ -54,17 +51,17 @@ namespace COM3D2.Lilly.Plugin.Utill
             }
             foreach (KeyValuePair<int, SimpleExperienceSystem> item in FacilityManagerPatch.FacilityExpArray.Copy())
             {
-                SimpleExperienceSystem experienceSystem =item.Value;
+                SimpleExperienceSystem experienceSystem = item.Value;
                 MyLog.LogMessage(
                     "SetMaxExp"
-                    , item.Key                    
+                    , item.Key
                     , experienceSystem.GetCurrentExp()
                     , experienceSystem.GetCurrentLevel()
-                    , experienceSystem.GetTotalExp()                    
-                    , experienceSystem.GetMaxLevel()                    
-                    , experienceSystem.GetMaxLevelNeedExp()                    
-                    , experienceSystem.GetNextLevelExp(experienceSystem.GetMaxLevel())                    
-                    , experienceSystem.GetNextLevelRestExp()                    
+                    , experienceSystem.GetTotalExp()
+                    , experienceSystem.GetMaxLevel()
+                    , experienceSystem.GetMaxLevelNeedExp()
+                    , experienceSystem.GetNextLevelExp(experienceSystem.GetMaxLevel())
+                    , experienceSystem.GetNextLevelRestExp()
                 );
                 experienceSystem.AddExp(experienceSystem.GetMaxLevelNeedExp());
             }
@@ -100,12 +97,6 @@ namespace COM3D2.Lilly.Plugin.Utill
             list.Clear();
         }
 
-        private static void GetFacilityMgr()
-        {
-            FacilityManager facilityManager = GameMain.Instance.FacilityMgr;
-            //facilityManager.
-
-        }
 
 
         /// <summary>
@@ -206,6 +197,7 @@ namespace COM3D2.Lilly.Plugin.Utill
 
             FacilityUtill.SetMaxExp();
         }
+#endif
 
 
         public static void GetFacilityStatus()

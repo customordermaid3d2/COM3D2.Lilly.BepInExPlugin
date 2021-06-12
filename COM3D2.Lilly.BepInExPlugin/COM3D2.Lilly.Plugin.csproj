@@ -13,6 +13,7 @@
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <DefineConstants>TRACE;COM3D2_155</DefineConstants>
+	  <OutputPath>bin\Release</OutputPath>
 	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="UtillTool\Demo.cs" />
@@ -45,6 +46,7 @@
 	  </Reference>
 	  <Reference Include="BepInEx.UnityInjectorLoader">
 	    <HintPath>F:\COM3D2_155\BepInEx\plugins\UnityInjectorLoader\BepInEx.UnityInjectorLoader.dll</HintPath>
+	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="COM3D2.API">
 	    <HintPath>..\lib\COM3D2.API.dll</HintPath>
@@ -52,24 +54,31 @@
 	  </Reference>
 	  <Reference Include="ConfigurationManager">
 	    <HintPath>..\..\_lib2\ConfigurationManager.dll</HintPath>
+	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="Mono.Cecil">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\Mono.Cecil.dll</HintPath>
+	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="Mono.Cecil.Mdb">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\Mono.Cecil.Mdb.dll</HintPath>
+	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="Mono.Cecil.Pdb">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\Mono.Cecil.Pdb.dll</HintPath>
+	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="Mono.Cecil.Rocks">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\Mono.Cecil.Rocks.dll</HintPath>
+	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="MonoMod.RuntimeDetour">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\MonoMod.RuntimeDetour.dll</HintPath>
+	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="MonoMod.Utils">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\MonoMod.Utils.dll</HintPath>
+	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="System.Threading">
 	    <HintPath>F:\COM3D2_155\BepInEx\plugins\System.Threading.dll</HintPath>
@@ -80,6 +89,7 @@
 	  </Reference>
 	  <Reference Include="UnityEngine.UI">
 	    <HintPath>..\..\_lib\UnityEngine.UI.dll</HintPath>
+	    <Private>false</Private>
 	  </Reference>
 	</ItemGroup>
 	<ItemGroup>
@@ -117,5 +127,8 @@
 	    <Private>false</Private>
 	  </Reference>
 	</ItemGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="copy &quot;$(TargetDir)*.dll&quot; &quot;C:\Downloads\plugin&quot;" />
+	</Target>
     
 </Project>

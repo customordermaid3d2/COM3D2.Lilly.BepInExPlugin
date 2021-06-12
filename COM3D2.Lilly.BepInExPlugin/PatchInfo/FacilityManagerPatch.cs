@@ -13,15 +13,16 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
 
         // FacilityManager facilityManager = GameMain.Instance.FacilityMgr;
 
-        public static FacilityManager facilityManager;
 
         //private static FacilityManager facilityManager;// 사용 못함
         public static Dictionary<int, Facility> m_NextDayFacilityArray;
         public static Facility[] m_FacilityArray;// 현재
 
-        private static DataArray<int, SimpleExperienceSystem> facilityExpArray;
 
         public static Dictionary<int, FacilityDataTable.FacilityDefaultData> m_FacilityDefaultDataArray;
+#if FacilityUtill
+        public static FacilityManager facilityManager;
+        private static DataArray<int, SimpleExperienceSystem> facilityExpArray;
         public static DataArray<string, string> m_FacilityAchievementList;
 
         public static DataArray<int, SimpleExperienceSystem> FacilityExpArray {
@@ -44,6 +45,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         {
             facilityManager = __instance;
         }
+#endif
 
 
         [HarmonyPostfix, HarmonyPatch(typeof(FacilityManager), "ResetData")]
@@ -59,8 +61,10 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                 , m_NextDayFacilityArray.Count
                 , m_FacilityArray.Length
             );
+#if FacilityUtill
             FacilityExpArray = ___m_FacilityExpArray;
-            m_FacilityAchievementList = ___m_FacilityAchievementList;
+            m_FacilityAchievementList = ___m_FacilityAchievementList; 
+#endif
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(FacilityDataTable), "ReadCSVFacilityDefaultData")]

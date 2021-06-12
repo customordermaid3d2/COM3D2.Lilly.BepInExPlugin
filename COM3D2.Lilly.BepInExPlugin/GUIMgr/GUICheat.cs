@@ -29,12 +29,12 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         {
             if (GUILayout.Button("일상 플레그 처리")) CheatUtill.SetWorkAll();
             if (GUILayout.Button("workSuccessLvMax")) ScheduleAPIPatch.SetworkSuccessLvMax();
-
+#if FacilityUtill
             GUILayout.Label("시설 관리 관련");
             if (GUILayout.Button("시설 자동 생성 - 랜덤")) FacilityUtill.SetFacilityAll(true);
             if (GUILayout.Button("시설 자동 생성 - 순차")) FacilityUtill.SetFacilityAll(false);
             if (GUILayout.Button("시설 경험치 최대")) FacilityUtill.SetMaxExp();
-
+#endif
             GUILayout.Label("모든 메이드 대상");
             if (GUILayout.Button("시나리오 처리 처리")) ScenarioDataUtill.SetScenarioDataAll();
             if (GUILayout.Button("라이프 클리어 처리 ")) EmpireLifeModeManagerPatch.SetEmpireLifeModeDataAll();
