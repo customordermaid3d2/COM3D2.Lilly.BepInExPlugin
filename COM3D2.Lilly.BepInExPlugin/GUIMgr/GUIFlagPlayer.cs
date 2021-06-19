@@ -11,6 +11,7 @@ using wf;
 
 namespace COM3D2.Lilly.Plugin.GUIMgr
 {
+#if MaidFlagCtr
     public class GUIFlagPlayer : GUIMgr
     {
         static GUILayoutOptionUtill guio = GUILayoutOptionUtill.Instance;
@@ -32,7 +33,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             GUI.enabled = true;
             if (GUILayout.Button("reflash"))
             {
-                StatusToolPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);                
+                StatusToolPatch.flagsPlayer = GameMain.Instance.CharacterMgr.status.flags.ToDictionary(x => x.Key + " , " + x.Value, x => x.Key);
             }
             GUILayout.Label("플레그 추가");
             GUILayout.BeginHorizontal();
@@ -99,5 +100,6 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
         }
 
 
-    }
+    } 
+#endif
 }

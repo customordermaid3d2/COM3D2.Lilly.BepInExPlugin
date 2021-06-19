@@ -70,6 +70,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             //infoList.Add(typeof(BoneMorph_Patch));//157 임시조치용 메이드 보이스 피치
             infoList.Add(new(typeof(CameraMainPatch),false));// 페이드 인 아웃 확인용
             infoList.Add(new(typeof(CharacterMgrPatch)));// 프리셋값 출력용
+            infoList.Add(new(typeof(DeserializePatch)));// ,false
             infoList.Add(new(typeof(DailyAPIPatch),false));// 스케줄 관리           
             infoList.Add(new(typeof(DailyCtrlPatch)));// 스케줄 관리
             infoList.Add(new(typeof(FacilityManagerPatch)));// 회상 모드에서 버튼 활성화용            

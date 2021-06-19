@@ -12,6 +12,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.MD = README.MD
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COM3D2.ScheduleUtill.plugin", "..\COM3D2.ScheduleUtill.plugin\BepInPluginSample\COM3D2.ScheduleUtill.plugin.csproj", "{22EEBF57-57FB-4FF6-A298-653F0DB3E029}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COM3D2.PresetExpresetXmlLoader.Plugin", "..\COM3D2.PresetExpresetXmlLoader.Plugin\BepInPluginSample\COM3D2.PresetExpresetXmlLoader.Plugin.csproj", "{221D5A0B-3C82-4640-AE59-D7754C630B86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BepInPluginSample", "..\BepInPluginSample\BepInPluginSample\BepInPluginSample.csproj", "{AC5AB442-3718-4E4D-A729-69DD82F7DA79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COM3D2.PresetLoadCtr.Plugin", "..\COM3D2.PresetLoadCtr.Plugin\COM3D2.PresetLoadCtr.Plugin\COM3D2.PresetLoadCtr.Plugin.csproj", "{4DA1E85A-25F8-45D5-B72F-553D3C973524}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COM3D2.PoseStreamLilly.Plugin", "C:\Users\lilly\source\repos\COM3D2.PoseStreamLilly.Plugin\BepInPluginSample\COM3D2.PoseStreamLilly.Plugin.csproj", "{22C427E0-C060-48C9-8836-DD3B97936218}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COM3D2.DebugLilly.Plugin", "COM3D2.DebugLilly.Plugin\COM3D2.DebugLilly.Plugin.csproj", "{30036E2D-032C-41B8-9B06-20270775F049}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +34,30 @@ Global
 		{9401A216-C9BB-409B-9C76-14A97FA50D02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9401A216-C9BB-409B-9C76-14A97FA50D02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9401A216-C9BB-409B-9C76-14A97FA50D02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22EEBF57-57FB-4FF6-A298-653F0DB3E029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22EEBF57-57FB-4FF6-A298-653F0DB3E029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22EEBF57-57FB-4FF6-A298-653F0DB3E029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22EEBF57-57FB-4FF6-A298-653F0DB3E029}.Release|Any CPU.Build.0 = Release|Any CPU
+		{221D5A0B-3C82-4640-AE59-D7754C630B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{221D5A0B-3C82-4640-AE59-D7754C630B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{221D5A0B-3C82-4640-AE59-D7754C630B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{221D5A0B-3C82-4640-AE59-D7754C630B86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC5AB442-3718-4E4D-A729-69DD82F7DA79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC5AB442-3718-4E4D-A729-69DD82F7DA79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC5AB442-3718-4E4D-A729-69DD82F7DA79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC5AB442-3718-4E4D-A729-69DD82F7DA79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DA1E85A-25F8-45D5-B72F-553D3C973524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DA1E85A-25F8-45D5-B72F-553D3C973524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DA1E85A-25F8-45D5-B72F-553D3C973524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DA1E85A-25F8-45D5-B72F-553D3C973524}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22C427E0-C060-48C9-8836-DD3B97936218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22C427E0-C060-48C9-8836-DD3B97936218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22C427E0-C060-48C9-8836-DD3B97936218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22C427E0-C060-48C9-8836-DD3B97936218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30036E2D-032C-41B8-9B06-20270775F049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30036E2D-032C-41B8-9B06-20270775F049}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30036E2D-032C-41B8-9B06-20270775F049}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30036E2D-032C-41B8-9B06-20270775F049}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

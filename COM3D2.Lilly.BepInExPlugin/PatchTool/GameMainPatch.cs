@@ -2,6 +2,7 @@
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -26,6 +27,8 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
             if (configEntryUtill["LoadScene"])
                 MyLog.LogMessage("GameMain.LoadScene", f_strSceneName);
         }
+        
+
 
         // public bool Deserialize(int f_nSaveNo, bool scriptExec = true)
 

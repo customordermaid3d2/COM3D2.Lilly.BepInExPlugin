@@ -62,6 +62,7 @@ namespace COM3D2.Lilly.Plugin
 
             stopwatch.Start(); // 시간측정 시작
             MyLog.LogMessage("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
+            MyLog.LogMessage("Lilly", DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"));
 
             customFile = Config;
             ShowCounter = Config.Bind("KeyboardShortcut", "KeyboardShortcut0", new BepInEx.Configuration.KeyboardShortcut(KeyCode.Alpha0, KeyCode.LeftControl));
@@ -104,6 +105,8 @@ namespace COM3D2.Lilly.Plugin
             DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             MyLog.LogMessage("Lully.Awake", dateTime.ToString("u"));
 
+            
+
             //GameObjectMgr.Install(gameObject);
             //GameObjectMgr.instance.enabled = configEntryUtill["GameObjectMgr", false];
 
@@ -131,7 +134,9 @@ namespace COM3D2.Lilly.Plugin
         public void Start()
         {
             MyLog.LogMessage("Start");
-
+#if DebugLilly
+            GUIInfo.GetGameInfo(); 
+#endif
         }
 
         public static Scene scene;

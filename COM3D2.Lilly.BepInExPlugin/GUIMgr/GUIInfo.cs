@@ -25,7 +25,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
         public override void SetBody()
         {
-            if (GUILayout.Button("게임 정보 얻기 ")) GUIInfo.GetGameInfo();
+#if DebugLilly
+            if (GUILayout.Button("게임 정보 얻기 ")) GUIInfo.GetGameInfo(); 
+#endif
             if (GUILayout.Button("Facility 정보 얻기 ")) FacilityManagerPatch.GetGameInfo();
             if (GUILayout.Button("Scene 정보 얻기 ")) GUIInfo.GetSceneInfo();
             if (GUILayout.Button("정보 얻기 바디 관련")) GUIInfo.GetTbodyInfo();
@@ -186,8 +188,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 
 
 
+#if DebugLilly
 
-        private static void GetGameInfo()
+        internal static void GetGameInfo()
         {
             MyLog.LogDarkBlue("=== GetGameInfo st ===");
 
@@ -195,6 +198,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             MyLog.LogInfo("Application.version : " + Application.version);
             MyLog.LogInfo("Application.unityVersion : " + Application.unityVersion);
             MyLog.LogInfo("Application.companyName : " + Application.companyName);
+            MyLog.LogInfo("Application.dataPath : " + Application.dataPath);
 
             MyLog.LogInfo("Environment.CurrentDirectory : " + Environment.CurrentDirectory);
             MyLog.LogInfo("Environment.SystemDirectory : " + Environment.SystemDirectory);
@@ -238,7 +242,8 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             {
                 MyLog.LogMessage(type.Name, item.Name, item.GetValue(null));
             }
-
+            /*
+             * 추출 안됨
             MyLog.LogInfo("GUI.skin.customStyles");
 
             if (GUI.skin?.customStyles != null)
@@ -261,12 +266,31 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             {
                 MyLog.LogInfo("GUI.skin null");
             }
-
+            */
             MyLog.LogInfo();
 
             MyLog.LogDarkBlue("=== GetGameInfo ed ===");
+
+            LogFolder(Application.dataPath);
+            LogFolder(Application.dataPath + @"\lilly");
+            LogFolder(Application.dataPath + @"\BepInEx\plugins");
+            LogFolder(Application.dataPath + @"\Sybaris");
+            LogFolder(Application.dataPath + @"\Sybaris\UnityInjector");
         }
 
+        private static void LogFolder(string storeDirectoryPath)
+        {
+            MyLog.LogDarkBlue("=== DirectoryInfo st === " + storeDirectoryPath);
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(storeDirectoryPath);
+            if (di.Exists)
+                foreach (System.IO.FileInfo File in di.GetFiles())
+                {
+                    MyLog.LogInfo(File.Name);
+                }
+            MyLog.LogDarkBlue("=== DirectoryInfo ed ===");
+        }
+
+#endif
         public static void GetSceneInfo()
         {
             MyLog.LogMessage("GetSceneInfo"

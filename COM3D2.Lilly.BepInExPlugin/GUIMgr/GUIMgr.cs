@@ -74,7 +74,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 #if FlagMaid
         public static GUIFlagMaid GUIFlag;
 #endif
-        public static GUIFlagPlayer GUIFlagPlayer;
+#if MaidFlagCtr
+        public static GUIFlagPlayer GUIFlagPlayer; 
+#endif
         public static GUIScript GUIScript;
 
         public GUIMgr() : base()
@@ -124,7 +126,9 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 #if FlagMaid
                 GUIFlag = new GUIFlagMaid(); 
 #endif
-                GUIFlagPlayer = new GUIFlagPlayer();
+#if MaidFlagCtr
+                GUIFlagPlayer = new GUIFlagPlayer(); 
+#endif
                 OnOffGUI = new GUIOnOff();
 #if GUIPlugin
                 pluginUtill = new GUIPlugin(); 
