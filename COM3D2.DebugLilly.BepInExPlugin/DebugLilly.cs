@@ -1,31 +1,28 @@
-﻿using COM3D2.Lilly.Plugin;
+﻿using BepInEx;
+using COM3D2.Lilly.Plugin;
 using MaidStatus;
 using System;
-using System.Diagnostics;
 using UnityEngine;
-using UnityInjector;
-using UnityInjector.Attributes;
+
 
 namespace DebugLilly
 {
-    [PluginFilter("COM3D2x64")]
-    [PluginName("COM3D2.DebugLilly.Plugin")]
-    [PluginVersion("0.0.0.0")]
-    public class DebugLilly : PluginBase
+    class MyAttribute
     {
-        //public static Stopwatch stopwatch = new Stopwatch(); //객체 선언
+        public const string PLAGIN_NAME = "DebugLilly";
+        public const string PLAGIN_VERSION = "21.6.8";
+        public const string PLAGIN_FULL_NAME = "COM3D2.DebugLilly.Plugin";
+    }
 
-        public DebugLilly()
-        {
-            //stopwatch.Start(); // 시간측정 시작
-        }
-
+    [BepInPlugin(MyAttribute.PLAGIN_FULL_NAME, MyAttribute.PLAGIN_NAME, MyAttribute.PLAGIN_VERSION)]
+    public class DebugLilly : BaseUnityPlugin
+    {
         public void Awake()
         {
-            //MyLog.LogMessage("Awake", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 
             MyLog.LogInfo("=== DebugLilly ===");
             MyLog.LogDarkBlue("=== GetGameInfo st ===");
+
 
             MyLog.LogInfo("Application.installerName : " + Application.installerName);
             MyLog.LogInfo("Application.version : " + Application.version);
@@ -43,38 +40,62 @@ namespace DebugLilly
             MyLog.LogInfo("Environment.Desktop : " + Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
             MyLog.LogInfo("Environment.Programs : " + Environment.GetFolderPath(Environment.SpecialFolder.Programs));
 
-            MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);
-
             MyLog.LogInfo("UTY.gameProjectPath : " + UTY.gameProjectPath);
             MyLog.LogInfo("UTY.gameDataPath : " + UTY.gameDataPath);
 
-
-            MyLog.LogInfo("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
-
             MyLog.LogInfo("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
-
-            MyLog.LogInfo("Product.windowTitel : " + Product.windowTitel);
-
-            MyLog.LogInfo("Product.enabeldAdditionalRelation : " + Product.enabeldAdditionalRelation);
-            MyLog.LogInfo("Product.enabledSpecialRelation : " + Product.enabledSpecialRelation);
-
-            MyLog.LogInfo("Product.isEnglish : " + Product.isEnglish);
-            MyLog.LogInfo("Product.isJapan : " + Product.isJapan);
-            MyLog.LogInfo("Product.isPublic : " + Product.isPublic);
-
-            MyLog.LogInfo("Product.lockDLCSiteLink : " + Product.lockDLCSiteLink);
-
-            MyLog.LogInfo("Product.defaultLanguage : " + Product.defaultLanguage);
-            MyLog.LogInfo("Product.supportMultiLanguage : " + Product.supportMultiLanguage);
-            MyLog.LogInfo("Product.systemLanguage : " + Product.systemLanguage);
-
-            MyLog.LogInfo("Product.type : " + Product.type);
-
-            Type type = typeof(Misc);
-            foreach (var item in type.GetFields())
+            
+            try
             {
-                MyLog.LogInfo(type.Name, item.Name, item.GetValue(null));
             }
+            catch (Exception e)
+            {
+                MyLog.LogWarning("Awake:" + e.ToString());
+            }
+
+            try
+            {
+
+                MyLog.LogInfo("Product.windowTitel : " + Product.windowTitel);
+
+                MyLog.LogInfo("Product.enabeldAdditionalRelation : " + Product.enabeldAdditionalRelation);
+                MyLog.LogInfo("Product.enabledSpecialRelation : " + Product.enabledSpecialRelation);
+
+                MyLog.LogInfo("Product.isEnglish : " + Product.isEnglish);
+                MyLog.LogInfo("Product.isJapan : " + Product.isJapan);
+                MyLog.LogInfo("Product.isPublic : " + Product.isPublic);
+
+                MyLog.LogInfo("Product.lockDLCSiteLink : " + Product.lockDLCSiteLink);
+
+                MyLog.LogInfo("Product.defaultLanguage : " + Product.defaultLanguage);
+                MyLog.LogInfo("Product.supportMultiLanguage : " + Product.supportMultiLanguage);
+                MyLog.LogInfo("Product.systemLanguage : " + Product.systemLanguage);
+
+                MyLog.LogInfo("Product.type : " + Product.type);
+
+            }
+            catch (Exception e)
+            {
+                MyLog.LogWarning("Product:" + e.ToString());
+            }
+
+            try
+            {
+                Type type = typeof(Misc);
+                foreach (var item in type.GetFields())
+                {
+                    MyLog.LogInfo(type.Name, item.Name, item.GetValue(null));
+                }
+            }
+            catch (Exception e)
+            {
+                MyLog.LogWarning("Misc:" + e.ToString());
+            }
+
+
+
+
+
             /*
              * 추출 안됨
             MyLog.LogInfo("GUI.skin.customStyles");
@@ -100,7 +121,39 @@ namespace DebugLilly
                 MyLog.LogInfo("GUI.skin null");
             }
             */
-            MyLog.LogInfo();
+            MyLog.LogInfo("");
+
+            LogFolder(UTY.gameProjectPath);
+            LogFolder(UTY.gameProjectPath + @"\lilly");
+            LogFolder(UTY.gameProjectPath + @"\BepInEx\plugins");
+            LogFolder(UTY.gameProjectPath + @"\Sybaris");
+            LogFolder(UTY.gameProjectPath + @"\Sybaris\UnityInjector");
+
+
+            MyLog.LogDarkBlue("=== GetGameInfo ed ===");
+        }
+
+        public void Start()
+        {
+            MyLog.LogMessage("Start");
+            MyLog.LogInfo("=== DebugLilly ===");
+            MyLog.LogDarkBlue("=== GetGameInfo st ===");
+
+            MyLog.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);
+
+
+            try
+            {
+
+                MyLog.LogInfo("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
+
+              // MyLog.LogInfo("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
+
+            }
+            catch (Exception e)
+            {
+                MyLog.LogWarning("Start:" + e.ToString());
+            }
 
 
             MyLog.LogMessage("성격");
@@ -117,11 +170,6 @@ namespace DebugLilly
             }
 
             MyLog.LogDarkBlue("=== GetGameInfo ed ===");
-            LogFolder(UTY.gameProjectPath);
-            LogFolder(UTY.gameProjectPath + @"\lilly");
-            LogFolder(UTY.gameProjectPath + @"\BepInEx\plugins");
-            LogFolder(UTY.gameProjectPath + @"\Sybaris");
-            LogFolder(UTY.gameProjectPath + @"\Sybaris\UnityInjector");
         }
 
         private static void LogFolder(string storeDirectoryPath)

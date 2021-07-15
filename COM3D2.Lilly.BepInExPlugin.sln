@@ -24,6 +24,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COM3D2.PoseStreamLilly.Plug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COM3D2.DebugLilly.Plugin", "COM3D2.DebugLilly.Plugin\COM3D2.DebugLilly.Plugin.csproj", "{30036E2D-032C-41B8-9B06-20270775F049}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COM3D2.DebugLilly.BepInExPlugin", "COM3D2.DebugLilly.BepInExPlugin\COM3D2.DebugLilly.BepInExPlugin.csproj", "{2A949BE2-942B-4881-B771-A5950A3BFA56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COM3D2.ErrorTexturePlaceholder.Plugin", "C:\Users\lilly\source\repos\COM3D2.ErrorTexturePlaceholder.Plugin\BepInPluginSample\COM3D2.ErrorTexturePlaceholder.Plugin.csproj", "{2028237E-9078-41F3-BCD2-426BB9B1DF04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM3D2.VMDPlay.Plugin", "..\CM3D2.VMDPlay.Plugin\CM3D2.VMDPlay.Plugin\CM3D2.VMDPlay.Plugin.csproj", "{A5424FB5-5284-4D92-A6BD-62C7133D49EC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COM3D2.PropMyItem.Plugin", "..\com3d2.propmyitem.plugin\COM3D2.PropMyItem.Plugin\COM3D2.PropMyItem.Plugin.csproj", "{A1EC8953-0DE4-4519-9C58-934A4D605A1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +66,22 @@ Global
 		{30036E2D-032C-41B8-9B06-20270775F049}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30036E2D-032C-41B8-9B06-20270775F049}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30036E2D-032C-41B8-9B06-20270775F049}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A949BE2-942B-4881-B771-A5950A3BFA56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A949BE2-942B-4881-B771-A5950A3BFA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A949BE2-942B-4881-B771-A5950A3BFA56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A949BE2-942B-4881-B771-A5950A3BFA56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2028237E-9078-41F3-BCD2-426BB9B1DF04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2028237E-9078-41F3-BCD2-426BB9B1DF04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2028237E-9078-41F3-BCD2-426BB9B1DF04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2028237E-9078-41F3-BCD2-426BB9B1DF04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5424FB5-5284-4D92-A6BD-62C7133D49EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5424FB5-5284-4D92-A6BD-62C7133D49EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5424FB5-5284-4D92-A6BD-62C7133D49EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5424FB5-5284-4D92-A6BD-62C7133D49EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1EC8953-0DE4-4519-9C58-934A4D605A1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1EC8953-0DE4-4519-9C58-934A4D605A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1EC8953-0DE4-4519-9C58-934A4D605A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1EC8953-0DE4-4519-9C58-934A4D605A1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

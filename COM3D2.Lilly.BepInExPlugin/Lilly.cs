@@ -121,7 +121,7 @@ namespace COM3D2.Lilly.Plugin
         /// </summary>
         public void OnEnable()
         {
-            MyLog.LogMessage("OnEnable");
+            MyLog.LogMessage("OnEnable", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 
             SceneManager.sceneLoaded += this.OnSceneLoaded;
 
@@ -133,7 +133,7 @@ namespace COM3D2.Lilly.Plugin
         /// </summary>
         public void Start()
         {
-            MyLog.LogMessage("Start");
+            MyLog.LogMessage("Start", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
 #if DebugLilly
             GUIInfo.GetGameInfo(); 
 #endif
@@ -141,12 +141,11 @@ namespace COM3D2.Lilly.Plugin
 
         public static Scene scene;
 
-
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // SceneManager.GetActiveScene().name 
             Lilly.scene = scene;
-            if (configEntryUtill["OnSceneLoaded"])
+            //if (configEntryUtill["OnSceneLoaded"])
                 MyLog.LogMessage("OnSceneLoaded"
                 , scene.buildIndex
                 , scene.rootCount
@@ -157,8 +156,7 @@ namespace COM3D2.Lilly.Plugin
                 , scene.path
                 , mode
                 , string.Format("{0:0.000} ", stopwatch.Elapsed.ToString())
-                );
-            
+                );            
         }
 
         private void Update()

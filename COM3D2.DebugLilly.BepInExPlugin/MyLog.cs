@@ -2,13 +2,42 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using BepInEx;
+using BepInEx.Logging;
 using System.IO;
-
+using DebugLilly;
 
 namespace COM3D2.Lilly.Plugin
 {
     public class MyLog 
     {
+        public static ManualLogSource log = BepInEx.Logging.Logger.CreateLogSource(MyAttribute.PLAGIN_NAME);
+
+
+        public MyLog()
+        {
+
+        }
+
+        public static void LogTest()
+        {
+            foreach (ConsoleColor color in Enum.GetValues(typeof(ConsoleColor)))
+            {
+                Console.ForegroundColor = color;
+                //Console.Clear();// 로그 지워짐
+                Console.WriteLine("Foreground color set to {0}", color);
+            }
+            Console.WriteLine("=====================================");
+            Console.ForegroundColor = ConsoleColor.White;
+            // Let's go through all Console colors and set them as background  
+            foreach (ConsoleColor color in Enum.GetValues(typeof(ConsoleColor)))
+            {
+                Console.BackgroundColor = color;
+                Console.WriteLine("Background color set to {0}", color);
+            }
+            Console.WriteLine("=====================================");
+            Console.ResetColor();
+        }
 
         public static void LogLine()
         {
@@ -25,13 +54,15 @@ namespace COM3D2.Lilly.Plugin
 
         private static void LogOut(object[] args, Action<string> action)
         {
-
+           // if (!Lilly.isLogOn)
+           //     return;
             action(MyUtill.Join(" , ", args));
         }
 
         private static void ConsoleOut(object[] args, ConsoleColor consoleColor)
         {
-
+           // if (!Lilly.isLogOn)
+           //     return;
             Console.BackgroundColor = consoleColor;
             Console.WriteLine(MyUtill.Join(" , ", args));
             Console.BackgroundColor = ConsoleColor.Black;
@@ -41,34 +72,28 @@ namespace COM3D2.Lilly.Plugin
 
         private static void ConsoleOut(object[] args)
         {
-
+           // if (!Lilly.isLogOn)
+           //     return;
             Console.WriteLine(MyUtill.Join(" , ", args));
             //Console.ResetColor();
         }
 
-
-
-        internal static void Debug_Log(object msg)
-        {
-            Debug.Log("DebugLilly : " + msg);
-        }
-
         internal static void LogDebug(params object[] args)
         {
-           LogOut(args, Debug_Log);
-           //ConsoleOut(args);
+            LogOut(args, log.LogDebug);
+           // ConsoleOut(args);
         }
 
         internal static void LogInfo(params object[] args)
         {
-            LogOut(args, Debug_Log);
+            LogOut(args, log.LogInfo);
             //ConsoleOut(args, ConsoleColor.DarkGray);
         }
 
         internal static void LogMessage(params object[] args)
         {
-            LogOut(args, Debug_Log);
-            ConsoleOut(args, ConsoleColor.DarkBlue);
+            LogOut(args, log.LogMessage);
+           // ConsoleOut(args, ConsoleColor.DarkBlue);
         }
         
         internal static void LogDarkMagenta(params object[] args)
@@ -107,20 +132,20 @@ namespace COM3D2.Lilly.Plugin
 
         internal static void LogWarning(params object[] args)
         {
-          //  LogOut(args, log.LogWarning);
-           ConsoleOut(args, ConsoleColor.DarkYellow);
+            LogOut(args, log.LogWarning);
+            //ConsoleOut(args, ConsoleColor.DarkYellow);
         }
 
         internal static void LogFatal(params object[] args)
         {
-          //  LogOut(args, log.LogFatal);
-            ConsoleOut(args, ConsoleColor.Red);
+            LogOut(args, log.LogFatal);
+            //ConsoleOut(args, ConsoleColor.Red);
         }
 
         internal static void LogError(params object[] args)
         {
-          //  LogOut(args, log.LogError);
-            ConsoleOut(args, ConsoleColor.DarkRed);
+            LogOut(args, log.LogError);
+            //ConsoleOut(args, ConsoleColor.DarkRed);
         }
 
     }

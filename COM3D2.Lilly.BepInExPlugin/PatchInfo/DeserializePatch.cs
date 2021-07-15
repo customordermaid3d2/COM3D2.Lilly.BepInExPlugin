@@ -16,14 +16,13 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
     {
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
         "DeserializePatch"
-            , "Deserialize"
         );
 
         [HarmonyPatch(typeof(GameMain), "MakeSavePathFileName")]
         [HarmonyPrefix]
         public static void MakeSavePathFileName(int f_nSaveNo)
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize",false])
                 MyLog.LogMessage("GameMain.MakeSavePathFileName", f_nSaveNo);
         }
 
@@ -31,7 +30,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void DeserializeReadHeader(BinaryReader brRead, int gameVersion)
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("GameMain.DeserializeReadHeader", gameVersion);
         }
 
@@ -39,7 +38,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void CharacterMgr_Deserialize()
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("CharacterMgr.Deserialize");
         }
 
@@ -47,7 +46,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void ScriptManager_Deserialize()
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("ScriptManager.Deserialize");
         }
         
@@ -55,7 +54,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void ScenarioSelectMgr_Deserialize()
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("ScenarioSelectMgr.Deserialize");
         }
         
@@ -63,7 +62,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void FacilityManager_Deserialize()
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("FacilityManager.Deserialize");
         }
         
@@ -71,7 +70,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void EmpireLifeModeManager_Deserialize()
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("EmpireLifeModeManager.Deserialize");
         }
         
@@ -79,14 +78,14 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void KasizukiManager_Deserialize()
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("KasizukiManager.Deserialize");
         }
         [HarmonyPatch(typeof(CasinoDataMgr), "Deserialize")]
         [HarmonyPrefix]
         public static void CasinoDataMgr_Deserialize()
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("CasinoDataMgr.Deserialize");
         }
         
@@ -94,7 +93,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void VsDanceDataMgr_Deserialize()
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("VsDanceDataMgr.Deserialize");
         }
         
@@ -102,7 +101,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void SaveData_Deserialize()
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("SaveData.Deserialize");
         }
         
@@ -110,7 +109,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void PrivateModeMgr_Deserialize()
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("PrivateModeMgr.Deserialize");
         }
         
@@ -118,7 +117,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
         [HarmonyPrefix]
         public static void ScoutManager_Deserialize()
         {
-            if (configEntryUtill["Deserialize"])
+            if (configEntryUtill["Deserialize", false])
                 MyLog.LogMessage("ScoutManager.DeSerialize");
         }
 

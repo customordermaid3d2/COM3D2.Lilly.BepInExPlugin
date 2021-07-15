@@ -33,11 +33,11 @@
 	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="Assembly-CSharp">
-	    <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
+	    <HintPath>..\..\_lib2\Assembly-CSharp.dll</HintPath>
 	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="Assembly-CSharp-firstpass">
-	    <HintPath>..\lib\Assembly-CSharp-firstpass.dll</HintPath>
+	    <HintPath>..\..\_lib2\Assembly-CSharp-firstpass.dll</HintPath>
 	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="BepInEx">
@@ -45,15 +45,11 @@
 	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="BepInEx.UnityInjectorLoader">
-	    <HintPath>F:\COM3D2_155\BepInEx\plugins\UnityInjectorLoader\BepInEx.UnityInjectorLoader.dll</HintPath>
+	    <HintPath>..\..\_lib2\BepInEx.UnityInjectorLoader.dll</HintPath>
 	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="COM3D2.API">
 	    <HintPath>..\lib\COM3D2.API.dll</HintPath>
-	    <Private>false</Private>
-	  </Reference>
-	  <Reference Include="ConfigurationManager">
-	    <HintPath>..\..\_lib2\ConfigurationManager.dll</HintPath>
 	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="Mono.Cecil">
@@ -81,10 +77,11 @@
 	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="System.Threading">
-	    <HintPath>F:\COM3D2_155\BepInEx\plugins\System.Threading.dll</HintPath>
+	    <HintPath>..\..\_lib2\System.Threading.dll</HintPath>
+	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine">
-	    <HintPath>..\lib\UnityEngine.dll</HintPath>
+	    <HintPath>..\..\_lib2\UnityEngine.dll</HintPath>
 	    <Private>false</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UI">

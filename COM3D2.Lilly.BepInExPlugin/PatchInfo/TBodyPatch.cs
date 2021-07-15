@@ -59,6 +59,34 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                 );
 
         }
+        
+        [HarmonyPostfix, HarmonyPatch(typeof(TBody), "CrossFade",typeof(string),typeof(AFileSystemBase),typeof(bool),typeof(bool),typeof(bool),typeof(float),typeof(float))]
+        public static void CrossFade(string filename, AFileSystemBase fileSystem, bool additive = false, bool loop = false, bool boAddQue = false, float fade = 0.5f, float weight = 1f)
+        {
+            if (config["CrossFade", false])
+                MyLog.LogMessage("TBody.CrossFade1"
+                , filename
+                , additive
+                , loop
+                , boAddQue
+                , fade
+                , weight
+                );
+        }
+                
+        [HarmonyPostfix, HarmonyPatch(typeof(TBody), "CrossFade",typeof(string),typeof(byte[]),typeof(bool),typeof(bool),typeof(bool),typeof(float),typeof(float))]
+        public static void CrossFade(string tag, byte[] byte_data, bool additive = false, bool loop = false, bool boAddQue = false, float fade = 0.5f, float weight = 1f)
+        {
+            if (config["CrossFade", false])
+                MyLog.LogMessage("TBody.CrossFade2"
+                , tag
+                , additive
+                , loop
+                , boAddQue
+                , fade
+                , weight
+                );
+        }
 
 #if COM3D2_157
         [HarmonyPostfix,HarmonyPatch(typeof(TBody), "UpdateMyBoneMorph")]        

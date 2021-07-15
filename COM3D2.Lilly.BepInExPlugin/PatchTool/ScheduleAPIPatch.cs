@@ -22,9 +22,6 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
 
         public static ConfigEntryUtill configEntryUtill = ConfigEntryUtill.Create(
             "ScheduleAPIPatch"
-            , "DecideSuccess"
-            , "DecideSuccess_Perfect"
-            , "EnableNightWork"
         );
 
         public static void SetworkSuccessLvMax()
@@ -220,7 +217,7 @@ namespace COM3D2.Lilly.Plugin.ToolPatch
                 );
 
             }
-            if (configEntryUtill["EnableNightWork_result"])
+            //if (configEntryUtill["EnableNightWork_result"])
                 if (SceneFreeModeSelectManager.IsFreeMode)
                     __result = true;
         }
