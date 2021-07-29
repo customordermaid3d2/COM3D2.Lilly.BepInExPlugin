@@ -53,8 +53,7 @@ namespace COM3D2.Lilly.Plugin.Utill
 
         internal static void SetYotogiAll()
         {
-            MyLog.LogDarkBlue("SetAllYotogi START"
-);
+            MyLog.LogDarkBlue("SetAllYotogi START");
 
             foreach (var item in ScheduleCSVData.YotogiData)
             {

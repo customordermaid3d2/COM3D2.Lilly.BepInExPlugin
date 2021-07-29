@@ -76,8 +76,9 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
             //}
         }
 
-        public static string[] namesMaid = new string[18];
+       // public static string[] namesMaid = new string[18];
 
+        /*
         // private void SetActive(Maid f_maid, int f_nActiveSlotNo, bool f_bMan)
         [HarmonyPatch(typeof(CharacterMgr), "SetActive")]
         [HarmonyPostfix]
@@ -100,6 +101,7 @@ namespace COM3D2.Lilly.Plugin.PatchInfo
                 namesMaid[f_nActiveSlotNo] = string.Empty;
 
         }
+        */
 
         // public CharacterMgr.Preset PresetSave(Maid f_maid, CharacterMgr.PresetType f_type)
         [HarmonyPatch(typeof(CharacterMgr), "PresetSave")]

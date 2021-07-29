@@ -76,7 +76,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             infoList.Add(new(typeof(FacilityManagerPatch)));// 회상 모드에서 버튼 활성화용            
             infoList.Add(new(typeof(GameObjectPatch),false));// 
             infoList.Add(new(typeof(KagPatch)));// 
-            infoList.Add(new(typeof(MaidPatch)));// 아이템 장착 확인용
+            infoList.Add(new(typeof(MaidPatch),false));// 아이템 장착 확인용
             infoList.Add(new(typeof(ScreenPatch),false));//
             infoList.Add(new(typeof(SoundMgrPatch)));// 스케줄 관리
             infoList.Add(new(typeof(SceneCharacterSelectPatch)));// , false

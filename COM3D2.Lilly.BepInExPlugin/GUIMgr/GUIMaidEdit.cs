@@ -265,6 +265,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
             {
                 MaidProp maidProp = m_maid.GetProp(tag);
                 m_maid.SetProp(tag, UnityEngine.Random.Range(maidProp.min, maidProp.max));
+                MyLog.LogMessage("SetMaidPropRandom", tag, maidProp.min, maidProp.max);
             }
             catch (Exception e)
             {

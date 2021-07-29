@@ -28,6 +28,7 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 #if DebugLilly
             if (GUILayout.Button("게임 정보 얻기 ")) GUIInfo.GetGameInfo(); 
 #endif
+            //if (GUILayout.Button("")) GetInfo();
             if (GUILayout.Button("Facility 정보 얻기 ")) FacilityManagerPatch.GetGameInfo();
             if (GUILayout.Button("Scene 정보 얻기 ")) GUIInfo.GetSceneInfo();
             if (GUILayout.Button("정보 얻기 바디 관련")) GUIInfo.GetTbodyInfo();
@@ -59,6 +60,19 @@ namespace COM3D2.Lilly.Plugin.GUIMgr
 #endif
         }
 
+        /*
+        private void GetInfo()
+        {
+            foreach (KeyValuePair<string, Personal.Data> keyValuePair in ProfileCtrl.m_dicPersonal)
+            {
+                if (this.m_maidStatus.personal.uniqueName == keyValuePair.Value.uniqueName)
+                {
+                    this.m_pPersonal.value = keyValuePair.Key;
+                    break;
+                }
+            }
+        }
+        */
 
 
         /*
