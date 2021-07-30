@@ -70,16 +70,17 @@ namespace COM3D2.Lilly.Plugin
 
         }
         
+
+            /*
         [HarmonyPatch(typeof(SceneEdit), "OnCompleteFadeIn")]
         [HarmonyPostfix]
         public static void OnCompleteFadeIn() // Maid ___m_maid,SceneEdit __instance
         {
-            /*
             if (configEntryUtill["OnCompleteFadeIn", false])
                 MyLog.LogMessage("SceneEdit.OnCompleteFadeIn", newMaid);
             newMaidSetting();
-            */
         }
+            */
 
         //[HarmonyPatch(typeof(SceneEdit.MenuItemSet), "Start")]
         //[HarmonyPostfix]
