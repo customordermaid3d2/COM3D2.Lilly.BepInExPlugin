@@ -103,10 +103,23 @@ namespace DebugLilly
             MyLog.LogInfo();
 
 
-            MyLog.LogMessage("성격");
+            MyLog.LogMessage("성격 전체");
             try
             {
                 foreach (var item in Personal.GetAllDatas(false))
+                {
+                    MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.drawName, item.termName);//
+                }
+            }
+            catch (Exception e)
+            {
+                MyLog.LogWarning("Personal:" + e.ToString());
+            }
+            
+            MyLog.LogMessage("성격 가능");
+            try
+            {
+                foreach (var item in Personal.GetAllDatas(true))
                 {
                     MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.drawName, item.termName);//
                 }
