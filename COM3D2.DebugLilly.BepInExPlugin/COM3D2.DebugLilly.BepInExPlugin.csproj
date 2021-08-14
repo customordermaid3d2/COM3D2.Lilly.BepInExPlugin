@@ -47,6 +47,9 @@
       <HintPath>..\..\_lib2\BepInEx.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="COM3D2.LillyUtill">
+      <HintPath>C:\Downloads\plugin\COM3D2.LillyUtill.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -62,12 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DebugLilly.cs" />
-    <Compile Include="MyLog.cs" />
-    <Compile Include="MyUtill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)*.dll" "C:\Downloads\plugin"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)*.dll" "C:\Downloads\plugin"
+copy "$(TargetDir)*.dll" "F:\COM3D2\BepInEx\plugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>

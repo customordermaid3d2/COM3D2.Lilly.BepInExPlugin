@@ -10,7 +10,7 @@ namespace DebugLilly
 {
     [PluginFilter("COM3D2x64")]
     [PluginName("COM3D2.DebugLilly.Plugin")]
-    [PluginVersion("0.0.0.0")]
+    [PluginVersion("21.08.14.20")]
     public class DebugLilly : PluginBase
     {
         //public static Stopwatch stopwatch = new Stopwatch(); //객체 선언
@@ -103,10 +103,12 @@ namespace DebugLilly
             MyLog.LogInfo();
 
 
-            MyLog.LogMessage("성격 전체");
+
             try
             {
-                foreach (var item in Personal.GetAllDatas(false))
+                var l = Personal.GetAllDatas(false);
+                MyLog.LogMessage("성격 전체", l.Count);
+                foreach (var item in l)
                 {
                     MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.drawName, item.termName);//
                 }
@@ -115,11 +117,12 @@ namespace DebugLilly
             {
                 MyLog.LogWarning("Personal:" + e.ToString());
             }
-            
-            MyLog.LogMessage("성격 가능");
+
             try
             {
-                foreach (var item in Personal.GetAllDatas(true))
+                var l = Personal.GetAllDatas(true);
+                MyLog.LogMessage("성격 가능", l.Count);
+                foreach (var item in l)
                 {
                     MyLog.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.drawName, item.termName);//
                 }
@@ -128,6 +131,7 @@ namespace DebugLilly
             {
                 MyLog.LogWarning("Personal:" + e.ToString());
             }
+
 
             MyLog.LogDarkBlue("=== GetGameInfo ed ===");
             LogFolder(UTY.gameProjectPath);
