@@ -90,6 +90,19 @@
 	  </Reference>
 	</ItemGroup>
 	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
 	  <Reference Update="System">
 	    <Private>false</Private>
 	  </Reference>
@@ -125,7 +138,7 @@
 	  </Reference>
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="copy &quot;$(TargetDir)*.dll&quot; &quot;C:\Downloads\plugin&quot;" />
+	  <Exec Command="copy &quot;$(TargetDir)*.dll&quot; &quot;C:\Downloads\plugin&quot;&#xD;&#xA;copy &quot;$(TargetDir)*.dll&quot; &quot;F:\COM3D2\BepInEx\plugins&quot;" />
 	</Target>
     
 </Project>

@@ -30,6 +30,7 @@ Facility[] facilities=GameMain.Instance.FacilityMgr.GetFacilityArray();
 ファイル : TRA_main_0001.ks   行 : 161
 [Error  : Unity Log] シナリオが読み込まれていないため、指定ラベル[*top]への移動に失敗しました
 
+Properties.Resources.art
 
 script\general\■main\tra_main_0001.ks
 ;=============

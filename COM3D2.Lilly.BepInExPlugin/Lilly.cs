@@ -19,7 +19,7 @@ using UnityEngine;
 namespace COM3D2.Lilly.Plugin
 {
     // https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin
-    [BepInPlugin("COM3D2.Lilly.Plugin", "COM3D2.Lilly.Plugin", "21.5.22")]// 버전 규칙 잇음. 반드시 2~4개의 숫자구성으로 해야함. 미준수시 못읽어들임
+    [BepInPlugin("COM3D2.Lilly.Plugin", "Lilly", "21.8.17")]// 버전 규칙 잇음. 반드시 2~4개의 숫자구성으로 해야함. 미준수시 못읽어들임
     [BepInProcess("COM3D2x64.exe")]
     public class Lilly : BaseUnityPlugin 
     {
@@ -58,7 +58,7 @@ namespace COM3D2.Lilly.Plugin
             name = "COM3D2.Lilly.Plugin";
             MyLog.log = BepInEx.Logging.Logger.CreateLogSource("Lilly");
 
-            MyLog.LogDarkBlue("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
+
 
             stopwatch.Start(); // 시간측정 시작
             MyLog.LogMessage("Lilly", string.Format("{0:0.000} ", stopwatch.Elapsed.ToString()));
@@ -103,9 +103,10 @@ namespace COM3D2.Lilly.Plugin
         {
             System.Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
-            MyLog.LogMessage("Lully.Awake", dateTime.ToString("u"));
+            MyLog.LogMessage("Lilly.Awake", dateTime.ToString("u"));
+            MyLog.LogMessage(Properties.Resources.art);
+            MyLog.LogMessage("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
 
-            
 
             //GameObjectMgr.Install(gameObject);
             //GameObjectMgr.instance.enabled = configEntryUtill["GameObjectMgr", false];
