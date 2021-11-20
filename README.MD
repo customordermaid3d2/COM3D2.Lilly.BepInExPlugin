@@ -19,7 +19,7 @@ https://youtu.be/CHb02i-M418
 
 - COM3D2.API.dll  https://github.com/DeathWeasel1337/COM3D2_Plugins/releases/download/v3/COM3D2.API.v1.0.zip
 - System.Threading.dll  어지간하면 탐색기에서 발견 가능. https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin/releases/download/210409/System.Threading.dll
-- LillyUtill https://github.com/customordermaid3d2/COM3D2.LillyUtill  
+- LillyUtill https://github.com/customordermaid3d2/COM3D2.LillyUtill
 
 
 # 설치 위치
@@ -64,10 +64,12 @@ https://youtu.be/CHb02i-M418
 
 
 - 메이드 추가(성격 랜덤, 프리셋 폴더안의 프리셋 자동 적용, 수치값 최대)  
+
   Personal Rand, Contract , Heroine 으로 랜덤을 끄고 직접 선택도 가능  
   
 
 - 메이드 고용 진입시 자동 적용 
+
   기존 메이드를 에딧 진입후 완료시키면, 신규 고용 이벤이나 이적 이벤트 뜸. SceneEditPatch 필요   
   MaidManagementMainPatch.newMaidSetting SceneEditPatch.OnCompleteFadeIn 필요
   
