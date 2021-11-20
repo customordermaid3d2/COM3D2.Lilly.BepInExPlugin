@@ -19,7 +19,7 @@ using UnityEngine;
 namespace COM3D2.Lilly.Plugin
 {
     // https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin
-    [BepInPlugin("COM3D2.Lilly.Plugin", "Lilly", "21.8.17")]// 버전 규칙 잇음. 반드시 2~4개의 숫자구성으로 해야함. 미준수시 못읽어들임
+    [BepInPlugin("COM3D2.Lilly.Plugin", "Lilly", "21.9.9")]// 버전 규칙 잇음. 반드시 2~4개의 숫자구성으로 해야함. 미준수시 못읽어들임
     [BepInProcess("COM3D2x64.exe")]
     public class Lilly : BaseUnityPlugin 
     {
@@ -101,9 +101,10 @@ namespace COM3D2.Lilly.Plugin
         /// </summary>
         public void Awake()
         {
-            System.Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
-            MyLog.LogMessage("Lilly.Awake", dateTime.ToString("u"));
+            //System.Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            //DateTime dateTime = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
+            //MyLog.LogMessage("Lilly.Awake", dateTime.ToString("u"));
+            MyLog.LogMessage("Lilly.Awake");
             MyLog.LogMessage(Properties.Resources.art);
             MyLog.LogMessage("https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin");
 

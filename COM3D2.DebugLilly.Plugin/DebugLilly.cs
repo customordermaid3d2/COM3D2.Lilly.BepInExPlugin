@@ -139,6 +139,7 @@ namespace DebugLilly
             LogFolder(UTY.gameProjectPath + @"\BepInEx\plugins");
             LogFolder(UTY.gameProjectPath + @"\Sybaris");
             LogFolder(UTY.gameProjectPath + @"\Sybaris\UnityInjector");
+            LogFolder(UTY.gameProjectPath + @"\scripts");
         }
 
         private static void LogFolder(string storeDirectoryPath)

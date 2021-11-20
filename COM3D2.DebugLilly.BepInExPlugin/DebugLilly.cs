@@ -11,7 +11,7 @@ namespace DebugLilly
     class MyAttribute
     {
         public const string PLAGIN_NAME = "DebugLilly";
-        public const string PLAGIN_VERSION = "21.08.14.20";
+        public const string PLAGIN_VERSION = "21.11.21.00";
         public const string PLAGIN_FULL_NAME = "COM3D2.DebugLilly.Plugin";
     }
 
@@ -23,32 +23,41 @@ namespace DebugLilly
 
         public void Awake()
         {
-            log = new MyLog(Logger);
+            log = new MyLog(Logger, Config);
 
-            log.LogInfo("=== DebugLilly ===", MyUtill.GetBuildDateTime(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version));
+            log.LogMessage("=== DebugLilly ===", MyUtill.GetBuildDateTime(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version));
             log.LogDarkBlue("=== GetGameInfo st ===");
 
 
-            log.LogInfo("Application.installerName : " + Application.installerName);
-            log.LogInfo("Application.version : " + Application.version);
-            log.LogInfo("Application.unityVersion : " + Application.unityVersion);
-            log.LogInfo("Application.companyName : " + Application.companyName);
-            log.LogInfo("Application.dataPath : " + Application.dataPath);
+            log.LogMessage("Application.installerName : " + Application.installerName);
+            log.LogMessage("Application.version : " + Application.version);
+            log.LogMessage("Application.unityVersion : " + Application.unityVersion);
+            log.LogMessage("Application.companyName : " + Application.companyName);
+            log.LogMessage("Application.dataPath : " + Application.dataPath);
 
-            log.LogInfo("Environment.CurrentDirectory : " + Environment.CurrentDirectory);
-            log.LogInfo("Environment.SystemDirectory : " + Environment.SystemDirectory);
-            log.LogInfo("Environment.ApplicationData : " + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-            log.LogInfo("Environment.CommonApplicationData : " + Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
-            log.LogInfo("Environment.LocalApplicationData : " + Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
-            log.LogInfo("Environment.Personal : " + Environment.GetFolderPath(Environment.SpecialFolder.Personal));
-            log.LogInfo("Environment.History : " + Environment.GetFolderPath(Environment.SpecialFolder.History));
-            log.LogInfo("Environment.Desktop : " + Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
-            log.LogInfo("Environment.Programs : " + Environment.GetFolderPath(Environment.SpecialFolder.Programs));
+            log.LogMessage("Environment.CurrentDirectory : " + Environment.CurrentDirectory);
+            log.LogMessage("Environment.SystemDirectory : " + Environment.SystemDirectory);
+            log.LogMessage("Environment.ApplicationData : " + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            log.LogMessage("Environment.CommonApplicationData : " + Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
+            log.LogMessage("Environment.LocalApplicationData : " + Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+            log.LogMessage("Environment.Personal : " + Environment.GetFolderPath(Environment.SpecialFolder.Personal));
+            log.LogMessage("Environment.History : " + Environment.GetFolderPath(Environment.SpecialFolder.History));
+            log.LogMessage("Environment.Desktop : " + Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+            log.LogMessage("Environment.Programs : " + Environment.GetFolderPath(Environment.SpecialFolder.Programs));
 
-            log.LogInfo("UTY.gameProjectPath : " + UTY.gameProjectPath);
-            log.LogInfo("UTY.gameDataPath : " + UTY.gameDataPath);
+            log.LogMessage("UTY.gameProjectPath : " + UTY.gameProjectPath);
+            log.LogMessage("UTY.gameDataPath : " + UTY.gameDataPath);
 
-            log.LogInfo("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
+            log.LogMessage("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
+
+            log.LogMessage("GameUty.GetGameVersionText GameVersion : " + GameUty.GetGameVersionText());
+            log.LogMessage("GameUty.GetBuildVersionText BuildVersion : " + GameUty.GetBuildVersionText());
+            if (!string.IsNullOrEmpty(GameMain.Instance.CMSystem.CM3D2Path))
+            {
+                
+                log.LogMessage("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
+            }
+
             
             try
             {
@@ -60,23 +69,22 @@ namespace DebugLilly
 
             try
             {
+                log.LogMessage("Product.windowTitel : " + Product.windowTitel);
 
-                log.LogInfo("Product.windowTitel : " + Product.windowTitel);
+                log.LogMessage("Product.enabeldAdditionalRelation : " + Product.enabeldAdditionalRelation);
+                log.LogMessage("Product.enabledSpecialRelation : " + Product.enabledSpecialRelation);
 
-                log.LogInfo("Product.enabeldAdditionalRelation : " + Product.enabeldAdditionalRelation);
-                log.LogInfo("Product.enabledSpecialRelation : " + Product.enabledSpecialRelation);
+                log.LogMessage("Product.isEnglish : " + Product.isEnglish);
+                log.LogMessage("Product.isJapan : " + Product.isJapan);
+                log.LogMessage("Product.isPublic : " + Product.isPublic);
 
-                log.LogInfo("Product.isEnglish : " + Product.isEnglish);
-                log.LogInfo("Product.isJapan : " + Product.isJapan);
-                log.LogInfo("Product.isPublic : " + Product.isPublic);
+                log.LogMessage("Product.lockDLCSiteLink : " + Product.lockDLCSiteLink);
 
-                log.LogInfo("Product.lockDLCSiteLink : " + Product.lockDLCSiteLink);
+                log.LogMessage("Product.defaultLanguage : " + Product.defaultLanguage);
+                log.LogMessage("Product.supportMultiLanguage : " + Product.supportMultiLanguage);
+                log.LogMessage("Product.systemLanguage : " + Product.systemLanguage);
 
-                log.LogInfo("Product.defaultLanguage : " + Product.defaultLanguage);
-                log.LogInfo("Product.supportMultiLanguage : " + Product.supportMultiLanguage);
-                log.LogInfo("Product.systemLanguage : " + Product.systemLanguage);
-
-                log.LogInfo("Product.type : " + Product.type);
+                log.LogMessage("Product.type : " + Product.type);
 
             }
             catch (Exception e)
@@ -89,7 +97,7 @@ namespace DebugLilly
                 Type type = typeof(Misc);
                 foreach (var item in type.GetFields())
                 {
-                    log.LogInfo(type.Name, item.Name, item.GetValue(null));
+                    log.LogMessage(type.Name, item.Name, item.GetValue(null));
                 }
             }
             catch (Exception e)
@@ -126,13 +134,14 @@ namespace DebugLilly
                 log.LogInfo("GUI.skin null");
             }
             */
-            log.LogInfo("");
+            log.LogMessage("");
 
             LogFolder(UTY.gameProjectPath);
             LogFolder(UTY.gameProjectPath + @"\lilly");
             LogFolder(UTY.gameProjectPath + @"\BepInEx\plugins");
             LogFolder(UTY.gameProjectPath + @"\Sybaris");
             LogFolder(UTY.gameProjectPath + @"\Sybaris\UnityInjector");
+            LogFolder(UTY.gameProjectPath + @"\scripts");
 
 
             log.LogDarkBlue("=== GetGameInfo ed ===");
@@ -141,16 +150,25 @@ namespace DebugLilly
         public void Start()
         {
             log.LogMessage("Start");
-            log.LogInfo("=== DebugLilly ===");
+            log.LogMessage("=== DebugLilly ===");
             log.LogDarkBlue("=== GetGameInfo st ===");
 
-            log.LogInfo("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);
-
+            log.LogMessage("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);
 
             try
             {
+                log.LogMessage("GameUty.GetLegacyGameVersionText カスタムメイド3D 2 GameVersion : " + GameUty.GetLegacyGameVersionText());                
+            }
+            catch (Exception e)
+            {
+                log.LogWarning("Start:" + e.ToString());
+            }
 
-                log.LogInfo("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
+            
+            try
+            {
+
+                log.LogMessage("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
 
               // log.LogInfo("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
 
@@ -199,7 +217,7 @@ namespace DebugLilly
             if (di.Exists)
                 foreach (System.IO.FileInfo File in di.GetFiles())
                 {
-                    log.LogInfo(File.Name);
+                    log.LogMessage(File.Name);
                 }
             log.LogDarkBlue("=== DirectoryInfo ed ===");
         }
