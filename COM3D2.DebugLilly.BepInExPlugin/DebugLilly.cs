@@ -25,7 +25,7 @@ namespace DebugLilly
         {
             log = new MyLog(Logger, Config);
 
-            log.LogMessage("=== DebugLilly ===", MyUtill.GetBuildDateTime(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version));
+            log.LogMessage("=== DebugLilly ===");
             log.LogDarkBlue("=== GetGameInfo st ===");
 
 
@@ -52,11 +52,10 @@ namespace DebugLilly
 
             log.LogMessage("GameUty.GetGameVersionText GameVersion : " + GameUty.GetGameVersionText());
             log.LogMessage("GameUty.GetBuildVersionText BuildVersion : " + GameUty.GetBuildVersionText());
-            if (!string.IsNullOrEmpty(GameMain.Instance.CMSystem.CM3D2Path))
-            {
-                
-                log.LogMessage("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
-            }
+
+
+
+
 
             
             try
@@ -155,6 +154,12 @@ namespace DebugLilly
 
             log.LogMessage("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);
 
+            if (!string.IsNullOrEmpty(GameMain.Instance.CMSystem.CM3D2Path))
+            {
+
+                log.LogMessage("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
+            }
+
             try
             {
                 log.LogMessage("GameUty.GetLegacyGameVersionText カスタムメイド3D 2 GameVersion : " + GameUty.GetLegacyGameVersionText());                
@@ -164,7 +169,30 @@ namespace DebugLilly
                 log.LogWarning("Start:" + e.ToString());
             }
 
-            
+            log.LogMessage("---PathList---");
+            foreach (var item in GameUty.PathList)
+            {
+                log.LogMessage(item);
+            }
+
+            log.LogMessage("---ExistCsvPathList---");
+            foreach (var item in GameUty.ExistCsvPathList)
+            {
+                log.LogMessage(item);
+            }
+
+            log.LogMessage("---PathListOld---");
+            foreach (var item in GameUty.PathList)
+            {
+                log.LogMessage(item);
+            }
+
+            log.LogMessage("---ExistCsvPathListOld---");
+            foreach (var item in GameUty.ExistCsvPathListOld)
+            {
+                log.LogMessage(item);
+            }
+
             try
             {
 

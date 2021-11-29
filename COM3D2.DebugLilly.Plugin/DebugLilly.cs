@@ -53,6 +53,30 @@ namespace DebugLilly
 
             MyLog.LogInfo("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
 
+            MyLog.LogInfo("PathList");
+            foreach (var item in GameUty.PathList)
+            {
+                MyLog.LogInfo(item);
+            }
+
+            MyLog.LogInfo("ExistCsvPathList");
+            foreach (var item in GameUty.ExistCsvPathList)
+            {
+                MyLog.LogInfo(item);
+            }
+
+            MyLog.LogInfo("PathListOld");
+            foreach (var item in GameUty.PathList)
+            {
+                MyLog.LogInfo(item);
+            }
+
+            MyLog.LogInfo("ExistCsvPathListOld");
+            foreach (var item in GameUty.ExistCsvPathListOld)
+            {
+                MyLog.LogInfo(item);
+            }
+
             MyLog.LogInfo("Product.windowTitel : " + Product.windowTitel);
 
             MyLog.LogInfo("Product.enabeldAdditionalRelation : " + Product.enabeldAdditionalRelation);
