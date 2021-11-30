@@ -68,7 +68,7 @@ namespace COM3D2.Lilly.Plugin
         internal static void LogMessage(params object[] args)
         {
             LogOut(args, Debug_Log);
-            ConsoleOut(args, ConsoleColor.DarkBlue);
+            //ConsoleOut(args, ConsoleColor.DarkBlue);
         }
         
         internal static void LogDarkMagenta(params object[] args)

@@ -133,14 +133,7 @@ namespace DebugLilly
                 log.LogInfo("GUI.skin null");
             }
             */
-            log.LogMessage("");
 
-            LogFolder(UTY.gameProjectPath);
-            LogFolder(UTY.gameProjectPath + @"\lilly");
-            LogFolder(UTY.gameProjectPath + @"\BepInEx\plugins");
-            LogFolder(UTY.gameProjectPath + @"\Sybaris");
-            LogFolder(UTY.gameProjectPath + @"\Sybaris\UnityInjector");
-            LogFolder(UTY.gameProjectPath + @"\scripts");
 
 
             log.LogDarkBlue("=== GetGameInfo ed ===");
@@ -151,13 +144,21 @@ namespace DebugLilly
             log.LogMessage("Start");
             log.LogMessage("=== DebugLilly ===");
             log.LogDarkBlue("=== GetGameInfo st ===");
-
             log.LogMessage("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);
+            log.LogMessage("");
+
+            LogFolder(UTY.gameProjectPath);
+            LogFolder(UTY.gameProjectPath + @"\lilly");
+            LogFolder(UTY.gameProjectPath + @"\BepInEx\plugins");
+            LogFolder(UTY.gameProjectPath + @"\Sybaris");
+            LogFolder(UTY.gameProjectPath + @"\Sybaris\UnityInjector");
+            LogFolder(UTY.gameProjectPath + @"\scripts");
 
             if (!string.IsNullOrEmpty(GameMain.Instance.CMSystem.CM3D2Path))
             {
 
                 log.LogMessage("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
+                LogFolder(GameMain.Instance.CMSystem.CM3D2Path);
             }
 
             try

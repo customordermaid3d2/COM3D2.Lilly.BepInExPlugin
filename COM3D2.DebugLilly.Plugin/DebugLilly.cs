@@ -49,8 +49,6 @@ namespace DebugLilly
             MyLog.LogInfo("UTY.gameDataPath : " + UTY.gameDataPath);
 
 
-            MyLog.LogInfo("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
-
             MyLog.LogInfo("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
 
             MyLog.LogInfo("PathList");
@@ -164,6 +162,12 @@ namespace DebugLilly
             LogFolder(UTY.gameProjectPath + @"\Sybaris");
             LogFolder(UTY.gameProjectPath + @"\Sybaris\UnityInjector");
             LogFolder(UTY.gameProjectPath + @"\scripts");
+
+            if (!string.IsNullOrEmpty(GameMain.Instance.CMSystem.CM3D2Path))
+            {
+                MyLog.LogMessage("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
+                LogFolder(GameMain.Instance.CMSystem.CM3D2Path);
+            }
         }
 
         private static void LogFolder(string storeDirectoryPath)
