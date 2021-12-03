@@ -1,8 +1,12 @@
 ﻿using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using COM3D2.LillyUtill;
 using MaidStatus;
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using UnityEngine;
 
 
@@ -16,7 +20,7 @@ namespace DebugLilly
     }
 
 
-   [BepInPlugin(MyAttribute.PLAGIN_FULL_NAME, MyAttribute.PLAGIN_NAME, MyAttribute.PLAGIN_VERSION)]
+    [BepInPlugin(MyAttribute.PLAGIN_FULL_NAME, MyAttribute.PLAGIN_NAME, MyAttribute.PLAGIN_VERSION)]
     public class DebugLilly : BaseUnityPlugin
     {
         public static MyLog log;
@@ -53,18 +57,88 @@ namespace DebugLilly
             log.LogMessage("GameUty.GetGameVersionText GameVersion : " + GameUty.GetGameVersionText());
             log.LogMessage("GameUty.GetBuildVersionText BuildVersion : " + GameUty.GetBuildVersionText());
 
+            log.LogDarkBlue("=== PluginInfos ===");
 
-
-
-
-            
             try
             {
+                foreach (var item in Chainloader.PluginInfos)
+                {
+                    log.LogMessage(item.Key + " , " + item.Value.Metadata.GUID + " , " + item.Value.Metadata.Name + " , " + item.Value.Metadata.Version);
+                }
             }
             catch (Exception e)
             {
                 log.LogWarning("Awake:" + e.ToString());
             }
+
+            log.LogDarkBlue("=== SybarisLoader ===");
+
+            try
+            {
+                foreach (string text in Directory.GetFiles(BepInEx.SybarisLoader.Patcher.Util.Utils.SybarisDir.Value, "*.Patcher.dll"))
+                {
+                    Assembly assembly;
+                    try
+                    {
+                        assembly = Assembly.LoadFile(text);
+                        AssemblyName assemName = assembly.GetName();
+                        Version ver = assemName.Version;
+                        log.LogMessage(assemName.Name + " , " + ver.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+                        log.LogError(string.Format("Failed to load {0}: {1}", text, ex.Message));
+                        if (ex.InnerException != null)
+                        {
+                            log.LogError(string.Format("Inner: {0}", ex.Message));
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                log.LogWarning("SybarisLoader:" + e.ToString());
+            }
+
+            log.LogDarkBlue("=== UnityInjector ===");
+
+            try
+            {
+                foreach (string text in Directory.GetFiles(Path.Combine( BepInEx.SybarisLoader.Patcher.Util.Utils.SybarisDir.Value, "UnityInjector"), "*.dll"))
+                {
+                    Assembly assembly;
+                    try
+                    {
+                        assembly = Assembly.LoadFile(text);
+                        AssemblyName assemName = assembly.GetName();
+                        Version ver = assemName.Version;
+
+                        log.LogMessage(assemName.Name + " , " + assemName.Version);
+
+                        foreach (Type type in assembly.GetTypes())
+                        {
+                            foreach (var item in type.GetCustomAttributes(typeof(UnityInjector.Attributes.PluginVersionAttribute),false))
+                            {
+                                log.LogMessage(assemName.Name + " , " + type.Name + " , " + ((UnityInjector.Attributes.PluginVersionAttribute)item).Version);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.LogError(string.Format("Failed to load {0}: {1}", text, ex.Message));
+                        if (ex.InnerException != null)
+                        {
+                            log.LogError(string.Format("Inner: {0}", ex.Message));
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                log.LogWarning("UnityInjector:" + e.ToString());
+            }
+
+            log.LogDarkBlue("===  ===");
 
             try
             {
@@ -162,7 +236,7 @@ namespace DebugLilly
 
             try
             {
-                log.LogMessage("GameUty.GetLegacyGameVersionText カスタムメイド3D 2 GameVersion : " + GameUty.GetLegacyGameVersionText());                
+                log.LogMessage("GameUty.GetLegacyGameVersionText カスタムメイド3D 2 GameVersion : " + GameUty.GetLegacyGameVersionText());
             }
             catch (Exception e)
             {
@@ -198,7 +272,7 @@ namespace DebugLilly
 
                 log.LogMessage("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
 
-              // log.LogInfo("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
+                // log.LogInfo("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
 
             }
             catch (Exception e)
@@ -210,7 +284,7 @@ namespace DebugLilly
             try
             {
                 var l = Personal.GetAllDatas(false);
-                log.LogMessage("성격 전체",l.Count);
+                log.LogMessage("성격 전체", l.Count);
                 foreach (var item in l)
                 {
                     log.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.drawName, item.termName);//
@@ -224,7 +298,7 @@ namespace DebugLilly
             try
             {
                 var l = Personal.GetAllDatas(true);
-                log.LogMessage("성격 가능",l.Count);
+                log.LogMessage("성격 가능", l.Count);
                 foreach (var item in l)
                 {
                     log.LogMessage("Personal:", item.id, item.replaceText, item.uniqueName, item.drawName, item.termName);//

@@ -47,6 +47,14 @@
       <HintPath>..\..\_lib2\BepInEx.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="BepInEx.SybarisLoader.Patcher">
+      <HintPath>F:\COM3D2\BepinEx\patchers\SybarisLoader\BepInEx.SybarisLoader.Patcher.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="BepInEx.UnityInjectorLoader">
+      <HintPath>F:\COM3D2\BepinEx\plugins\UnityInjectorLoader\BepInEx.UnityInjectorLoader.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="COM3D2.LillyUtill">
       <HintPath>C:\Downloads\plugin\COM3D2.LillyUtill.dll</HintPath>
       <Private>False</Private>

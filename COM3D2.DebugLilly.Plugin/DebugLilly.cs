@@ -2,6 +2,8 @@
 using MaidStatus;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using UnityEngine;
 using UnityInjector;
 using UnityInjector.Attributes;
@@ -92,10 +94,10 @@ namespace DebugLilly
 
             MyLog.LogInfo("Product.type : " + Product.type);
 
-            Type type = typeof(Misc);
-            foreach (var item in type.GetFields())
+            Type type2 = typeof(Misc);
+            foreach (var item in type2.GetFields())
             {
-                MyLog.LogInfo(type.Name, item.Name, item.GetValue(null));
+                MyLog.LogInfo(type2.Name, item.Name, item.GetValue(null));
             }
             /*
              * 추출 안됨
@@ -154,8 +156,6 @@ namespace DebugLilly
                 MyLog.LogWarning("Personal:" + e.ToString());
             }
 
-
-            MyLog.LogDarkBlue("=== GetGameInfo ed ===");
             LogFolder(UTY.gameProjectPath);
             LogFolder(UTY.gameProjectPath + @"\lilly");
             LogFolder(UTY.gameProjectPath + @"\BepInEx\plugins");
@@ -168,6 +168,79 @@ namespace DebugLilly
                 MyLog.LogMessage("GameMain.Instance.CMSystem.CM3D2Path : " + GameMain.Instance.CMSystem.CM3D2Path);
                 LogFolder(GameMain.Instance.CMSystem.CM3D2Path);
             }
+
+            MyLog.LogDarkBlue("=== SybarisLoader ===");
+
+            try
+            {
+                foreach (string text in Directory.GetFiles(UTY.gameProjectPath + @"\Sybaris", "*.Patcher.dll"))
+                {
+                    Assembly assembly;
+                    try
+                    {
+                        assembly = Assembly.LoadFile(text);
+                        AssemblyName assemName = assembly.GetName();
+                        Version ver = assemName.Version;
+                        MyLog.LogMessage(assemName.Name + " , " + ver.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+                        MyLog.LogError(string.Format("Failed to load {0}: {1}", text, ex.Message));
+                        if (ex.InnerException != null)
+                        {
+                            MyLog.LogError(string.Format("Inner: {0}", ex.Message));
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MyLog.LogWarning("SybarisLoader:" + e.ToString());
+            }
+
+            MyLog.LogDarkBlue("=== UnityInjector ===");
+
+            try
+            {
+                foreach (string text in Directory.GetFiles(Path.Combine(UTY.gameProjectPath + @"\Sybaris", "UnityInjector"), "*.dll"))
+                {
+                    Assembly assembly;
+                    try
+                    {
+                        assembly = Assembly.LoadFile(text);
+                        AssemblyName assemName = assembly.GetName();
+                        Version ver = assemName.Version;
+
+                        MyLog.LogMessage(assemName.Name + " , " + assemName.Version);
+
+                        foreach (Type type in assembly.GetTypes())
+                        {
+                            foreach (var item in type.GetCustomAttributes(typeof(UnityInjector.Attributes.PluginVersionAttribute), false))
+                            {
+                                MyLog.LogMessage(assemName.Name + " , " + type.Name + " , " + ((UnityInjector.Attributes.PluginVersionAttribute)item).Version);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MyLog.LogError(string.Format("Failed to load {0}: {1}", text, ex.Message));
+                        if (ex.InnerException != null)
+                        {
+                            MyLog.LogError(string.Format("Inner: {0}", ex.Message));
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MyLog.LogWarning("UnityInjector:" + e.ToString());
+            }
+
+            MyLog.LogDarkBlue("===  ===");
+
+
+
+            MyLog.LogDarkBlue("=== GetGameInfo ed ===");
         }
 
         private static void LogFolder(string storeDirectoryPath)

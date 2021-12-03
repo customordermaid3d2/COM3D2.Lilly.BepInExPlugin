@@ -39,6 +39,9 @@
       <HintPath>..\..\_lib2\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="BepInEx.SybarisLoader.Patcher">
+      <HintPath>F:\COM3D2\BepinEx\patchers\SybarisLoader\BepInEx.SybarisLoader.Patcher.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
