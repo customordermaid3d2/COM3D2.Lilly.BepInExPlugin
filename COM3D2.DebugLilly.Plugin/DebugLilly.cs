@@ -12,7 +12,7 @@ namespace DebugLilly
 {
     [PluginFilter("COM3D2x64")]
     [PluginName("COM3D2.DebugLilly.Plugin")]
-    [PluginVersion("21.08.14.20")]
+    [PluginVersion("22.01.09.01")]
     public class DebugLilly : PluginBase
     {
         //public static Stopwatch stopwatch = new Stopwatch(); //객체 선언
@@ -28,6 +28,11 @@ namespace DebugLilly
 
             MyLog.LogInfo("=== DebugLilly ===");
             MyLog.LogDarkBlue("=== GetGameInfo st ===");
+
+            if (File.Exists(Path.Combine(Environment.CurrentDirectory, "BepInEx\\LillyPack.dat ")))
+                MyLog.LogInfo($"LillyPack { File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "BepInEx\\LillyPack.dat "))}");
+            else
+                MyLog.LogInfo("no LillyPack?");
 
             MyLog.LogInfo("Application.installerName : " + Application.installerName);
             MyLog.LogInfo("Application.version : " + Application.version);

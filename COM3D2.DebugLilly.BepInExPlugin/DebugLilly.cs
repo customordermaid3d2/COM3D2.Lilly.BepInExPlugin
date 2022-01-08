@@ -15,7 +15,7 @@ namespace DebugLilly
     class MyAttribute
     {
         public const string PLAGIN_NAME = "DebugLilly";
-        public const string PLAGIN_VERSION = "21.11.21.00";
+        public const string PLAGIN_VERSION = "22.01.09.01";
         public const string PLAGIN_FULL_NAME = "COM3D2.DebugLilly.Plugin";
     }
 
@@ -32,6 +32,10 @@ namespace DebugLilly
             log.LogMessage("=== DebugLilly ===");
             log.LogDarkBlue("=== GetGameInfo st ===");
 
+            if (File.Exists(Path.Combine(Environment.CurrentDirectory, "BepInEx\\LillyPack.dat ")))
+            log.LogMessage($"LillyPack { File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "BepInEx\\LillyPack.dat "))}");
+            else
+                log.LogMessage("no LillyPack?");
 
             log.LogMessage("Application.installerName : " + Application.installerName);
             log.LogMessage("Application.version : " + Application.version);
