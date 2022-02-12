@@ -30,7 +30,7 @@ namespace DebugLilly
             MyLog.LogDarkBlue("=== GetGameInfo st ===");
 
             if (File.Exists(Path.Combine(Environment.CurrentDirectory, "BepInEx\\LillyPack.dat ")))
-                MyLog.LogInfo($"LillyPack { File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "BepInEx\\LillyPack.dat "))}");
+                MyLog.LogInfo($"LillyPack version { File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "BepInEx\\LillyPack.dat "))}");
             else
                 MyLog.LogInfo("no LillyPack?");
 

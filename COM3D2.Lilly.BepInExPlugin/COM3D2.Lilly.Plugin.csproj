@@ -25,7 +25,9 @@
 	  <None Remove="comfile.bat" />
 	</ItemGroup>
 	<ItemGroup>
+	  <PackageReference Include="BepInEx.Core" Version="5.4.17" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	  <PackageReference Include="UnityEngine" Version="5.6.1" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Reference Include="0Harmony">

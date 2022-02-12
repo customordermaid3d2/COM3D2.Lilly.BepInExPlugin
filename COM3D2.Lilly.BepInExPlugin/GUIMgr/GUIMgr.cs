@@ -6,7 +6,6 @@ using UnityEngine;
 using BepInEx.Configuration;
 using COM3D2API;
 using COM3D2.Lilly.Plugin.Utill;
-using BepInPluginSample;
 using UnityEngine.SceneManagement;
 
 namespace COM3D2.Lilly.Plugin.GUIMgr

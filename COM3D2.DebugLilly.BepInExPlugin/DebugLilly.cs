@@ -10,12 +10,12 @@ using System.Reflection;
 using UnityEngine;
 
 
-namespace DebugLilly
+namespace COM3D2.DebugLilly.Plugin
 {
     class MyAttribute
     {
         public const string PLAGIN_NAME = "DebugLilly";
-        public const string PLAGIN_VERSION = "22.01.09.01";
+        public const string PLAGIN_VERSION = "22.01.18.17";
         public const string PLAGIN_FULL_NAME = "COM3D2.DebugLilly.Plugin";
     }
 
@@ -33,7 +33,7 @@ namespace DebugLilly
             log.LogDarkBlue("=== GetGameInfo st ===");
 
             if (File.Exists(Path.Combine(Environment.CurrentDirectory, "BepInEx\\LillyPack.dat ")))
-            log.LogMessage($"LillyPack { File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "BepInEx\\LillyPack.dat "))}");
+                log.LogMessage($"LillyPack version { File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "BepInEx\\LillyPack.dat "))}");
             else
                 log.LogMessage("no LillyPack?");
 
@@ -56,13 +56,17 @@ namespace DebugLilly
             log.LogMessage("UTY.gameProjectPath : " + UTY.gameProjectPath);
             log.LogMessage("UTY.gameDataPath : " + UTY.gameDataPath);
 
-            log.LogMessage("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
-
             log.LogMessage("GameUty.GetGameVersionText GameVersion : " + GameUty.GetGameVersionText());
             log.LogMessage("GameUty.GetBuildVersionText BuildVersion : " + GameUty.GetBuildVersionText());
 
-            log.LogDarkBlue("=== PluginInfos ===");
 
+            /*
+            */
+            #region MyRegion
+
+            log.LogMessage("GameUty.IsEnabledCompatibilityMode : " + GameUty.IsEnabledCompatibilityMode);
+
+            log.LogDarkBlue("=== PluginInfos ===");
             try
             {
                 foreach (var item in Chainloader.PluginInfos)
@@ -108,7 +112,7 @@ namespace DebugLilly
 
             try
             {
-                foreach (string text in Directory.GetFiles(Path.Combine( BepInEx.SybarisLoader.Patcher.Util.Utils.SybarisDir.Value, "UnityInjector"), "*.dll"))
+                foreach (string text in Directory.GetFiles(Path.Combine(BepInEx.SybarisLoader.Patcher.Util.Utils.SybarisDir.Value, "UnityInjector"), "*.dll"))
                 {
                     Assembly assembly;
                     try
@@ -121,7 +125,7 @@ namespace DebugLilly
 
                         foreach (Type type in assembly.GetTypes())
                         {
-                            foreach (var item in type.GetCustomAttributes(typeof(UnityInjector.Attributes.PluginVersionAttribute),false))
+                            foreach (var item in type.GetCustomAttributes(typeof(UnityInjector.Attributes.PluginVersionAttribute), false))
                             {
                                 log.LogMessage(assemName.Name + " , " + type.Name + " , " + ((UnityInjector.Attributes.PluginVersionAttribute)item).Version);
                             }
@@ -142,33 +146,49 @@ namespace DebugLilly
                 log.LogWarning("UnityInjector:" + e.ToString());
             }
 
+            #endregion
+            /*
+            */
             log.LogDarkBlue("===  ===");
+
 
             try
             {
-                log.LogMessage("Product.windowTitel : " + Product.windowTitel);
+               // 오류 영역?
 
+                //log.LogMessage("Product.windowTitel : " + Product.windowTitel);
+
+
+
+
+
+                #region UI번역영향 없음
+
+                log.LogMessage("Product.lockDLCSiteLink : " + Product.lockDLCSiteLink);
                 log.LogMessage("Product.enabeldAdditionalRelation : " + Product.enabeldAdditionalRelation);
                 log.LogMessage("Product.enabledSpecialRelation : " + Product.enabledSpecialRelation);
+
+
+                log.LogMessage("Product.type : " + Product.type);
 
                 log.LogMessage("Product.isEnglish : " + Product.isEnglish);
                 log.LogMessage("Product.isJapan : " + Product.isJapan);
                 log.LogMessage("Product.isPublic : " + Product.isPublic);
 
-                log.LogMessage("Product.lockDLCSiteLink : " + Product.lockDLCSiteLink);
-
                 log.LogMessage("Product.defaultLanguage : " + Product.defaultLanguage);
                 log.LogMessage("Product.supportMultiLanguage : " + Product.supportMultiLanguage);
                 log.LogMessage("Product.systemLanguage : " + Product.systemLanguage);
 
-                log.LogMessage("Product.type : " + Product.type);
+                #endregion
+
+
 
             }
             catch (Exception e)
             {
                 log.LogWarning("Product:" + e.ToString());
             }
-
+        
             try
             {
                 Type type = typeof(Misc);
@@ -181,8 +201,8 @@ namespace DebugLilly
             {
                 log.LogWarning("Misc:" + e.ToString());
             }
-
-
+            /*
+        */
 
 
 
@@ -223,14 +243,20 @@ namespace DebugLilly
 
 
             log.LogDarkBlue("=== GetGameInfo ed ===");
+            /*
+     */
         }
 
+        /// <summary>
+        /// UI 번역 영향 없는듯
+        /// </summary>
         public void Start()
         {
             log.LogMessage("Start");
             log.LogMessage("=== DebugLilly ===");
             log.LogDarkBlue("=== GetGameInfo st ===");
-            log.LogMessage("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);
+            // GameMain.Instance.SerializeStorageManager.StoreDirectoryPath 는 Awake에서 못씀
+            log.LogMessage("StoreDirectoryPath : " + GameMain.Instance.SerializeStorageManager.StoreDirectoryPath);// Awake에서 못씀
             log.LogMessage("");
             if (!string.IsNullOrEmpty(GameMain.Instance.CMSystem.CM3D2Path))
             {
@@ -315,7 +341,8 @@ namespace DebugLilly
 
             log.LogDarkBlue("=== GetGameInfo ed ===");
         }
-
+        /*
+    */
         private static void LogFolder(string storeDirectoryPath)
         {
             log.LogDarkBlue("=== DirectoryInfo st === " + storeDirectoryPath);
@@ -327,5 +354,6 @@ namespace DebugLilly
                 }
             log.LogDarkBlue("=== DirectoryInfo ed ===");
         }
+
     }
 }
