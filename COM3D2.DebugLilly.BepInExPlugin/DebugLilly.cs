@@ -15,7 +15,7 @@ namespace COM3D2.DebugLilly.Plugin
     class MyAttribute
     {
         public const string PLAGIN_NAME = "DebugLilly";
-        public const string PLAGIN_VERSION = "22.01.18.17";
+        public const string PLAGIN_VERSION = "22.02.16.02";
         public const string PLAGIN_FULL_NAME = "COM3D2.DebugLilly.Plugin";
     }
 

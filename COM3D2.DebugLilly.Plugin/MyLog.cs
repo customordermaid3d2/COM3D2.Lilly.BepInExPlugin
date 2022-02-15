@@ -5,7 +5,7 @@ using UnityEngine;
 using System.IO;
 
 
-namespace COM3D2.Lilly.Plugin
+namespace COM3D2.DebugLilly.Plugin
 {
     public class MyLog 
     {

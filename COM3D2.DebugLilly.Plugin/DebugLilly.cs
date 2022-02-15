@@ -1,4 +1,4 @@
-﻿using COM3D2.Lilly.Plugin;
+﻿
 using MaidStatus;
 using System;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityInjector;
 using UnityInjector.Attributes;
 
-namespace DebugLilly
+namespace COM3D2.DebugLilly.Plugin
 {
     [PluginFilter("COM3D2x64")]
     [PluginName("COM3D2.DebugLilly.Plugin")]

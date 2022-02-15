@@ -53,12 +53,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx.SybarisLoader.Patcher">
-      <HintPath>H:\COM3D2\BepinEx\patchers\SybarisLoader\BepInEx.SybarisLoader.Patcher.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>H:\COM3D2\BepinEx\patchers\BepInEx.SybarisLoader.Patcher.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx.UnityInjectorLoader">
       <HintPath>H:\COM3D2\BepinEx\plugins\UnityInjectorLoader\BepInEx.UnityInjectorLoader.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="COM3D2.LillyUtill">
       <HintPath>C:\Downloads\plugin\COM3D2.LillyUtill.dll</HintPath>
@@ -115,9 +113,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)*.dll" "C:\Downloads\plugin"
-copy "$(TargetDir)*.dll" "H:\COM3D2\BepInEx\plugins"
-copy "$(TargetDir)*.dll" "H:\COM3D2-test\BepInEx\plugins"</PostBuildEvent>
+    <PostBuildEvent>copy "$(targetpath)" "C:\Downloads\plugin" 
+copy "$(targetpath)" "h:\COM3D2\BepInEx\plugins" 
+copy "$(targetpath)" "h:\COM3D2-test\BepInEx\plugins"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\BepInEx.Core.5.4.17\build\BepInEx.Core.targets" Condition="Exists('..\packages\BepInEx.Core.5.4.17\build\BepInEx.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

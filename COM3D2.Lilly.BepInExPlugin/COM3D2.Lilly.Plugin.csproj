@@ -33,62 +33,68 @@
 	  <Reference Include="0Harmony">
 	    <HintPath>..\lib\0Harmony.dll</HintPath>
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="Assembly-CSharp">
-	    <HintPath>..\..\_lib2\Assembly-CSharp.dll</HintPath>
-	    <Private>false</Private>
+	    <HintPath>H:\COM3D2\COM3D2x64_Data\Managed\Assembly-CSharp.dll</HintPath>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="Assembly-CSharp-firstpass">
-	    <HintPath>..\..\_lib2\Assembly-CSharp-firstpass.dll</HintPath>
-	    <Private>false</Private>
+	    <HintPath>H:\COM3D2\COM3D2x64_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="BepInEx">
 	    <HintPath>..\lib\BepInEx.dll</HintPath>
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="BepInEx.UnityInjectorLoader">
-	    <HintPath>..\..\_lib2\BepInEx.UnityInjectorLoader.dll</HintPath>
-	    <Private>false</Private>
+	    <HintPath>H:\COM3D2\BepinEx\plugins\UnityInjectorLoader\BepInEx.UnityInjectorLoader.dll</HintPath>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="COM3D2.API">
 	    <HintPath>..\lib\COM3D2.API.dll</HintPath>
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="Mono.Cecil">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\Mono.Cecil.dll</HintPath>
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="Mono.Cecil.Mdb">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\Mono.Cecil.Mdb.dll</HintPath>
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="Mono.Cecil.Pdb">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\Mono.Cecil.Pdb.dll</HintPath>
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="Mono.Cecil.Rocks">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\Mono.Cecil.Rocks.dll</HintPath>
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="MonoMod.RuntimeDetour">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\MonoMod.RuntimeDetour.dll</HintPath>
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="MonoMod.Utils">
 	    <HintPath>..\..\..\COM3D2_Plugins\BepInEx_x64_5.4.9.0\BepInEx\core\MonoMod.Utils.dll</HintPath>
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="System.Threading">
-	    <HintPath>..\..\_lib2\System.Threading.dll</HintPath>
-	    <Private>false</Private>
+	    <HintPath>H:\COM3D2\BepinEx\plugins\System.Threading.dll</HintPath>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	  <Reference Include="UnityEngine">
 	    <HintPath>..\..\_lib2\UnityEngine.dll</HintPath>
 	    <Private>false</Private>
-	  </Reference>
-	  <Reference Include="UnityEngine.UI">
-	    <HintPath>..\..\_lib\UnityEngine.UI.dll</HintPath>
-	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	</ItemGroup>
 	<ItemGroup>
@@ -107,40 +113,47 @@
 	<ItemGroup>
 	  <Reference Update="System">
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	</ItemGroup>
 	<ItemGroup>
 	  <Reference Update="System.Core">
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	</ItemGroup>
 	<ItemGroup>
 	  <Reference Update="System.Data">
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	</ItemGroup>
 	<ItemGroup>
 	  <Reference Update="System.Drawing">
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	</ItemGroup>
 	<ItemGroup>
 	  <Reference Update="System.Runtime.Serialization">
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	</ItemGroup>
 	<ItemGroup>
 	  <Reference Update="System.Xml">
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	</ItemGroup>
 	<ItemGroup>
 	  <Reference Update="System.Xml.Linq">
 	    <Private>false</Private>
+	    <CopyLocal>False</CopyLocal>
 	  </Reference>
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="copy &quot;$(TargetDir)*.dll&quot; &quot;C:\Downloads\plugin&quot;&#xD;&#xA;copy &quot;$(TargetDir)*.dll&quot; &quot;F:\COM3D2\BepInEx\plugins&quot;" />
+	  <Exec Command="copy &quot;$(targetpath)&quot; &quot;C:\Downloads\plugin&quot; &#xD;&#xA;copy &quot;$(targetpath)&quot; &quot;h:\COM3D2\BepInEx\plugins&quot; &#xD;&#xA;copy &quot;$(targetpath)&quot; &quot;h:\COM3D2-test\BepInEx\plugins&quot;" />
 	</Target>
     
 </Project>
